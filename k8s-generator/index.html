@@ -1,0 +1,925 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta
+      name="description"
+      content="Configure Kubernetes Deployments and StatefulSets and export the manifest as YAML or JSON."
+    />
+    <title>Kubernetes Manifest Studio — Native Cube</title>
+    <link rel="stylesheet" href="./styles.css" />
+    <script src="./app.js" defer></script>
+  </head>
+  <body>
+    <a class="skip-link" href="#generator-form">Skip to generator</a>
+
+    <header class="site-header">
+      <a class="brand" href="../" aria-label="Native Cube home">
+        <span class="brand-mark" aria-hidden="true"></span>
+        <span>Native Cube</span>
+      </a>
+      <div class="header-meta">
+        <span class="privacy-dot" aria-hidden="true"></span>
+        Runs locally in your browser
+      </div>
+    </header>
+
+    <main>
+      <section class="hero">
+        <div>
+          <p class="eyebrow">Kubernetes / Workloads</p>
+          <h1>Shape the workload.<br /><em>Ship the manifest.</em></h1>
+        </div>
+        <p class="hero-copy">
+          Configure a production-ready Deployment or StatefulSet without hunting
+          through API references. Start simple, open up the advanced controls when
+          you need them.
+        </p>
+      </section>
+
+      <section class="workspace" aria-label="Kubernetes manifest generator">
+        <form id="generator-form" class="config-panel" novalidate>
+          <div class="panel-heading">
+            <div>
+              <span class="step-label">01 / Configure</span>
+              <h2>Workload settings</h2>
+            </div>
+            <button class="text-button" id="reset-button" type="button">
+              Reset defaults
+            </button>
+          </div>
+
+          <fieldset class="kind-picker">
+            <legend>Workload type</legend>
+            <label>
+              <input type="radio" name="kind" value="Deployment" checked />
+              <span>
+                <strong>Deployment</strong>
+                <small>Stateless, interchangeable pods</small>
+              </span>
+            </label>
+            <label>
+              <input type="radio" name="kind" value="StatefulSet" />
+              <span>
+                <strong>StatefulSet</strong>
+                <small>Stable identity and persistent storage</small>
+              </span>
+            </label>
+          </fieldset>
+
+          <div class="section-nav" role="tablist" aria-label="Configuration sections">
+            <button type="button" class="section-tab is-active" data-section-target="basics">
+              Basics
+            </button>
+            <button type="button" class="section-tab" data-section-target="container">
+              Container
+            </button>
+            <button type="button" class="section-tab" data-section-target="runtime">
+              Runtime
+            </button>
+            <button type="button" class="section-tab" data-section-target="advanced">
+              Advanced
+            </button>
+          </div>
+
+          <div class="form-section is-active" data-section="basics">
+            <div class="section-intro">
+              <span class="section-number">01</span>
+              <div>
+                <h3>Identity & scale</h3>
+                <p>Name the resource and choose how many pods it should manage.</p>
+              </div>
+            </div>
+
+            <div class="field-grid">
+              <label class="field">
+                <span>Name <b aria-hidden="true">*</b></span>
+                <input
+                  id="name"
+                  name="name"
+                  value="web-app"
+                  placeholder="web-app"
+                  autocomplete="off"
+                  required
+                />
+                <small class="field-error" data-error-for="name"></small>
+              </label>
+              <label class="field">
+                <span>Namespace</span>
+                <input
+                  id="namespace"
+                  name="namespace"
+                  value="default"
+                  placeholder="default"
+                  autocomplete="off"
+                />
+                <small class="field-error" data-error-for="namespace"></small>
+              </label>
+              <label class="field">
+                <span>Replicas</span>
+                <input id="replicas" name="replicas" type="number" value="3" min="0" />
+              </label>
+              <label class="field">
+                <span>App label</span>
+                <input id="appLabel" name="appLabel" value="web-app" autocomplete="off" />
+                <small class="field-error" data-error-for="appLabel"></small>
+              </label>
+            </div>
+
+            <div class="subsection">
+              <div class="subsection-heading">
+                <div>
+                  <h4>Labels</h4>
+                  <p>Added to the workload and pod template.</p>
+                </div>
+                <button class="add-button" type="button" data-add-row="labels">
+                  <span aria-hidden="true">+</span> Add label
+                </button>
+              </div>
+              <div id="labels-list" class="repeat-list" data-list="labels"></div>
+            </div>
+
+            <div class="subsection">
+              <div class="subsection-heading">
+                <div>
+                  <h4>Annotations</h4>
+                  <p>Optional non-identifying metadata.</p>
+                </div>
+                <button class="add-button" type="button" data-add-row="annotations">
+                  <span aria-hidden="true">+</span> Add annotation
+                </button>
+              </div>
+              <div id="annotations-list" class="repeat-list" data-list="annotations"></div>
+            </div>
+          </div>
+
+          <div class="form-section" data-section="container" hidden>
+            <div class="section-intro">
+              <span class="section-number">02</span>
+              <div>
+                <h3>Container</h3>
+                <p>Define the image, process, networking, and configuration.</p>
+              </div>
+            </div>
+
+            <div class="field-grid">
+              <label class="field field-wide">
+                <span>Container image <b aria-hidden="true">*</b></span>
+                <input
+                  id="image"
+                  name="image"
+                  value="nginx:1.27-alpine"
+                  placeholder="registry.example.com/team/app:1.0"
+                  required
+                />
+                <small class="field-error" data-error-for="image"></small>
+              </label>
+              <label class="field">
+                <span>Container name</span>
+                <input id="containerName" name="containerName" value="app" />
+              </label>
+              <label class="field">
+                <span>Image pull policy</span>
+                <select id="imagePullPolicy" name="imagePullPolicy">
+                  <option>IfNotPresent</option>
+                  <option>Always</option>
+                  <option>Never</option>
+                </select>
+              </label>
+              <label class="field field-wide">
+                <span>Command</span>
+                <input id="command" name="command" placeholder="/bin/sh, -c" />
+                <small>Comma-separated. Leave empty to use the image entrypoint.</small>
+              </label>
+              <label class="field field-wide">
+                <span>Arguments</span>
+                <input id="args" name="args" placeholder="nginx, -g, daemon off;" />
+                <small>Comma-separated. Leave empty to use the image defaults.</small>
+              </label>
+              <label class="field">
+                <span>Working directory</span>
+                <input id="workingDir" name="workingDir" placeholder="/app" />
+              </label>
+              <label class="field">
+                <span>Termination message policy</span>
+                <select id="terminationMessagePolicy" name="terminationMessagePolicy">
+                  <option>File</option>
+                  <option>FallbackToLogsOnError</option>
+                </select>
+              </label>
+            </div>
+
+            <div class="subsection">
+              <div class="subsection-heading">
+                <div>
+                  <h4>Container ports</h4>
+                  <p>Name and expose the ports your application listens on.</p>
+                </div>
+                <button class="add-button" type="button" data-add-row="ports">
+                  <span aria-hidden="true">+</span> Add port
+                </button>
+              </div>
+              <div id="ports-list" class="repeat-list" data-list="ports"></div>
+            </div>
+
+            <div class="subsection">
+              <div class="subsection-heading">
+                <div>
+                  <h4>Environment variables</h4>
+                  <p>Use a literal value, Secret key, or ConfigMap key.</p>
+                </div>
+                <button class="add-button" type="button" data-add-row="env">
+                  <span aria-hidden="true">+</span> Add variable
+                </button>
+              </div>
+              <div id="env-list" class="repeat-list" data-list="env"></div>
+            </div>
+
+            <div class="subsection">
+              <div class="subsection-heading">
+                <div>
+                  <h4>Import environment</h4>
+                  <p>Load all keys from a Secret or ConfigMap.</p>
+                </div>
+                <button class="add-button" type="button" data-add-row="envFrom">
+                  <span aria-hidden="true">+</span> Add source
+                </button>
+              </div>
+              <div id="envfrom-list" class="repeat-list" data-list="envFrom"></div>
+            </div>
+          </div>
+
+          <div class="form-section" data-section="runtime" hidden>
+            <div class="section-intro">
+              <span class="section-number">03</span>
+              <div>
+                <h3>Runtime</h3>
+                <p>Set resources, health checks, storage, and scheduling.</p>
+              </div>
+            </div>
+
+            <div class="subsection first-subsection">
+              <div class="subsection-heading">
+                <div>
+                  <h4>Compute resources</h4>
+                  <p>Requests reserve capacity; limits cap consumption.</p>
+                </div>
+              </div>
+              <div class="resource-grid">
+                <span></span>
+                <span>CPU</span>
+                <span>Memory</span>
+                <strong>Requests</strong>
+                <label class="field compact"><input id="requestCpu" value="100m" /></label>
+                <label class="field compact"><input id="requestMemory" value="128Mi" /></label>
+                <strong>Limits</strong>
+                <label class="field compact"><input id="limitCpu" value="500m" /></label>
+                <label class="field compact"><input id="limitMemory" value="512Mi" /></label>
+              </div>
+            </div>
+
+            <div class="subsection">
+              <div class="subsection-heading">
+                <div>
+                  <h4>Health checks</h4>
+                  <p>Configure startup, readiness, and liveness probes.</p>
+                </div>
+              </div>
+              <div class="probe-stack">
+                <details class="probe-card">
+                  <summary>
+                    <span>
+                      <strong>Liveness probe</strong>
+                      <small>Restarts a container that becomes unhealthy.</small>
+                    </span>
+                    <label class="switch" onclick="event.stopPropagation()">
+                      <input id="livenessEnabled" type="checkbox" checked />
+                      <span></span>
+                    </label>
+                  </summary>
+                  <div class="probe-body" data-probe="liveness"></div>
+                </details>
+                <details class="probe-card">
+                  <summary>
+                    <span>
+                      <strong>Readiness probe</strong>
+                      <small>Removes an unready pod from Service endpoints.</small>
+                    </span>
+                    <label class="switch" onclick="event.stopPropagation()">
+                      <input id="readinessEnabled" type="checkbox" checked />
+                      <span></span>
+                    </label>
+                  </summary>
+                  <div class="probe-body" data-probe="readiness"></div>
+                </details>
+                <details class="probe-card">
+                  <summary>
+                    <span>
+                      <strong>Startup probe</strong>
+                      <small>Protects slow-starting containers.</small>
+                    </span>
+                    <label class="switch" onclick="event.stopPropagation()">
+                      <input id="startupEnabled" type="checkbox" />
+                      <span></span>
+                    </label>
+                  </summary>
+                  <div class="probe-body" data-probe="startup"></div>
+                </details>
+              </div>
+            </div>
+
+            <div class="subsection stateful-only" hidden>
+              <div class="subsection-heading">
+                <div>
+                  <h4>Persistent volume claim</h4>
+                  <p>A unique claim is created for every StatefulSet pod.</p>
+                </div>
+                <label class="switch labeled-switch">
+                  <span>Include</span>
+                  <input id="pvcEnabled" type="checkbox" checked />
+                  <i></i>
+                </label>
+              </div>
+              <div class="field-grid">
+                <label class="field">
+                  <span>Claim name</span>
+                  <input id="pvcName" value="data" />
+                </label>
+                <label class="field">
+                  <span>Mount path</span>
+                  <input id="pvcMountPath" value="/var/lib/app" />
+                </label>
+                <label class="field">
+                  <span>Storage request</span>
+                  <input id="pvcStorage" value="10Gi" />
+                </label>
+                <label class="field">
+                  <span>Storage class</span>
+                  <input id="pvcStorageClass" placeholder="Cluster default" />
+                </label>
+                <label class="field">
+                  <span>Access mode</span>
+                  <select id="pvcAccessMode">
+                    <option>ReadWriteOnce</option>
+                    <option>ReadWriteMany</option>
+                    <option>ReadOnlyMany</option>
+                    <option>ReadWriteOncePod</option>
+                  </select>
+                </label>
+                <label class="field">
+                  <span>Volume mode</span>
+                  <select id="pvcVolumeMode">
+                    <option>Filesystem</option>
+                    <option>Block</option>
+                  </select>
+                </label>
+              </div>
+            </div>
+
+            <div class="subsection">
+              <div class="subsection-heading">
+                <div>
+                  <h4>Additional volumes</h4>
+                  <p>Mount ConfigMaps, Secrets, empty directories, or PVCs.</p>
+                </div>
+                <button class="add-button" type="button" data-add-row="volumes">
+                  <span aria-hidden="true">+</span> Add volume
+                </button>
+              </div>
+              <div id="volumes-list" class="repeat-list" data-list="volumes"></div>
+            </div>
+
+            <div class="subsection">
+              <div class="subsection-heading">
+                <div>
+                  <h4>Scheduling</h4>
+                  <p>Guide pods toward or away from specific nodes.</p>
+                </div>
+              </div>
+              <div class="field-grid">
+                <label class="field">
+                  <span>Node selector key</span>
+                  <input id="nodeSelectorKey" placeholder="kubernetes.io/os" />
+                </label>
+                <label class="field">
+                  <span>Node selector value</span>
+                  <input id="nodeSelectorValue" placeholder="linux" />
+                </label>
+                <label class="field">
+                  <span>Priority class</span>
+                  <input id="priorityClassName" placeholder="high-priority" />
+                </label>
+                <label class="field">
+                  <span>Runtime class</span>
+                  <input id="runtimeClassName" placeholder="gvisor" />
+                </label>
+                <label class="field">
+                  <span>Topology spread key</span>
+                  <input id="topologyKey" placeholder="topology.kubernetes.io/zone" />
+                </label>
+                <label class="field">
+                  <span>Max skew</span>
+                  <input id="maxSkew" type="number" value="1" min="1" />
+                </label>
+              </div>
+              <label class="check-row">
+                <input id="topologyEnabled" type="checkbox" />
+                <span>
+                  <strong>Spread pods across topology</strong>
+                  <small>Uses ScheduleAnyway when the distribution is uneven.</small>
+                </span>
+              </label>
+
+              <div class="subsection-heading nested-heading">
+                <div>
+                  <h4>Tolerations</h4>
+                </div>
+                <button class="add-button" type="button" data-add-row="tolerations">
+                  <span aria-hidden="true">+</span> Add toleration
+                </button>
+              </div>
+              <div id="tolerations-list" class="repeat-list" data-list="tolerations"></div>
+            </div>
+          </div>
+
+          <div class="form-section" data-section="advanced" hidden>
+            <div class="section-intro">
+              <span class="section-number">04</span>
+              <div>
+                <h3>Advanced</h3>
+                <p>Control rollout behavior, security, and the underlying pod spec.</p>
+              </div>
+            </div>
+
+            <details class="advanced-group" open>
+              <summary>Rollout strategy</summary>
+              <div class="advanced-body">
+                <div class="field-grid deployment-only">
+                  <label class="field">
+                    <span>Strategy</span>
+                    <select id="deploymentStrategy">
+                      <option>RollingUpdate</option>
+                      <option>Recreate</option>
+                    </select>
+                  </label>
+                  <label class="field rolling-update-only">
+                    <span>Max surge</span>
+                    <input id="maxSurge" value="25%" />
+                  </label>
+                  <label class="field rolling-update-only">
+                    <span>Max unavailable</span>
+                    <input id="maxUnavailable" value="25%" />
+                  </label>
+                  <label class="field">
+                    <span>Progress deadline (seconds)</span>
+                    <input id="progressDeadlineSeconds" type="number" value="600" min="1" />
+                  </label>
+                </div>
+                <div class="field-grid stateful-only" hidden>
+                  <label class="field">
+                    <span>Service name <b aria-hidden="true">*</b></span>
+                    <input id="serviceName" value="web-app" />
+                  </label>
+                  <label class="field">
+                    <span>Pod management</span>
+                    <select id="podManagementPolicy">
+                      <option>OrderedReady</option>
+                      <option>Parallel</option>
+                    </select>
+                  </label>
+                  <label class="field">
+                    <span>Update strategy</span>
+                    <select id="statefulStrategy">
+                      <option>RollingUpdate</option>
+                      <option>OnDelete</option>
+                    </select>
+                  </label>
+                  <label class="field stateful-rolling-only">
+                    <span>Partition</span>
+                    <input id="partition" type="number" min="0" placeholder="Not set" />
+                  </label>
+                  <label class="field">
+                    <span>Ordinal start</span>
+                    <input id="ordinalStart" type="number" min="0" value="0" />
+                  </label>
+                  <label class="field">
+                    <span>When StatefulSet is deleted</span>
+                    <select id="pvcWhenDeleted">
+                      <option>Retain</option>
+                      <option>Delete</option>
+                    </select>
+                  </label>
+                  <label class="field">
+                    <span>When replicas scale down</span>
+                    <select id="pvcWhenScaled">
+                      <option>Retain</option>
+                      <option>Delete</option>
+                    </select>
+                  </label>
+                </div>
+                <div class="field-grid">
+                  <label class="field">
+                    <span>Minimum ready seconds</span>
+                    <input id="minReadySeconds" type="number" value="0" min="0" />
+                  </label>
+                  <label class="field">
+                    <span>Revision history limit</span>
+                    <input id="revisionHistoryLimit" type="number" value="10" min="0" />
+                  </label>
+                </div>
+                <label class="check-row deployment-only">
+                  <input id="paused" type="checkbox" />
+                  <span>
+                    <strong>Pause this Deployment</strong>
+                    <small>New template changes will not trigger a rollout.</small>
+                  </span>
+                </label>
+              </div>
+            </details>
+
+            <details class="advanced-group">
+              <summary>Pod configuration</summary>
+              <div class="advanced-body">
+                <div class="field-grid">
+                  <label class="field">
+                    <span>Service account</span>
+                    <input id="serviceAccountName" placeholder="default" />
+                  </label>
+                  <label class="field">
+                    <span>Scheduler</span>
+                    <input id="schedulerName" placeholder="default-scheduler" />
+                  </label>
+                  <label class="field">
+                    <span>DNS policy</span>
+                    <select id="dnsPolicy">
+                      <option>ClusterFirst</option>
+                      <option>Default</option>
+                      <option>ClusterFirstWithHostNet</option>
+                      <option>None</option>
+                    </select>
+                  </label>
+                  <label class="field">
+                    <span>Termination grace (seconds)</span>
+                    <input id="terminationGracePeriodSeconds" type="number" value="30" min="0" />
+                  </label>
+                  <label class="field">
+                    <span>Hostname</span>
+                    <input id="hostname" placeholder="Optional" />
+                  </label>
+                  <label class="field">
+                    <span>Subdomain</span>
+                    <input id="subdomain" placeholder="Optional" />
+                  </label>
+                  <label class="field field-wide">
+                    <span>Image pull secrets</span>
+                    <input id="imagePullSecrets" placeholder="registry-one, registry-two" />
+                    <small>Comma-separated Secret names.</small>
+                  </label>
+                </div>
+                <div class="check-grid">
+                  <label><input id="automountToken" type="checkbox" checked /> Automount service account token</label>
+                  <label><input id="hostNetwork" type="checkbox" /> Use host network</label>
+                  <label><input id="hostPID" type="checkbox" /> Use host PID namespace</label>
+                  <label><input id="hostIPC" type="checkbox" /> Use host IPC namespace</label>
+                  <label><input id="shareProcessNamespace" type="checkbox" /> Share process namespace</label>
+                  <label><input id="enableServiceLinks" type="checkbox" checked /> Enable Service environment links</label>
+                </div>
+              </div>
+            </details>
+
+            <details class="advanced-group">
+              <summary>Security contexts</summary>
+              <div class="advanced-body">
+                <h4 class="mini-heading">Pod security context</h4>
+                <div class="field-grid">
+                  <label class="field">
+                    <span>Run as user</span>
+                    <input id="podRunAsUser" type="number" placeholder="1000" />
+                  </label>
+                  <label class="field">
+                    <span>Run as group</span>
+                    <input id="podRunAsGroup" type="number" placeholder="1000" />
+                  </label>
+                  <label class="field">
+                    <span>Filesystem group</span>
+                    <input id="fsGroup" type="number" placeholder="2000" />
+                  </label>
+                  <label class="field">
+                    <span>FS group change policy</span>
+                    <select id="fsGroupChangePolicy">
+                      <option value="">Not set</option>
+                      <option>OnRootMismatch</option>
+                      <option>Always</option>
+                    </select>
+                  </label>
+                  <label class="field">
+                    <span>Seccomp profile</span>
+                    <select id="podSeccompType">
+                      <option value="">Not set</option>
+                      <option>RuntimeDefault</option>
+                      <option>Unconfined</option>
+                      <option>Localhost</option>
+                    </select>
+                  </label>
+                  <label class="field">
+                    <span>Supplemental groups</span>
+                    <input id="supplementalGroups" placeholder="1000, 2000" />
+                  </label>
+                </div>
+                <label class="check-row">
+                  <input id="podRunAsNonRoot" type="checkbox" />
+                  <span><strong>Require a non-root pod user</strong></span>
+                </label>
+
+                <h4 class="mini-heading divided">Container security context</h4>
+                <div class="field-grid">
+                  <label class="field">
+                    <span>Run as user</span>
+                    <input id="containerRunAsUser" type="number" placeholder="1000" />
+                  </label>
+                  <label class="field">
+                    <span>Run as group</span>
+                    <input id="containerRunAsGroup" type="number" placeholder="1000" />
+                  </label>
+                  <label class="field field-wide">
+                    <span>Add capabilities</span>
+                    <input id="capabilitiesAdd" placeholder="NET_ADMIN, SYS_TIME" />
+                  </label>
+                  <label class="field field-wide">
+                    <span>Drop capabilities</span>
+                    <input id="capabilitiesDrop" placeholder="ALL" />
+                  </label>
+                </div>
+                <div class="check-grid">
+                  <label><input id="containerRunAsNonRoot" type="checkbox" /> Require non-root user</label>
+                  <label><input id="privileged" type="checkbox" /> Privileged</label>
+                  <label><input id="allowPrivilegeEscalation" type="checkbox" /> Allow privilege escalation</label>
+                  <label><input id="readOnlyRootFilesystem" type="checkbox" /> Read-only root filesystem</label>
+                </div>
+              </div>
+            </details>
+
+            <details class="advanced-group">
+              <summary>Lifecycle hooks</summary>
+              <div class="advanced-body">
+                <div class="field-grid">
+                  <label class="field field-wide">
+                    <span>Post-start command</span>
+                    <input id="postStartCommand" placeholder="/bin/sh, -c, echo started" />
+                    <small>Comma-separated exec command.</small>
+                  </label>
+                  <label class="field field-wide">
+                    <span>Pre-stop command</span>
+                    <input id="preStopCommand" placeholder="/bin/sh, -c, nginx -s quit" />
+                    <small>Comma-separated exec command.</small>
+                  </label>
+                </div>
+              </div>
+            </details>
+
+            <details class="advanced-group">
+              <summary>Additional manifest fields</summary>
+              <div class="advanced-body">
+                <p class="helper-copy">
+                  Deep-merge any valid Kubernetes fields into the generated resource.
+                  This is the escape hatch for API fields not represented above.
+                </p>
+                <label class="field">
+                  <span>JSON object</span>
+                  <textarea
+                    id="customFields"
+                    rows="10"
+                    spellcheck="false"
+                    placeholder='{"spec":{"template":{"spec":{"initContainers":[]}}}}'
+                  ></textarea>
+                  <small class="field-error" data-error-for="customFields"></small>
+                </label>
+              </div>
+            </details>
+          </div>
+
+          <div class="mobile-next">
+            <button id="previous-section" class="secondary-button" type="button" disabled>
+              Back
+            </button>
+            <button id="next-section" class="primary-button" type="button">
+              Next: Container
+            </button>
+          </div>
+        </form>
+
+        <aside class="output-panel">
+          <div class="output-heading">
+            <div>
+              <span class="step-label">02 / Export</span>
+              <h2>Generated manifest</h2>
+            </div>
+            <div id="validation-status" class="status-pill"><span></span> Ready</div>
+          </div>
+
+          <div class="output-toolbar">
+            <div class="format-picker" role="group" aria-label="Output format">
+              <button class="format-button is-active" type="button" data-format="yaml">
+                YAML
+              </button>
+              <button class="format-button" type="button" data-format="json">JSON</button>
+            </div>
+            <span id="line-count" class="line-count">0 lines</span>
+          </div>
+
+          <div class="code-frame">
+            <div id="code-gutter" class="code-gutter" aria-hidden="true"></div>
+            <pre><code id="manifest-output"></code></pre>
+          </div>
+
+          <div class="output-actions">
+            <button id="copy-button" class="primary-button" type="button">
+              <span aria-hidden="true">⧉</span> Copy manifest
+            </button>
+            <button
+              id="download-button"
+              class="secondary-button icon-button"
+              type="button"
+              aria-label="Download manifest"
+              title="Download manifest"
+            >
+              ↓
+            </button>
+          </div>
+          <p class="output-note">
+            Tip: validate against your cluster with
+            <code>kubectl apply --dry-run=server -f manifest.yaml</code>
+          </p>
+        </aside>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <span>Native Cube / Manifest Studio</span>
+      <a
+        href="https://kubernetes.io/docs/reference/kubernetes-api/workload-resources/"
+        target="_blank"
+        rel="noreferrer"
+        >Kubernetes API reference ↗</a
+      >
+    </footer>
+
+    <div id="toast" class="toast" role="status" aria-live="polite"></div>
+
+    <template id="key-value-template">
+      <div class="repeat-row key-value-row">
+        <label class="field">
+          <span class="sr-only">Key</span>
+          <input data-field="key" placeholder="Key" />
+        </label>
+        <label class="field">
+          <span class="sr-only">Value</span>
+          <input data-field="value" placeholder="Value" />
+        </label>
+        <button class="remove-button" type="button" aria-label="Remove row">×</button>
+      </div>
+    </template>
+
+    <template id="port-template">
+      <div class="repeat-row port-row">
+        <label class="field">
+          <span>Name</span>
+          <input data-field="name" placeholder="http" />
+        </label>
+        <label class="field">
+          <span>Container port</span>
+          <input data-field="containerPort" type="number" min="1" max="65535" value="8080" />
+        </label>
+        <label class="field">
+          <span>Protocol</span>
+          <select data-field="protocol">
+            <option>TCP</option>
+            <option>UDP</option>
+            <option>SCTP</option>
+          </select>
+        </label>
+        <label class="field">
+          <span>Host port</span>
+          <input data-field="hostPort" type="number" min="1" max="65535" placeholder="Optional" />
+        </label>
+        <button class="remove-button" type="button" aria-label="Remove port">×</button>
+      </div>
+    </template>
+
+    <template id="env-template">
+      <div class="repeat-row env-row">
+        <label class="field">
+          <span>Name</span>
+          <input data-field="name" placeholder="LOG_LEVEL" />
+        </label>
+        <label class="field">
+          <span>Source</span>
+          <select data-field="source">
+            <option value="value">Literal value</option>
+            <option value="secretKeyRef">Secret key</option>
+            <option value="configMapKeyRef">ConfigMap key</option>
+          </select>
+        </label>
+        <label class="field env-source-name">
+          <span>Value</span>
+          <input data-field="value" placeholder="info" />
+        </label>
+        <label class="field env-source-key" hidden>
+          <span>Key</span>
+          <input data-field="key" placeholder="key" />
+        </label>
+        <button class="remove-button" type="button" aria-label="Remove variable">×</button>
+      </div>
+    </template>
+
+    <template id="envfrom-template">
+      <div class="repeat-row envfrom-row">
+        <label class="field">
+          <span>Source</span>
+          <select data-field="source">
+            <option value="configMapRef">ConfigMap</option>
+            <option value="secretRef">Secret</option>
+          </select>
+        </label>
+        <label class="field">
+          <span>Name</span>
+          <input data-field="name" placeholder="app-config" />
+        </label>
+        <label class="field">
+          <span>Prefix</span>
+          <input data-field="prefix" placeholder="Optional" />
+        </label>
+        <label class="inline-check"><input data-field="optional" type="checkbox" /> Optional</label>
+        <button class="remove-button" type="button" aria-label="Remove source">×</button>
+      </div>
+    </template>
+
+    <template id="volume-template">
+      <div class="repeat-row volume-row">
+        <label class="field">
+          <span>Name</span>
+          <input data-field="name" placeholder="config" />
+        </label>
+        <label class="field">
+          <span>Type</span>
+          <select data-field="type">
+            <option value="emptyDir">Empty directory</option>
+            <option value="configMap">ConfigMap</option>
+            <option value="secret">Secret</option>
+            <option value="persistentVolumeClaim">Existing PVC</option>
+            <option value="hostPath">Host path</option>
+          </select>
+        </label>
+        <label class="field volume-source">
+          <span>Source</span>
+          <input data-field="source" placeholder="Name or path" />
+        </label>
+        <label class="field">
+          <span>Mount path</span>
+          <input data-field="mountPath" placeholder="/etc/config" />
+        </label>
+        <label class="field">
+          <span>Sub path</span>
+          <input data-field="subPath" placeholder="Optional" />
+        </label>
+        <label class="inline-check"><input data-field="readOnly" type="checkbox" /> Read only</label>
+        <button class="remove-button" type="button" aria-label="Remove volume">×</button>
+      </div>
+    </template>
+
+    <template id="toleration-template">
+      <div class="repeat-row toleration-row">
+        <label class="field">
+          <span>Key</span>
+          <input data-field="key" placeholder="dedicated" />
+        </label>
+        <label class="field">
+          <span>Operator</span>
+          <select data-field="operator">
+            <option>Equal</option>
+            <option>Exists</option>
+          </select>
+        </label>
+        <label class="field">
+          <span>Value</span>
+          <input data-field="value" placeholder="gpu" />
+        </label>
+        <label class="field">
+          <span>Effect</span>
+          <select data-field="effect">
+            <option value="">Any effect</option>
+            <option>NoSchedule</option>
+            <option>PreferNoSchedule</option>
+            <option>NoExecute</option>
+          </select>
+        </label>
+        <label class="field">
+          <span>Seconds</span>
+          <input data-field="tolerationSeconds" type="number" min="0" placeholder="Optional" />
+        </label>
+        <button class="remove-button" type="button" aria-label="Remove toleration">×</button>
+      </div>
+    </template>
+  </body>
+</html>

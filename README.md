@@ -1,0 +1,21 @@
+# Native Cube
+
+A collection of small, static cloud-native tools published with GitHub Pages.
+
+## Kubernetes Manifest Studio
+
+Open `/k8s-generator/` to configure an `apps/v1` Deployment or StatefulSet and
+export it as YAML or JSON. Everything runs locally in the browser.
+
+The form covers common workload, container, probe, resource, storage,
+scheduling, security, lifecycle, and rollout fields. The **Additional manifest
+fields** editor accepts a JSON object that is deep-merged into the generated
+resource for API fields not represented directly in the form.
+
+To preview locally:
+
+```sh
+python3 -m http.server 8080
+```
+
+Then visit `http://localhost:8080/k8s-generator/`.
