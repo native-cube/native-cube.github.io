@@ -493,6 +493,18 @@ main {
   color: var(--red);
 }
 
+.list-error {
+  display: block;
+  margin-top: 8px;
+  color: var(--red);
+  font-size: 10px;
+  line-height: 1.4;
+}
+
+.list-error:empty {
+  display: none;
+}
+
 .field-wide {
   grid-column: 1 / -1;
 }
@@ -570,12 +582,45 @@ main {
   grid-template-columns: 1fr 1fr 30px;
 }
 
+.resource-constraint-row {
+  grid-template-columns: minmax(0, 1.35fr) minmax(0, 1fr) minmax(0, 1fr) 30px;
+}
+
 .port-row {
   grid-template-columns: 1fr 1.1fr 0.9fr 1fr 30px;
 }
 
 .env-row {
   grid-template-columns: 1fr 1.1fr 1.4fr 30px;
+}
+
+.env-row.has-key-source {
+  grid-template-areas:
+    "name source remove"
+    "reference key remove";
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) 30px;
+}
+
+.env-row.has-key-source > .field:nth-child(1) {
+  grid-area: name;
+}
+
+.env-row.has-key-source > .field:nth-child(2) {
+  grid-area: source;
+}
+
+.env-row.has-key-source > .env-source-name {
+  grid-area: reference;
+}
+
+.env-row.has-key-source > .env-source-key {
+  grid-area: key;
+}
+
+.env-row.has-key-source > .remove-button {
+  grid-area: remove;
+  align-self: center;
+  margin-bottom: 0;
 }
 
 .envfrom-row {
@@ -1236,6 +1281,7 @@ main {
   .port-row,
   .env-row,
   .envfrom-row,
+  .resource-constraint-row,
   .volume-row,
   .toleration-row {
     grid-template-columns: 1fr 1fr;
@@ -1245,10 +1291,29 @@ main {
   .port-row .remove-button,
   .env-row .remove-button,
   .envfrom-row .remove-button,
+  .resource-constraint-row .remove-button,
   .toleration-row .remove-button {
     position: absolute;
     top: 8px;
     right: 8px;
+  }
+
+  .resource-constraint-row .resource-key {
+    grid-column: 1 / -1;
+  }
+
+  .env-row.has-key-source {
+    grid-template-areas:
+      "name source"
+      "reference key";
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  }
+
+  .env-row.has-key-source > .remove-button {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    grid-area: auto;
   }
 
   .mobile-next {

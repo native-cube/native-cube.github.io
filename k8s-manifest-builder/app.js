@@ -91,6 +91,13 @@
     }, {});
   }
 
+  function resourceConstraintObject(field) {
+    return rows("resourceLimits").reduce((result, row) => {
+      if (row.key && row[field]) result[row.key] = row[field];
+      return result;
+    }, {});
+  }
+
   function buildProbe(prefix) {
     if (!checked(`${prefix}Enabled`)) return undefined;
 
@@ -303,9 +310,7 @@
 
   function buildManifest() {
     const kind = form.elements.kind.value;
-    const appName = value("appLabel") || value("name") || "app";
-    const extraLabels = keyValueObject("labels");
-    const labels = { ...extraLabels, app: appName };
+    const labels = keyValueObject("labels");
     const annotations = keyValueObject("annotations");
     const { volumes, mounts } = buildVolumes();
 
@@ -317,10 +322,12 @@
     }
 
     const requests = compact({
+      ...resourceConstraintObject("request"),
       cpu: value("requestCpu"),
       memory: value("requestMemory"),
     });
     const limits = compact({
+      ...resourceConstraintObject("limit"),
       cpu: value("limitCpu"),
       memory: value("limitMemory"),
     });
@@ -390,7 +397,7 @@
                 maxSkew: numberValue("maxSkew", 1),
                 topologyKey: value("topologyKey"),
                 whenUnsatisfiable: "ScheduleAnyway",
-                labelSelector: { matchLabels: { app: appName } },
+                labelSelector: { matchLabels: labels },
               },
             ]
           : undefined,
@@ -400,7 +407,7 @@
 
     const sharedSpec = {
       replicas: numberValue("replicas", 1),
-      selector: { matchLabels: { app: appName } },
+      selector: { matchLabels: labels },
       template: {
         metadata: compact({
           labels,
@@ -564,8 +571,66 @@
   function validate() {
     const dnsSubdomain = /^[a-z0-9](?:[-a-z0-9.]*[a-z0-9])?$/;
     const dnsLabel = /^[a-z0-9](?:[-a-z0-9]*[a-z0-9])?$/;
-    const labelValue =
-      /^$|^(?:[A-Za-z0-9](?:[-A-Za-z0-9_.]*[A-Za-z0-9])?)$/;
+    const labelPart = /^[A-Za-z0-9](?:[-A-Za-z0-9_.]*[A-Za-z0-9])?$/;
+    const labelValue = /^$|^(?:[A-Za-z0-9](?:[-A-Za-z0-9_.]*[A-Za-z0-9])?)$/;
+    const labelRows = rows("labels").filter((label) => label.key || label.value);
+    const labelKeys = labelRows.map((label) => label.key);
+    const validLabelKey = (key) => {
+      const parts = key.split("/");
+      if (parts.length > 2) return false;
+      const name = parts.pop();
+      const prefix = parts[0];
+      return (
+        Boolean(name) &&
+        name.length <= 63 &&
+        labelPart.test(name) &&
+        (!prefix ||
+          (prefix.length <= 253 &&
+            dnsSubdomain.test(prefix) &&
+            prefix === prefix.toLowerCase()))
+      );
+    };
+
+    let labelsError = "";
+    if (!labelRows.length) {
+      labelsError = "At least one label is required.";
+    } else if (labelRows.some((label) => !validLabelKey(label.key))) {
+      labelsError = "Every label needs a valid Kubernetes label key.";
+    } else if (
+      labelRows.some(
+        (label) => label.value.length > 63 || !labelValue.test(label.value),
+      )
+    ) {
+      labelsError = "Use valid Kubernetes label values (maximum 63 characters).";
+    } else if (new Set(labelKeys).size !== labelKeys.length) {
+      labelsError = "Label keys must be unique.";
+    }
+
+    const resourceLimitRows = rows("resourceLimits").filter(
+      (resource) => resource.key || resource.request || resource.limit,
+    );
+    const resourceLimitKeys = resourceLimitRows.map((resource) => resource.key);
+    let resourceLimitsError = "";
+    if (resourceLimitRows.some((resource) => !resource.key)) {
+      resourceLimitsError = "Every additional resource needs a key.";
+    } else if (
+      resourceLimitRows.some((resource) => !resource.request && !resource.limit)
+    ) {
+      resourceLimitsError = "Add a request, a limit, or both.";
+    } else if (
+      resourceLimitRows.some((resource) =>
+        ["cpu", "memory"].includes(resource.key),
+      )
+    ) {
+      resourceLimitsError = "Use the CPU and memory fields above.";
+    } else if (
+      resourceLimitRows.some((resource) => !validLabelKey(resource.key))
+    ) {
+      resourceLimitsError = "Enter a valid Kubernetes resource name.";
+    } else if (new Set(resourceLimitKeys).size !== resourceLimitKeys.length) {
+      resourceLimitsError = "Additional resource keys must be unique.";
+    }
+
     const errors = {
       name:
         !value("name")
@@ -578,10 +643,8 @@
         (value("namespace").length > 63 || !dnsLabel.test(value("namespace")))
           ? "Enter a valid DNS label."
           : "",
-      appLabel:
-        value("appLabel").length > 63 || !labelValue.test(value("appLabel"))
-          ? "Use a valid Kubernetes label value (maximum 63 characters)."
-          : "",
+      labels: labelsError,
+      resourceLimits: resourceLimitsError,
       image: value("image") ? "" : "A container image is required.",
       customFields: "",
     };
@@ -634,6 +697,7 @@
     const templateMap = {
       labels: ["key-value-template", "labels-list"],
       annotations: ["key-value-template", "annotations-list"],
+      resourceLimits: ["resource-limit-template", "resource-limits-list"],
       ports: ["port-template", "ports-list"],
       env: ["env-template", "env-list"],
       envFrom: ["envfrom-template", "envfrom-list"],
@@ -667,6 +731,7 @@
       valueField.querySelector("input").placeholder =
         source === "value" ? "info" : source === "secretKeyRef" ? "app-secrets" : "app-config";
       keyField.hidden = source === "value";
+      row.classList.toggle("has-key-source", source !== "value");
     }
 
     if (row.classList.contains("volume-row")) {
@@ -835,6 +900,7 @@
     document.querySelectorAll(".repeat-list").forEach((list) => {
       list.innerHTML = "";
     });
+    addRow("labels", { key: "app", value: "web-app" });
     addRow("ports", { name: "http", containerPort: "8080", protocol: "TCP" });
     previousName = "web-app";
     outputFormat = "yaml";
@@ -850,8 +916,14 @@
   document.addEventListener("input", (event) => {
     if (event.target.id === "name") {
       const newName = event.target.value;
-      if (value("appLabel") === previousName || !value("appLabel")) {
-        byId("appLabel").value = newName;
+      const appLabelRow = [
+        ...document.querySelectorAll('[data-list="labels"] .repeat-row'),
+      ].find(
+        (row) => row.querySelector('[data-field="key"]').value.trim() === "app",
+      );
+      const appLabelValue = appLabelRow?.querySelector('[data-field="value"]');
+      if (appLabelValue && appLabelValue.value.trim() === previousName) {
+        appLabelValue.value = newName;
       }
       if (value("serviceName") === previousName || !value("serviceName")) {
         byId("serviceName").value = newName;
@@ -887,7 +959,21 @@
 
     const removeButton = event.target.closest(".remove-button");
     if (removeButton) {
-      removeButton.closest(".repeat-row").remove();
+      const row = removeButton.closest(".repeat-row");
+      if (row.dataset.rowType === "labels") {
+        const otherDefinedLabels = [
+          ...document.querySelectorAll('[data-list="labels"] .repeat-row'),
+        ].filter(
+          (candidate) =>
+            candidate !== row &&
+            candidate.querySelector('[data-field="key"]').value.trim(),
+        );
+        if (!otherDefinedLabels.length) {
+          showToast("Add another label before removing this one");
+          return;
+        }
+      }
+      row.remove();
       render();
     }
   });
@@ -951,6 +1037,7 @@
   renderProbe("liveness", { initialDelay: 10, failureThreshold: 3 });
   renderProbe("readiness", { initialDelay: 5, failureThreshold: 3 });
   renderProbe("startup", { initialDelay: 0, failureThreshold: 30 });
+  addRow("labels", { key: "app", value: "web-app" });
   addRow("ports", { name: "http", containerPort: "8080", protocol: "TCP" });
   syncKindUI();
   showSection(0);

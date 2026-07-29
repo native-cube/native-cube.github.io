@@ -10,8 +10,8 @@
     <meta name="author" content="Marcin Cuber" />
     <meta name="theme-color" content="#f2f5f9" />
     <title>Kubernetes Manifest Builder — Native Cube</title>
-    <link rel="stylesheet" href="./styles.css?v=6" />
-    <script src="./app.js?v=5" defer></script>
+    <link rel="stylesheet" href="./styles.css?v=7" />
+    <script src="./app.js?v=7" defer></script>
   </head>
   <body>
     <a class="skip-link" href="#generator-form">Skip to generator</a>
@@ -134,11 +134,6 @@
                 <span>Replicas</span>
                 <input id="replicas" name="replicas" type="number" value="3" min="0" />
               </label>
-              <label class="field">
-                <span>App label</span>
-                <input id="appLabel" name="appLabel" value="web-app" autocomplete="off" />
-                <small class="field-error" data-error-for="appLabel"></small>
-              </label>
             </div>
 
             <div class="subsection">
@@ -152,6 +147,7 @@
                 </button>
               </div>
               <div id="labels-list" class="repeat-list" data-list="labels"></div>
+              <small class="list-error" data-error-for="labels"></small>
             </div>
 
             <div class="subsection">
@@ -291,6 +287,22 @@
                 <label class="field compact"><input id="limitCpu" value="500m" /></label>
                 <label class="field compact"><input id="limitMemory" value="512Mi" /></label>
               </div>
+
+              <div class="subsection-heading nested-heading">
+                <div>
+                  <h4>Additional resources</h4>
+                  <p>Set requests and limits for storage, GPUs, or extended resources.</p>
+                </div>
+                <button class="add-button" type="button" data-add-row="resourceLimits">
+                  <span aria-hidden="true">+</span> Add resource
+                </button>
+              </div>
+              <div
+                id="resource-limits-list"
+                class="repeat-list"
+                data-list="resourceLimits"
+              ></div>
+              <small class="list-error" data-error-for="resourceLimits"></small>
             </div>
 
             <div class="subsection">
@@ -816,6 +828,29 @@ spec:
           <input data-field="value" placeholder="Value" />
         </label>
         <button class="remove-button" type="button" aria-label="Remove row">×</button>
+      </div>
+    </template>
+
+    <template id="resource-limit-template">
+      <div class="repeat-row resource-constraint-row">
+        <label class="field resource-key">
+          <span>Resource key</span>
+          <input
+            data-field="key"
+            placeholder="ephemeral-storage or nvidia.com/gpu"
+          />
+        </label>
+        <label class="field">
+          <span>Request</span>
+          <input data-field="request" placeholder="1Gi or 1" />
+        </label>
+        <label class="field">
+          <span>Limit</span>
+          <input data-field="limit" placeholder="2Gi or 1" />
+        </label>
+        <button class="remove-button" type="button" aria-label="Remove resource">
+          ×
+        </button>
       </div>
     </template>
 
