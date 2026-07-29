@@ -4,8 +4,8 @@ A collection of small, static cloud-native tools published with GitHub Pages.
 
 ## Kubernetes Manifest Builder
 
-Open `/k8s-manifest-builder/` to configure an `apps/v1` Deployment or
-StatefulSet and export it as YAML or JSON.
+Open `/k8s-manifest-builder/` to configure an `apps/v1` Deployment,
+StatefulSet, or DaemonSet and export it as YAML or JSON.
 
 The form covers common workload, container, probe, resource, storage,
 scheduling, security, lifecycle, and rollout fields. The **Additional manifest

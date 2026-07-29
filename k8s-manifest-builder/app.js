@@ -308,6 +308,49 @@
     return Object.keys(lifecycle).length ? lifecycle : undefined;
   }
 
+  function buildDaemonSetSpec(
+    sharedSpec,
+    strategyType,
+    maxUnavailable,
+    maxSurge,
+  ) {
+    return compact({
+      ...sharedSpec,
+      replicas: undefined,
+      updateStrategy: {
+        type: strategyType,
+        rollingUpdate:
+          strategyType === "RollingUpdate"
+            ? {
+                maxUnavailable: parseIntOrString(maxUnavailable || "1"),
+                maxSurge: parseIntOrString(maxSurge || "0"),
+              }
+            : undefined,
+      },
+    });
+  }
+
+  function validateDaemonRollingUpdate(
+    strategyType,
+    maxUnavailable,
+    maxSurge,
+  ) {
+    if (strategyType !== "RollingUpdate") return "";
+
+    const validIntOrPercent = /^(?:0|[1-9]\d*)%?$/;
+    const values = [maxUnavailable, maxSurge];
+    if (values.some((entry) => entry && !validIntOrPercent.test(entry))) {
+      return "Use non-negative whole numbers or percentages for DaemonSet rollout limits.";
+    }
+
+    const isZero = (entry) => /^0%?$/.test(entry);
+    if (isZero(maxUnavailable || "1") && isZero(maxSurge || "0")) {
+      return "Max unavailable and max surge cannot both be zero.";
+    }
+
+    return "";
+  }
+
   function buildManifest() {
     const kind = form.elements.kind.value;
     const labels = keyValueObject("labels");
@@ -406,7 +449,7 @@
     });
 
     const sharedSpec = {
-      replicas: numberValue("replicas", 1),
+      replicas: kind === "DaemonSet" ? undefined : numberValue("replicas", 1),
       selector: { matchLabels: labels },
       template: {
         metadata: compact({
@@ -437,7 +480,7 @@
         progressDeadlineSeconds: numberValue("progressDeadlineSeconds", 600),
         paused: checked("paused") || undefined,
       });
-    } else {
+    } else if (kind === "StatefulSet") {
       const statefulStrategy = value("statefulStrategy");
       workloadSpec = compact({
         ...sharedSpec,
@@ -471,6 +514,13 @@
             ]
           : undefined,
       });
+    } else {
+      workloadSpec = buildDaemonSetSpec(
+        sharedSpec,
+        value("daemonStrategy"),
+        value("daemonMaxUnavailable"),
+        value("daemonMaxSurge"),
+      );
     }
 
     let manifest = compact({
@@ -631,6 +681,15 @@
       resourceLimitsError = "Additional resource keys must be unique.";
     }
 
+    const daemonRollingUpdateError =
+      form.elements.kind.value === "DaemonSet"
+        ? validateDaemonRollingUpdate(
+            value("daemonStrategy"),
+            value("daemonMaxUnavailable"),
+            value("daemonMaxSurge"),
+          )
+        : "";
+
     const errors = {
       name:
         !value("name")
@@ -645,6 +704,7 @@
           : "",
       labels: labelsError,
       resourceLimits: resourceLimitsError,
+      daemonRollingUpdate: daemonRollingUpdateError,
       image: value("image") ? "" : "A container image is required.",
       customFields: "",
     };
@@ -850,13 +910,28 @@
   }
 
   function syncKindUI() {
-    const isStateful = form.elements.kind.value === "StatefulSet";
+    const kind = form.elements.kind.value;
+    const isDeployment = kind === "Deployment";
+    const isStateful = kind === "StatefulSet";
+    const isDaemon = kind === "DaemonSet";
     document.querySelectorAll(".stateful-only").forEach((element) => {
       element.hidden = !isStateful;
     });
     document.querySelectorAll(".deployment-only").forEach((element) => {
-      element.hidden = isStateful;
+      element.hidden = !isDeployment;
     });
+    document.querySelectorAll(".daemon-only").forEach((element) => {
+      element.hidden = !isDaemon;
+    });
+    document.querySelectorAll(".replica-only").forEach((element) => {
+      element.hidden = isDaemon;
+    });
+    byId("identity-title").textContent = isDaemon
+      ? "Identity & placement"
+      : "Identity & scale";
+    byId("identity-copy").textContent = isDaemon
+      ? "Name the resource; Kubernetes runs one pod on every matching node."
+      : "Name the resource and choose how many pods it should manage.";
     updateStrategyUI();
   }
 
@@ -868,6 +943,12 @@
     const statefulRolling = value("statefulStrategy") === "RollingUpdate";
     document.querySelectorAll(".stateful-rolling-only").forEach((element) => {
       element.hidden = !statefulRolling;
+    });
+    const daemonRolling =
+      form.elements.kind.value === "DaemonSet" &&
+      value("daemonStrategy") === "RollingUpdate";
+    document.querySelectorAll(".daemon-rolling-only").forEach((element) => {
+      element.hidden = !daemonRolling;
     });
   }
 
@@ -940,7 +1021,8 @@
     if (event.target.name === "kind") syncKindUI();
     if (
       event.target.id === "deploymentStrategy" ||
-      event.target.id === "statefulStrategy"
+      event.target.id === "statefulStrategy" ||
+      event.target.id === "daemonStrategy"
     ) {
       updateStrategyUI();
     }
@@ -1044,9 +1126,11 @@
   render();
 
   window.K8sGenerator = {
+    buildDaemonSetSpec,
     buildManifest,
     compact,
     deepMerge,
     toYaml,
+    validateDaemonRollingUpdate,
   };
 })();
