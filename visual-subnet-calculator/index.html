@@ -1,0 +1,227 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta
+      name="description"
+      content="Visually split IPv4 networks, compare address ranges, and share subnet plans."
+    />
+    <meta name="author" content="Marcin Cuber" />
+    <meta name="theme-color" content="#f2f5f9" />
+    <title>Visual Subnet Calculator — Native Cube</title>
+    <link rel="stylesheet" href="./styles.css?v=1" />
+    <script src="./app.js?v=1" defer></script>
+  </head>
+  <body>
+    <a class="skip-link" href="#calculator">Skip to calculator</a>
+
+    <header class="site-header">
+      <a class="brand" href="../" aria-label="Native Cube home">
+        <svg class="brand-logo" viewBox="0 0 40 40" aria-hidden="true">
+          <path d="M20 2.5 36 11.3 20 20 4 11.3 20 2.5Z" fill="#2563eb" />
+          <path d="M4 11.3 20 20v17.5L4 28.7V11.3Z" fill="#14243b" />
+          <path d="M36 11.3 20 20v17.5l16-8.8V11.3Z" fill="#22a77a" />
+          <path d="m20 8 6 3.3-6 3.2-6-3.2L20 8Z" fill="#f2f5f9" opacity=".95" />
+        </svg>
+        <span class="brand-copy">
+          <span class="brand-name">Native <strong>Cube</strong></span>
+          <span class="brand-tagline">Cloud-native toolbox</span>
+        </span>
+      </a>
+      <div class="product-lockup" aria-label="Visual Subnet Calculator">
+        <span>Networking</span>
+        <strong>Visual Subnet Calculator</strong>
+      </div>
+    </header>
+
+    <main>
+      <section class="hero">
+        <div>
+          <p class="eyebrow">IPv4 / Network planning</p>
+          <h1>See every address.<br /><em>Shape every subnet.</em></h1>
+        </div>
+        <p class="hero-copy">
+          Turn a CIDR block into a clear, editable network plan. Split, join,
+          annotate, and share subnets without sending any data to a server.
+        </p>
+      </section>
+
+      <section id="calculator" class="calculator" aria-label="Subnet calculator">
+        <form id="network-form" class="control-panel" novalidate>
+          <div class="panel-heading">
+            <div>
+              <span class="step-label">01 / Define</span>
+              <h2>Start with a network</h2>
+            </div>
+          </div>
+
+          <div class="control-grid">
+            <label class="field field-network">
+              <span>IPv4 network <b aria-hidden="true">*</b></span>
+              <input
+                id="network-input"
+                name="network"
+                value="10.42.0.0/16"
+                placeholder="10.42.0.0/16"
+                autocomplete="off"
+                spellcheck="false"
+                required
+              />
+              <small id="network-error" class="field-feedback" aria-live="polite">
+                Changes apply automatically.
+              </small>
+            </label>
+
+            <label class="field field-mode">
+              <span>Address policy</span>
+              <select id="mode-select" name="mode">
+                <option value="standard">Standard IPv4</option>
+                <option value="aws">AWS VPC</option>
+                <option value="azure">Azure VNet</option>
+              </select>
+              <small id="mode-hint">Network and broadcast addresses are reserved.</small>
+            </label>
+          </div>
+        </form>
+
+        <section class="plan-panel" aria-labelledby="plan-title">
+          <div class="plan-heading">
+            <div>
+              <span class="step-label">02 / Visualize</span>
+              <h2 id="plan-title">Address space</h2>
+              <p id="plan-caption" class="plan-caption"></p>
+            </div>
+            <div class="plan-actions">
+              <button id="split-all-button" class="secondary-button" type="button">
+                Split all once
+              </button>
+              <button id="reset-button" class="secondary-button" type="button">
+                Restore sample
+              </button>
+              <button id="share-button" class="secondary-button" type="button">
+                Copy share link
+              </button>
+            </div>
+          </div>
+
+          <dl class="summary-grid" aria-label="Network summary">
+            <div>
+              <dt>Base network</dt>
+              <dd id="summary-network">—</dd>
+            </div>
+            <div>
+              <dt>Subnets</dt>
+              <dd id="summary-subnets">—</dd>
+            </div>
+            <div>
+              <dt>Total addresses</dt>
+              <dd id="summary-addresses">—</dd>
+            </div>
+            <div>
+              <dt>Usable addresses</dt>
+              <dd id="summary-usable">—</dd>
+            </div>
+          </dl>
+
+          <div class="map-header">
+            <div>
+              <h3>Allocation map</h3>
+              <p>Width represents each subnet’s share of the base network.</p>
+            </div>
+            <span class="map-legend"><i></i> Address space allocated</span>
+          </div>
+          <div
+            id="subnet-map"
+            class="subnet-map"
+            role="group"
+            aria-label="Proportional subnet allocation map"
+          ></div>
+
+          <div class="table-heading">
+            <div>
+              <h3>Subnet plan</h3>
+              <p>Select a color, add a note, or change the split at any level.</p>
+            </div>
+            <button id="export-button" class="text-button" type="button">
+              Export JSON
+            </button>
+          </div>
+
+          <div class="table-scroll">
+            <table>
+              <thead>
+                <tr>
+                  <th scope="col">Subnet</th>
+                  <th scope="col">Address range</th>
+                  <th scope="col">Usable range</th>
+                  <th scope="col">Hosts</th>
+                  <th scope="col">Note</th>
+                  <th scope="col"><span class="sr-only">Actions</span></th>
+                </tr>
+              </thead>
+              <tbody id="subnet-rows"></tbody>
+            </table>
+          </div>
+
+          <p class="privacy-note">
+            <span aria-hidden="true">◆</span>
+            Your plan stays in this browser. Share links encode the design in the URL.
+          </p>
+        </section>
+      </section>
+
+      <section class="guide" aria-labelledby="guide-title">
+        <div>
+          <span class="step-label">03 / Understand</span>
+          <h2 id="guide-title">Subnetting, at a glance.</h2>
+        </div>
+        <div class="guide-grid">
+          <article>
+            <span>01</span>
+            <h3>Prefix length</h3>
+            <p>
+              A larger CIDR prefix creates a smaller network. Splitting a
+              <code>/24</code> produces two <code>/25</code> networks.
+            </p>
+          </article>
+          <article>
+            <span>02</span>
+            <h3>Usable addresses</h3>
+            <p>
+              Standard IPv4 usually reserves network and broadcast addresses.
+              Cloud providers reserve additional addresses in every subnet.
+            </p>
+          </article>
+          <article>
+            <span>03</span>
+            <h3>Plan visually</h3>
+            <p>
+              Split only where needed, label each allocation, and use color to
+              distinguish environments, tiers, or ownership.
+            </p>
+          </article>
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <span>Native Cube · Built for the terminal-adjacent parts of your day.</span>
+      <div class="footer-links">
+        <a
+          class="author-credit"
+          href="https://marcincuber.github.io/"
+          target="_blank"
+          rel="author me noreferrer"
+        >
+          <span>Created by</span>
+          <strong>Marcin Cuber</strong>
+          <b aria-hidden="true">↗</b>
+        </a>
+        <a href="../">Explore all tools <span aria-hidden="true">↗</span></a>
+      </div>
+    </footer>
+
+    <div id="toast" class="toast" role="status" aria-live="polite"></div>
+  </body>
+</html>

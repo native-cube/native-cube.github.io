@@ -19,3 +19,10 @@ python3 -m http.server 8080
 ```
 
 Then visit `http://localhost:8080/k8s-manifest-builder/`.
+
+## Visual Subnet Calculator
+
+Open `/visual-subnet-calculator/` to split an IPv4 CIDR block into a visual,
+editable plan. Subnets can be split, joined, color-coded, annotated, exported
+as JSON, or shared through a URL. Standard IPv4, AWS VPC, and Azure VNet
+address reservation policies are supported.
