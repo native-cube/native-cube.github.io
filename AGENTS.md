@@ -38,11 +38,11 @@ There is no configured formatter or linter, so match adjacent code.
 ## Testing Guidelines
 
 Testing is manual. Verify both pages at desktop and narrow viewport widths.
-Exercise Deployment and StatefulSet output, YAML/JSON switching, validation,
-reset, copy, download, repeatable rows, advanced-field merging, and section
-navigation. For subnet changes, test CIDR validation, split/join, cloud address
-policies, notes, sharing, and JSON export. Confirm the browser console stays
-clean and include focused regression steps in the pull request.
+Exercise Deployment, StatefulSet, and DaemonSet output; YAML/JSON switching,
+validation, reset, copy, download, repeatable rows, advanced-field merging, and
+section navigation. For subnet changes, test CIDR validation, split/join, cloud
+address policies, notes, sharing, and JSON export. Confirm the browser console
+stays clean and include focused regression steps in the pull request.
 
 ## Commit & Pull Request Guidelines
 

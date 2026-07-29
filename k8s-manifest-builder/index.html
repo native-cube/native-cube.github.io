@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta
       name="description"
-      content="Generate Kubernetes Deployment and StatefulSet YAML or JSON in your browser. Configure containers, probes, storage, security, scheduling, and rollouts."
+      content="Generate Kubernetes Deployment, StatefulSet, and DaemonSet YAML or JSON in your browser. Configure containers, probes, storage, security, and rollouts."
     />
     <meta name="author" content="Marcin Cuber" />
     <meta name="theme-color" content="#f2f5f9" />
@@ -17,7 +17,7 @@
     />
     <meta
       property="og:description"
-      content="Build Kubernetes Deployment and StatefulSet manifests online and export clean YAML or JSON."
+      content="Build Kubernetes Deployment, StatefulSet, and DaemonSet manifests online and export clean YAML or JSON."
     />
     <meta
       property="og:url"
@@ -30,7 +30,7 @@
     />
     <meta
       name="twitter:description"
-      content="Build Kubernetes Deployment and StatefulSet manifests online and export clean YAML or JSON."
+      content="Build Kubernetes Deployment, StatefulSet, and DaemonSet manifests online and export clean YAML or JSON."
     />
     <link
       rel="canonical"
@@ -38,8 +38,8 @@
     />
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
     <title>Free Kubernetes Manifest Generator | Native Cube</title>
-    <link rel="stylesheet" href="./styles.css?v=7" />
-    <script src="./app.js?v=7" defer></script>
+    <link rel="stylesheet" href="./styles.css?v=8" />
+    <script src="./app.js?v=8" defer></script>
     <script type="application/ld+json">
       [
         {
@@ -48,7 +48,7 @@
           "@id": "https://native-cube.github.io/k8s-manifest-builder/#webpage",
           "url": "https://native-cube.github.io/k8s-manifest-builder/",
           "name": "Free Kubernetes Manifest Generator",
-          "description": "Generate Kubernetes Deployment and StatefulSet YAML or JSON in your browser.",
+          "description": "Generate Kubernetes Deployment, StatefulSet, and DaemonSet YAML or JSON in your browser.",
           "isPartOf": {
             "@id": "https://native-cube.github.io/#website"
           },
@@ -112,8 +112,8 @@
         </div>
         <p class="hero-copy">
           Use this free browser-based Kubernetes manifest generator to configure
-          a production-ready Deployment or StatefulSet. Start simple, then open
-          the advanced workload controls when you need them.
+          a production-ready Deployment, StatefulSet, or DaemonSet. Start simple,
+          then open the advanced workload controls when you need them.
         </p>
       </section>
 
@@ -145,6 +145,13 @@
                 <small>Stable identity and persistent storage</small>
               </span>
             </label>
+            <label>
+              <input type="radio" name="kind" value="DaemonSet" />
+              <span>
+                <strong>DaemonSet</strong>
+                <small>One pod on every matching node</small>
+              </span>
+            </label>
           </fieldset>
 
           <div class="section-nav" role="tablist" aria-label="Configuration sections">
@@ -166,8 +173,10 @@
             <div class="section-intro">
               <span class="section-number">01</span>
               <div>
-                <h3>Identity & scale</h3>
-                <p>Name the resource and choose how many pods it should manage.</p>
+                <h3 id="identity-title">Identity & scale</h3>
+                <p id="identity-copy">
+                  Name the resource and choose how many pods it should manage.
+                </p>
               </div>
             </div>
 
@@ -195,7 +204,7 @@
                 />
                 <small class="field-error" data-error-for="namespace"></small>
               </label>
-              <label class="field">
+              <label class="field replica-only">
                 <span>Replicas</span>
                 <input id="replicas" name="replicas" type="number" value="3" min="0" />
               </label>
@@ -609,6 +618,38 @@
                     </select>
                   </label>
                 </div>
+                <div class="field-grid daemon-only" hidden>
+                  <label class="field">
+                    <span>Update strategy</span>
+                    <select id="daemonStrategy">
+                      <option>RollingUpdate</option>
+                      <option>OnDelete</option>
+                    </select>
+                  </label>
+                  <label class="field daemon-rolling-only">
+                    <span>Max unavailable</span>
+                    <input
+                      id="daemonMaxUnavailable"
+                      value="1"
+                      placeholder="1 or 10%"
+                    />
+                    <small>Absolute number or percentage. API default: 1.</small>
+                  </label>
+                  <label class="field daemon-rolling-only">
+                    <span>Max surge</span>
+                    <input
+                      id="daemonMaxSurge"
+                      value="0"
+                      placeholder="0 or 10%"
+                    />
+                    <small>Absolute number or percentage. API default: 0.</small>
+                  </label>
+                </div>
+                <small
+                  class="list-error daemon-only"
+                  data-error-for="daemonRollingUpdate"
+                  hidden
+                ></small>
                 <div class="field-grid">
                   <label class="field">
                     <span>Minimum ready seconds</span>
@@ -773,8 +814,10 @@
               <summary>Additional manifest fields</summary>
               <div class="advanced-body">
                 <p class="helper-copy">
-                  Deep-merge any valid Kubernetes fields into the generated resource.
-                  This is the escape hatch for API fields not represented above.
+                  Deep-merge any valid Kubernetes API fields into the generated
+                  resource. Use this for recursive fields not represented above,
+                  such as selector match expressions, init containers, affinity,
+                  or other PodSpec options.
                 </p>
                 <label class="field">
                   <span>JSON object</span>
