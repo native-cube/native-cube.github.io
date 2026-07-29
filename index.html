@@ -8,17 +8,20 @@
       content="A collection of focused tools for cloud-native work."
     />
     <meta name="author" content="Marcin Cuber" />
+    <meta name="theme-color" content="#f2f5f9" />
     <title>Native Cube — Cloud-native tools</title>
     <style>
       :root {
         color-scheme: light;
-        --ink: #17231f;
-        --muted: #66736d;
-        --paper: #f5f3ec;
-        --card: #fffdf7;
-        --line: #d9ddd4;
-        --green: #126b4b;
-        --mint: #dcefe5;
+        --ink: #14243b;
+        --muted: #637187;
+        --paper: #f2f5f9;
+        --card: #fbfdff;
+        --line: #d6dfeb;
+        --green: #2563eb;
+        --green-dark: #174ea6;
+        --mint: #e8f0ff;
+        --success: #15966a;
       }
 
       * {
@@ -30,11 +33,26 @@
         min-height: 100vh;
         color: var(--ink);
         background:
-          radial-gradient(circle at 12% 12%, #e4f0e8 0, transparent 27rem),
-          var(--paper);
+          radial-gradient(circle at 88% 6%, rgba(37, 99, 235, 0.13), transparent 29rem),
+          radial-gradient(circle at 8% 18%, rgba(21, 150, 106, 0.1), transparent 25rem),
+          linear-gradient(180deg, #f9fbfe 0, var(--paper) 48rem);
         font-family:
           Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont,
           "Segoe UI", sans-serif;
+      }
+
+      body::before {
+        position: fixed;
+        inset: 0;
+        z-index: -1;
+        background-image:
+          linear-gradient(rgba(37, 99, 235, 0.035) 1px, transparent 1px),
+          linear-gradient(90deg, rgba(37, 99, 235, 0.035) 1px, transparent 1px);
+        background-size: 32px 32px;
+        content: "";
+        -webkit-mask-image: linear-gradient(to bottom, black, transparent 72%);
+        mask-image: linear-gradient(to bottom, black, transparent 72%);
+        pointer-events: none;
       }
 
       main {
@@ -55,7 +73,7 @@
       .brand-logo {
         width: 38px;
         height: 38px;
-        filter: drop-shadow(0 6px 10px rgba(18, 107, 75, 0.12));
+        filter: drop-shadow(0 7px 12px rgba(37, 99, 235, 0.17));
       }
 
       .brand-copy {
@@ -125,7 +143,7 @@
         padding: 8px 12px;
         color: var(--green);
         background: var(--mint);
-        border: 1px solid #c8e4d4;
+        border: 1px solid #c6d8ff;
         border-radius: 999px;
         text-decoration: none;
         font-weight: 850;
@@ -158,16 +176,28 @@
         text-decoration: none;
         background: var(--card);
         border: 1px solid var(--line);
-        border-radius: 24px;
-        box-shadow: 0 18px 44px rgba(31, 45, 38, 0.07);
+        border-radius: 20px;
+        box-shadow: 0 20px 48px rgba(23, 55, 94, 0.09);
         transition:
+          border-color 180ms ease,
           transform 180ms ease,
           box-shadow 180ms ease;
       }
 
+      .tool::before {
+        position: absolute;
+        top: 0;
+        right: 0;
+        left: 0;
+        height: 3px;
+        background: linear-gradient(90deg, var(--green), #38bdf8, var(--success));
+        content: "";
+      }
+
       .tool:hover {
+        border-color: #adc7ff;
         transform: translateY(-4px);
-        box-shadow: 0 22px 52px rgba(31, 45, 38, 0.12);
+        box-shadow: 0 24px 58px rgba(23, 55, 94, 0.14);
       }
 
       .tag {
@@ -245,10 +275,10 @@
           viewBox="0 0 40 40"
           aria-hidden="true"
         >
-          <path d="M20 2.5 36 11.3 20 20 4 11.3 20 2.5Z" fill="#126b4b" />
-          <path d="M4 11.3 20 20v17.5L4 28.7V11.3Z" fill="#17231f" />
-          <path d="M36 11.3 20 20v17.5l16-8.8V11.3Z" fill="#8fc8aa" />
-          <path d="m20 8 6 3.3-6 3.2-6-3.2L20 8Z" fill="#f5f3ec" opacity=".9" />
+          <path d="M20 2.5 36 11.3 20 20 4 11.3 20 2.5Z" fill="#2563eb" />
+          <path d="M4 11.3 20 20v17.5L4 28.7V11.3Z" fill="#14243b" />
+          <path d="M36 11.3 20 20v17.5l16-8.8V11.3Z" fill="#22a77a" />
+          <path d="m20 8 6 3.3-6 3.2-6-3.2L20 8Z" fill="#f2f5f9" opacity=".95" />
         </svg>
         <span class="brand-copy">
           <span class="brand-name">Native <strong>Cube</strong></span>
