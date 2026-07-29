@@ -3,7 +3,6 @@
 
   const form = document.querySelector("#generator-form");
   const output = document.querySelector("#manifest-output");
-  const gutter = document.querySelector("#code-gutter");
   const lineCount = document.querySelector("#line-count");
   const toast = document.querySelector("#toast");
   const sectionNames = ["basics", "container", "runtime", "advanced"];
@@ -617,10 +616,9 @@
       outputFormat === "json"
         ? JSON.stringify(currentManifest, null, 2)
         : `${toYaml(currentManifest)}\n`;
-    output.textContent = currentText;
+    output.value = currentText;
 
     const count = currentText.trimEnd().split("\n").length;
-    gutter.textContent = Array.from({ length: count }, (_, index) => index + 1).join("\n");
     lineCount.textContent = `${count} ${count === 1 ? "line" : "lines"}`;
   }
 
@@ -926,11 +924,9 @@
       await navigator.clipboard.writeText(currentText);
       showToast("Manifest copied to clipboard");
     } catch {
-      const selection = window.getSelection();
-      const range = document.createRange();
-      range.selectNodeContents(output);
-      selection.removeAllRanges();
-      selection.addRange(range);
+      output.focus();
+      output.select();
+      output.setSelectionRange(0, output.value.length);
       showToast("Manifest selected — press Ctrl/Cmd+C");
     }
   });

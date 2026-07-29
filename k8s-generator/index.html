@@ -8,8 +8,8 @@
       content="Configure Kubernetes Deployments and StatefulSets and export the manifest as YAML or JSON."
     />
     <title>Kubernetes Manifest Studio — Native Cube</title>
-    <link rel="stylesheet" href="./styles.css" />
-    <script src="./app.js" defer></script>
+    <link rel="stylesheet" href="./styles.css?v=3" />
+    <script src="./app.js?v=3" defer></script>
   </head>
   <body>
     <a class="skip-link" href="#generator-form">Skip to generator</a>
@@ -729,8 +729,20 @@
           </div>
 
           <div class="code-frame">
-            <div id="code-gutter" class="code-gutter" aria-hidden="true"></div>
-            <pre><code id="manifest-output"></code></pre>
+            <textarea
+              id="manifest-output"
+              class="manifest-output"
+              aria-label="Generated Kubernetes manifest"
+              readonly
+              spellcheck="false"
+            >apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: web-app
+  namespace: default
+spec:
+  replicas: 3
+</textarea>
           </div>
 
           <div class="output-actions">
