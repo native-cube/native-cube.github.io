@@ -186,11 +186,14 @@
     networkError.classList.toggle("is-error", isError);
   }
 
-  function applyNetworkInput({ announce = false, focusOnError = false } = {}) {
+  function applyNetworkInput(
+    { announce = false, focusOnError = false, forceReset = false } = {},
+  ) {
     window.clearTimeout(networkReloadTimer);
     try {
       const cidr = parseCidr(networkInput.value);
       const changed =
+        forceReset ||
         !state ||
         cidr.network !== state.baseNetwork ||
         cidr.prefix !== state.basePrefix;
@@ -202,6 +205,8 @@
         buildPlan(cidr, modeSelect.value);
         if (cidr.normalized) {
           showToast("Host bits were cleared to use the network address.");
+        } else if (forceReset) {
+          showToast("Subnet plan reset.");
         } else if (announce) {
           showToast("Network updated.");
         }
@@ -681,7 +686,9 @@
   byId("split-all-button").addEventListener("click", splitAll);
   byId("share-button").addEventListener("click", copyShareLink);
   byId("export-button").addEventListener("click", exportJson);
-  byId("reset-button").addEventListener("click", loadExample);
+  byId("reset-button").addEventListener("click", () => {
+    applyNetworkInput({ focusOnError: true, forceReset: true });
+  });
 
   updateModeHint();
   const sharedDesign = new URLSearchParams(window.location.search).get("design");
