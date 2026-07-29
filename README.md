@@ -2,10 +2,10 @@
 
 A collection of small, static cloud-native tools published with GitHub Pages.
 
-## Kubernetes Manifest Studio
+## Kubernetes Manifest Builder
 
-Open `/k8s-generator/` to configure an `apps/v1` Deployment or StatefulSet and
-export it as YAML or JSON. Everything runs locally in the browser.
+Open `/k8s-manifest-builder/` to configure an `apps/v1` Deployment or
+StatefulSet and export it as YAML or JSON.
 
 The form covers common workload, container, probe, resource, storage,
 scheduling, security, lifecycle, and rollout fields. The **Additional manifest
@@ -18,4 +18,4 @@ To preview locally:
 python3 -m http.server 8080
 ```
 
-Then visit `http://localhost:8080/k8s-generator/`.
+Then visit `http://localhost:8080/k8s-manifest-builder/`.

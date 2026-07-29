@@ -1,6 +1,7 @@
 (() => {
   "use strict";
 
+  // Native Cube Kubernetes Manifest Builder
   const form = document.querySelector("#generator-form");
   const output = document.querySelector("#manifest-output");
   const lineCount = document.querySelector("#line-count");

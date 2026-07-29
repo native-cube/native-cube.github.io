@@ -1,5 +1,6 @@
 :root {
   color-scheme: light;
+  --brand-accent: #11684a;
   --ink: #18231f;
   --muted: #69766f;
   --soft: #8c968f;
@@ -95,37 +96,58 @@ main {
 .brand {
   display: inline-flex;
   align-items: center;
-  gap: 12px;
+  gap: 11px;
   color: var(--ink);
   text-decoration: none;
-  font-size: 15px;
-  font-weight: 800;
-  letter-spacing: -0.01em;
 }
 
-.brand-mark {
-  width: 17px;
-  height: 17px;
-  border: 5px solid var(--green);
-  border-radius: 5px;
-  transform: rotate(45deg);
+.brand-logo {
+  width: 34px;
+  height: 34px;
+  flex: 0 0 auto;
+  filter: drop-shadow(0 5px 8px rgba(17, 104, 74, 0.12));
 }
 
-.header-meta {
+.brand-copy {
   display: flex;
-  align-items: center;
-  gap: 8px;
-  color: var(--muted);
-  font-size: 12px;
-  font-weight: 650;
+  flex-direction: column;
+  gap: 1px;
 }
 
-.privacy-dot {
-  width: 7px;
-  height: 7px;
-  background: #25a269;
-  border-radius: 50%;
-  box-shadow: 0 0 0 4px rgba(37, 162, 105, 0.12);
+.brand-name {
+  font-size: 15px;
+  font-weight: 820;
+  letter-spacing: -0.035em;
+}
+
+.brand-name strong {
+  color: var(--brand-accent);
+}
+
+.brand-tagline {
+  color: var(--muted);
+  font: 650 8px/1.2 ui-monospace, SFMono-Regular, Menlo, monospace;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.product-lockup {
+  display: flex;
+  align-items: flex-end;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.product-lockup span {
+  color: var(--green);
+  font: 750 8px/1.2 ui-monospace, SFMono-Regular, Menlo, monospace;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.product-lockup strong {
+  font-size: 11px;
+  letter-spacing: -0.01em;
 }
 
 .hero {
@@ -1135,8 +1157,14 @@ main {
     min-height: 64px;
   }
 
-  .header-meta {
-    font-size: 0;
+  .brand-tagline,
+  .product-lockup span {
+    display: none;
+  }
+
+  .product-lockup strong {
+    max-width: 80px;
+    text-align: right;
   }
 
   .hero {

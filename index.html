@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta
       name="description"
-      content="A collection of focused, browser-based tools for cloud-native work."
+      content="A collection of focused tools for cloud-native work."
     />
     <meta name="author" content="Marcin Cuber" />
     <title>Native Cube — Cloud-native tools</title>
@@ -40,7 +40,45 @@
       main {
         width: min(1120px, calc(100% - 40px));
         margin: 0 auto;
-        padding: 72px 0;
+        padding: 48px 0 72px;
+      }
+
+      .brand-lockup {
+        display: inline-flex;
+        align-items: center;
+        gap: 13px;
+        margin-bottom: 88px;
+        color: var(--ink);
+        text-decoration: none;
+      }
+
+      .brand-logo {
+        width: 38px;
+        height: 38px;
+        filter: drop-shadow(0 6px 10px rgba(18, 107, 75, 0.12));
+      }
+
+      .brand-copy {
+        display: flex;
+        flex-direction: column;
+        gap: 1px;
+      }
+
+      .brand-name {
+        font-size: 18px;
+        font-weight: 820;
+        letter-spacing: -0.035em;
+      }
+
+      .brand-name strong {
+        color: var(--green);
+      }
+
+      .brand-tagline {
+        color: var(--muted);
+        font: 650 9px/1.2 ui-monospace, SFMono-Regular, Menlo, monospace;
+        letter-spacing: 0.09em;
+        text-transform: uppercase;
       }
 
       .eyebrow {
@@ -52,14 +90,6 @@
         font: 700 12px/1.2 ui-monospace, SFMono-Regular, Menlo, monospace;
         letter-spacing: 0.12em;
         text-transform: uppercase;
-      }
-
-      .mark {
-        width: 18px;
-        height: 18px;
-        border: 5px solid var(--green);
-        border-radius: 5px;
-        transform: rotate(45deg);
       }
 
       h1 {
@@ -209,11 +239,28 @@
   </head>
   <body>
     <main>
-      <p class="eyebrow"><span class="mark" aria-hidden="true"></span> Native Cube</p>
+      <a class="brand-lockup" href="./" aria-label="Native Cube home">
+        <svg
+          class="brand-logo"
+          viewBox="0 0 40 40"
+          aria-hidden="true"
+        >
+          <path d="M20 2.5 36 11.3 20 20 4 11.3 20 2.5Z" fill="#126b4b" />
+          <path d="M4 11.3 20 20v17.5L4 28.7V11.3Z" fill="#17231f" />
+          <path d="M36 11.3 20 20v17.5l16-8.8V11.3Z" fill="#8fc8aa" />
+          <path d="m20 8 6 3.3-6 3.2-6-3.2L20 8Z" fill="#f5f3ec" opacity=".9" />
+        </svg>
+        <span class="brand-copy">
+          <span class="brand-name">Native <strong>Cube</strong></span>
+          <span class="brand-tagline">Cloud-native toolbox</span>
+        </span>
+      </a>
+
+      <p class="eyebrow">Purpose-built infrastructure utilities</p>
       <h1>Small tools for cloud-native work.</h1>
       <p class="intro">
-        Focused utilities that run entirely in your browser. No account, no
-        telemetry, no configuration sent anywhere.
+        Focused utilities for building, validating, and shipping infrastructure
+        configuration with less friction.
       </p>
       <p class="author-byline">
         <span>Created and maintained by</span>
@@ -227,9 +274,9 @@
       </p>
 
       <section class="tools" aria-label="Available tools">
-        <a class="tool" href="./k8s-generator/">
+        <a class="tool" href="./k8s-manifest-builder/">
           <span class="tag">Available now</span>
-          <h2>Kubernetes Manifest Studio</h2>
+          <h2>Kubernetes Manifest Builder</h2>
           <p>
             Configure Deployments and StatefulSets, then export clean YAML or JSON.
           </p>
@@ -238,7 +285,7 @@
       </section>
 
       <footer>
-        <span>Built for the terminal-adjacent parts of your day.</span>
+        <span>Native Cube · Built for the terminal-adjacent parts of your day.</span>
         <span
           >A project by
           <a

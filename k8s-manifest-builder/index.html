@@ -8,21 +8,33 @@
       content="Configure Kubernetes Deployments and StatefulSets and export the manifest as YAML or JSON."
     />
     <meta name="author" content="Marcin Cuber" />
-    <title>Kubernetes Manifest Studio — Native Cube</title>
-    <link rel="stylesheet" href="./styles.css?v=4" />
-    <script src="./app.js?v=3" defer></script>
+    <title>Kubernetes Manifest Builder — Native Cube</title>
+    <link rel="stylesheet" href="./styles.css?v=5" />
+    <script src="./app.js?v=5" defer></script>
   </head>
   <body>
     <a class="skip-link" href="#generator-form">Skip to generator</a>
 
     <header class="site-header">
       <a class="brand" href="../" aria-label="Native Cube home">
-        <span class="brand-mark" aria-hidden="true"></span>
-        <span>Native Cube</span>
+        <svg
+          class="brand-logo"
+          viewBox="0 0 40 40"
+          aria-hidden="true"
+        >
+          <path d="M20 2.5 36 11.3 20 20 4 11.3 20 2.5Z" fill="#11684a" />
+          <path d="M4 11.3 20 20v17.5L4 28.7V11.3Z" fill="#18231f" />
+          <path d="M36 11.3 20 20v17.5l16-8.8V11.3Z" fill="#8fc8aa" />
+          <path d="m20 8 6 3.3-6 3.2-6-3.2L20 8Z" fill="#f3f2ec" opacity=".9" />
+        </svg>
+        <span class="brand-copy">
+          <span class="brand-name">Native <strong>Cube</strong></span>
+          <span class="brand-tagline">Cloud-native toolbox</span>
+        </span>
       </a>
-      <div class="header-meta">
-        <span class="privacy-dot" aria-hidden="true"></span>
-        Runs locally in your browser
+      <div class="product-lockup" aria-label="Kubernetes Manifest Builder">
+        <span>Kubernetes</span>
+        <strong>Manifest Builder</strong>
       </div>
     </header>
 
@@ -769,7 +781,7 @@ spec:
     </main>
 
     <footer class="site-footer">
-      <span>Native Cube / Manifest Studio</span>
+      <span><strong>Native Cube</strong> / Kubernetes Manifest Builder</span>
       <div class="footer-links">
         <a
           class="author-credit"
@@ -782,7 +794,7 @@ spec:
           <b aria-hidden="true">↗</b>
         </a>
         <a
-          href="https://kubernetes.io/docs/reference/kubernetes-api/workload-resources/"
+          href="https://kubernetes.io/docs/reference/kubernetes-api/"
           target="_blank"
           rel="noreferrer"
           >Kubernetes API reference ↗</a
