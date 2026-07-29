@@ -5,13 +5,78 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta
       name="description"
-      content="Visually split IPv4 networks, compare address ranges, and share subnet plans."
+      content="Free visual IPv4 subnet calculator for splitting and joining CIDR blocks. Compare usable ranges for standard IPv4, AWS VPC, and Azure VNet."
     />
     <meta name="author" content="Marcin Cuber" />
     <meta name="theme-color" content="#f2f5f9" />
-    <title>Visual Subnet Calculator — Native Cube</title>
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Native Cube" />
+    <meta
+      property="og:title"
+      content="Visual IPv4 Subnet Calculator | Native Cube"
+    />
+    <meta
+      property="og:description"
+      content="Split and join CIDR blocks, compare usable address ranges, and share visual IPv4 subnet plans."
+    />
+    <meta
+      property="og:url"
+      content="https://native-cube.github.io/visual-subnet-calculator/"
+    />
+    <meta name="twitter:card" content="summary" />
+    <meta
+      name="twitter:title"
+      content="Visual IPv4 Subnet Calculator | Native Cube"
+    />
+    <meta
+      name="twitter:description"
+      content="Split and join CIDR blocks, compare usable address ranges, and share visual IPv4 subnet plans."
+    />
+    <link
+      rel="canonical"
+      href="https://native-cube.github.io/visual-subnet-calculator/"
+    />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <title>Visual IPv4 Subnet Calculator | Native Cube</title>
     <link rel="stylesheet" href="./styles.css?v=1" />
     <script src="./app.js?v=1" defer></script>
+    <script type="application/ld+json">
+      [
+        {
+          "@context": "https://schema.org",
+          "@type": "WebPage",
+          "@id": "https://native-cube.github.io/visual-subnet-calculator/#webpage",
+          "url": "https://native-cube.github.io/visual-subnet-calculator/",
+          "name": "Visual IPv4 Subnet Calculator",
+          "description": "Split and join IPv4 CIDR blocks, compare usable ranges, and share visual subnet plans.",
+          "isPartOf": {
+            "@id": "https://native-cube.github.io/#website"
+          },
+          "breadcrumb": {
+            "@id": "https://native-cube.github.io/visual-subnet-calculator/#breadcrumb"
+          }
+        },
+        {
+          "@context": "https://schema.org",
+          "@type": "BreadcrumbList",
+          "@id": "https://native-cube.github.io/visual-subnet-calculator/#breadcrumb",
+          "itemListElement": [
+            {
+              "@type": "ListItem",
+              "position": 1,
+              "name": "Native Cube",
+              "item": "https://native-cube.github.io/"
+            },
+            {
+              "@type": "ListItem",
+              "position": 2,
+              "name": "Visual Subnet Calculator",
+              "item": "https://native-cube.github.io/visual-subnet-calculator/"
+            }
+          ]
+        }
+      ]
+    </script>
   </head>
   <body>
     <a class="skip-link" href="#calculator">Skip to calculator</a>
@@ -39,11 +104,12 @@
       <section class="hero">
         <div>
           <p class="eyebrow">IPv4 / Network planning</p>
-          <h1>See every address.<br /><em>Shape every subnet.</em></h1>
+          <h1>Visualize IPv4 networks.<br /><em>Shape every subnet.</em></h1>
         </div>
         <p class="hero-copy">
-          Turn a CIDR block into a clear, editable network plan. Split, join,
-          annotate, and share subnets without sending any data to a server.
+          Use this free visual IPv4 subnet calculator to turn a CIDR block into
+          a clear network plan. Split, join, annotate, and share subnets without
+          sending data to a server.
         </p>
       </section>
 
@@ -174,7 +240,7 @@
       <section class="guide" aria-labelledby="guide-title">
         <div>
           <span class="step-label">03 / Understand</span>
-          <h2 id="guide-title">Subnetting, at a glance.</h2>
+          <h2 id="guide-title">IPv4 subnetting, at a glance.</h2>
         </div>
         <div class="guide-grid">
           <article>
