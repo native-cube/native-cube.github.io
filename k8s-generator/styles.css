@@ -188,6 +188,7 @@ main {
 .output-panel {
   position: sticky;
   top: 18px;
+  min-width: 0;
   padding: 26px;
 }
 
@@ -891,23 +892,27 @@ main {
 }
 
 .code-frame {
-  display: grid;
+  position: relative;
+  display: flex;
   height: min(670px, calc(100vh - 270px));
   min-height: 450px;
-  grid-template-columns: auto 1fr;
-  overflow: hidden;
+  align-items: stretch;
+  overflow: auto;
   color: #dfe9e3;
   background: var(--navy);
   border: 1px solid #213b34;
   border-radius: 14px;
+  scrollbar-color: #52665f transparent;
+  scrollbar-width: thin;
 }
 
 .code-frame pre {
-  min-width: 0;
+  width: auto;
+  min-width: calc(100% - 48px);
+  flex: 1 0 auto;
   margin: 0;
-  overflow: auto;
-  scrollbar-color: #52665f transparent;
-  scrollbar-width: thin;
+  overflow: visible;
+  color: #dfe9e3;
 }
 
 .code-frame code,
@@ -919,12 +924,18 @@ main {
 }
 
 .code-frame code {
-  min-width: max-content;
+  width: max-content;
+  min-width: 100%;
   padding-left: 12px;
+  color: #dfe9e3;
   white-space: pre;
 }
 
 .code-gutter {
+  position: sticky;
+  left: 0;
+  z-index: 1;
+  flex: 0 0 auto;
   padding-right: 10px;
   color: #6f857b;
   background: rgba(0, 0, 0, 0.08);
