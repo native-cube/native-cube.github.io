@@ -7,6 +7,7 @@
       name="description"
       content="A collection of focused, browser-based tools for cloud-native work."
     />
+    <meta name="author" content="Marcin Cuber" />
     <title>Native Cube — Cloud-native tools</title>
     <style>
       :root {
@@ -71,10 +72,44 @@
 
       .intro {
         max-width: 600px;
-        margin: 28px 0 56px;
+        margin: 28px 0 18px;
         color: var(--muted);
         font-size: 19px;
         line-height: 1.65;
+      }
+
+      .author-byline {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        margin: 0 0 56px;
+        color: var(--muted);
+        font-size: 13px;
+        font-weight: 650;
+      }
+
+      .author-link {
+        display: inline-flex;
+        align-items: center;
+        gap: 7px;
+        padding: 8px 12px;
+        color: var(--green);
+        background: var(--mint);
+        border: 1px solid #c8e4d4;
+        border-radius: 999px;
+        text-decoration: none;
+        font-weight: 850;
+        letter-spacing: -0.01em;
+        transition:
+          color 160ms ease,
+          background 160ms ease,
+          transform 160ms ease;
+      }
+
+      .author-link:hover {
+        color: white;
+        background: var(--green);
+        transform: translateY(-1px);
       }
 
       .tools {
@@ -143,9 +178,32 @@
       }
 
       footer {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 16px;
         margin-top: 72px;
         color: var(--muted);
         font-size: 13px;
+      }
+
+      footer a {
+        color: var(--green);
+        font-weight: 800;
+        text-decoration: none;
+      }
+
+      footer a:hover {
+        text-decoration: underline;
+        text-underline-offset: 3px;
+      }
+
+      @media (max-width: 560px) {
+        .author-byline,
+        footer {
+          align-items: flex-start;
+          flex-direction: column;
+        }
       }
     </style>
   </head>
@@ -156,6 +214,16 @@
       <p class="intro">
         Focused utilities that run entirely in your browser. No account, no
         telemetry, no configuration sent anywhere.
+      </p>
+      <p class="author-byline">
+        <span>Created and maintained by</span>
+        <a
+          class="author-link"
+          href="https://marcincuber.github.io/"
+          target="_blank"
+          rel="author me noreferrer"
+          >Marcin Cuber <span aria-hidden="true">↗</span></a
+        >
       </p>
 
       <section class="tools" aria-label="Available tools">
@@ -169,7 +237,18 @@
         </a>
       </section>
 
-      <footer>Built for the terminal-adjacent parts of your day.</footer>
+      <footer>
+        <span>Built for the terminal-adjacent parts of your day.</span>
+        <span
+          >A project by
+          <a
+            href="https://marcincuber.github.io/"
+            target="_blank"
+            rel="author me noreferrer"
+            >Marcin Cuber</a
+          ></span
+        >
+      </footer>
     </main>
   </body>
 </html>

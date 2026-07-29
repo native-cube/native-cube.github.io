@@ -7,8 +7,9 @@
       name="description"
       content="Configure Kubernetes Deployments and StatefulSets and export the manifest as YAML or JSON."
     />
+    <meta name="author" content="Marcin Cuber" />
     <title>Kubernetes Manifest Studio — Native Cube</title>
-    <link rel="stylesheet" href="./styles.css?v=3" />
+    <link rel="stylesheet" href="./styles.css?v=4" />
     <script src="./app.js?v=3" defer></script>
   </head>
   <body>
@@ -769,12 +770,24 @@ spec:
 
     <footer class="site-footer">
       <span>Native Cube / Manifest Studio</span>
-      <a
-        href="https://kubernetes.io/docs/reference/kubernetes-api/workload-resources/"
-        target="_blank"
-        rel="noreferrer"
-        >Kubernetes API reference ↗</a
-      >
+      <div class="footer-links">
+        <a
+          class="author-credit"
+          href="https://marcincuber.github.io/"
+          target="_blank"
+          rel="author me noreferrer"
+        >
+          <span>Created by</span>
+          <strong>Marcin Cuber</strong>
+          <b aria-hidden="true">↗</b>
+        </a>
+        <a
+          href="https://kubernetes.io/docs/reference/kubernetes-api/workload-resources/"
+          target="_blank"
+          rel="noreferrer"
+          >Kubernetes API reference ↗</a
+        >
+      </div>
     </footer>
 
     <div id="toast" class="toast" role="status" aria-live="polite"></div>
