@@ -200,22 +200,27 @@
 
       .tools {
         display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-        gap: 20px;
+        grid-template-columns: repeat(auto-fit, minmax(280px, 340px));
+        justify-content: center;
+        gap: 28px;
       }
 
       .tool {
         position: relative;
-        display: block;
-        min-height: 250px;
-        padding: 28px;
+        display: flex;
+        aspect-ratio: 1;
+        min-width: 0;
+        flex-direction: column;
+        padding: clamp(24px, 3vw, 30px);
         overflow: hidden;
         color: inherit;
         text-decoration: none;
         background: var(--card);
         border: 1px solid var(--line);
-        border-radius: 20px;
-        box-shadow: 0 20px 48px rgba(23, 55, 94, 0.09);
+        border-radius: 24px;
+        box-shadow:
+          10px 10px 0 rgba(37, 99, 235, 0.045),
+          0 22px 52px rgba(23, 55, 94, 0.1);
         transition:
           border-color 180ms ease,
           transform 180ms ease,
@@ -234,11 +239,16 @@
 
       .tool:hover {
         border-color: #adc7ff;
-        transform: translateY(-4px);
-        box-shadow: 0 24px 58px rgba(23, 55, 94, 0.14);
+        transform: translate(-2px, -5px);
+        box-shadow:
+          14px 16px 0 rgba(37, 99, 235, 0.065),
+          0 28px 62px rgba(23, 55, 94, 0.15);
       }
 
       .tag {
+        position: relative;
+        z-index: 1;
+        align-self: flex-start;
         display: inline-flex;
         padding: 6px 10px;
         color: var(--green);
@@ -248,23 +258,43 @@
         font-weight: 750;
       }
 
+      .tool-cube {
+        position: absolute;
+        top: 26px;
+        right: 26px;
+        width: 74px;
+        height: 74px;
+        opacity: 0.12;
+        filter: drop-shadow(0 8px 10px rgba(37, 99, 235, 0.14));
+        transition:
+          opacity 180ms ease,
+          transform 180ms ease;
+      }
+
+      .tool:hover .tool-cube {
+        opacity: 0.2;
+        transform: translateY(-3px) scale(1.04);
+      }
+
       .tool h2 {
-        margin: 48px 0 10px;
-        font-size: 28px;
+        max-width: 270px;
+        margin: auto 0 10px;
+        font-size: clamp(24px, 3vw, 28px);
         letter-spacing: -0.035em;
       }
 
       .tool p {
-        max-width: 420px;
-        margin: 0;
+        max-width: 260px;
+        margin: 0 34px 46px 0;
         color: var(--muted);
+        font-size: 14px;
         line-height: 1.55;
       }
 
       .arrow {
         position: absolute;
-        right: 28px;
-        bottom: 24px;
+        right: clamp(24px, 3vw, 30px);
+        bottom: clamp(22px, 3vw, 28px);
         display: grid;
         width: 38px;
         height: 38px;
@@ -297,6 +327,11 @@
       }
 
       @media (max-width: 560px) {
+        .tools {
+          grid-template-columns: minmax(0, 340px);
+          gap: 22px;
+        }
+
         .author-byline,
         footer {
           align-items: flex-start;
@@ -344,19 +379,37 @@
       <section class="tools" aria-label="Available tools">
         <a class="tool" href="./k8s-manifest-builder/">
           <span class="tag">Available now</span>
+          <svg
+            class="tool-cube"
+            viewBox="0 0 40 40"
+            aria-hidden="true"
+          >
+            <path d="M20 2.5 36 11.3 20 20 4 11.3 20 2.5Z" fill="#2563eb" />
+            <path d="M4 11.3 20 20v17.5L4 28.7V11.3Z" fill="#14243b" />
+            <path d="M36 11.3 20 20v17.5l16-8.8V11.3Z" fill="#22a77a" />
+            <path d="m20 8 6 3.3-6 3.2-6-3.2L20 8Z" fill="#f2f5f9" />
+          </svg>
           <h2>Kubernetes Manifest Builder</h2>
           <p>
-            Generate Kubernetes Deployment and StatefulSet manifests, then export
-            clean YAML or JSON.
+            Build Kubernetes workloads and export clean YAML or JSON manifests.
           </p>
           <span class="arrow" aria-hidden="true">↗</span>
         </a>
         <a class="tool" href="./visual-subnet-calculator/">
           <span class="tag">Available now</span>
+          <svg
+            class="tool-cube"
+            viewBox="0 0 40 40"
+            aria-hidden="true"
+          >
+            <path d="M20 2.5 36 11.3 20 20 4 11.3 20 2.5Z" fill="#2563eb" />
+            <path d="M4 11.3 20 20v17.5L4 28.7V11.3Z" fill="#14243b" />
+            <path d="M36 11.3 20 20v17.5l16-8.8V11.3Z" fill="#22a77a" />
+            <path d="m20 8 6 3.3-6 3.2-6-3.2L20 8Z" fill="#f2f5f9" />
+          </svg>
           <h2>Visual Subnet Calculator</h2>
           <p>
-            Split CIDR blocks, compare usable IPv4 ranges, and share visual subnet
-            plans.
+            Split IPv4 CIDR blocks and share clear, visual subnet plans.
           </p>
           <span class="arrow" aria-hidden="true">↗</span>
         </a>
