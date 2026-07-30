@@ -963,6 +963,7 @@
       const active = tab.dataset.sectionTarget === sectionNames[activeSection];
       tab.classList.toggle("is-active", active);
       tab.setAttribute("aria-selected", String(active));
+      tab.tabIndex = active ? 0 : -1;
     });
 
     byId("previous-section").disabled = activeSection === 0;
@@ -986,7 +987,9 @@
     previousName = "web-app";
     outputFormat = "yaml";
     document.querySelectorAll(".format-button").forEach((button) => {
-      button.classList.toggle("is-active", button.dataset.format === "yaml");
+      const active = button.dataset.format === "yaml";
+      button.classList.toggle("is-active", active);
+      button.setAttribute("aria-pressed", String(active));
     });
     syncKindUI();
     showSection(0);
@@ -1060,9 +1063,24 @@
     }
   });
 
-  document.querySelectorAll(".section-tab").forEach((tab) => {
+  const sectionTabs = [...document.querySelectorAll(".section-tab")];
+  sectionTabs.forEach((tab, index) => {
     tab.addEventListener("click", () => {
       showSection(sectionNames.indexOf(tab.dataset.sectionTarget));
+    });
+    tab.addEventListener("keydown", (event) => {
+      let nextIndex;
+      if (event.key === "ArrowRight") nextIndex = (index + 1) % sectionTabs.length;
+      if (event.key === "ArrowLeft") {
+        nextIndex = (index - 1 + sectionTabs.length) % sectionTabs.length;
+      }
+      if (event.key === "Home") nextIndex = 0;
+      if (event.key === "End") nextIndex = sectionTabs.length - 1;
+      if (nextIndex === undefined) return;
+
+      event.preventDefault();
+      showSection(nextIndex);
+      sectionTabs[nextIndex].focus();
     });
   });
 
@@ -1070,7 +1088,9 @@
     button.addEventListener("click", () => {
       outputFormat = button.dataset.format;
       document.querySelectorAll(".format-button").forEach((candidate) => {
-        candidate.classList.toggle("is-active", candidate === button);
+        const active = candidate === button;
+        candidate.classList.toggle("is-active", active);
+        candidate.setAttribute("aria-pressed", String(active));
       });
       render();
     });

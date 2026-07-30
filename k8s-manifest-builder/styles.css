@@ -15,8 +15,10 @@
   --mint-strong: #c6d8ff;
   --navy: #0d2038;
   --success: #16805a;
+  --success-strong: #126b4c;
   --success-soft: #e1f3ea;
   --red: #b33d4a;
+  --muted-strong: #53647b;
   --shadow: 0 20px 56px rgba(23, 55, 94, 0.1);
 }
 
@@ -919,7 +921,7 @@ main {
   align-items: center;
   gap: 7px;
   padding: 6px 9px;
-  color: var(--success);
+  color: var(--success-strong);
   background: var(--success-soft);
   border-radius: 999px;
   font-size: 10px;
@@ -929,7 +931,7 @@ main {
 .status-pill span {
   width: 6px;
   height: 6px;
-  background: var(--success);
+  background: var(--success-strong);
   border-radius: 50%;
 }
 
@@ -959,7 +961,7 @@ main {
 .format-button {
   min-width: 58px;
   padding: 7px 10px;
-  color: var(--muted);
+  color: var(--muted-strong);
   background: transparent;
   border: 0;
   border-radius: 7px;
@@ -1115,7 +1117,7 @@ main {
 }
 
 .author-credit span {
-  color: var(--muted);
+  color: var(--muted-strong);
   font-size: 9px;
   font-weight: 650;
 }
