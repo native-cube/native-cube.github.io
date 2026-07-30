@@ -20,6 +20,18 @@ editable plan. Subnets can be split, joined, color-coded, annotated, exported
 as JSON, or shared through a URL. Standard IPv4, AWS VPC, and Azure VNet
 address reservation policies are supported.
 
+## YAML & JSON Formatter
+
+Open `/yaml-formatter/` to validate, format, and convert YAML or JSON
+entirely in the browser. The editor auto-detects the input format, reports
+syntax errors with line and column details, supports multi-document YAML, and
+can copy or download the formatted result.
+
+The shorter `/json-formatter/` alias redirects to this tool.
+
+YAML parsing and serialization use the vendored `js-yaml` 4.1.0 browser
+bundle, distributed under the MIT license included with the tool.
+
 ## To preview locally
 
 ```sh
@@ -28,3 +40,4 @@ python3 -m http.server 8080
 
 - `http://localhost:8080/k8s-manifest-builder/`
 - `http://localhost:8080/visual-subnet-calculator/`
+- `http://localhost:8080/yaml-formatter/`

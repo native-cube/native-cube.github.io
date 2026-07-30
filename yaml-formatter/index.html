@@ -1,0 +1,334 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta
+      name="description"
+      content="Format, validate, and convert YAML and JSON in your browser. Get clear syntax errors without uploading your data."
+    />
+    <meta name="author" content="Marcin Cuber" />
+    <meta name="theme-color" content="#f2f5f9" />
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Native Cube" />
+    <meta
+      property="og:title"
+      content="YAML &amp; JSON Formatter and Validator | Native Cube"
+    />
+    <meta
+      property="og:description"
+      content="Format, validate, and convert YAML and JSON locally in your browser."
+    />
+    <meta
+      property="og:url"
+      content="https://native-cube.github.io/yaml-formatter/"
+    />
+    <meta name="twitter:card" content="summary" />
+    <meta
+      name="twitter:title"
+      content="YAML &amp; JSON Formatter and Validator | Native Cube"
+    />
+    <meta
+      name="twitter:description"
+      content="Format, validate, and convert YAML and JSON locally in your browser."
+    />
+    <link
+      rel="canonical"
+      href="https://native-cube.github.io/yaml-formatter/"
+    />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <title>YAML &amp; JSON Formatter and Validator | Native Cube</title>
+    <link rel="stylesheet" href="./styles.css?v=1" />
+    <script src="./vendor/js-yaml.min.js?v=4.1.0" defer></script>
+    <script src="./app.js?v=1" defer></script>
+    <script type="application/ld+json">
+      [
+        {
+          "@context": "https://schema.org",
+          "@type": "WebApplication",
+          "@id": "https://native-cube.github.io/yaml-formatter/#application",
+          "url": "https://native-cube.github.io/yaml-formatter/",
+          "name": "YAML & JSON Formatter and Validator",
+          "description": "Format, validate, and convert YAML and JSON locally in your browser.",
+          "applicationCategory": "DeveloperApplication",
+          "operatingSystem": "Any",
+          "isAccessibleForFree": true,
+          "browserRequirements": "Requires JavaScript",
+          "isPartOf": {
+            "@id": "https://native-cube.github.io/#website"
+          }
+        },
+        {
+          "@context": "https://schema.org",
+          "@type": "BreadcrumbList",
+          "@id": "https://native-cube.github.io/yaml-formatter/#breadcrumb",
+          "itemListElement": [
+            {
+              "@type": "ListItem",
+              "position": 1,
+              "name": "Native Cube",
+              "item": "https://native-cube.github.io/"
+            },
+            {
+              "@type": "ListItem",
+              "position": 2,
+              "name": "YAML & JSON Formatter",
+              "item": "https://native-cube.github.io/yaml-formatter/"
+            }
+          ]
+        }
+      ]
+    </script>
+  </head>
+  <body>
+    <a class="skip-link" href="#source-editor">Skip to editor</a>
+
+    <header class="site-header">
+      <a class="brand" href="../" aria-label="Native Cube home">
+        <svg class="brand-logo" viewBox="0 0 40 40" aria-hidden="true">
+          <path d="M20 2.5 36 11.3 20 20 4 11.3 20 2.5Z" fill="#2563eb" />
+          <path d="M4 11.3 20 20v17.5L4 28.7V11.3Z" fill="#14243b" />
+          <path d="M36 11.3 20 20v17.5l16-8.8V11.3Z" fill="#22a77a" />
+          <path d="m20 8 6 3.3-6 3.2-6-3.2L20 8Z" fill="#f2f5f9" opacity=".95" />
+        </svg>
+        <span class="brand-copy">
+          <span class="brand-name">Native <strong>Cube</strong></span>
+          <span class="brand-tagline">Cloud-native toolbox</span>
+        </span>
+      </a>
+      <div class="product-lockup" aria-label="YAML and JSON Formatter">
+        <span>Data formats</span>
+        <strong>YAML &amp; JSON Formatter</strong>
+      </div>
+    </header>
+
+    <main>
+      <section class="hero">
+        <div>
+          <p class="eyebrow">YAML / JSON</p>
+          <h1>Clean up your config.<br /><em>Catch every error.</em></h1>
+        </div>
+        <p class="hero-copy">
+          Format, validate, and convert YAML or JSON without leaving your
+          browser. Your source stays local, from first paste to final copy.
+        </p>
+      </section>
+
+      <section class="tool-shell" aria-labelledby="tool-title">
+        <div class="tool-heading">
+          <div>
+            <span class="step-label">01 / Transform</span>
+            <h2 id="tool-title">Format and validate</h2>
+          </div>
+          <div class="privacy-badge">
+            <span aria-hidden="true">◆</span>
+            Browser only
+          </div>
+        </div>
+
+        <div class="settings-bar" aria-label="Formatting options">
+          <fieldset class="segmented-field">
+            <legend>Input</legend>
+            <div class="segmented-control">
+              <label>
+                <input type="radio" name="input-format" value="auto" checked />
+                <span>Auto</span>
+              </label>
+              <label>
+                <input type="radio" name="input-format" value="yaml" />
+                <span>YAML</span>
+              </label>
+              <label>
+                <input type="radio" name="input-format" value="json" />
+                <span>JSON</span>
+              </label>
+            </div>
+          </fieldset>
+
+          <label class="select-field">
+            <span>Output</span>
+            <select id="output-format">
+              <option value="same">Same as input</option>
+              <option value="yaml">YAML</option>
+              <option value="json">JSON</option>
+            </select>
+          </label>
+
+          <label class="select-field">
+            <span>Indent</span>
+            <select id="indent-size">
+              <option value="2">2 spaces</option>
+              <option value="4">4 spaces</option>
+            </select>
+          </label>
+
+          <label class="check-field">
+            <input id="sort-keys" type="checkbox" />
+            <span>
+              <strong>Sort keys</strong>
+              <small>Alphabetically</small>
+            </span>
+          </label>
+
+          <div class="primary-actions">
+            <button id="format-button" class="primary-button" type="button">
+              Format &amp; validate
+              <span aria-hidden="true">→</span>
+            </button>
+          </div>
+        </div>
+
+        <div class="editor-grid">
+          <section class="editor-card" aria-labelledby="source-title">
+            <div class="editor-heading">
+              <div>
+                <span class="editor-index">01</span>
+                <h3 id="source-title">Source</h3>
+                <span id="detected-format" class="format-label">Auto detect</span>
+              </div>
+              <div class="editor-actions">
+                <button id="sample-button" class="text-button" type="button">
+                  Load sample
+                </button>
+                <button id="clear-button" class="text-button" type="button">
+                  Clear
+                </button>
+              </div>
+            </div>
+            <div class="editor-frame">
+              <pre id="source-lines" class="line-numbers" aria-hidden="true">1</pre>
+              <textarea
+                id="source-editor"
+                aria-label="YAML or JSON source"
+                aria-describedby="validation-message"
+                autocomplete="off"
+                autocapitalize="off"
+                spellcheck="false"
+                wrap="off"
+              >apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: app-config
+  labels:
+    environment: production
+data:
+  LOG_LEVEL: info
+  FEATURE_FLAGS: "search,dashboard"
+</textarea
+              >
+            </div>
+            <div class="editor-meta">
+              <span id="source-stats">9 lines · 169 characters</span>
+              <span>Tab inserts spaces</span>
+            </div>
+          </section>
+
+          <section class="editor-card output-card" aria-labelledby="output-title">
+            <div class="editor-heading">
+              <div>
+                <span class="editor-index">02</span>
+                <h3 id="output-title">Formatted output</h3>
+                <span id="output-format-label" class="format-label">YAML</span>
+              </div>
+              <div class="editor-actions">
+                <button id="use-output-button" class="text-button" type="button" disabled>
+                  Use as source
+                </button>
+                <button id="copy-button" class="text-button" type="button" disabled>
+                  Copy
+                </button>
+                <button id="download-button" class="text-button" type="button" disabled>
+                  Download
+                </button>
+              </div>
+            </div>
+            <div class="editor-frame">
+              <pre id="output-lines" class="line-numbers" aria-hidden="true">1</pre>
+              <textarea
+                id="output-editor"
+                aria-label="Formatted output"
+                readonly
+                spellcheck="false"
+                wrap="off"
+                placeholder="Formatted output will appear here."
+              ></textarea>
+            </div>
+            <div class="editor-meta">
+              <span id="output-stats">Waiting for valid input</span>
+              <span id="document-count"></span>
+            </div>
+          </section>
+        </div>
+
+        <div
+          id="validation-panel"
+          class="validation-panel is-idle"
+          role="status"
+          aria-live="polite"
+        >
+          <span class="status-icon" aria-hidden="true"></span>
+          <div>
+            <strong id="validation-title">Ready when you are</strong>
+            <p id="validation-message">
+              Paste YAML or JSON, then format it or press
+              <kbd>Ctrl</kbd>/<kbd>⌘</kbd> + <kbd>Enter</kbd>.
+            </p>
+          </div>
+          <button id="error-location" class="location-button" type="button" hidden></button>
+        </div>
+      </section>
+
+      <section class="guide" aria-labelledby="guide-title">
+        <div>
+          <span class="step-label">02 / Why it helps</span>
+          <h2 id="guide-title">Configuration, made legible.</h2>
+        </div>
+        <div class="guide-grid">
+          <article>
+            <span>01</span>
+            <h3>Validate precisely</h3>
+            <p>
+              Find malformed mappings, arrays, strings, and indentation with a
+              clear line and column whenever the parser can identify them.
+            </p>
+          </article>
+          <article>
+            <span>02</span>
+            <h3>Convert either way</h3>
+            <p>
+              Turn YAML into JSON or JSON into YAML while keeping nested
+              objects, arrays, booleans, numbers, and null values intact.
+            </p>
+          </article>
+          <article>
+            <span>03</span>
+            <h3>Keep data private</h3>
+            <p>
+              Parsing and formatting happen locally. Nothing is uploaded,
+              stored, or added to a URL.
+            </p>
+          </article>
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <span>Native Cube · Built for the terminal-adjacent parts of your day.</span>
+      <div class="footer-links">
+        <a
+          class="author-credit"
+          href="https://marcincuber.github.io/"
+          target="_blank"
+          rel="author me noreferrer"
+        >
+          <span>Created by</span>
+          <strong>Marcin Cuber</strong>
+          <b aria-hidden="true">↗</b>
+        </a>
+        <a href="../">Explore all tools <span aria-hidden="true">↗</span></a>
+      </div>
+    </footer>
+
+    <div id="toast" class="toast" role="status" aria-live="polite"></div>
+  </body>
+</html>
