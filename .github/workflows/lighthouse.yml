@@ -1,0 +1,39 @@
+name: Lighthouse and SEO
+
+on:
+  pull_request:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v6
+
+      - name: Validate SEO metadata and canonical URLs
+        run: python3 scripts/seo-audit.py
+
+      - name: Start static preview
+        run: |
+          python3 -m http.server 8080 > /tmp/native-cube-http.log 2>&1 &
+          curl --fail --retry 5 --retry-connrefused --retry-delay 1 \
+            http://127.0.0.1:8080/
+
+      - name: Run Lighthouse
+        uses: treosh/lighthouse-ci-action@v12
+        with:
+          configPath: ./lighthouserc.json
+          uploadArtifacts: true
+          urls: |
+            http://127.0.0.1:8080/
+            http://127.0.0.1:8080/k8s-manifest-builder/
+            http://127.0.0.1:8080/visual-subnet-calculator/
+            http://127.0.0.1:8080/yaml-formatter/

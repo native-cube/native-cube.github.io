@@ -41,3 +41,21 @@ python3 -m http.server 8080
 - `http://localhost:8080/k8s-manifest-builder/`
 - `http://localhost:8080/visual-subnet-calculator/`
 - `http://localhost:8080/yaml-formatter/`
+
+## Quality and search checks
+
+Run the repository SEO audit locally:
+
+```sh
+python3 scripts/seo-audit.py
+```
+
+The `Lighthouse and SEO` GitHub Actions workflow audits every canonical page
+on pull requests and pushes to `main`. It enforces minimum performance,
+accessibility, best-practices, and SEO scores together with lab thresholds for
+Largest Contentful Paint, cumulative layout shift, and total blocking time.
+
+Google Search Console requires account-issued ownership verification. Follow
+[`SEARCH_CONSOLE.md`](./SEARCH_CONSOLE.md) to add the URL-prefix property,
+install the unmodified verification file, submit the sitemap, and request
+indexing for each canonical page.

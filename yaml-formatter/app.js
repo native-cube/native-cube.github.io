@@ -3,27 +3,28 @@
 
   if (typeof document === "undefined") return;
 
-  const SAMPLE = `apiVersion: apps/v1
-kind: Deployment
-metadata:
-  name: web-app
-  labels:
-    app: web
-spec:
-  replicas: 3
-  selector:
-    matchLabels:
-      app: web
-  template:
-    metadata:
-      labels:
-        app: web
-    spec:
-      containers:
-        - name: web
-          image: nginx:1.27
-          ports:
-            - containerPort: 80
+  const YAML_EXAMPLE = `service:
+  name: catalog-api
+  enabled: true
+  ports:
+    - 8080
+    - 8443
+  environment:
+    LOG_LEVEL: info
+`;
+  const JSON_EXAMPLE = `{
+  "service": {
+    "name": "catalog-api",
+    "enabled": true,
+    "ports": [
+      8080,
+      8443
+    ],
+    "environment": {
+      "LOG_LEVEL": "info"
+    }
+  }
+}
 `;
 
   const byId = (id) => document.getElementById(id);
@@ -349,6 +350,18 @@ spec:
     updateStats(sourceEditor, byId("source-stats"));
   }
 
+  function loadExample(format) {
+    sourceEditor.value = format === "json" ? JSON_EXAMPLE : YAML_EXAMPLE;
+    document.querySelector(
+      `input[name="input-format"][value="${format}"]`,
+    ).checked = true;
+    outputFormat.value = "same";
+    updateSourceMeta();
+    validateAndFormat({ quiet: true });
+    sourceEditor.focus();
+    showToast(`${formatName(format)} example loaded.`);
+  }
+
   function insertIndent(event) {
     if (event.key !== "Tab") return;
     event.preventDefault();
@@ -388,13 +401,17 @@ spec:
   errorLocation.addEventListener("click", focusError);
 
   byId("sample-button").addEventListener("click", () => {
-    sourceEditor.value = SAMPLE;
-    document.querySelector('input[name="input-format"][value="auto"]').checked = true;
-    outputFormat.value = "same";
-    updateSourceMeta();
-    validateAndFormat({ quiet: true });
-    sourceEditor.focus();
-    showToast("Sample YAML loaded.");
+    loadExample("yaml");
+  });
+
+  document.querySelectorAll("[data-load-example]").forEach((button) => {
+    button.addEventListener("click", () => {
+      loadExample(button.dataset.loadExample);
+      const behavior = window.matchMedia("(prefers-reduced-motion: reduce)").matches
+        ? "auto"
+        : "smooth";
+      sourceEditor.scrollIntoView({ behavior, block: "center" });
+    });
   });
 
   byId("clear-button").addEventListener("click", () => {

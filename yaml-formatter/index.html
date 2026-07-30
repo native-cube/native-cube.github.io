@@ -23,7 +23,17 @@
       property="og:url"
       content="https://native-cube.github.io/yaml-formatter/"
     />
-    <meta name="twitter:card" content="summary" />
+    <meta
+      property="og:image"
+      content="https://native-cube.github.io/assets/social/yaml-formatter.png"
+    />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta
+      property="og:image:alt"
+      content="Native Cube YAML and JSON Formatter and Validator"
+    />
+    <meta name="twitter:card" content="summary_large_image" />
     <meta
       name="twitter:title"
       content="YAML &amp; JSON Formatter and Validator | Native Cube"
@@ -31,6 +41,14 @@
     <meta
       name="twitter:description"
       content="Format, validate, and convert YAML and JSON locally in your browser."
+    />
+    <meta
+      name="twitter:image"
+      content="https://native-cube.github.io/assets/social/yaml-formatter.png"
+    />
+    <meta
+      name="twitter:image:alt"
+      content="Native Cube YAML and JSON Formatter and Validator"
     />
     <link
       rel="canonical"
@@ -50,6 +68,7 @@
           "url": "https://native-cube.github.io/yaml-formatter/",
           "name": "YAML & JSON Formatter and Validator",
           "description": "Format, validate, and convert YAML and JSON locally in your browser.",
+          "image": "https://native-cube.github.io/assets/social/yaml-formatter.png",
           "applicationCategory": "DeveloperApplication",
           "operatingSystem": "Any",
           "isAccessibleForFree": true,
@@ -306,6 +325,141 @@ data:
             <p>
               Parsing and formatting happen locally. Nothing is uploaded,
               stored, or added to a URL.
+            </p>
+          </article>
+        </div>
+      </section>
+
+      <section class="examples-section" aria-labelledby="examples-title">
+        <div class="content-heading">
+          <div>
+            <span class="step-label">03 / Try an example</span>
+            <h2 id="examples-title">See clean configuration in both formats.</h2>
+          </div>
+          <p>
+            Load either example into the editor to validate it, change the
+            indentation, sort its keys, or convert it to the other format.
+          </p>
+        </div>
+
+        <div class="example-grid">
+          <article>
+            <div class="example-heading">
+              <div>
+                <span>YAML</span>
+                <h3>A readable service configuration</h3>
+              </div>
+              <button
+                class="example-button"
+                type="button"
+                data-load-example="yaml"
+              >
+                Open in formatter
+              </button>
+            </div>
+            <pre><code>service:
+  name: catalog-api
+  enabled: true
+  ports:
+    - 8080
+    - 8443
+  environment:
+    LOG_LEVEL: info</code></pre>
+          </article>
+
+          <article>
+            <div class="example-heading">
+              <div>
+                <span>JSON</span>
+                <h3>The same data with explicit syntax</h3>
+              </div>
+              <button
+                class="example-button"
+                type="button"
+                data-load-example="json"
+              >
+                Open in formatter
+              </button>
+            </div>
+            <pre><code>{
+  "service": {
+    "name": "catalog-api",
+    "enabled": true,
+    "ports": [8080, 8443],
+    "environment": {
+      "LOG_LEVEL": "info"
+    }
+  }
+}</code></pre>
+          </article>
+        </div>
+      </section>
+
+      <section class="troubleshooting" aria-labelledby="troubleshooting-title">
+        <div class="content-heading">
+          <div>
+            <span class="step-label">04 / Fix common errors</span>
+            <h2 id="troubleshooting-title">Why YAML or JSON validation fails.</h2>
+          </div>
+          <p>
+            Most syntax failures come from a small set of punctuation and
+            indentation mistakes. The validator points to the closest known
+            line and column so you can correct them quickly.
+          </p>
+        </div>
+
+        <div class="troubleshooting-grid">
+          <article>
+            <span>YAML indentation</span>
+            <h3>Use spaces and align sibling values</h3>
+            <p>
+              YAML uses indentation to define structure. Do not mix tabs and
+              spaces, and keep values at the same level aligned. The editor’s
+              Tab key inserts spaces automatically.
+            </p>
+          </article>
+          <article>
+            <span>YAML strings</span>
+            <h3>Quote ambiguous values</h3>
+            <p>
+              Quote strings containing a colon followed by a space or a hash
+              preceded by a space. Otherwise YAML may interpret the value as a
+              mapping or comment.
+            </p>
+          </article>
+          <article>
+            <span>JSON punctuation</span>
+            <h3>Use double quotes and exact commas</h3>
+            <p>
+              JSON requires double-quoted property names and strings. Separate
+              items with commas, but do not leave a trailing comma before a
+              closing brace or bracket.
+            </p>
+          </article>
+          <article>
+            <span>JSON structure</span>
+            <h3>Match every brace and bracket</h3>
+            <p>
+              Objects use braces and arrays use brackets. A missing or extra
+              closing character can make the remainder of an otherwise valid
+              document fail to parse.
+            </p>
+          </article>
+          <article>
+            <span>Multiple documents</span>
+            <h3>Separate YAML documents explicitly</h3>
+            <p>
+              Place <code>---</code> on its own line between YAML documents.
+              When converted to JSON, a multi-document stream becomes a JSON
+              array containing each document.
+            </p>
+          </article>
+          <article>
+            <span>Private by design</span>
+            <h3>Your configuration stays local</h3>
+            <p>
+              Validation and conversion happen in this browser. Native Cube
+              does not upload, log, or retain the YAML and JSON you paste.
             </p>
           </article>
         </div>
