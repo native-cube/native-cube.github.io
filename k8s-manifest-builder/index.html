@@ -173,21 +173,62 @@
           </fieldset>
 
           <div class="section-nav" role="tablist" aria-label="Configuration sections">
-            <button type="button" class="section-tab is-active" data-section-target="basics">
+            <button
+              id="section-tab-basics"
+              class="section-tab is-active"
+              type="button"
+              role="tab"
+              aria-controls="section-panel-basics"
+              aria-selected="true"
+              data-section-target="basics"
+            >
               Basics
             </button>
-            <button type="button" class="section-tab" data-section-target="container">
+            <button
+              id="section-tab-container"
+              class="section-tab"
+              type="button"
+              role="tab"
+              aria-controls="section-panel-container"
+              aria-selected="false"
+              data-section-target="container"
+              tabindex="-1"
+            >
               Container
             </button>
-            <button type="button" class="section-tab" data-section-target="runtime">
+            <button
+              id="section-tab-runtime"
+              class="section-tab"
+              type="button"
+              role="tab"
+              aria-controls="section-panel-runtime"
+              aria-selected="false"
+              data-section-target="runtime"
+              tabindex="-1"
+            >
               Runtime
             </button>
-            <button type="button" class="section-tab" data-section-target="advanced">
+            <button
+              id="section-tab-advanced"
+              class="section-tab"
+              type="button"
+              role="tab"
+              aria-controls="section-panel-advanced"
+              aria-selected="false"
+              data-section-target="advanced"
+              tabindex="-1"
+            >
               Advanced
             </button>
           </div>
 
-          <div class="form-section is-active" data-section="basics">
+          <div
+            id="section-panel-basics"
+            class="form-section is-active"
+            role="tabpanel"
+            aria-labelledby="section-tab-basics"
+            data-section="basics"
+          >
             <div class="section-intro">
               <span class="section-number">01</span>
               <div>
@@ -256,7 +297,14 @@
             </div>
           </div>
 
-          <div class="form-section" data-section="container" hidden>
+          <div
+            id="section-panel-container"
+            class="form-section"
+            role="tabpanel"
+            aria-labelledby="section-tab-container"
+            data-section="container"
+            hidden
+          >
             <div class="section-intro">
               <span class="section-number">02</span>
               <div>
@@ -352,7 +400,14 @@
             </div>
           </div>
 
-          <div class="form-section" data-section="runtime" hidden>
+          <div
+            id="section-panel-runtime"
+            class="form-section"
+            role="tabpanel"
+            aria-labelledby="section-tab-runtime"
+            data-section="runtime"
+            hidden
+          >
             <div class="section-intro">
               <span class="section-number">03</span>
               <div>
@@ -561,7 +616,14 @@
             </div>
           </div>
 
-          <div class="form-section" data-section="advanced" hidden>
+          <div
+            id="section-panel-advanced"
+            class="form-section"
+            role="tabpanel"
+            aria-labelledby="section-tab-advanced"
+            data-section="advanced"
+            hidden
+          >
             <div class="section-intro">
               <span class="section-number">04</span>
               <div>
@@ -867,15 +929,34 @@
               <span class="step-label">02 / Export</span>
               <h2>Generated manifest</h2>
             </div>
-            <div id="validation-status" class="status-pill"><span></span> Ready</div>
+            <div
+              id="validation-status"
+              class="status-pill"
+              role="status"
+              aria-live="polite"
+            >
+              <span></span> Ready
+            </div>
           </div>
 
           <div class="output-toolbar">
             <div class="format-picker" role="group" aria-label="Output format">
-              <button class="format-button is-active" type="button" data-format="yaml">
+              <button
+                class="format-button is-active"
+                type="button"
+                aria-pressed="true"
+                data-format="yaml"
+              >
                 YAML
               </button>
-              <button class="format-button" type="button" data-format="json">JSON</button>
+              <button
+                class="format-button"
+                type="button"
+                aria-pressed="false"
+                data-format="json"
+              >
+                JSON
+              </button>
             </div>
             <span id="line-count" class="line-count">0 lines</span>
           </div>
