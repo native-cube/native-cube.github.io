@@ -98,6 +98,7 @@ summary:focus-visible {
 }
 
 .site-header,
+.sponsor-message,
 .site-footer,
 main {
   width: min(1480px, calc(100% - 56px));
@@ -167,6 +168,72 @@ main {
 .product-lockup strong {
   font-size: 11px;
   letter-spacing: -0.01em;
+}
+
+.header-actions {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+}
+
+.sponsor-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  min-height: 40px;
+  padding: 8px 15px;
+  color: white;
+  background: linear-gradient(135deg, #2563eb, #174ea6);
+  border: 1px solid #174ea6;
+  border-radius: 999px;
+  box-shadow:
+    0 8px 20px rgba(37, 99, 235, 0.28),
+    inset 0 1px 0 rgba(255, 255, 255, 0.2);
+  text-decoration: none;
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: -0.01em;
+  white-space: nowrap;
+  transition:
+    background 160ms ease,
+    box-shadow 160ms ease,
+    transform 160ms ease;
+}
+
+.sponsor-link:hover {
+  color: white;
+  background: linear-gradient(135deg, #3473f4, #1c57ba);
+  box-shadow:
+    0 11px 26px rgba(37, 99, 235, 0.36),
+    inset 0 1px 0 rgba(255, 255, 255, 0.24);
+  transform: translateY(-2px);
+}
+
+.sponsor-link:focus-visible {
+  outline: 3px solid rgba(37, 99, 235, 0.35);
+  outline-offset: 3px;
+}
+
+.sponsor-message {
+  margin-top: 16px;
+  margin-bottom: 0;
+  padding: 12px 16px;
+  color: var(--muted);
+  background: linear-gradient(90deg, rgba(232, 240, 255, 0.94), rgba(251, 253, 255, 0.86));
+  border: 1px solid var(--line);
+  border-left: 4px solid var(--brand-accent);
+  border-radius: 12px;
+  font-size: 12px;
+  line-height: 1.55;
+  box-shadow: 0 8px 24px rgba(27, 42, 35, 0.06);
+}
+
+.sponsor-message strong {
+  color: var(--ink);
+}
+
+.sponsor-message + main .hero {
+  padding-top: 44px;
 }
 
 .hero {
@@ -1184,6 +1251,7 @@ main {
 
 @media (max-width: 1100px) {
   .site-header,
+  .sponsor-message,
   .site-footer,
   main {
     width: min(100% - 32px, 920px);
@@ -1214,6 +1282,7 @@ main {
 
 @media (max-width: 680px) {
   .site-header,
+  .sponsor-message,
   .site-footer,
   main {
     width: min(100% - 22px, 620px);
@@ -1224,13 +1293,24 @@ main {
   }
 
   .brand-tagline,
-  .product-lockup span {
+  .product-lockup {
     display: none;
   }
 
-  .product-lockup strong {
-    max-width: 80px;
-    text-align: right;
+  .header-actions {
+    gap: 0;
+  }
+
+  .sponsor-link {
+    min-height: 36px;
+    padding: 7px 11px;
+    font-size: 11px;
+  }
+
+  .sponsor-message {
+    margin-top: 12px;
+    padding: 11px 13px;
+    font-size: 11px;
   }
 
   .hero {

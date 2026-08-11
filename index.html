@@ -121,9 +121,71 @@
         display: inline-flex;
         align-items: center;
         gap: 13px;
-        margin-bottom: 88px;
         color: var(--ink);
         text-decoration: none;
+      }
+
+      .landing-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 20px;
+        margin-bottom: 18px;
+      }
+
+      .sponsor-link {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        min-height: 42px;
+        padding: 9px 16px;
+        color: white;
+        background: linear-gradient(135deg, #2563eb, #174ea6);
+        border: 1px solid #174ea6;
+        border-radius: 999px;
+        box-shadow:
+          0 9px 22px rgba(37, 99, 235, 0.28),
+          inset 0 1px 0 rgba(255, 255, 255, 0.2);
+        text-decoration: none;
+        font-size: 13px;
+        font-weight: 850;
+        letter-spacing: -0.01em;
+        white-space: nowrap;
+        transition:
+          background 160ms ease,
+          box-shadow 160ms ease,
+          transform 160ms ease;
+      }
+
+      .sponsor-link:hover {
+        color: white;
+        background: linear-gradient(135deg, #3473f4, #1c57ba);
+        box-shadow:
+          0 12px 28px rgba(37, 99, 235, 0.36),
+          inset 0 1px 0 rgba(255, 255, 255, 0.24);
+        transform: translateY(-2px);
+      }
+
+      .sponsor-link:focus-visible {
+        outline: 3px solid rgba(37, 99, 235, 0.35);
+        outline-offset: 3px;
+      }
+
+      .sponsor-message {
+        margin: 0 0 64px;
+        padding: 14px 18px;
+        color: var(--muted);
+        background: linear-gradient(90deg, rgba(232, 240, 255, 0.94), rgba(251, 253, 255, 0.86));
+        border: 1px solid var(--line);
+        border-left: 4px solid var(--green);
+        border-radius: 14px;
+        font-size: 13px;
+        line-height: 1.6;
+        box-shadow: 0 10px 28px rgba(23, 55, 94, 0.06);
+      }
+
+      .sponsor-message strong {
+        color: var(--ink);
       }
 
       .brand-logo {
@@ -345,6 +407,26 @@
       }
 
       @media (max-width: 560px) {
+        main {
+          padding-top: 28px;
+        }
+
+        .landing-header {
+          margin-bottom: 14px;
+        }
+
+        .sponsor-link {
+          min-height: 38px;
+          padding: 8px 12px;
+          font-size: 12px;
+        }
+
+        .sponsor-message {
+          margin-bottom: 52px;
+          padding: 12px 14px;
+          font-size: 12px;
+        }
+
         .tools {
           grid-template-columns: minmax(0, 340px);
           gap: 22px;
@@ -360,22 +442,44 @@
   </head>
   <body>
     <main>
-      <a class="brand-lockup" href="./" aria-label="Native Cube home">
-        <svg
-          class="brand-logo"
-          viewBox="0 0 40 40"
-          aria-hidden="true"
+      <header class="landing-header">
+        <a class="brand-lockup" href="./" aria-label="Native Cube home">
+          <svg
+            class="brand-logo"
+            viewBox="0 0 40 40"
+            aria-hidden="true"
+          >
+            <path d="M20 2.5 36 11.3 20 20 4 11.3 20 2.5Z" fill="#2563eb" />
+            <path d="M4 11.3 20 20v17.5L4 28.7V11.3Z" fill="#14243b" />
+            <path d="M36 11.3 20 20v17.5l16-8.8V11.3Z" fill="#22a77a" />
+            <path
+              d="m20 8 6 3.3-6 3.2-6-3.2L20 8Z"
+              fill="#f2f5f9"
+              opacity=".95"
+            />
+          </svg>
+          <span class="brand-copy">
+            <span class="brand-name">Native <strong>Cube</strong></span>
+            <span class="brand-tagline">Cloud-native toolbox</span>
+          </span>
+        </a>
+        <a
+          class="sponsor-link"
+          href="https://paypal.me/marcincube"
+          target="_blank"
+          rel="noreferrer"
+          aria-label="Support my daughter’s higher education and future open-source tools via PayPal (opens in a new tab)"
+          ><span aria-hidden="true">♥</span> Support via PayPal
+          <span aria-hidden="true">↗</span></a
         >
-          <path d="M20 2.5 36 11.3 20 20 4 11.3 20 2.5Z" fill="#2563eb" />
-          <path d="M4 11.3 20 20v17.5L4 28.7V11.3Z" fill="#14243b" />
-          <path d="M36 11.3 20 20v17.5l16-8.8V11.3Z" fill="#22a77a" />
-          <path d="m20 8 6 3.3-6 3.2-6-3.2L20 8Z" fill="#f2f5f9" opacity=".95" />
-        </svg>
-        <span class="brand-copy">
-          <span class="brand-name">Native <strong>Cube</strong></span>
-          <span class="brand-tagline">Cloud-native toolbox</span>
-        </span>
-      </a>
+      </header>
+
+      <p class="sponsor-message">
+        <strong>Support two journeys with one meaningful contribution.</strong>
+        Your generosity helps my daughter pursue higher education and supports my
+        continued professional development, enabling me to create more thoughtful,
+        accessible open-source tools—free for everyone to use.
+      </p>
 
       <p class="eyebrow">Purpose-built infrastructure utilities</p>
       <h1>Free tools for cloud-native work.</h1>
