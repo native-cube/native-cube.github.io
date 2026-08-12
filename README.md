@@ -32,6 +32,18 @@ The shorter `/json-formatter/` alias redirects to this tool.
 YAML parsing and serialization use the vendored `js-yaml` 4.1.0 browser
 bundle, distributed under the MIT license included with the tool.
 
+## Kubernetes RBAC Explorer
+
+Open `/kubernetes-rbac-explorer/` to turn Kubernetes Roles and bindings into
+an effective access map. The tool resolves subject-to-role grant paths, answers
+permission questions, highlights review-worthy access, compares policy
+snapshots, generates narrowly scoped RBAC drafts, and exports a Markdown review.
+
+The explorer accepts multi-document YAML, JSON arrays, and Kubernetes `List`
+objects. Parsing and analysis stay in the browser. Secret objects are rejected,
+and users should never provide a kubeconfig, token, or other credentials. YAML
+input uses the existing vendored `js-yaml` 4.1.0 bundle.
+
 ## Terraform Modules
 
 Open `/terraform-modules/` to explore public AWS Terraform modules
@@ -77,6 +89,14 @@ its required 1200×630 PNG with:
 sh scripts/render-social-card.sh
 ```
 
+Other social cards can use the same renderer by supplying both paths, for example:
+
+```sh
+sh scripts/render-social-card.sh \
+  assets/social/kubernetes-rbac-explorer.svg \
+  assets/social/kubernetes-rbac-explorer.png
+```
+
 ## To preview locally
 
 ```sh
@@ -84,6 +104,7 @@ python3 -m http.server 8080
 ```
 
 - `http://localhost:8080/k8s-manifest-builder/`
+- `http://localhost:8080/kubernetes-rbac-explorer/`
 - `http://localhost:8080/visual-subnet-calculator/`
 - `http://localhost:8080/yaml-formatter/`
 - `http://localhost:8080/terraform-modules/`
