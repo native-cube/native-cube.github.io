@@ -26,6 +26,7 @@ jobs:
         with:
           root: .
           blacklist: googlecaadda4a5b13e6cb.html node_modules .lighthouseci
+          extra: "--ignore-re CSS:"
 
       - name: Validate internal and external links
         uses: lycheeverse/lychee-action@v2

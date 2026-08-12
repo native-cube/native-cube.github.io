@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url>
+    <loc>https://native-cube.github.io/</loc>
+  </url>
+  <url>
+    <loc>https://native-cube.github.io/k8s-manifest-builder/</loc>
+  </url>
+  <url>
+    <loc>https://native-cube.github.io/visual-subnet-calculator/</loc>
+  </url>
+  <url>
+    <loc>https://native-cube.github.io/yaml-formatter/</loc>
+  </url>
+  <url>
+    <loc>https://native-cube.github.io/terraform-modules/</loc>
+  </url>
+</urlset>
