@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta
       name="description"
-      content="Free browser-based cloud-native tools for Kubernetes manifests, IPv4 subnet planning, and YAML or JSON formatting. No sign-up or server uploads."
+      content="Free cloud-native browser tools and public AWS Terraform modules for Kubernetes, network planning, configuration formatting, and infrastructure as code."
     />
     <meta name="author" content="Marcin Cuber" />
     <meta name="theme-color" content="#f2f5f9" />
@@ -17,7 +17,7 @@
     />
     <meta
       property="og:description"
-      content="Free browser-based tools for Kubernetes manifests, visual IPv4 subnet planning, and YAML or JSON formatting."
+      content="Free browser-based cloud-native tools and public AWS Terraform modules from Native Cube."
     />
     <meta property="og:url" content="https://native-cube.github.io/" />
     <meta
@@ -37,7 +37,7 @@
     />
     <meta
       name="twitter:description"
-      content="Free browser-based tools for Kubernetes manifests, visual IPv4 subnet planning, and YAML or JSON formatting."
+      content="Free browser-based cloud-native tools and public AWS Terraform modules from Native Cube."
     />
     <meta
       name="twitter:image"
@@ -58,7 +58,7 @@
         "name": "Native Cube",
         "alternateName": ["Native Cube Tools", "native-cube.github.io"],
         "url": "https://native-cube.github.io/",
-        "description": "Free browser-based cloud-native tools for generating Kubernetes manifests, visually planning IPv4 subnets, and formatting YAML or JSON.",
+        "description": "Free browser-based cloud-native tools and public AWS Terraform modules for Kubernetes, network planning, configuration formatting, and infrastructure as code.",
         "creator": {
           "@type": "Person",
           "name": "Marcin Cuber",
@@ -280,7 +280,7 @@
 
       .tools {
         display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(280px, 340px));
+        grid-template-columns: repeat(2, minmax(0, 340px));
         justify-content: center;
         gap: 28px;
       }
@@ -484,8 +484,8 @@
       <p class="eyebrow">Purpose-built infrastructure utilities</p>
       <h1>Free tools for cloud-native work.</h1>
       <p class="intro">
-        Generate Kubernetes manifests, visually plan IPv4 subnets, and format YAML
-        or JSON with focused utilities that run entirely in your browser.
+        Generate Kubernetes manifests, visually plan IPv4 subnets, format YAML
+        or JSON, and discover reusable AWS Terraform modules.
       </p>
       <p class="author-byline">
         <span>Created and maintained by</span>
@@ -551,6 +551,24 @@
           <h2>YAML &amp; JSON Formatter</h2>
           <p>
             Validate, format, and convert configuration data without uploading it.
+          </p>
+          <span class="arrow" aria-hidden="true">↗</span>
+        </a>
+        <a class="tool" href="./terraform-modules/">
+          <span class="tag">Public AWS modules</span>
+          <svg
+            class="tool-cube"
+            viewBox="0 0 40 40"
+            aria-hidden="true"
+          >
+            <path d="M20 2.5 36 11.3 20 20 4 11.3 20 2.5Z" fill="#7552a5" />
+            <path d="M4 11.3 20 20v17.5L4 28.7V11.3Z" fill="#14243b" />
+            <path d="M36 11.3 20 20v17.5l16-8.8V11.3Z" fill="#22a77a" />
+            <path d="m20 8 6 3.3-6 3.2-6-3.2L20 8Z" fill="#f2f5f9" />
+          </svg>
+          <h2>Terraform Modules</h2>
+          <p>
+            Explore reusable AWS modules for EKS, KMS, and network observability.
           </p>
           <span class="arrow" aria-hidden="true">↗</span>
         </a>

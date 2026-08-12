@@ -1,0 +1,926 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta
+      name="description"
+      content="Explore public AWS Terraform modules from Native Cube for EKS, managed compute, security, and network observability."
+    />
+    <meta name="author" content="Marcin Cuber" />
+    <meta name="theme-color" content="#f2f5f9" />
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Native Cube" />
+    <meta
+      property="og:title"
+      content="AWS Terraform Modules | Native Cube"
+    />
+    <meta
+      property="og:description"
+      content="Reusable, publicly available AWS building blocks for EKS, security, and network observability."
+    />
+    <meta
+      property="og:url"
+      content="https://native-cube.github.io/terraform-modules/"
+    />
+    <meta
+      property="og:image"
+      content="https://native-cube.github.io/assets/social/terraform-modules.png"
+    />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta
+      property="og:image:alt"
+      content="Native Cube AWS Terraform Modules catalogue"
+    />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta
+      name="twitter:title"
+      content="AWS Terraform Modules | Native Cube"
+    />
+    <meta
+      name="twitter:description"
+      content="Reusable, publicly available AWS building blocks for EKS, security, and network observability."
+    />
+    <meta
+      name="twitter:image"
+      content="https://native-cube.github.io/assets/social/terraform-modules.png"
+    />
+    <meta
+      name="twitter:image:alt"
+      content="Native Cube AWS Terraform Modules catalogue"
+    />
+    <link
+      rel="canonical"
+      href="https://native-cube.github.io/terraform-modules/"
+    />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <title>AWS Terraform Modules | Native Cube</title>
+    <link rel="stylesheet" href="./styles.css?v=1" />
+    <script src="./app.js?v=1" defer></script>
+    <!-- MODULE_JSON_LD_START -->
+    <script type="application/ld+json">
+      [
+        {
+          "@context": "https://schema.org",
+          "@type": "CollectionPage",
+          "@id": "https://native-cube.github.io/terraform-modules/#webpage",
+          "url": "https://native-cube.github.io/terraform-modules/",
+          "name": "Native Cube AWS Terraform Modules",
+          "description": "A catalogue of 6 public AWS Terraform modules maintained by Native Cube.",
+          "dateModified": "2026-08-11T15:31:52Z",
+          "isPartOf": {
+            "@id": "https://native-cube.github.io/#website"
+          },
+          "breadcrumb": {
+            "@id": "https://native-cube.github.io/terraform-modules/#breadcrumb"
+          },
+          "mainEntity": {
+            "@id": "https://native-cube.github.io/terraform-modules/#modules"
+          }
+        },
+        {
+          "@context": "https://schema.org",
+          "@type": "BreadcrumbList",
+          "@id": "https://native-cube.github.io/terraform-modules/#breadcrumb",
+          "itemListElement": [
+            {
+              "@type": "ListItem",
+              "position": 1,
+              "name": "Native Cube",
+              "item": "https://native-cube.github.io/"
+            },
+            {
+              "@type": "ListItem",
+              "position": 2,
+              "name": "Terraform Modules",
+              "item": "https://native-cube.github.io/terraform-modules/"
+            }
+          ]
+        },
+        {
+          "@context": "https://schema.org",
+          "@type": "ItemList",
+          "@id": "https://native-cube.github.io/terraform-modules/#modules",
+          "name": "Native Cube Terraform modules",
+          "numberOfItems": 6,
+          "itemListElement": [
+            {
+              "@type": "ListItem",
+              "position": 1,
+              "item": {
+                "@type": "SoftwareSourceCode",
+                "name": "EKS",
+                "description": "Create an Amazon EKS cluster with managed node groups, core add-ons, access controls, EKS capabilities, and optional Karpenter readiness.",
+                "url": "https://registry.terraform.io/modules/native-cube/eks/aws/latest",
+                "codeRepository": "https://github.com/native-cube/terraform-aws-eks",
+                "version": "1.4.0",
+                "programmingLanguage": "HCL",
+                "runtimePlatform": "Amazon Web Services"
+              }
+            },
+            {
+              "@type": "ListItem",
+              "position": 2,
+              "item": {
+                "@type": "SoftwareSourceCode",
+                "name": "EKS Auto Mode",
+                "description": "Build an EKS Auto Mode cluster with managed compute, load balancing, block storage, Pod Identity, and rendered Kubernetes resources.",
+                "url": "https://registry.terraform.io/modules/native-cube/eks-auto/aws/latest",
+                "codeRepository": "https://github.com/native-cube/terraform-aws-eks-auto",
+                "version": "1.0.0",
+                "programmingLanguage": "HCL",
+                "runtimePlatform": "Amazon Web Services"
+              }
+            },
+            {
+              "@type": "ListItem",
+              "position": 3,
+              "item": {
+                "@type": "SoftwareSourceCode",
+                "name": "EKS Managed Node Group",
+                "description": "Provision an EKS managed node group with IAM, scaling controls, launch template options, labels, and Kubernetes taints.",
+                "url": "https://registry.terraform.io/modules/native-cube/eks-node-group/aws/latest",
+                "codeRepository": "https://github.com/native-cube/terraform-aws-eks-node-group",
+                "version": "1.1.0",
+                "programmingLanguage": "HCL",
+                "runtimePlatform": "Amazon Web Services"
+              }
+            },
+            {
+              "@type": "ListItem",
+              "position": 4,
+              "item": {
+                "@type": "SoftwareSourceCode",
+                "name": "EKS Fargate Profile",
+                "description": "Configure an AWS Fargate profile for EKS workloads, including selectors, subnet placement, and the pod execution IAM role.",
+                "url": "https://registry.terraform.io/modules/native-cube/eks-fargate-profile/aws/latest",
+                "codeRepository": "https://github.com/native-cube/terraform-aws-eks-fargate-profile",
+                "version": "1.0.1",
+                "programmingLanguage": "HCL",
+                "runtimePlatform": "Amazon Web Services"
+              }
+            },
+            {
+              "@type": "ListItem",
+              "position": 5,
+              "item": {
+                "@type": "SoftwareSourceCode",
+                "name": "KMS",
+                "description": "Configure an AWS KMS key with an optional alias, key policy, rotation controls, multi-Region support, and resource tags.",
+                "url": "https://registry.terraform.io/modules/native-cube/kms/aws/latest",
+                "codeRepository": "https://github.com/native-cube/terraform-aws-kms",
+                "version": "2.0.0",
+                "programmingLanguage": "HCL",
+                "runtimePlatform": "Amazon Web Services"
+              }
+            },
+            {
+              "@type": "ListItem",
+              "position": 6,
+              "item": {
+                "@type": "SoftwareSourceCode",
+                "name": "VPC Flow Logs",
+                "description": "Enable AWS VPC Flow Logs and deliver network traffic records to a managed CloudWatch log group with the required IAM role.",
+                "url": "https://registry.terraform.io/modules/native-cube/vpc-flow-logs/aws/latest",
+                "codeRepository": "https://github.com/native-cube/terraform-aws-vpc-flow-logs",
+                "version": "2.3.0",
+                "programmingLanguage": "HCL",
+                "runtimePlatform": "Amazon Web Services"
+              }
+            }
+          ]
+        }
+      ]
+    </script>
+    <!-- MODULE_JSON_LD_END -->
+  </head>
+  <body>
+    <a class="skip-link" href="#module-catalogue">Skip to module catalogue</a>
+
+    <header class="site-header">
+      <a class="brand" href="../" aria-label="Native Cube home">
+        <svg class="brand-logo" viewBox="0 0 40 40" aria-hidden="true">
+          <path d="M20 2.5 36 11.3 20 20 4 11.3 20 2.5Z" fill="#2563eb" />
+          <path d="M4 11.3 20 20v17.5L4 28.7V11.3Z" fill="#14243b" />
+          <path d="M36 11.3 20 20v17.5l16-8.8V11.3Z" fill="#22a77a" />
+          <path
+            d="m20 8 6 3.3-6 3.2-6-3.2L20 8Z"
+            fill="#f2f5f9"
+            opacity=".95"
+          />
+        </svg>
+        <span class="brand-copy">
+          <span class="brand-name">Native <strong>Cube</strong></span>
+          <span class="brand-tagline">Cloud-native toolbox</span>
+        </span>
+      </a>
+      <div class="header-actions">
+        <div class="product-lockup" aria-label="Terraform Modules">
+          <span>Public source</span>
+          <strong>Terraform Modules</strong>
+        </div>
+        <a
+          class="sponsor-link"
+          href="https://paypal.me/marcincube"
+          target="_blank"
+          rel="noreferrer"
+          aria-label="Support my daughter’s higher education and future open-source tools via PayPal (opens in a new tab)"
+          ><span aria-hidden="true">♥</span> Support via PayPal
+          <span aria-hidden="true">↗</span></a
+      </div>
+    </header>
+
+    <p class="sponsor-message">
+      <strong>Support two journeys with one meaningful contribution.</strong> Your
+      generosity helps my daughter pursue higher education and supports my
+      continued professional development, enabling me to create more thoughtful,
+      accessible open-source tools—free for everyone to use.
+    </p>
+
+    <main>
+      <section class="hero">
+        <div class="hero-copy">
+          <p class="eyebrow">Terraform / AWS / Public modules</p>
+          <h1>Infrastructure building blocks, <em>ready to compose.</em></h1>
+          <p class="hero-intro">
+            A focused collection of Terraform modules for building secure,
+            observable Amazon EKS platforms. Explore the source, read the complete
+            registry docs, and drop a module address straight into your configuration.
+          </p>
+          <div class="hero-actions">
+            <a class="primary-action" href="#module-catalogue">Explore modules</a>
+            <a
+              class="secondary-action"
+              href="https://registry.terraform.io/namespaces/native-cube"
+              target="_blank"
+              rel="noreferrer"
+              >Terraform Registry <span aria-hidden="true">↗</span></a
+            >
+          </div>
+        </div>
+
+        <aside class="code-window" aria-label="Example Terraform module block">
+          <div class="code-window-bar">
+            <span class="window-dots" aria-hidden="true"><i></i><i></i><i></i></span>
+            <span>main.tf</span>
+            <span class="code-status"><i></i> Registry ready</span>
+          </div>
+          <pre><code><span class="code-keyword">module</span> <span class="code-string">"platform"</span> {
+  <span class="code-property">source</span> = <span class="code-string">"native-cube/eks/aws"</span>
+
+  <span class="code-property">name</span>       = <span class="code-string">"production"</span>
+  <span class="code-property">subnet_ids</span> = <span class="code-value">var.private_subnet_ids</span>
+}</code></pre>
+          <div class="code-footer">
+            <span>Maintained on GitHub</span>
+            <span>Published to Terraform Registry</span>
+          </div>
+        </aside>
+      </section>
+
+      <dl class="catalogue-summary" aria-label="Module catalogue summary">
+        <div>
+          <dt><!-- MODULE_COUNT_START -->06<!-- MODULE_COUNT_END --></dt>
+          <dd>Public modules</dd>
+        </div>
+        <div>
+          <dt>AWS</dt>
+          <dd>Cloud provider</dd>
+        </div>
+        <div>
+          <dt>HCL</dt>
+          <dd>Infrastructure as code</dd>
+        </div>
+        <div>
+          <dt>100%</dt>
+          <dd>Public source</dd>
+        </div>
+      </dl>
+
+      <section class="quick-start" aria-labelledby="quick-start-title">
+        <div class="quick-start-heading">
+          <p class="eyebrow">Three-step workflow</p>
+          <h2 id="quick-start-title">From catalogue to plan.</h2>
+        </div>
+        <ol>
+          <li>
+            <span aria-hidden="true">01</span>
+            <div>
+              <h3>Copy the module block</h3>
+              <p>Choose a module and copy its version-pinned Terraform block.</p>
+            </div>
+          </li>
+          <li>
+            <span aria-hidden="true">02</span>
+            <div>
+              <h3>Set required inputs</h3>
+              <p>Expand the usage preview to see every required variable and type.</p>
+            </div>
+          </li>
+          <li>
+            <span aria-hidden="true">03</span>
+            <div>
+              <h3>Initialize and review</h3>
+              <p>Run <code>terraform init</code>, then review with <code>terraform plan</code>.</p>
+            </div>
+          </li>
+        </ol>
+      </section>
+
+      <section id="module-catalogue" class="catalogue" aria-labelledby="catalogue-title">
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow">Module catalogue</p>
+            <h2 id="catalogue-title">Choose a building block.</h2>
+          </div>
+          <p>
+            Every module is owned by the
+            <a href="https://github.com/native-cube" target="_blank" rel="noreferrer"
+              >native-cube GitHub organization</a
+            > and published under the native-cube Terraform Registry namespace.
+          </p>
+        </div>
+
+        <!-- MODULE_CARDS_START -->
+        <p class="catalogue-sync">
+          Registry and GitHub metadata synchronized
+          <time datetime="2026-08-11">11 Aug 2026</time>.
+        </p>
+        <div class="module-grid">
+          <article class="module-card module-card--eks">
+            <div class="card-topline">
+              <span class="module-icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24">
+                  <path d="m12 3 7.5 4.3v8.8L12 20.5 4.5 16V7.4L12 3Z" />
+                  <path d="m8.5 9.1 3.5-2 3.5 2v4L12 15l-3.5-2V9.1Z" />
+                </svg>
+              </span>
+              <span class="module-type">Kubernetes</span>
+              <span class="status-badge"><i></i> Active</span>
+            </div>
+            <h3>EKS</h3>
+            <p class="module-description">Create an Amazon EKS cluster with managed node groups, core add-ons, access controls, EKS capabilities, and optional Karpenter readiness.</p>
+            <dl class="module-facts" aria-label="EKS module metadata">
+              <div>
+                <dt>Latest</dt>
+                <dd>v1.4.0</dd>
+              </div>
+              <div>
+                <dt>Required</dt>
+                <dd>2 inputs</dd>
+              </div>
+              <div>
+                <dt>Released</dt>
+                <dd><time datetime="2026-06-24">24 Jun 2026</time></dd>
+              </div>
+            </dl>
+            <p class="module-requirements">
+              <span>Terraform &gt;= 1.5.0</span>
+              <span>AWS &gt;= 6.0</span>
+            </p>
+            <div class="source-address">
+              <code>native-cube/eks/aws</code>
+              <button
+                type="button"
+                data-module-copy
+                data-module="eks"
+                data-title="EKS"
+                data-source="native-cube/eks/aws"
+                data-version="1.4.0"
+                data-required="2"
+                aria-label="Copy EKS module block"
+              >
+                <svg viewBox="0 0 24 24" aria-hidden="true">
+                  <rect x="8" y="8" width="10" height="11" rx="2" />
+                  <path d="M16 8V6a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h2" />
+                </svg>
+                <span>Copy module block</span>
+              </button>
+            </div>
+            <details class="usage-disclosure">
+              <summary>
+                <span>View usage and required inputs</span>
+                <svg viewBox="0 0 20 20" aria-hidden="true"><path d="m5 7.5 5 5 5-5" /></svg>
+              </summary>
+              <div class="usage-content">
+                <h4>Module block</h4>
+                <pre><code>module &quot;eks&quot; {
+  source  = &quot;native-cube/eks/aws&quot;
+  version = &quot;1.4.0&quot;
+
+  # insert the 2 required variables here
+}</code></pre>
+                <h4>Required inputs</h4>
+                <ul class="required-inputs">
+                  <li>
+                    <code>name</code>
+                    <span>string</span>
+                  </li>
+                  <li>
+                    <code>subnet_ids</code>
+                    <span>list(string)</span>
+                  </li>
+                </ul>
+              </div>
+            </details>
+            <div class="card-links">
+              <a href="https://registry.terraform.io/modules/native-cube/eks/aws/latest" target="_blank" rel="noreferrer">
+                Registry docs <span aria-hidden="true">↗</span>
+              </a>
+              <a href="https://github.com/native-cube/terraform-aws-eks" target="_blank" rel="noreferrer">
+                GitHub source <span aria-hidden="true">↗</span>
+              </a>
+            </div>
+          </article>
+
+          <article class="module-card module-card--auto">
+            <div class="card-topline">
+              <span class="module-icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24">
+                  <path d="M13.5 2.8 6.8 13h5l-1.3 8.2L17.2 11h-5l1.3-8.2Z" />
+                </svg>
+              </span>
+              <span class="module-type">Kubernetes</span>
+              <span class="status-badge"><i></i> Active</span>
+            </div>
+            <h3>EKS Auto Mode</h3>
+            <p class="module-description">Build an EKS Auto Mode cluster with managed compute, load balancing, block storage, Pod Identity, and rendered Kubernetes resources.</p>
+            <dl class="module-facts" aria-label="EKS Auto Mode module metadata">
+              <div>
+                <dt>Latest</dt>
+                <dd>v1.0.0</dd>
+              </div>
+              <div>
+                <dt>Required</dt>
+                <dd>2 inputs</dd>
+              </div>
+              <div>
+                <dt>Released</dt>
+                <dd><time datetime="2026-07-22">22 Jul 2026</time></dd>
+              </div>
+            </dl>
+            <p class="module-requirements">
+              <span>Terraform &gt;= 1.5.0</span>
+              <span>AWS &gt;= 6.0</span>
+            </p>
+            <div class="source-address">
+              <code>native-cube/eks-auto/aws</code>
+              <button
+                type="button"
+                data-module-copy
+                data-module="eks-auto"
+                data-title="EKS Auto Mode"
+                data-source="native-cube/eks-auto/aws"
+                data-version="1.0.0"
+                data-required="2"
+                aria-label="Copy EKS Auto Mode module block"
+              >
+                <svg viewBox="0 0 24 24" aria-hidden="true">
+                  <rect x="8" y="8" width="10" height="11" rx="2" />
+                  <path d="M16 8V6a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h2" />
+                </svg>
+                <span>Copy module block</span>
+              </button>
+            </div>
+            <details class="usage-disclosure">
+              <summary>
+                <span>View usage and required inputs</span>
+                <svg viewBox="0 0 20 20" aria-hidden="true"><path d="m5 7.5 5 5 5-5" /></svg>
+              </summary>
+              <div class="usage-content">
+                <h4>Module block</h4>
+                <pre><code>module &quot;eks-auto&quot; {
+  source  = &quot;native-cube/eks-auto/aws&quot;
+  version = &quot;1.0.0&quot;
+
+  # insert the 2 required variables here
+}</code></pre>
+                <h4>Required inputs</h4>
+                <ul class="required-inputs">
+                  <li>
+                    <code>name</code>
+                    <span>string</span>
+                  </li>
+                  <li>
+                    <code>subnet_ids</code>
+                    <span>list(string)</span>
+                  </li>
+                </ul>
+              </div>
+            </details>
+            <div class="card-links">
+              <a href="https://registry.terraform.io/modules/native-cube/eks-auto/aws/latest" target="_blank" rel="noreferrer">
+                Registry docs <span aria-hidden="true">↗</span>
+              </a>
+              <a href="https://github.com/native-cube/terraform-aws-eks-auto" target="_blank" rel="noreferrer">
+                GitHub source <span aria-hidden="true">↗</span>
+              </a>
+            </div>
+          </article>
+
+          <article class="module-card module-card--nodes">
+            <div class="card-topline">
+              <span class="module-icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24">
+                  <rect x="3.5" y="4" width="7" height="6" rx="1.5" />
+                  <rect x="13.5" y="4" width="7" height="6" rx="1.5" />
+                  <rect x="8.5" y="14" width="7" height="6" rx="1.5" />
+                  <path d="M7 10v2h10v-2M12 12v2" />
+                </svg>
+              </span>
+              <span class="module-type">Kubernetes</span>
+              <span class="status-badge"><i></i> Active</span>
+            </div>
+            <h3>EKS Managed Node Group</h3>
+            <p class="module-description">Provision an EKS managed node group with IAM, scaling controls, launch template options, labels, and Kubernetes taints.</p>
+            <dl class="module-facts" aria-label="EKS Managed Node Group module metadata">
+              <div>
+                <dt>Latest</dt>
+                <dd>v1.1.0</dd>
+              </div>
+              <div>
+                <dt>Required</dt>
+                <dd>5 inputs</dd>
+              </div>
+              <div>
+                <dt>Released</dt>
+                <dd><time datetime="2023-05-20">20 May 2023</time></dd>
+              </div>
+            </dl>
+            <p class="module-requirements">
+              <span>Terraform &gt;= 1.0.0</span>
+              <span>AWS &gt;= 4.64.0</span>
+            </p>
+            <div class="source-address">
+              <code>native-cube/eks-node-group/aws</code>
+              <button
+                type="button"
+                data-module-copy
+                data-module="eks-node-group"
+                data-title="EKS Managed Node Group"
+                data-source="native-cube/eks-node-group/aws"
+                data-version="1.1.0"
+                data-required="5"
+                aria-label="Copy EKS Managed Node Group module block"
+              >
+                <svg viewBox="0 0 24 24" aria-hidden="true">
+                  <rect x="8" y="8" width="10" height="11" rx="2" />
+                  <path d="M16 8V6a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h2" />
+                </svg>
+                <span>Copy module block</span>
+              </button>
+            </div>
+            <details class="usage-disclosure">
+              <summary>
+                <span>View usage and required inputs</span>
+                <svg viewBox="0 0 20 20" aria-hidden="true"><path d="m5 7.5 5 5 5-5" /></svg>
+              </summary>
+              <div class="usage-content">
+                <h4>Module block</h4>
+                <pre><code>module &quot;eks-node-group&quot; {
+  source  = &quot;native-cube/eks-node-group/aws&quot;
+  version = &quot;1.1.0&quot;
+
+  # insert the 5 required variables here
+}</code></pre>
+                <h4>Required inputs</h4>
+                <ul class="required-inputs">
+                  <li>
+                    <code>cluster_name</code>
+                    <span>string</span>
+                  </li>
+                  <li>
+                    <code>desired_size</code>
+                    <span>number</span>
+                  </li>
+                  <li>
+                    <code>max_size</code>
+                    <span>number</span>
+                  </li>
+                  <li>
+                    <code>min_size</code>
+                    <span>number</span>
+                  </li>
+                  <li>
+                    <code>subnet_ids</code>
+                    <span>list(string)</span>
+                  </li>
+                </ul>
+              </div>
+            </details>
+            <div class="card-links">
+              <a href="https://registry.terraform.io/modules/native-cube/eks-node-group/aws/latest" target="_blank" rel="noreferrer">
+                Registry docs <span aria-hidden="true">↗</span>
+              </a>
+              <a href="https://github.com/native-cube/terraform-aws-eks-node-group" target="_blank" rel="noreferrer">
+                GitHub source <span aria-hidden="true">↗</span>
+              </a>
+            </div>
+          </article>
+
+          <article class="module-card module-card--fargate">
+            <div class="card-topline">
+              <span class="module-icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24">
+                  <path d="m12 3 8 4-8 4-8-4 8-4Z" />
+                  <path d="m4 12 8 4 8-4M4 17l8 4 8-4" />
+                </svg>
+              </span>
+              <span class="module-type">Kubernetes</span>
+              <span class="status-badge"><i></i> Active</span>
+            </div>
+            <h3>EKS Fargate Profile</h3>
+            <p class="module-description">Configure an AWS Fargate profile for EKS workloads, including selectors, subnet placement, and the pod execution IAM role.</p>
+            <dl class="module-facts" aria-label="EKS Fargate Profile module metadata">
+              <div>
+                <dt>Latest</dt>
+                <dd>v1.0.1</dd>
+              </div>
+              <div>
+                <dt>Required</dt>
+                <dd>5 inputs</dd>
+              </div>
+              <div>
+                <dt>Released</dt>
+                <dd><time datetime="2022-01-11">11 Jan 2022</time></dd>
+              </div>
+            </dl>
+            <p class="module-requirements">
+              <span>Terraform &gt;= 1.0.0</span>
+              <span>AWS &gt;= 3.38</span>
+            </p>
+            <div class="source-address">
+              <code>native-cube/eks-fargate-profile/aws</code>
+              <button
+                type="button"
+                data-module-copy
+                data-module="eks-fargate-profile"
+                data-title="EKS Fargate Profile"
+                data-source="native-cube/eks-fargate-profile/aws"
+                data-version="1.0.1"
+                data-required="5"
+                aria-label="Copy EKS Fargate Profile module block"
+              >
+                <svg viewBox="0 0 24 24" aria-hidden="true">
+                  <rect x="8" y="8" width="10" height="11" rx="2" />
+                  <path d="M16 8V6a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h2" />
+                </svg>
+                <span>Copy module block</span>
+              </button>
+            </div>
+            <details class="usage-disclosure">
+              <summary>
+                <span>View usage and required inputs</span>
+                <svg viewBox="0 0 20 20" aria-hidden="true"><path d="m5 7.5 5 5 5-5" /></svg>
+              </summary>
+              <div class="usage-content">
+                <h4>Module block</h4>
+                <pre><code>module &quot;eks-fargate-profile&quot; {
+  source  = &quot;native-cube/eks-fargate-profile/aws&quot;
+  version = &quot;1.0.1&quot;
+
+  # insert the 5 required variables here
+}</code></pre>
+                <h4>Required inputs</h4>
+                <ul class="required-inputs">
+                  <li>
+                    <code>cluster_name</code>
+                    <span>string</span>
+                  </li>
+                  <li>
+                    <code>fargate_profile_name</code>
+                    <span>string</span>
+                  </li>
+                  <li>
+                    <code>labels</code>
+                    <span>map(string)</span>
+                  </li>
+                  <li>
+                    <code>namespace</code>
+                    <span>string</span>
+                  </li>
+                  <li>
+                    <code>subnet_ids</code>
+                    <span>list(string)</span>
+                  </li>
+                </ul>
+              </div>
+            </details>
+            <div class="card-links">
+              <a href="https://registry.terraform.io/modules/native-cube/eks-fargate-profile/aws/latest" target="_blank" rel="noreferrer">
+                Registry docs <span aria-hidden="true">↗</span>
+              </a>
+              <a href="https://github.com/native-cube/terraform-aws-eks-fargate-profile" target="_blank" rel="noreferrer">
+                GitHub source <span aria-hidden="true">↗</span>
+              </a>
+            </div>
+          </article>
+
+          <article class="module-card module-card--kms">
+            <div class="card-topline">
+              <span class="module-icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24">
+                  <circle cx="8" cy="12" r="4" />
+                  <path d="M12 12h8M17 12v3M20 12v2" />
+                </svg>
+              </span>
+              <span class="module-type">Security</span>
+              <span class="status-badge"><i></i> Active</span>
+            </div>
+            <h3>KMS</h3>
+            <p class="module-description">Configure an AWS KMS key with an optional alias, key policy, rotation controls, multi-Region support, and resource tags.</p>
+            <dl class="module-facts" aria-label="KMS module metadata">
+              <div>
+                <dt>Latest</dt>
+                <dd>v2.0.0</dd>
+              </div>
+              <div>
+                <dt>Required</dt>
+                <dd>No required inputs</dd>
+              </div>
+              <div>
+                <dt>Released</dt>
+                <dd><time datetime="2026-06-18">18 Jun 2026</time></dd>
+              </div>
+            </dl>
+            <p class="module-requirements">
+              <span>Terraform &gt;= 1.9.0</span>
+              <span>AWS &gt;= 6.0</span>
+            </p>
+            <div class="source-address">
+              <code>native-cube/kms/aws</code>
+              <button
+                type="button"
+                data-module-copy
+                data-module="kms"
+                data-title="KMS"
+                data-source="native-cube/kms/aws"
+                data-version="2.0.0"
+                data-required="0"
+                aria-label="Copy KMS module block"
+              >
+                <svg viewBox="0 0 24 24" aria-hidden="true">
+                  <rect x="8" y="8" width="10" height="11" rx="2" />
+                  <path d="M16 8V6a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h2" />
+                </svg>
+                <span>Copy module block</span>
+              </button>
+            </div>
+            <details class="usage-disclosure">
+              <summary>
+                <span>View usage and required inputs</span>
+                <svg viewBox="0 0 20 20" aria-hidden="true"><path d="m5 7.5 5 5 5-5" /></svg>
+              </summary>
+              <div class="usage-content">
+                <h4>Module block</h4>
+                <pre><code>module &quot;kms&quot; {
+  source  = &quot;native-cube/kms/aws&quot;
+  version = &quot;2.0.0&quot;
+
+  # no required variables
+}</code></pre>
+                <h4>Required inputs</h4>
+                <p class="no-required-inputs">No required inputs. Configure optional variables as needed.</p>
+              </div>
+            </details>
+            <div class="card-links">
+              <a href="https://registry.terraform.io/modules/native-cube/kms/aws/latest" target="_blank" rel="noreferrer">
+                Registry docs <span aria-hidden="true">↗</span>
+              </a>
+              <a href="https://github.com/native-cube/terraform-aws-kms" target="_blank" rel="noreferrer">
+                GitHub source <span aria-hidden="true">↗</span>
+              </a>
+            </div>
+          </article>
+
+          <article class="module-card module-card--network">
+            <div class="card-topline">
+              <span class="module-icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24">
+                  <circle cx="5" cy="12" r="2.5" />
+                  <circle cx="19" cy="6" r="2.5" />
+                  <circle cx="19" cy="18" r="2.5" />
+                  <path d="m7.3 11 9.4-4M7.3 13l9.4 4" />
+                </svg>
+              </span>
+              <span class="module-type">Networking</span>
+              <span class="status-badge"><i></i> Active</span>
+            </div>
+            <h3>VPC Flow Logs</h3>
+            <p class="module-description">Enable AWS VPC Flow Logs and deliver network traffic records to a managed CloudWatch log group with the required IAM role.</p>
+            <dl class="module-facts" aria-label="VPC Flow Logs module metadata">
+              <div>
+                <dt>Latest</dt>
+                <dd>v2.3.0</dd>
+              </div>
+              <div>
+                <dt>Required</dt>
+                <dd>1 input</dd>
+              </div>
+              <div>
+                <dt>Released</dt>
+                <dd><time datetime="2025-08-08">8 Aug 2025</time></dd>
+              </div>
+            </dl>
+            <p class="module-requirements">
+              <span>Terraform &gt;= 1.0.0</span>
+              <span>AWS &gt;= 3.0</span>
+            </p>
+            <div class="source-address">
+              <code>native-cube/vpc-flow-logs/aws</code>
+              <button
+                type="button"
+                data-module-copy
+                data-module="vpc-flow-logs"
+                data-title="VPC Flow Logs"
+                data-source="native-cube/vpc-flow-logs/aws"
+                data-version="2.3.0"
+                data-required="1"
+                aria-label="Copy VPC Flow Logs module block"
+              >
+                <svg viewBox="0 0 24 24" aria-hidden="true">
+                  <rect x="8" y="8" width="10" height="11" rx="2" />
+                  <path d="M16 8V6a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h2" />
+                </svg>
+                <span>Copy module block</span>
+              </button>
+            </div>
+            <details class="usage-disclosure">
+              <summary>
+                <span>View usage and required inputs</span>
+                <svg viewBox="0 0 20 20" aria-hidden="true"><path d="m5 7.5 5 5 5-5" /></svg>
+              </summary>
+              <div class="usage-content">
+                <h4>Module block</h4>
+                <pre><code>module &quot;vpc-flow-logs&quot; {
+  source  = &quot;native-cube/vpc-flow-logs/aws&quot;
+  version = &quot;2.3.0&quot;
+
+  # insert the 1 required variable here
+}</code></pre>
+                <h4>Required inputs</h4>
+                <ul class="required-inputs">
+                  <li>
+                    <code>name_prefix</code>
+                    <span>string</span>
+                  </li>
+                </ul>
+              </div>
+            </details>
+            <div class="card-links">
+              <a href="https://registry.terraform.io/modules/native-cube/vpc-flow-logs/aws/latest" target="_blank" rel="noreferrer">
+                Registry docs <span aria-hidden="true">↗</span>
+              </a>
+              <a href="https://github.com/native-cube/terraform-aws-vpc-flow-logs" target="_blank" rel="noreferrer">
+                GitHub source <span aria-hidden="true">↗</span>
+              </a>
+            </div>
+          </article>
+        </div>
+        <!-- MODULE_CARDS_END -->
+      </section>
+
+      <section class="closing-panel" aria-labelledby="closing-title">
+        <div>
+          <p class="eyebrow">Start composing</p>
+          <h2 id="closing-title">Source on GitHub. Version in the Registry.</h2>
+        </div>
+        <p>
+          Review inputs, outputs, requirements, and examples in the Registry,
+          then inspect implementation details and releases directly on GitHub.
+        </p>
+        <a
+          href="https://github.com/native-cube"
+          target="_blank"
+          rel="noreferrer"
+          >Browse native-cube on GitHub <span aria-hidden="true">↗</span></a
+        >
+      </section>
+    </main>
+
+    <p
+      id="copy-status"
+      class="copy-status"
+      role="status"
+      aria-live="polite"
+      aria-atomic="true"
+    ></p>
+
+    <footer class="site-footer">
+      <a class="footer-brand" href="../">
+        <svg viewBox="0 0 40 40" aria-hidden="true">
+          <path d="M20 2.5 36 11.3 20 20 4 11.3 20 2.5Z" fill="#2563eb" />
+          <path d="M4 11.3 20 20v17.5L4 28.7V11.3Z" fill="#14243b" />
+          <path d="M36 11.3 20 20v17.5l16-8.8V11.3Z" fill="#22a77a" />
+        </svg>
+        <span>Native Cube</span>
+      </a>
+      <span>Reusable infrastructure, publicly maintained.</span>
+      <span>
+        A project by
+        <a href="https://marcincuber.github.io/" target="_blank" rel="author me noreferrer">Marcin Cuber</a>
+      </span>
+    </footer>
+  </body>
+</html>

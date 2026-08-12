@@ -1,0 +1,62 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">
+  <defs>
+    <linearGradient id="background" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#fbfdff" />
+      <stop offset="1" stop-color="#eceff7" />
+    </linearGradient>
+    <radialGradient id="purple-glow">
+      <stop offset="0" stop-color="#7552a5" stop-opacity=".24" />
+      <stop offset="1" stop-color="#7552a5" stop-opacity="0" />
+    </radialGradient>
+    <radialGradient id="green-glow">
+      <stop offset="0" stop-color="#22a77a" stop-opacity=".17" />
+      <stop offset="1" stop-color="#22a77a" stop-opacity="0" />
+    </radialGradient>
+    <pattern id="grid" width="32" height="32" patternUnits="userSpaceOnUse">
+      <path d="M32 0H0V32" fill="none" stroke="#2563eb" stroke-opacity=".055" />
+    </pattern>
+    <filter id="shadow" x="-40%" y="-40%" width="180%" height="180%">
+      <feDropShadow dx="0" dy="16" stdDeviation="18" flood-color="#17375e" flood-opacity=".18" />
+    </filter>
+  </defs>
+
+  <rect width="1200" height="630" rx="28" fill="url(#background)" />
+  <rect width="1200" height="630" rx="28" fill="url(#grid)" />
+  <circle cx="1090" cy="40" r="370" fill="url(#purple-glow)" />
+  <circle cx="65" cy="620" r="320" fill="url(#green-glow)" />
+
+  <g transform="translate(72 56) scale(1.7)" filter="url(#shadow)">
+    <path d="M20 2.5 36 11.3 20 20 4 11.3 20 2.5Z" fill="#2563eb" />
+    <path d="M4 11.3 20 20v17.5L4 28.7V11.3Z" fill="#14243b" />
+    <path d="M36 11.3 20 20v17.5l16-8.8V11.3Z" fill="#22a77a" />
+    <path d="m20 8 6 3.3-6 3.2-6-3.2L20 8Z" fill="#f2f5f9" />
+  </g>
+  <text x="158" y="91" fill="#14243b" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" font-size="28" font-weight="800" letter-spacing="-1">Native <tspan fill="#2563eb">Cube</tspan></text>
+  <text x="159" y="118" fill="#637187" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="12" font-weight="700" letter-spacing="2">CLOUD-NATIVE TOOLBOX</text>
+
+  <text x="72" y="218" fill="#7552a5" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="16" font-weight="800" letter-spacing="3">AWS · TERRAFORM · PUBLIC MODULES</text>
+  <text x="68" y="300" fill="#14243b" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" font-size="65" font-weight="760" letter-spacing="-4">Reusable AWS</text>
+  <text x="68" y="371" fill="#7552a5" font-family="Georgia, 'Times New Roman', serif" font-size="69" font-style="italic">Terraform modules.</text>
+  <text x="72" y="423" fill="#637187" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" font-size="20" font-weight="560">Versioned in the Registry. Maintained on GitHub.</text>
+
+  <g transform="translate(720 168)" filter="url(#shadow)">
+    <rect width="408" height="286" rx="22" fill="#14243b" stroke="#314865" />
+    <path d="M0 48H408" stroke="#314865" />
+    <circle cx="24" cy="24" r="5" fill="#e86867" />
+    <circle cx="42" cy="24" r="5" fill="#e8b45b" />
+    <circle cx="60" cy="24" r="5" fill="#4db888" />
+    <text x="204" y="28" fill="#95a7bf" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="10" font-weight="700" letter-spacing="1.4">MAIN.TF</text>
+    <text x="28" y="92" fill="#cfaeff" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="17" font-weight="700">module <tspan fill="#9ee1bd">&quot;platform&quot;</tspan> <tspan fill="#dae5f4">{</tspan></text>
+    <text x="48" y="131" fill="#a9c8ff" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="15">source  <tspan fill="#dae5f4">=</tspan> <tspan fill="#9ee1bd">&quot;native-cube/eks/aws&quot;</tspan></text>
+    <text x="48" y="164" fill="#a9c8ff" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="15">version <tspan fill="#dae5f4">=</tspan> <tspan fill="#f3c781">&quot;1.4.0&quot;</tspan></text>
+    <text x="28" y="202" fill="#dae5f4" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="17">}</text>
+    <rect x="28" y="228" width="352" height="34" rx="17" fill="#1d314c" stroke="#38506f" />
+    <circle cx="48" cy="245" r="5" fill="#4db888" />
+    <text x="64" y="249" fill="#aebdd0" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="11" font-weight="700" letter-spacing="1">PUBLIC SOURCE · REGISTRY READY</text>
+  </g>
+
+  <g transform="translate(72 526)">
+    <rect width="1056" height="48" rx="24" fill="#ffffff" stroke="#d6dfeb" />
+    <text x="528" y="30" fill="#637187" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="13" font-weight="750" letter-spacing="1.3">EKS PLATFORMS · SECURITY · NETWORK OBSERVABILITY</text>
+  </g>
+</svg>

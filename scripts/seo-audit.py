@@ -15,6 +15,7 @@ PAGES = {
     Path("k8s-manifest-builder/index.html"): f"{SITE_URL}/k8s-manifest-builder/",
     Path("visual-subnet-calculator/index.html"): f"{SITE_URL}/visual-subnet-calculator/",
     Path("yaml-formatter/index.html"): f"{SITE_URL}/yaml-formatter/",
+    Path("terraform-modules/index.html"): f"{SITE_URL}/terraform-modules/",
 }
 REDIRECT_PATH = Path("json-formatter/index.html")
 REQUIRED_META = {

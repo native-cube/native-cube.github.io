@@ -31,6 +31,7 @@ invented or replaced with a placeholder.
    - `https://native-cube.github.io/k8s-manifest-builder/`
    - `https://native-cube.github.io/visual-subnet-calculator/`
    - `https://native-cube.github.io/yaml-formatter/`
+   - `https://native-cube.github.io/terraform-modules/`
 4. Do not submit `/json-formatter/`; it is a `noindex` convenience alias.
 
 The account owner can provide the downloaded verification file to a
