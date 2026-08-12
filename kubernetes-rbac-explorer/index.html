@@ -1,0 +1,724 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta
+      name="description"
+      content="Visualize Kubernetes RBAC permissions, query effective access, detect risky grants, compare snapshots, and export a security review—all locally in your browser."
+    />
+    <meta name="author" content="Marcin Cuber" />
+    <meta name="theme-color" content="#f2f5f9" />
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Native Cube" />
+    <meta
+      property="og:title"
+      content="Kubernetes RBAC Explorer | Native Cube"
+    />
+    <meta
+      property="og:description"
+      content="Understand who can do what in Kubernetes. Explore permissions, test access, surface risky grants, and compare RBAC snapshots locally."
+    />
+    <meta
+      property="og:url"
+      content="https://native-cube.github.io/kubernetes-rbac-explorer/"
+    />
+    <meta
+      property="og:image"
+      content="https://native-cube.github.io/assets/social/kubernetes-rbac-explorer.png"
+    />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta
+      property="og:image:alt"
+      content="Native Cube Kubernetes RBAC Explorer"
+    />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta
+      name="twitter:title"
+      content="Kubernetes RBAC Explorer | Native Cube"
+    />
+    <meta
+      name="twitter:description"
+      content="Visualize and review Kubernetes RBAC permissions locally in your browser."
+    />
+    <meta
+      name="twitter:image"
+      content="https://native-cube.github.io/assets/social/kubernetes-rbac-explorer.png"
+    />
+    <meta
+      name="twitter:image:alt"
+      content="Native Cube Kubernetes RBAC Explorer"
+    />
+    <link
+      rel="canonical"
+      href="https://native-cube.github.io/kubernetes-rbac-explorer/"
+    />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <title>Kubernetes RBAC Explorer | Native Cube</title>
+    <link rel="stylesheet" href="./styles.css?v=1" />
+    <script src="../yaml-formatter/vendor/js-yaml.min.js?v=4.1.0" defer></script>
+    <script src="./app.js?v=1" defer></script>
+    <script type="application/ld+json">
+      [
+        {
+          "@context": "https://schema.org",
+          "@type": "WebApplication",
+          "@id": "https://native-cube.github.io/kubernetes-rbac-explorer/#application",
+          "url": "https://native-cube.github.io/kubernetes-rbac-explorer/",
+          "name": "Kubernetes RBAC Explorer",
+          "description": "Visualize Kubernetes RBAC permissions, query effective access, detect risky grants, and compare snapshots locally in your browser.",
+          "image": "https://native-cube.github.io/assets/social/kubernetes-rbac-explorer.png",
+          "applicationCategory": "DeveloperApplication",
+          "operatingSystem": "Any",
+          "isAccessibleForFree": true,
+          "browserRequirements": "Requires JavaScript",
+          "isPartOf": {
+            "@id": "https://native-cube.github.io/#website"
+          }
+        },
+        {
+          "@context": "https://schema.org",
+          "@type": "BreadcrumbList",
+          "@id": "https://native-cube.github.io/kubernetes-rbac-explorer/#breadcrumb",
+          "itemListElement": [
+            {
+              "@type": "ListItem",
+              "position": 1,
+              "name": "Native Cube",
+              "item": "https://native-cube.github.io/"
+            },
+            {
+              "@type": "ListItem",
+              "position": 2,
+              "name": "Kubernetes RBAC Explorer",
+              "item": "https://native-cube.github.io/kubernetes-rbac-explorer/"
+            }
+          ]
+        }
+      ]
+    </script>
+  </head>
+  <body>
+    <a class="skip-link" href="#rbac-source">Skip to RBAC input</a>
+
+    <header class="site-header">
+      <a class="brand" href="../" aria-label="Native Cube home">
+        <svg class="brand-logo" viewBox="0 0 40 40" aria-hidden="true">
+          <path d="M20 2.5 36 11.3 20 20 4 11.3 20 2.5Z" fill="#2563eb" />
+          <path d="M4 11.3 20 20v17.5L4 28.7V11.3Z" fill="#14243b" />
+          <path d="M36 11.3 20 20v17.5l16-8.8V11.3Z" fill="#22a77a" />
+          <path d="m20 8 6 3.3-6 3.2-6-3.2L20 8Z" fill="#f2f5f9" opacity=".95" />
+        </svg>
+        <span class="brand-copy">
+          <span class="brand-name">Native <strong>Cube</strong></span>
+          <span class="brand-tagline">Cloud-native toolbox</span>
+        </span>
+      </a>
+      <div class="header-actions">
+        <div class="product-lockup" aria-label="Kubernetes RBAC Explorer">
+          <span>Kubernetes security</span>
+          <strong>RBAC Explorer</strong>
+        </div>
+        <a
+          class="sponsor-link"
+          href="https://paypal.me/marcincube"
+          target="_blank"
+          rel="noreferrer"
+          aria-label="Support via PayPal (opens in a new tab)"
+          ><span aria-hidden="true">♥</span> Support via PayPal
+          <span aria-hidden="true">↗</span></a
+        >
+      </div>
+    </header>
+
+    <p class="sponsor-message">
+      <strong>Support two journeys with one meaningful contribution.</strong> Your
+      generosity helps my daughter pursue higher education and supports my
+      continued professional development, enabling me to create more thoughtful,
+      accessible open-source tools—free for everyone to use.
+    </p>
+
+    <main>
+      <section class="hero">
+        <div>
+          <p class="eyebrow">Kubernetes / Access control</p>
+          <h1>See who can do what.<br /><em>Know exactly why.</em></h1>
+        </div>
+        <p class="hero-copy">
+          Turn Roles and bindings into an understandable access map. Test an
+          identity, surface risky grants, and compare changes before they reach
+          a cluster.
+        </p>
+      </section>
+
+      <aside class="privacy-note" aria-label="Privacy and scope">
+        <span class="privacy-icon" aria-hidden="true">◆</span>
+        <div>
+          <strong>Private by design</strong>
+          <p>
+            Files are parsed only in this browser. Paste RBAC manifests or an
+            exported RBAC snapshot—never a kubeconfig, token, or Secret.
+          </p>
+        </div>
+        <span class="local-badge">No uploads</span>
+      </aside>
+
+      <section class="workspace" aria-label="Kubernetes RBAC analyzer">
+        <section class="source-panel" aria-labelledby="source-title">
+          <div class="panel-heading">
+            <div>
+              <span class="step-label">01 / Provide policy</span>
+              <h2 id="source-title">RBAC manifests</h2>
+            </div>
+            <span id="source-format" class="format-badge">YAML or JSON</span>
+          </div>
+
+          <label id="drop-zone" class="drop-zone" for="rbac-file">
+            <input
+              id="rbac-file"
+              type="file"
+              accept=".yaml,.yml,.json,text/yaml,application/json"
+            />
+            <span aria-hidden="true">⇧</span>
+            <strong>Drop a manifest or choose a file</strong>
+            <small>Role, ClusterRole, RoleBinding, and ClusterRoleBinding</small>
+          </label>
+
+          <textarea
+            id="rbac-source"
+            spellcheck="false"
+            autocomplete="off"
+            aria-describedby="source-help source-status"
+            placeholder="Paste multi-document RBAC YAML or kubectl JSON output…"
+          ></textarea>
+          <p id="source-help" class="editor-help">
+            Tip: export only RBAC objects. Kubeconfig and Secret input is blocked.
+          </p>
+
+          <div id="source-status" class="source-status" role="status" aria-live="polite">
+            Waiting for RBAC manifests.
+          </div>
+
+          <div class="source-actions">
+            <button id="analyze-button" class="primary-button" type="button">
+              Analyze access <span aria-hidden="true">→</span>
+            </button>
+            <button id="sample-button" class="secondary-button" type="button">
+              Load sample
+            </button>
+            <button id="clear-button" class="text-button" type="button">
+              Clear
+            </button>
+          </div>
+        </section>
+
+        <section class="insight-panel" aria-labelledby="insight-title">
+          <div class="panel-heading insight-heading">
+            <div>
+              <span class="step-label">02 / Review access</span>
+              <h2 id="insight-title">Access posture</h2>
+            </div>
+            <span id="analysis-state" class="analysis-state is-idle">Not analyzed</span>
+          </div>
+
+          <div id="empty-state" class="empty-state">
+            <div class="empty-graphic" aria-hidden="true">
+              <span>Subject</span><b>→</b><span>Binding</span><b>→</b><span>Role</span>
+            </div>
+            <h3>Make RBAC relationships visible</h3>
+            <p>
+              Add manifests on the left or load the sample to build an effective
+              permission map and security review.
+            </p>
+          </div>
+
+          <div id="analysis-content" hidden>
+            <section id="posture-banner" class="posture-banner" aria-labelledby="posture-title">
+              <span id="posture-icon" class="posture-icon" aria-hidden="true">✓</span>
+              <div>
+                <span class="posture-label">Access posture</span>
+                <h3 id="posture-title">Analysis complete</h3>
+                <p id="posture-copy">Review the effective access detected in this policy.</p>
+              </div>
+              <button id="posture-action" class="text-button" type="button">
+                Review findings <span aria-hidden="true">→</span>
+              </button>
+            </section>
+
+            <div class="exposure-grid" aria-label="Effective access exposure">
+              <article id="cluster-exposure-card">
+                <span>Cluster-wide identities</span>
+                <strong id="cluster-subject-count">0</strong>
+                <small id="cluster-subject-detail">None detected</small>
+              </article>
+              <article id="write-exposure-card">
+                <span>Can change resources</span>
+                <strong id="write-subject-count">0</strong>
+                <small id="write-subject-detail">None detected</small>
+              </article>
+              <article id="sensitive-exposure-card">
+                <span>Sensitive capabilities</span>
+                <strong id="sensitive-subject-count">0</strong>
+                <small id="sensitive-subject-detail">Secrets, exec, or wildcards</small>
+              </article>
+              <article id="rbac-exposure-card">
+                <span>Can administer RBAC</span>
+                <strong id="rbac-admin-count">0</strong>
+                <small id="rbac-admin-detail">None detected</small>
+              </article>
+            </div>
+
+            <div class="overview-grid">
+              <section class="overview-card" aria-labelledby="composition-title">
+                <div class="overview-heading">
+                  <div>
+                    <span>Effective grant paths</span>
+                    <h3 id="composition-title">Access composition</h3>
+                  </div>
+                  <strong id="grant-total">0</strong>
+                </div>
+                <div id="access-composition" class="access-composition"></div>
+              </section>
+
+              <section class="overview-card" aria-labelledby="subject-exposure-title">
+                <div class="overview-heading">
+                  <div>
+                    <span>Prioritized by reach and capability</span>
+                    <h3 id="subject-exposure-title">Highest-access identities</h3>
+                  </div>
+                </div>
+                <div id="top-subjects" class="top-subjects"></div>
+              </section>
+            </div>
+
+            <section class="priority-review" aria-labelledby="priority-review-title">
+              <div class="priority-heading">
+                <div>
+                  <span>What to inspect first</span>
+                  <h3 id="priority-review-title">Priority review</h3>
+                </div>
+                <button id="view-all-findings" class="text-button" type="button">
+                  View all <span aria-hidden="true">→</span>
+                </button>
+              </div>
+              <div id="overview-findings" class="overview-findings"></div>
+            </section>
+
+            <section id="coverage-strip" class="coverage-strip" aria-label="Analysis coverage">
+              <div class="coverage-copy">
+                <span>Analysis coverage</span>
+                <strong id="coverage-title">All binding references resolved</strong>
+                <small id="coverage-detail">0 RBAC objects analyzed</small>
+              </div>
+              <div class="coverage-facts" aria-label="Policy inventory">
+                <span><strong id="coverage-subjects">0</strong> subjects</span>
+                <span><strong id="coverage-roles">0</strong> roles</span>
+                <span><strong id="coverage-bindings">0</strong> bindings</span>
+              </div>
+            </section>
+          </div>
+        </section>
+      </section>
+
+      <section id="results" class="results-shell" aria-labelledby="results-title" hidden>
+        <div class="results-heading">
+          <div>
+            <span class="step-label">03 / Investigate</span>
+            <h2 id="results-title">Effective access review</h2>
+          </div>
+          <button id="export-button" class="secondary-button" type="button">
+            Export Markdown
+          </button>
+        </div>
+
+        <div class="tab-list" role="tablist" aria-label="RBAC analysis views">
+          <button
+            id="tab-map"
+            class="tab-button is-active"
+            type="button"
+            role="tab"
+            aria-selected="true"
+            aria-controls="panel-map"
+            data-tab="map"
+          >
+            Access map
+          </button>
+          <button
+            id="tab-query"
+            class="tab-button"
+            type="button"
+            role="tab"
+            aria-selected="false"
+            aria-controls="panel-query"
+            data-tab="query"
+            tabindex="-1"
+          >
+            Can they…?
+          </button>
+          <button
+            id="tab-permissions"
+            class="tab-button"
+            type="button"
+            role="tab"
+            aria-selected="false"
+            aria-controls="panel-permissions"
+            data-tab="permissions"
+            tabindex="-1"
+          >
+            Permissions
+          </button>
+          <button
+            id="tab-findings"
+            class="tab-button"
+            type="button"
+            role="tab"
+            aria-selected="false"
+            aria-controls="panel-findings"
+            data-tab="findings"
+            tabindex="-1"
+          >
+            Findings <span id="tab-finding-count" class="tab-count">0</span>
+          </button>
+          <button
+            id="tab-compare"
+            class="tab-button"
+            type="button"
+            role="tab"
+            aria-selected="false"
+            aria-controls="panel-compare"
+            data-tab="compare"
+            tabindex="-1"
+          >
+            Compare
+          </button>
+        </div>
+
+        <section
+          id="panel-map"
+          class="tab-panel"
+          role="tabpanel"
+          aria-labelledby="tab-map"
+          data-panel="map"
+        >
+          <div class="view-heading">
+            <div>
+              <h3>Subject-to-permission paths</h3>
+              <p>Each row explains how an identity receives a group of permissions.</p>
+            </div>
+            <label class="compact-search">
+              <span class="sr-only">Filter access map</span>
+              <input id="map-search" type="search" placeholder="Filter the map…" />
+            </label>
+          </div>
+          <div class="map-legend" aria-hidden="true">
+            <span>Subject</span><span>Binding &amp; scope</span><span>Role</span><span>Permissions</span>
+          </div>
+          <div id="access-map" class="access-map"></div>
+          <button id="show-more-map" class="show-more" type="button" hidden>
+            Show all paths
+          </button>
+        </section>
+
+        <section
+          id="panel-query"
+          class="tab-panel"
+          role="tabpanel"
+          aria-labelledby="tab-query"
+          data-panel="query"
+          hidden
+        >
+          <div class="view-heading">
+            <div>
+              <h3>Test an effective permission</h3>
+              <p>Check the supplied manifests and see every binding that contributes.</p>
+            </div>
+          </div>
+
+          <form id="query-form" class="query-form">
+            <label>
+              <span>Subject kind</span>
+              <select id="query-kind">
+                <option value="ServiceAccount">ServiceAccount</option>
+                <option value="User">User</option>
+                <option value="Group">Group</option>
+              </select>
+            </label>
+            <label>
+              <span>Subject name</span>
+              <input id="query-subject" required placeholder="catalog-api" />
+            </label>
+            <label id="query-subject-namespace-field">
+              <span>Subject namespace</span>
+              <input id="query-subject-namespace" placeholder="production" />
+            </label>
+            <label id="query-groups-field" hidden>
+              <span>User groups <small>optional, comma-separated</small></span>
+              <input id="query-groups" placeholder="platform-team, developers" />
+            </label>
+            <label>
+              <span>Verb</span>
+              <input id="query-verb" required list="verb-options" placeholder="get" />
+              <datalist id="verb-options">
+                <option value="get"></option>
+                <option value="list"></option>
+                <option value="watch"></option>
+                <option value="create"></option>
+                <option value="update"></option>
+                <option value="patch"></option>
+                <option value="delete"></option>
+                <option value="impersonate"></option>
+              </datalist>
+            </label>
+            <label>
+              <span>API group <small>blank = core</small></span>
+              <input id="query-api-group" placeholder="apps" />
+            </label>
+            <label>
+              <span>Resource</span>
+              <input id="query-resource" required placeholder="deployments" />
+            </label>
+            <label>
+              <span>Resource name <small>optional</small></span>
+              <input id="query-resource-name" placeholder="catalog-api" />
+            </label>
+            <label>
+              <span>Target scope</span>
+              <select id="query-scope">
+                <option value="namespace">Namespace</option>
+                <option value="cluster">Cluster-scoped</option>
+              </select>
+            </label>
+            <label id="query-target-namespace-field">
+              <span>Target namespace</span>
+              <input id="query-target-namespace" placeholder="production" />
+            </label>
+            <button class="primary-button query-button" type="submit">
+              Check access <span aria-hidden="true">→</span>
+            </button>
+          </form>
+
+          <div id="query-result" class="query-result is-idle" aria-live="polite">
+            <div class="query-result-icon" aria-hidden="true">?</div>
+            <div>
+              <h4>Ready for a question</h4>
+              <p>Describe an identity, action, and target to test effective RBAC access.</p>
+            </div>
+          </div>
+
+          <section id="generator-card" class="generator-card" hidden aria-labelledby="generator-title">
+            <div class="generator-heading">
+              <div>
+                <span class="step-label">Least-privilege starting point</span>
+                <h3 id="generator-title">Generate a scoped grant</h3>
+              </div>
+              <div>
+                <button id="copy-generated" class="text-button" type="button">Copy YAML</button>
+                <button id="download-generated" class="text-button" type="button">Download</button>
+              </div>
+            </div>
+            <p>
+              This draft grants only the queried action. Review it against your
+              workload and admission policies before applying.
+            </p>
+            <pre><code id="generated-yaml"></code></pre>
+          </section>
+        </section>
+
+        <section
+          id="panel-permissions"
+          class="tab-panel"
+          role="tabpanel"
+          aria-labelledby="tab-permissions"
+          data-panel="permissions"
+          hidden
+        >
+          <div class="view-heading">
+            <div>
+              <h3>Effective permission matrix</h3>
+              <p>Search subjects, namespaces, bindings, roles, resources, or verbs.</p>
+            </div>
+            <div class="matrix-filters">
+              <label>
+                <span class="sr-only">Filter permissions</span>
+                <input id="permission-search" type="search" placeholder="Search permissions…" />
+              </label>
+              <label>
+                <span class="sr-only">Filter by subject kind</span>
+                <select id="subject-kind-filter">
+                  <option value="all">All subjects</option>
+                  <option value="ServiceAccount">ServiceAccounts</option>
+                  <option value="User">Users</option>
+                  <option value="Group">Groups</option>
+                </select>
+              </label>
+            </div>
+          </div>
+          <div class="table-scroll">
+            <table>
+              <thead>
+                <tr>
+                  <th scope="col">Subject</th>
+                  <th scope="col">Scope</th>
+                  <th scope="col">Granted through</th>
+                  <th scope="col">Resources</th>
+                  <th scope="col">Verbs</th>
+                </tr>
+              </thead>
+              <tbody id="permission-rows"></tbody>
+            </table>
+          </div>
+          <p id="permission-total" class="result-total"></p>
+        </section>
+
+        <section
+          id="panel-findings"
+          class="tab-panel"
+          role="tabpanel"
+          aria-labelledby="tab-findings"
+          data-panel="findings"
+          hidden
+        >
+          <div class="view-heading">
+            <div>
+              <h3>Review signals</h3>
+              <p>Deterministic checks for permissions that deserve human review.</p>
+            </div>
+            <label class="severity-filter">
+              <span class="sr-only">Filter findings by severity</span>
+              <select id="severity-filter">
+                <option value="all">All severities</option>
+                <option value="critical">Critical</option>
+                <option value="high">High</option>
+                <option value="medium">Medium</option>
+                <option value="low">Low</option>
+              </select>
+            </label>
+          </div>
+          <div class="review-disclaimer">
+            Signals are guidance, not a substitute for admission control, policy
+            enforcement, or a live Kubernetes authorization check.
+          </div>
+          <div id="finding-list" class="finding-list"></div>
+        </section>
+
+        <section
+          id="panel-compare"
+          class="tab-panel"
+          role="tabpanel"
+          aria-labelledby="tab-compare"
+          data-panel="compare"
+          hidden
+        >
+          <div class="view-heading">
+            <div>
+              <h3>Compare effective access</h3>
+              <p>The current analysis is the baseline. Add a proposed RBAC snapshot below.</p>
+            </div>
+          </div>
+          <div class="compare-layout">
+            <div>
+              <label for="comparison-source">Proposed RBAC manifests</label>
+              <textarea
+                id="comparison-source"
+                spellcheck="false"
+                placeholder="Paste the proposed Roles and bindings…"
+              ></textarea>
+              <div class="compare-actions">
+                <label class="file-button" for="comparison-file">
+                  Choose file
+                  <input
+                    id="comparison-file"
+                    type="file"
+                    accept=".yaml,.yml,.json,text/yaml,application/json"
+                  />
+                </label>
+                <button id="compare-button" class="primary-button" type="button">
+                  Compare snapshots
+                </button>
+              </div>
+            </div>
+            <div id="comparison-result" class="comparison-result is-idle">
+              <div class="comparison-empty">
+                <span aria-hidden="true">±</span>
+                <h4>No comparison yet</h4>
+                <p>New and removed subject permissions will appear here.</p>
+              </div>
+            </div>
+          </div>
+        </section>
+      </section>
+
+      <section class="guidance-section" aria-labelledby="guidance-title">
+        <div class="content-heading">
+          <div>
+            <span class="step-label">04 / Use responsibly</span>
+            <h2 id="guidance-title">Understand the model and its limits.</h2>
+          </div>
+          <p>
+            Kubernetes RBAC permissions are additive: Roles define permissions,
+            while bindings grant those permissions to identities at namespace or
+            cluster scope.
+          </p>
+        </div>
+        <div class="guidance-grid">
+          <article>
+            <span>Scope</span>
+            <h3>Bindings decide where access applies</h3>
+            <p>
+              A RoleBinding grants access only in its namespace—even when it
+              references a ClusterRole. A ClusterRoleBinding grants cluster-wide access.
+            </p>
+          </article>
+          <article>
+            <span>Completeness</span>
+            <h3>Analyze a complete export</h3>
+            <p>
+              Referenced roles must be included. External authorization webhooks,
+              admission policies, and identity-provider group membership are not inferred.
+            </p>
+          </article>
+          <article>
+            <span>Verification</span>
+            <h3>Confirm against the live cluster</h3>
+            <p>
+              Use <code>kubectl auth can-i</code> for an authoritative live-cluster
+              check after reviewing this static model.
+            </p>
+          </article>
+        </div>
+        <a
+          class="official-link"
+          href="https://kubernetes.io/docs/reference/access-authn-authz/rbac/"
+          target="_blank"
+          rel="noreferrer"
+        >
+          Read the official Kubernetes RBAC documentation
+          <span aria-hidden="true">↗</span>
+        </a>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <span>Native Cube · Built for the terminal-adjacent parts of your day.</span>
+      <div class="footer-links">
+        <a
+          class="author-credit"
+          href="https://marcincuber.github.io/"
+          target="_blank"
+          rel="author me noreferrer"
+        >
+          <span>Created by</span>
+          <strong>Marcin Cuber</strong>
+          <b aria-hidden="true">↗</b>
+        </a>
+        <a href="../">Explore all tools <span aria-hidden="true">↗</span></a>
+      </div>
+    </footer>
+
+    <div id="toast" class="toast" role="status" aria-live="polite"></div>
+    <noscript>
+      <p class="noscript-message">The RBAC Explorer requires JavaScript to analyze manifests locally.</p>
+    </noscript>
+  </body>
+</html>

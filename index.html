@@ -279,8 +279,8 @@
       }
 
       .tools {
-        display: grid;
-        grid-template-columns: repeat(2, minmax(0, 340px));
+        display: flex;
+        flex-wrap: wrap;
         justify-content: center;
         gap: 28px;
       }
@@ -288,8 +288,10 @@
       .tool {
         position: relative;
         display: flex;
+        width: min(100%, 340px);
         aspect-ratio: 1;
         min-width: 0;
+        flex: 0 1 340px;
         flex-direction: column;
         padding: clamp(24px, 3vw, 30px);
         overflow: hidden;
@@ -428,6 +430,7 @@
         }
 
         .tools {
+          display: grid;
           grid-template-columns: minmax(0, 340px);
           gap: 22px;
         }
@@ -436,6 +439,13 @@
         footer {
           align-items: flex-start;
           flex-direction: column;
+        }
+      }
+
+      @media (min-width: 561px) and (max-width: 920px) {
+        .tools {
+          display: grid;
+          grid-template-columns: repeat(2, minmax(0, 340px));
         }
       }
     </style>
@@ -484,8 +494,8 @@
       <p class="eyebrow">Purpose-built infrastructure utilities</p>
       <h1>Free tools for cloud-native work.</h1>
       <p class="intro">
-        Generate Kubernetes manifests, visually plan IPv4 subnets, format YAML
-        or JSON, and discover reusable AWS Terraform modules.
+        Generate Kubernetes manifests, review RBAC access, visually plan IPv4
+        subnets, format configuration, and discover reusable Terraform modules.
       </p>
       <p class="author-byline">
         <span>Created and maintained by</span>
@@ -515,6 +525,24 @@
           <p>
             Build Deployment, StatefulSet, or DaemonSet workloads and export
             clean YAML or JSON.
+          </p>
+          <span class="arrow" aria-hidden="true">↗</span>
+        </a>
+        <a class="tool" href="./kubernetes-rbac-explorer/">
+          <span class="tag">Available now</span>
+          <svg
+            class="tool-cube"
+            viewBox="0 0 40 40"
+            aria-hidden="true"
+          >
+            <path d="M20 2.5 36 11.3 20 20 4 11.3 20 2.5Z" fill="#2563eb" />
+            <path d="M4 11.3 20 20v17.5L4 28.7V11.3Z" fill="#14243b" />
+            <path d="M36 11.3 20 20v17.5l16-8.8V11.3Z" fill="#22a77a" />
+            <path d="m20 8 6 3.3-6 3.2-6-3.2L20 8Z" fill="#f2f5f9" />
+          </svg>
+          <h2>Kubernetes RBAC Explorer</h2>
+          <p>
+            Map effective permissions, test access, and surface risky RBAC grants.
           </p>
           <span class="arrow" aria-hidden="true">↗</span>
         </a>
