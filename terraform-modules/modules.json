@@ -1,5 +1,6 @@
 {
   "schema_version": 1,
+  "$schema": "./modules.schema.json",
   "namespace": "native-cube",
   "provider": "aws",
   "synced_at": "2026-08-11T15:31:52Z",
@@ -11,6 +12,7 @@
       "theme": "eks",
       "icon": "cluster",
       "summary": "Create an Amazon EKS cluster with managed node groups, core add-ons, access controls, EKS capabilities, and optional Karpenter readiness.",
+      "example_path": "examples/basic",
       "metadata": {
         "version": "1.4.0",
         "published_at": "2026-06-24T13:10:28.811171Z",
@@ -41,6 +43,7 @@
       "theme": "auto",
       "icon": "bolt",
       "summary": "Build an EKS Auto Mode cluster with managed compute, load balancing, block storage, Pod Identity, and rendered Kubernetes resources.",
+      "example_path": "examples/minimal",
       "metadata": {
         "version": "1.0.0",
         "published_at": "2026-07-22T08:18:13.94084Z",
@@ -161,6 +164,7 @@
       "theme": "kms",
       "icon": "key",
       "summary": "Configure an AWS KMS key with an optional alias, key policy, rotation controls, multi-Region support, and resource tags.",
+      "example_path": "examples/core",
       "metadata": {
         "version": "2.0.0",
         "published_at": "2026-06-18T15:18:44.429466Z",

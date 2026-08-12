@@ -15,6 +15,7 @@ from urllib.request import Request, urlopen
 
 ROOT = Path(__file__).resolve().parent.parent
 CATALOGUE_PATH = ROOT / "terraform-modules/modules.json"
+SCHEMA_PATH = ROOT / "terraform-modules/modules.schema.json"
 PAGE_PATH = ROOT / "terraform-modules/index.html"
 JSON_LD_START = "<!-- MODULE_JSON_LD_START -->"
 JSON_LD_END = "<!-- MODULE_JSON_LD_END -->"
@@ -71,9 +72,25 @@ def load_catalogue():
         raise SyncError(f"cannot read {CATALOGUE_PATH.relative_to(ROOT)}: {error}") from error
 
 
+def load_schema():
+    try:
+        return json.loads(SCHEMA_PATH.read_text())
+    except (OSError, json.JSONDecodeError) as error:
+        raise SyncError(f"cannot read {SCHEMA_PATH.relative_to(ROOT)}: {error}") from error
+
+
+def validate_schema_document(schema):
+    if schema.get("$schema") != "https://json-schema.org/draft/2020-12/schema":
+        raise SyncError("modules.schema.json must use JSON Schema draft 2020-12")
+    if schema.get("type") != "object" or "$defs" not in schema:
+        raise SyncError("modules.schema.json must define the catalogue object and reusable definitions")
+
+
 def validate_catalogue(catalogue):
     if catalogue.get("schema_version") != 1:
         raise SyncError("modules.json schema_version must be 1")
+    if catalogue.get("$schema") != "./modules.schema.json":
+        raise SyncError("modules.json must reference ./modules.schema.json")
 
     namespace = catalogue.get("namespace")
     provider = catalogue.get("provider")
@@ -94,6 +111,38 @@ def validate_catalogue(catalogue):
             raise SyncError(f"module {name} uses unsupported icon {module['icon']}")
         if not isinstance(module.get("metadata"), dict):
             raise SyncError(f"module {name} has no synchronized metadata")
+        example_path = module.get("example_path")
+        if example_path and not re.fullmatch(r"examples/[a-z0-9]+(?:-[a-z0-9]+)*", example_path):
+            raise SyncError(f"module {name} uses invalid example_path {example_path}")
+
+        metadata = module["metadata"]
+        required_fields = (
+            "version",
+            "published_at",
+            "terraform_requirement",
+            "provider_requirement",
+            "required_inputs",
+            "archived",
+            "deprecated",
+            "pushed_at",
+            "license",
+        )
+        missing = [field for field in required_fields if field not in metadata]
+        if missing:
+            raise SyncError(f"module {name} metadata is missing {', '.join(missing)}")
+        if not re.fullmatch(r"\d+\.\d+\.\d+(?:[-+][0-9A-Za-z.-]+)?", metadata["version"] or ""):
+            raise SyncError(f"module {name} has invalid semantic version {metadata['version']}")
+        if not isinstance(metadata["required_inputs"], list):
+            raise SyncError(f"module {name} required_inputs must be a list")
+        input_names = []
+        for item in metadata["required_inputs"]:
+            if not isinstance(item, dict) or any(
+                field not in item for field in ("name", "type", "description")
+            ):
+                raise SyncError(f"module {name} has an invalid required input")
+            input_names.append(item["name"])
+        if len(input_names) != len(set(input_names)):
+            raise SyncError(f"module {name} required input names must be unique")
 
     if len(names) != len(set(names)):
         raise SyncError("module names must be unique")
@@ -207,31 +256,56 @@ def module_urls(catalogue, module):
     namespace = catalogue["namespace"]
     provider = catalogue["provider"]
     name = module["name"]
-    return {
+    urls = {
         "github": f"https://github.com/{namespace}/terraform-{provider}-{name}",
         "registry": f"https://registry.terraform.io/modules/{namespace}/{name}/{provider}/latest",
         "source": f"{namespace}/{name}/{provider}",
     }
+    urls["releases"] = f'{urls["github"]}/releases'
+    urls["license"] = f'{urls["github"]}/blob/main/LICENSE'
+    if module.get("example_path"):
+        urls["example"] = f'{urls["github"]}/tree/main/{module["example_path"]}'
+    return urls
 
 
-def module_example(module, source):
+def hcl_placeholder(input_type):
+    normalized = re.sub(r"\s+", "", input_type or "")
+    if normalized == "string":
+        return '"replace-me"'
+    if normalized == "number":
+        return "0"
+    if normalized == "bool":
+        return "false"
+    if normalized.startswith(("list(", "set(", "tuple(")):
+        return "[]"
+    if normalized.startswith(("map(", "object(")):
+        return "{}"
+    return "null"
+
+
+def module_example(module, source, include_inputs=False):
     metadata = module["metadata"]
     required_count = len(metadata["required_inputs"])
+    lines = [
+        f'module "{module["name"]}" {{',
+        f'  source  = "{source}"',
+        f'  version = "{metadata["version"]}"',
+    ]
     if required_count == 0:
-        required_comment = "  # no required variables"
+        lines.extend(("", "  # no required variables"))
+    elif include_inputs:
+        lines.append("")
+        longest_name = max(len(item["name"]) for item in metadata["required_inputs"])
+        for item in metadata["required_inputs"]:
+            padding = " " * (longest_name - len(item["name"]) + 1)
+            lines.append(
+                f'  # {item["name"]}{padding}= {hcl_placeholder(item["type"])}'
+            )
     else:
         noun = "variable" if required_count == 1 else "variables"
-        required_comment = f"  # insert the {required_count} required {noun} here"
-    return "\n".join(
-        (
-            f'module "{module["name"]}" {{',
-            f'  source  = "{source}"',
-            f'  version = "{metadata["version"]}"',
-            "",
-            required_comment,
-            "}",
-        )
-    )
+        lines.extend(("", f"  # insert the {required_count} required {noun} here"))
+    lines.append("}")
+    return "\n".join(lines)
 
 
 def parse_timestamp(value):
@@ -256,7 +330,8 @@ def render_json_ld(catalogue):
                     "@type": "SoftwareSourceCode",
                     "name": module["title"],
                     "description": module["summary"],
-                    "url": urls["registry"],
+                    "url": f'{site_url}#{module["name"]}',
+                    "sameAs": urls["registry"],
                     "codeRepository": urls["github"],
                     "version": module["metadata"]["version"],
                     "programmingLanguage": "HCL",
@@ -342,11 +417,26 @@ def render_card(catalogue, module):
     status = "Deprecated" if metadata["deprecated"] else "Archived" if metadata["archived"] else "Active"
     status_class = " status-badge--warning" if status != "Active" else ""
     example = module_example(module, urls["source"])
+    starter_example = module_example(module, urls["source"], include_inputs=True)
     input_markup = render_required_inputs(metadata["required_inputs"])
     icon = ICONS[module["icon"]]
     published_date = metadata["published_at"].split("T", 1)[0]
 
-    return f'''          <article class="module-card module-card--{escape(module["theme"])}">
+    license_label = metadata["license"] or "Not declared"
+    license_link = (
+        f'<a href="{urls["license"]}" target="_blank" rel="noreferrer">{escape(license_label)} license <span aria-hidden="true">↗</span></a>'
+        if metadata["license"]
+        else '<span>License not declared</span>'
+    )
+    example_link = (
+        f'''              <a href="{urls["example"]}" target="_blank" rel="noreferrer">
+                Complete example <span aria-hidden="true">↗</span>
+              </a>'''
+        if urls.get("example")
+        else ""
+    )
+
+    return f'''          <article id="{escape(module["name"])}" class="module-card module-card--{escape(module["theme"])}">
             <div class="card-topline">
               <span class="module-icon" aria-hidden="true">
                 <svg viewBox="0 0 24 24">
@@ -356,7 +446,7 @@ def render_card(catalogue, module):
               <span class="module-type">{escape(module["category"])}</span>
               <span class="status-badge{status_class}"><i></i> {status}</span>
             </div>
-            <h3>{escape(module["title"])}</h3>
+            <h3><a class="module-permalink" href="#{escape(module["name"])}">{escape(module["title"])}<span aria-hidden="true">#</span></a></h3>
             <p class="module-description">{escape(module["summary"])}</p>
             <dl class="module-facts" aria-label="{escape(module["title"])} module metadata">
               <div>
@@ -386,6 +476,7 @@ def render_card(catalogue, module):
                 data-source="{escape(urls["source"])}"
                 data-version="{escape(metadata["version"])}"
                 data-required="{required_count}"
+                data-snippet="compact"
                 aria-label="Copy {escape(module["title"])} module block"
               >
                 <svg viewBox="0 0 24 24" aria-hidden="true">
@@ -403,6 +494,20 @@ def render_card(catalogue, module):
               <div class="usage-content">
                 <h4>Module block</h4>
                 <pre><code>{escape(example)}</code></pre>
+                <button
+                  class="starter-copy"
+                  type="button"
+                  data-module-copy
+                  data-module="{escape(module["name"])}"
+                  data-title="{escape(module["title"])}"
+                  data-source="{escape(urls["source"])}"
+                  data-version="{escape(metadata["version"])}"
+                  data-required="{required_count}"
+                  data-inputs="{escape(json.dumps(metadata["required_inputs"], separators=(',', ':')), quote=True)}"
+                  data-snippet="starter"
+                  aria-label="Copy {escape(module["title"])} starter block with typed required inputs"
+                ><span>Copy starter block with typed inputs</span></button>
+                <template data-starter-example>{escape(starter_example)}</template>
                 <h4>Required inputs</h4>
 {input_markup}
               </div>
@@ -414,7 +519,15 @@ def render_card(catalogue, module):
               <a href="{urls["github"]}" target="_blank" rel="noreferrer">
                 GitHub source <span aria-hidden="true">↗</span>
               </a>
+{example_link}
+              <a href="{urls["releases"]}" target="_blank" rel="noreferrer">
+                Releases <span aria-hidden="true">↗</span>
+              </a>
             </div>
+            <p class="module-trust">
+              {license_link}
+              <span>Source updated <time datetime="{metadata["pushed_at"].split("T", 1)[0]}">{display_date(metadata["pushed_at"])}</time></span>
+            </p>
           </article>'''
 
 
@@ -506,6 +619,7 @@ def main():
     args = parser.parse_args()
 
     try:
+        validate_schema_document(load_schema())
         catalogue = load_catalogue()
         validate_catalogue(catalogue)
         if args.write:

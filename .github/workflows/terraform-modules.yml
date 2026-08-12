@@ -22,13 +22,54 @@ permissions:
 
 jobs:
   verify:
+    if: github.event_name == 'pull_request' || github.event_name == 'push'
     runs-on: ubuntu-latest
 
     steps:
       - name: Check out repository
         uses: actions/checkout@v6
 
+      - name: Install JSON Schema validator
+        run: python3 -m pip install --disable-pip-version-check check-jsonschema==0.38.0
+
+      - name: Validate catalogue schema
+        run: check-jsonschema --schemafile terraform-modules/modules.schema.json terraform-modules/modules.json
+
       - name: Check Registry, GitHub, and generated catalogue
         env:
           GITHUB_TOKEN: ${{ github.token }}
         run: python3 scripts/sync-terraform-modules.py --check
+
+  update:
+    if: github.event_name == 'schedule' || github.event_name == 'workflow_dispatch'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pull-requests: write
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v6
+
+      - name: Install JSON Schema validator
+        run: python3 -m pip install --disable-pip-version-check check-jsonschema==0.38.0
+
+      - name: Refresh Registry and GitHub metadata
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+        run: python3 scripts/sync-terraform-modules.py --write
+
+      - name: Validate refreshed catalogue
+        run: check-jsonschema --schemafile terraform-modules/modules.schema.json terraform-modules/modules.json
+
+      - name: Open catalogue update pull request
+        uses: peter-evans/create-pull-request@v8
+        with:
+          branch: automation/terraform-module-catalogue
+          delete-branch: true
+          commit-message: update terraform module catalogue
+          title: Update Terraform module catalogue
+          body: |
+            Automated weekly refresh of Terraform Registry and GitHub metadata.
+
+            The generated module cards and structured data are included in this pull request.

@@ -1,0 +1,142 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://native-cube.github.io/terraform-modules/modules.schema.json",
+  "title": "Native Cube Terraform module catalogue",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "$schema", "namespace", "provider", "synced_at", "modules"],
+  "properties": {
+    "schema_version": {
+      "const": 1
+    },
+    "$schema": {
+      "const": "./modules.schema.json"
+    },
+    "namespace": {
+      "type": "string",
+      "pattern": "^[a-z0-9][a-z0-9-]*$"
+    },
+    "provider": {
+      "const": "aws"
+    },
+    "synced_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "modules": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "$ref": "#/$defs/module"
+      }
+    }
+  },
+  "$defs": {
+    "module": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["name", "title", "category", "theme", "icon", "summary", "metadata"],
+      "properties": {
+        "name": {
+          "type": "string",
+          "pattern": "^[a-z0-9]+(?:-[a-z0-9]+)*$"
+        },
+        "title": {
+          "type": "string",
+          "minLength": 1
+        },
+        "category": {
+          "enum": ["Kubernetes", "Networking", "Security"]
+        },
+        "theme": {
+          "enum": ["auto", "eks", "fargate", "kms", "network", "nodes"]
+        },
+        "icon": {
+          "enum": ["bolt", "cluster", "key", "layers", "network", "nodes"]
+        },
+        "summary": {
+          "type": "string",
+          "minLength": 30
+        },
+        "example_path": {
+          "type": "string",
+          "pattern": "^examples/[a-z0-9]+(?:-[a-z0-9]+)*$"
+        },
+        "metadata": {
+          "$ref": "#/$defs/metadata"
+        }
+      }
+    },
+    "metadata": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "version",
+        "published_at",
+        "terraform_requirement",
+        "provider_requirement",
+        "required_inputs",
+        "archived",
+        "deprecated",
+        "pushed_at",
+        "license"
+      ],
+      "properties": {
+        "version": {
+          "type": "string",
+          "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+(?:[-+][0-9A-Za-z.-]+)?$"
+        },
+        "published_at": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "terraform_requirement": {
+          "type": "string",
+          "minLength": 1
+        },
+        "provider_requirement": {
+          "type": "string",
+          "minLength": 1
+        },
+        "required_inputs": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/input"
+          }
+        },
+        "archived": {
+          "type": "boolean"
+        },
+        "deprecated": {
+          "type": "boolean"
+        },
+        "pushed_at": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "license": {
+          "type": ["string", "null"],
+          "minLength": 1
+        }
+      }
+    },
+    "input": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["name", "type", "description"],
+      "properties": {
+        "name": {
+          "type": "string",
+          "pattern": "^[a-z][a-z0-9_]*$"
+        },
+        "type": {
+          "type": "string",
+          "minLength": 1
+        },
+        "description": {
+          "type": "string"
+        }
+      }
+    }
+  }
+}

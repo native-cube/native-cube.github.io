@@ -39,10 +39,15 @@ maintained by the native-cube GitHub organization. The catalogue covers Amazon
 EKS, EKS Auto Mode, managed node groups, Fargate profiles, KMS, and VPC Flow
 Logs, with direct links to each GitHub repository and Terraform Registry page.
 
-Module names, descriptions, categories, and visual treatments are maintained in
-`terraform-modules/modules.json`. Registry versions, release dates, required
-inputs, Terraform and AWS requirements, and GitHub status are synchronized into
-the same file and used to generate the module cards and structured data.
+Module names, descriptions, categories, complete-example paths, and visual
+treatments are maintained in `terraform-modules/modules.json`. Registry
+versions, release dates, required inputs, Terraform and AWS requirements,
+licenses, and GitHub status are synchronized into the same file and used to
+generate module cards, permalinks, starter snippets, and structured data.
+
+Editors can use `terraform-modules/modules.schema.json` for autocomplete. CI
+validates the catalogue against that schema and performs duplicate-name and
+generated-output checks in the synchronization script.
 
 Refresh live metadata and regenerate the page:
 
@@ -59,8 +64,11 @@ python3 scripts/sync-terraform-modules.py --check
 ```
 
 To add a module, add its curated entry to `modules.json`, publish the matching
-`terraform-aws-<name>` repository and Registry module, then run `--write`. The
-weekly catalogue workflow also reports Registry, GitHub, or generated-page drift.
+`terraform-aws-<name>` repository and Registry module, then run `--write`. Add
+`example_path` only when the repository contains a complete maintained example.
+The weekly catalogue workflow refreshes metadata and opens or updates a pull
+request when anything changes. GitHub Actions must be permitted to create pull
+requests in the repository or organization workflow settings.
 
 The dedicated social card is maintained as an editable SVG. On macOS, regenerate
 its required 1200×630 PNG with:
@@ -91,7 +99,8 @@ python3 scripts/seo-audit.py
 The `Lighthouse and SEO` GitHub Actions workflow audits every canonical page
 on pull requests and pushes to `main`. It enforces minimum performance,
 accessibility, best-practices, and SEO scores together with lab thresholds for
-Largest Contentful Paint, cumulative layout shift, and total blocking time.
+Largest Contentful Paint, cumulative layout shift, and total blocking time. It
+also validates HTML and checks internal fragments and external links.
 
 Google Search Console requires account-issued ownership verification. Follow
 [`SEARCH_CONSOLE.md`](./SEARCH_CONSOLE.md) to add the URL-prefix property,

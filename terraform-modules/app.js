@@ -20,18 +20,49 @@ function buildModuleExample(button) {
   const source = button.dataset.source;
   const version = button.dataset.version;
   const requiredCount = Number(button.dataset.required);
-  const requiredComment = requiredCount === 0
-    ? "  # no required variables"
-    : `  # insert the ${requiredCount} required ${requiredCount === 1 ? "variable" : "variables"} here`;
-
-  return [
+  const lines = [
     `module "${moduleName}" {`,
     `  source  = "${source}"`,
     `  version = "${version}"`,
-    "",
-    requiredComment,
-    "}",
-  ].join("\n");
+  ];
+
+  if (requiredCount === 0) {
+    lines.push("", "  # no required variables");
+  } else if (button.dataset.snippet === "starter") {
+    const inputs = JSON.parse(button.dataset.inputs || "[]");
+    const longestName = Math.max(...inputs.map((input) => input.name.length));
+    lines.push("");
+    for (const input of inputs) {
+      const padding = " ".repeat(longestName - input.name.length + 1);
+      lines.push(`  # ${input.name}${padding}= ${inputPlaceholder(input.type)}`);
+    }
+  } else {
+    const noun = requiredCount === 1 ? "variable" : "variables";
+    lines.push("", `  # insert the ${requiredCount} required ${noun} here`);
+  }
+
+  lines.push("}");
+  return lines.join("\n");
+}
+
+function inputPlaceholder(type) {
+  const normalized = type.replace(/\s+/g, "");
+  if (normalized === "string") {
+    return '"replace-me"';
+  }
+  if (normalized === "number") {
+    return "0";
+  }
+  if (normalized === "bool") {
+    return "false";
+  }
+  if (/^(list|set|tuple)\(/.test(normalized)) {
+    return "[]";
+  }
+  if (/^(map|object)\(/.test(normalized)) {
+    return "{}";
+  }
+  return "null";
 }
 
 async function writeToClipboard(value) {
@@ -62,24 +93,25 @@ async function writeToClipboard(value) {
 async function copySource(button) {
   const example = buildModuleExample(button);
   const moduleTitle = button.dataset.title;
-  const label = button.querySelector("span");
-  const originalLabel = "Copy module block";
+  const label = button.querySelector("span") || button;
+  const originalLabel = label.textContent;
+  const snippetLabel = button.dataset.snippet === "starter" ? "starter block" : "module block";
 
   try {
     await writeToClipboard(example);
     label.textContent = "Copied";
     button.classList.add("is-copied");
-    button.setAttribute("aria-label", `${moduleTitle} module block copied to clipboard`);
-    showCopyStatus(`${moduleTitle} module block copied.`);
+    button.setAttribute("aria-label", `${moduleTitle} ${snippetLabel} copied to clipboard`);
+    showCopyStatus(`${moduleTitle} ${snippetLabel} copied.`);
 
     window.setTimeout(() => {
       label.textContent = originalLabel;
       button.classList.remove("is-copied");
-      button.setAttribute("aria-label", `Copy ${moduleTitle} module block`);
+      button.setAttribute("aria-label", `Copy ${moduleTitle} ${snippetLabel}`);
     }, 1800);
   } catch (error) {
     label.textContent = "Unavailable";
-    showCopyStatus(`Could not copy the ${moduleTitle} module block.`, true);
+    showCopyStatus(`Could not copy the ${moduleTitle} ${snippetLabel}.`, true);
 
     window.setTimeout(() => {
       label.textContent = originalLabel;

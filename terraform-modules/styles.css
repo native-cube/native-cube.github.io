@@ -525,6 +525,88 @@ h1 em {
   font: 700 0.92em/1.4 ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
 }
 
+.best-practices {
+  display: grid;
+  grid-template-columns: minmax(250px, 0.68fr) minmax(0, 1.32fr);
+  gap: clamp(32px, 6vw, 72px);
+  margin: 0 0 24px;
+  padding: clamp(24px, 4vw, 34px);
+  background: rgba(251, 253, 255, 0.9);
+  border: 1px solid var(--line);
+  border-radius: 20px;
+  box-shadow: 0 16px 44px rgba(23, 55, 94, 0.07);
+}
+
+.best-practices-heading .eyebrow {
+  margin-bottom: 11px;
+}
+
+.best-practices h2 {
+  margin: 0;
+  font-size: clamp(30px, 4vw, 43px);
+  line-height: 1;
+  letter-spacing: -0.048em;
+}
+
+.best-practices-heading > p:last-child {
+  margin: 15px 0 0;
+  color: var(--muted);
+  font-size: 13px;
+  line-height: 1.6;
+}
+
+.best-practices ul {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.best-practices li {
+  padding: 14px 15px;
+  background: #f2f5f9;
+  border-radius: 11px;
+}
+
+.best-practices li strong,
+.best-practices li span {
+  display: block;
+}
+
+.best-practices li strong {
+  margin-bottom: 5px;
+  color: var(--ink);
+  font-size: 12px;
+}
+
+.best-practices li span {
+  color: var(--muted);
+  font-size: 11px;
+  line-height: 1.55;
+}
+
+.best-practices code {
+  color: var(--ink);
+  font: 700 0.92em/1.4 ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+}
+
+.best-practices-links {
+  grid-column: 2;
+  margin: -2px 0 0;
+  color: var(--soft);
+  font-size: 10px;
+  line-height: 1.6;
+}
+
+.best-practices-links a {
+  color: var(--purple);
+  font-weight: 800;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 2px;
+}
+
 .catalogue {
   padding: 74px 0 70px;
   scroll-margin-top: 20px;
@@ -584,6 +666,7 @@ h1 em {
   --module-accent: var(--blue);
   --module-soft: var(--blue-soft);
   position: relative;
+  scroll-margin-top: 24px;
   display: flex;
   min-height: 490px;
   min-width: 0;
@@ -598,6 +681,13 @@ h1 em {
     border-color 180ms ease,
     box-shadow 180ms ease,
     transform 180ms ease;
+}
+
+.module-card:target {
+  border-color: color-mix(in srgb, var(--module-accent) 68%, var(--line));
+  box-shadow:
+    0 0 0 4px color-mix(in srgb, var(--module-accent) 13%, transparent),
+    0 24px 58px rgba(23, 55, 94, 0.14);
 }
 
 .module-card::before {
@@ -697,6 +787,26 @@ h1 em {
   font-size: clamp(25px, 2.8vw, 31px);
   line-height: 1.04;
   letter-spacing: -0.042em;
+}
+
+.module-permalink {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 8px;
+  color: inherit;
+  text-decoration: none;
+}
+
+.module-permalink span {
+  color: var(--module-accent);
+  font-size: 0.7em;
+  opacity: 0;
+  transition: opacity 160ms ease;
+}
+
+.module-permalink:hover span,
+.module-permalink:focus-visible span {
+  opacity: 1;
 }
 
 .module-description {
@@ -886,6 +996,32 @@ h1 em {
   tab-size: 2;
 }
 
+.starter-copy {
+  width: 100%;
+  margin-top: 8px;
+  padding: 8px 10px;
+  color: var(--module-accent);
+  background: color-mix(in srgb, var(--module-soft) 58%, white);
+  border: 1px solid color-mix(in srgb, var(--module-accent) 18%, var(--line));
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 10px;
+  font-weight: 850;
+}
+
+.starter-copy:hover {
+  border-color: var(--module-accent);
+}
+
+.starter-copy.is-copied {
+  color: var(--green);
+  border-color: #88c8ad;
+}
+
+template {
+  display: none;
+}
+
 .required-inputs {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -947,6 +1083,110 @@ h1 em {
 }
 
 .card-links a:hover {
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.module-trust {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px 14px;
+  margin: 12px 0 0;
+  padding-top: 11px;
+  color: var(--soft);
+  border-top: 1px solid var(--line);
+  font: 650 9px/1.4 ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+}
+
+.module-trust a {
+  color: var(--muted);
+  text-decoration: none;
+}
+
+.module-trust a:hover {
+  color: var(--module-accent);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.architecture-recipes {
+  padding: 0 0 70px;
+}
+
+.recipe-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 18px;
+}
+
+.recipe-grid article {
+  display: flex;
+  min-width: 0;
+  flex-direction: column;
+  padding: clamp(22px, 3vw, 28px);
+  background: rgba(251, 253, 255, 0.91);
+  border: 1px solid var(--line);
+  border-radius: 20px;
+  box-shadow: 0 16px 44px rgba(23, 55, 94, 0.07);
+}
+
+.recipe-number {
+  margin: 0 0 18px;
+  color: var(--purple);
+  font: 850 11px/1 ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  letter-spacing: 0.1em;
+}
+
+.recipe-grid h3 {
+  margin: 0 0 10px;
+  font-size: 22px;
+  line-height: 1.08;
+  letter-spacing: -0.035em;
+}
+
+.recipe-grid article > p:not(.recipe-number) {
+  margin: 0 0 18px;
+  color: var(--muted);
+  font-size: 13px;
+  line-height: 1.62;
+}
+
+.recipe-grid ul {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin: 0 0 22px;
+  padding: 0;
+  list-style: none;
+}
+
+.recipe-grid li a {
+  display: block;
+  padding: 5px 8px;
+  color: var(--purple);
+  background: var(--purple-soft);
+  border-radius: 999px;
+  text-decoration: none;
+  font: 800 9px/1.2 ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+}
+
+.recipe-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 16px;
+  margin-top: auto;
+}
+
+.recipe-action {
+  margin-top: auto;
+  color: var(--ink);
+  text-decoration: none;
+  font-size: 12px;
+  font-weight: 850;
+}
+
+.recipe-action:hover {
+  color: var(--purple);
   text-decoration: underline;
   text-underline-offset: 3px;
 }
@@ -1078,6 +1318,23 @@ h1 em {
     max-width: 520px;
   }
 
+  .best-practices {
+    grid-template-columns: 1fr;
+    gap: 22px;
+  }
+
+  .recipe-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .best-practices-heading {
+    max-width: 620px;
+  }
+
+  .best-practices-links {
+    grid-column: 1;
+  }
+
   .closing-panel {
     grid-template-columns: 1fr;
   }
@@ -1139,6 +1396,10 @@ h1 em {
 
   .quick-start li > span {
     margin: 3px 0 0;
+  }
+
+  .best-practices {
+    margin-bottom: 18px;
   }
 
   .catalogue-sync {
@@ -1261,6 +1522,10 @@ h1 em {
   }
 
   .required-inputs {
+    grid-template-columns: 1fr;
+  }
+
+  .best-practices ul {
     grid-template-columns: 1fr;
   }
 

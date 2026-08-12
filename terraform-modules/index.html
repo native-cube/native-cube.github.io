@@ -112,7 +112,8 @@
                 "@type": "SoftwareSourceCode",
                 "name": "EKS",
                 "description": "Create an Amazon EKS cluster with managed node groups, core add-ons, access controls, EKS capabilities, and optional Karpenter readiness.",
-                "url": "https://registry.terraform.io/modules/native-cube/eks/aws/latest",
+                "url": "https://native-cube.github.io/terraform-modules/#eks",
+                "sameAs": "https://registry.terraform.io/modules/native-cube/eks/aws/latest",
                 "codeRepository": "https://github.com/native-cube/terraform-aws-eks",
                 "version": "1.4.0",
                 "programmingLanguage": "HCL",
@@ -126,7 +127,8 @@
                 "@type": "SoftwareSourceCode",
                 "name": "EKS Auto Mode",
                 "description": "Build an EKS Auto Mode cluster with managed compute, load balancing, block storage, Pod Identity, and rendered Kubernetes resources.",
-                "url": "https://registry.terraform.io/modules/native-cube/eks-auto/aws/latest",
+                "url": "https://native-cube.github.io/terraform-modules/#eks-auto",
+                "sameAs": "https://registry.terraform.io/modules/native-cube/eks-auto/aws/latest",
                 "codeRepository": "https://github.com/native-cube/terraform-aws-eks-auto",
                 "version": "1.0.0",
                 "programmingLanguage": "HCL",
@@ -140,7 +142,8 @@
                 "@type": "SoftwareSourceCode",
                 "name": "EKS Managed Node Group",
                 "description": "Provision an EKS managed node group with IAM, scaling controls, launch template options, labels, and Kubernetes taints.",
-                "url": "https://registry.terraform.io/modules/native-cube/eks-node-group/aws/latest",
+                "url": "https://native-cube.github.io/terraform-modules/#eks-node-group",
+                "sameAs": "https://registry.terraform.io/modules/native-cube/eks-node-group/aws/latest",
                 "codeRepository": "https://github.com/native-cube/terraform-aws-eks-node-group",
                 "version": "1.1.0",
                 "programmingLanguage": "HCL",
@@ -154,7 +157,8 @@
                 "@type": "SoftwareSourceCode",
                 "name": "EKS Fargate Profile",
                 "description": "Configure an AWS Fargate profile for EKS workloads, including selectors, subnet placement, and the pod execution IAM role.",
-                "url": "https://registry.terraform.io/modules/native-cube/eks-fargate-profile/aws/latest",
+                "url": "https://native-cube.github.io/terraform-modules/#eks-fargate-profile",
+                "sameAs": "https://registry.terraform.io/modules/native-cube/eks-fargate-profile/aws/latest",
                 "codeRepository": "https://github.com/native-cube/terraform-aws-eks-fargate-profile",
                 "version": "1.0.1",
                 "programmingLanguage": "HCL",
@@ -168,7 +172,8 @@
                 "@type": "SoftwareSourceCode",
                 "name": "KMS",
                 "description": "Configure an AWS KMS key with an optional alias, key policy, rotation controls, multi-Region support, and resource tags.",
-                "url": "https://registry.terraform.io/modules/native-cube/kms/aws/latest",
+                "url": "https://native-cube.github.io/terraform-modules/#kms",
+                "sameAs": "https://registry.terraform.io/modules/native-cube/kms/aws/latest",
                 "codeRepository": "https://github.com/native-cube/terraform-aws-kms",
                 "version": "2.0.0",
                 "programmingLanguage": "HCL",
@@ -182,7 +187,8 @@
                 "@type": "SoftwareSourceCode",
                 "name": "VPC Flow Logs",
                 "description": "Enable AWS VPC Flow Logs and deliver network traffic records to a managed CloudWatch log group with the required IAM role.",
-                "url": "https://registry.terraform.io/modules/native-cube/vpc-flow-logs/aws/latest",
+                "url": "https://native-cube.github.io/terraform-modules/#vpc-flow-logs",
+                "sameAs": "https://registry.terraform.io/modules/native-cube/vpc-flow-logs/aws/latest",
                 "codeRepository": "https://github.com/native-cube/terraform-aws-vpc-flow-logs",
                 "version": "2.3.0",
                 "programmingLanguage": "HCL",
@@ -348,7 +354,7 @@
           <time datetime="2026-08-11">11 Aug 2026</time>.
         </p>
         <div class="module-grid">
-          <article class="module-card module-card--eks">
+          <article id="eks" class="module-card module-card--eks">
             <div class="card-topline">
               <span class="module-icon" aria-hidden="true">
                 <svg viewBox="0 0 24 24">
@@ -359,7 +365,7 @@
               <span class="module-type">Kubernetes</span>
               <span class="status-badge"><i></i> Active</span>
             </div>
-            <h3>EKS</h3>
+            <h3><a class="module-permalink" href="#eks">EKS<span aria-hidden="true">#</span></a></h3>
             <p class="module-description">Create an Amazon EKS cluster with managed node groups, core add-ons, access controls, EKS capabilities, and optional Karpenter readiness.</p>
             <dl class="module-facts" aria-label="EKS module metadata">
               <div>
@@ -389,6 +395,7 @@
                 data-source="native-cube/eks/aws"
                 data-version="1.4.0"
                 data-required="2"
+                data-snippet="compact"
                 aria-label="Copy EKS module block"
               >
                 <svg viewBox="0 0 24 24" aria-hidden="true">
@@ -411,6 +418,26 @@
 
   # insert the 2 required variables here
 }</code></pre>
+                <button
+                  class="starter-copy"
+                  type="button"
+                  data-module-copy
+                  data-module="eks"
+                  data-title="EKS"
+                  data-source="native-cube/eks/aws"
+                  data-version="1.4.0"
+                  data-required="2"
+                  data-inputs="[{&quot;name&quot;:&quot;name&quot;,&quot;type&quot;:&quot;string&quot;,&quot;description&quot;:&quot;Name prefix for module-created resources. Used as the EKS cluster name when cluster_name is null.&quot;},{&quot;name&quot;:&quot;subnet_ids&quot;,&quot;type&quot;:&quot;list(string)&quot;,&quot;description&quot;:&quot;Subnet IDs for the EKS control plane and default node groups. Use at least two subnets in different Availability Zones.&quot;}]"
+                  data-snippet="starter"
+                  aria-label="Copy EKS starter block with typed required inputs"
+                ><span>Copy starter block with typed inputs</span></button>
+                <template data-starter-example>module &quot;eks&quot; {
+  source  = &quot;native-cube/eks/aws&quot;
+  version = &quot;1.4.0&quot;
+
+  # name       = &quot;replace-me&quot;
+  # subnet_ids = []
+}</template>
                 <h4>Required inputs</h4>
                 <ul class="required-inputs">
                   <li>
@@ -431,10 +458,20 @@
               <a href="https://github.com/native-cube/terraform-aws-eks" target="_blank" rel="noreferrer">
                 GitHub source <span aria-hidden="true">↗</span>
               </a>
+              <a href="https://github.com/native-cube/terraform-aws-eks/tree/main/examples/basic" target="_blank" rel="noreferrer">
+                Complete example <span aria-hidden="true">↗</span>
+              </a>
+              <a href="https://github.com/native-cube/terraform-aws-eks/releases" target="_blank" rel="noreferrer">
+                Releases <span aria-hidden="true">↗</span>
+              </a>
             </div>
+            <p class="module-trust">
+              <span>License not declared</span>
+              <span>Source updated <time datetime="2026-06-24">24 Jun 2026</time></span>
+            </p>
           </article>
 
-          <article class="module-card module-card--auto">
+          <article id="eks-auto" class="module-card module-card--auto">
             <div class="card-topline">
               <span class="module-icon" aria-hidden="true">
                 <svg viewBox="0 0 24 24">
@@ -444,7 +481,7 @@
               <span class="module-type">Kubernetes</span>
               <span class="status-badge"><i></i> Active</span>
             </div>
-            <h3>EKS Auto Mode</h3>
+            <h3><a class="module-permalink" href="#eks-auto">EKS Auto Mode<span aria-hidden="true">#</span></a></h3>
             <p class="module-description">Build an EKS Auto Mode cluster with managed compute, load balancing, block storage, Pod Identity, and rendered Kubernetes resources.</p>
             <dl class="module-facts" aria-label="EKS Auto Mode module metadata">
               <div>
@@ -474,6 +511,7 @@
                 data-source="native-cube/eks-auto/aws"
                 data-version="1.0.0"
                 data-required="2"
+                data-snippet="compact"
                 aria-label="Copy EKS Auto Mode module block"
               >
                 <svg viewBox="0 0 24 24" aria-hidden="true">
@@ -496,6 +534,26 @@
 
   # insert the 2 required variables here
 }</code></pre>
+                <button
+                  class="starter-copy"
+                  type="button"
+                  data-module-copy
+                  data-module="eks-auto"
+                  data-title="EKS Auto Mode"
+                  data-source="native-cube/eks-auto/aws"
+                  data-version="1.0.0"
+                  data-required="2"
+                  data-inputs="[{&quot;name&quot;:&quot;name&quot;,&quot;type&quot;:&quot;string&quot;,&quot;description&quot;:&quot;Name prefix for module-created resources. Used as the EKS cluster name when cluster_name is null.&quot;},{&quot;name&quot;:&quot;subnet_ids&quot;,&quot;type&quot;:&quot;list(string)&quot;,&quot;description&quot;:&quot;Subnet IDs for the EKS control plane and EKS Auto Mode managed compute. Use at least two subnets in different Availability Zones.&quot;}]"
+                  data-snippet="starter"
+                  aria-label="Copy EKS Auto Mode starter block with typed required inputs"
+                ><span>Copy starter block with typed inputs</span></button>
+                <template data-starter-example>module &quot;eks-auto&quot; {
+  source  = &quot;native-cube/eks-auto/aws&quot;
+  version = &quot;1.0.0&quot;
+
+  # name       = &quot;replace-me&quot;
+  # subnet_ids = []
+}</template>
                 <h4>Required inputs</h4>
                 <ul class="required-inputs">
                   <li>
@@ -516,10 +574,20 @@
               <a href="https://github.com/native-cube/terraform-aws-eks-auto" target="_blank" rel="noreferrer">
                 GitHub source <span aria-hidden="true">↗</span>
               </a>
+              <a href="https://github.com/native-cube/terraform-aws-eks-auto/tree/main/examples/minimal" target="_blank" rel="noreferrer">
+                Complete example <span aria-hidden="true">↗</span>
+              </a>
+              <a href="https://github.com/native-cube/terraform-aws-eks-auto/releases" target="_blank" rel="noreferrer">
+                Releases <span aria-hidden="true">↗</span>
+              </a>
             </div>
+            <p class="module-trust">
+              <a href="https://github.com/native-cube/terraform-aws-eks-auto/blob/main/LICENSE" target="_blank" rel="noreferrer">Apache-2.0 license <span aria-hidden="true">↗</span></a>
+              <span>Source updated <time datetime="2026-06-25">25 Jun 2026</time></span>
+            </p>
           </article>
 
-          <article class="module-card module-card--nodes">
+          <article id="eks-node-group" class="module-card module-card--nodes">
             <div class="card-topline">
               <span class="module-icon" aria-hidden="true">
                 <svg viewBox="0 0 24 24">
@@ -532,7 +600,7 @@
               <span class="module-type">Kubernetes</span>
               <span class="status-badge"><i></i> Active</span>
             </div>
-            <h3>EKS Managed Node Group</h3>
+            <h3><a class="module-permalink" href="#eks-node-group">EKS Managed Node Group<span aria-hidden="true">#</span></a></h3>
             <p class="module-description">Provision an EKS managed node group with IAM, scaling controls, launch template options, labels, and Kubernetes taints.</p>
             <dl class="module-facts" aria-label="EKS Managed Node Group module metadata">
               <div>
@@ -562,6 +630,7 @@
                 data-source="native-cube/eks-node-group/aws"
                 data-version="1.1.0"
                 data-required="5"
+                data-snippet="compact"
                 aria-label="Copy EKS Managed Node Group module block"
               >
                 <svg viewBox="0 0 24 24" aria-hidden="true">
@@ -584,6 +653,29 @@
 
   # insert the 5 required variables here
 }</code></pre>
+                <button
+                  class="starter-copy"
+                  type="button"
+                  data-module-copy
+                  data-module="eks-node-group"
+                  data-title="EKS Managed Node Group"
+                  data-source="native-cube/eks-node-group/aws"
+                  data-version="1.1.0"
+                  data-required="5"
+                  data-inputs="[{&quot;name&quot;:&quot;cluster_name&quot;,&quot;type&quot;:&quot;string&quot;,&quot;description&quot;:&quot;The name of the EKS cluster.&quot;},{&quot;name&quot;:&quot;desired_size&quot;,&quot;type&quot;:&quot;number&quot;,&quot;description&quot;:&quot;Desired number of worker nodes.&quot;},{&quot;name&quot;:&quot;max_size&quot;,&quot;type&quot;:&quot;number&quot;,&quot;description&quot;:&quot;Maximum number of worker nodes.&quot;},{&quot;name&quot;:&quot;min_size&quot;,&quot;type&quot;:&quot;number&quot;,&quot;description&quot;:&quot;Minimum number of worker nodes.&quot;},{&quot;name&quot;:&quot;subnet_ids&quot;,&quot;type&quot;:&quot;list(string)&quot;,&quot;description&quot;:&quot;A list of subnet IDs to launch resources in.&quot;}]"
+                  data-snippet="starter"
+                  aria-label="Copy EKS Managed Node Group starter block with typed required inputs"
+                ><span>Copy starter block with typed inputs</span></button>
+                <template data-starter-example>module &quot;eks-node-group&quot; {
+  source  = &quot;native-cube/eks-node-group/aws&quot;
+  version = &quot;1.1.0&quot;
+
+  # cluster_name = &quot;replace-me&quot;
+  # desired_size = 0
+  # max_size     = 0
+  # min_size     = 0
+  # subnet_ids   = []
+}</template>
                 <h4>Required inputs</h4>
                 <ul class="required-inputs">
                   <li>
@@ -616,10 +708,18 @@
               <a href="https://github.com/native-cube/terraform-aws-eks-node-group" target="_blank" rel="noreferrer">
                 GitHub source <span aria-hidden="true">↗</span>
               </a>
+
+              <a href="https://github.com/native-cube/terraform-aws-eks-node-group/releases" target="_blank" rel="noreferrer">
+                Releases <span aria-hidden="true">↗</span>
+              </a>
             </div>
+            <p class="module-trust">
+              <a href="https://github.com/native-cube/terraform-aws-eks-node-group/blob/main/LICENSE" target="_blank" rel="noreferrer">Apache-2.0 license <span aria-hidden="true">↗</span></a>
+              <span>Source updated <time datetime="2023-05-20">20 May 2023</time></span>
+            </p>
           </article>
 
-          <article class="module-card module-card--fargate">
+          <article id="eks-fargate-profile" class="module-card module-card--fargate">
             <div class="card-topline">
               <span class="module-icon" aria-hidden="true">
                 <svg viewBox="0 0 24 24">
@@ -630,7 +730,7 @@
               <span class="module-type">Kubernetes</span>
               <span class="status-badge"><i></i> Active</span>
             </div>
-            <h3>EKS Fargate Profile</h3>
+            <h3><a class="module-permalink" href="#eks-fargate-profile">EKS Fargate Profile<span aria-hidden="true">#</span></a></h3>
             <p class="module-description">Configure an AWS Fargate profile for EKS workloads, including selectors, subnet placement, and the pod execution IAM role.</p>
             <dl class="module-facts" aria-label="EKS Fargate Profile module metadata">
               <div>
@@ -660,6 +760,7 @@
                 data-source="native-cube/eks-fargate-profile/aws"
                 data-version="1.0.1"
                 data-required="5"
+                data-snippet="compact"
                 aria-label="Copy EKS Fargate Profile module block"
               >
                 <svg viewBox="0 0 24 24" aria-hidden="true">
@@ -682,6 +783,29 @@
 
   # insert the 5 required variables here
 }</code></pre>
+                <button
+                  class="starter-copy"
+                  type="button"
+                  data-module-copy
+                  data-module="eks-fargate-profile"
+                  data-title="EKS Fargate Profile"
+                  data-source="native-cube/eks-fargate-profile/aws"
+                  data-version="1.0.1"
+                  data-required="5"
+                  data-inputs="[{&quot;name&quot;:&quot;cluster_name&quot;,&quot;type&quot;:&quot;string&quot;,&quot;description&quot;:&quot;The name of the EKS cluster&quot;},{&quot;name&quot;:&quot;fargate_profile_name&quot;,&quot;type&quot;:&quot;string&quot;,&quot;description&quot;:&quot;Name of the EKS Fargate Profile. If not provided, profile will be called `fargate-profile-namespace_name`.&quot;},{&quot;name&quot;:&quot;labels&quot;,&quot;type&quot;:&quot;map(string)&quot;,&quot;description&quot;:&quot;Key-value mapping of Kubernetes labels for selection&quot;},{&quot;name&quot;:&quot;namespace&quot;,&quot;type&quot;:&quot;string&quot;,&quot;description&quot;:&quot;Kubernetes namespace for which fargate profile will be used.&quot;},{&quot;name&quot;:&quot;subnet_ids&quot;,&quot;type&quot;:&quot;list(string)&quot;,&quot;description&quot;:&quot;Identifiers of private EC2 Subnets to associate with the EKS Fargate Profile. These subnets must have the following resource tag: kubernetes.io/cluster/cluster_name.&quot;}]"
+                  data-snippet="starter"
+                  aria-label="Copy EKS Fargate Profile starter block with typed required inputs"
+                ><span>Copy starter block with typed inputs</span></button>
+                <template data-starter-example>module &quot;eks-fargate-profile&quot; {
+  source  = &quot;native-cube/eks-fargate-profile/aws&quot;
+  version = &quot;1.0.1&quot;
+
+  # cluster_name         = &quot;replace-me&quot;
+  # fargate_profile_name = &quot;replace-me&quot;
+  # labels               = {}
+  # namespace            = &quot;replace-me&quot;
+  # subnet_ids           = []
+}</template>
                 <h4>Required inputs</h4>
                 <ul class="required-inputs">
                   <li>
@@ -714,10 +838,18 @@
               <a href="https://github.com/native-cube/terraform-aws-eks-fargate-profile" target="_blank" rel="noreferrer">
                 GitHub source <span aria-hidden="true">↗</span>
               </a>
+
+              <a href="https://github.com/native-cube/terraform-aws-eks-fargate-profile/releases" target="_blank" rel="noreferrer">
+                Releases <span aria-hidden="true">↗</span>
+              </a>
             </div>
+            <p class="module-trust">
+              <a href="https://github.com/native-cube/terraform-aws-eks-fargate-profile/blob/main/LICENSE" target="_blank" rel="noreferrer">Apache-2.0 license <span aria-hidden="true">↗</span></a>
+              <span>Source updated <time datetime="2022-05-26">26 May 2022</time></span>
+            </p>
           </article>
 
-          <article class="module-card module-card--kms">
+          <article id="kms" class="module-card module-card--kms">
             <div class="card-topline">
               <span class="module-icon" aria-hidden="true">
                 <svg viewBox="0 0 24 24">
@@ -728,7 +860,7 @@
               <span class="module-type">Security</span>
               <span class="status-badge"><i></i> Active</span>
             </div>
-            <h3>KMS</h3>
+            <h3><a class="module-permalink" href="#kms">KMS<span aria-hidden="true">#</span></a></h3>
             <p class="module-description">Configure an AWS KMS key with an optional alias, key policy, rotation controls, multi-Region support, and resource tags.</p>
             <dl class="module-facts" aria-label="KMS module metadata">
               <div>
@@ -758,6 +890,7 @@
                 data-source="native-cube/kms/aws"
                 data-version="2.0.0"
                 data-required="0"
+                data-snippet="compact"
                 aria-label="Copy KMS module block"
               >
                 <svg viewBox="0 0 24 24" aria-hidden="true">
@@ -780,6 +913,25 @@
 
   # no required variables
 }</code></pre>
+                <button
+                  class="starter-copy"
+                  type="button"
+                  data-module-copy
+                  data-module="kms"
+                  data-title="KMS"
+                  data-source="native-cube/kms/aws"
+                  data-version="2.0.0"
+                  data-required="0"
+                  data-inputs="[]"
+                  data-snippet="starter"
+                  aria-label="Copy KMS starter block with typed required inputs"
+                ><span>Copy starter block with typed inputs</span></button>
+                <template data-starter-example>module &quot;kms&quot; {
+  source  = &quot;native-cube/kms/aws&quot;
+  version = &quot;2.0.0&quot;
+
+  # no required variables
+}</template>
                 <h4>Required inputs</h4>
                 <p class="no-required-inputs">No required inputs. Configure optional variables as needed.</p>
               </div>
@@ -791,10 +943,20 @@
               <a href="https://github.com/native-cube/terraform-aws-kms" target="_blank" rel="noreferrer">
                 GitHub source <span aria-hidden="true">↗</span>
               </a>
+              <a href="https://github.com/native-cube/terraform-aws-kms/tree/main/examples/core" target="_blank" rel="noreferrer">
+                Complete example <span aria-hidden="true">↗</span>
+              </a>
+              <a href="https://github.com/native-cube/terraform-aws-kms/releases" target="_blank" rel="noreferrer">
+                Releases <span aria-hidden="true">↗</span>
+              </a>
             </div>
+            <p class="module-trust">
+              <a href="https://github.com/native-cube/terraform-aws-kms/blob/main/LICENSE" target="_blank" rel="noreferrer">Apache-2.0 license <span aria-hidden="true">↗</span></a>
+              <span>Source updated <time datetime="2026-06-18">18 Jun 2026</time></span>
+            </p>
           </article>
 
-          <article class="module-card module-card--network">
+          <article id="vpc-flow-logs" class="module-card module-card--network">
             <div class="card-topline">
               <span class="module-icon" aria-hidden="true">
                 <svg viewBox="0 0 24 24">
@@ -807,7 +969,7 @@
               <span class="module-type">Networking</span>
               <span class="status-badge"><i></i> Active</span>
             </div>
-            <h3>VPC Flow Logs</h3>
+            <h3><a class="module-permalink" href="#vpc-flow-logs">VPC Flow Logs<span aria-hidden="true">#</span></a></h3>
             <p class="module-description">Enable AWS VPC Flow Logs and deliver network traffic records to a managed CloudWatch log group with the required IAM role.</p>
             <dl class="module-facts" aria-label="VPC Flow Logs module metadata">
               <div>
@@ -837,6 +999,7 @@
                 data-source="native-cube/vpc-flow-logs/aws"
                 data-version="2.3.0"
                 data-required="1"
+                data-snippet="compact"
                 aria-label="Copy VPC Flow Logs module block"
               >
                 <svg viewBox="0 0 24 24" aria-hidden="true">
@@ -859,6 +1022,25 @@
 
   # insert the 1 required variable here
 }</code></pre>
+                <button
+                  class="starter-copy"
+                  type="button"
+                  data-module-copy
+                  data-module="vpc-flow-logs"
+                  data-title="VPC Flow Logs"
+                  data-source="native-cube/vpc-flow-logs/aws"
+                  data-version="2.3.0"
+                  data-required="1"
+                  data-inputs="[{&quot;name&quot;:&quot;name_prefix&quot;,&quot;type&quot;:&quot;string&quot;,&quot;description&quot;:&quot;A prefix used for naming resources.&quot;}]"
+                  data-snippet="starter"
+                  aria-label="Copy VPC Flow Logs starter block with typed required inputs"
+                ><span>Copy starter block with typed inputs</span></button>
+                <template data-starter-example>module &quot;vpc-flow-logs&quot; {
+  source  = &quot;native-cube/vpc-flow-logs/aws&quot;
+  version = &quot;2.3.0&quot;
+
+  # name_prefix = &quot;replace-me&quot;
+}</template>
                 <h4>Required inputs</h4>
                 <ul class="required-inputs">
                   <li>
@@ -875,10 +1057,118 @@
               <a href="https://github.com/native-cube/terraform-aws-vpc-flow-logs" target="_blank" rel="noreferrer">
                 GitHub source <span aria-hidden="true">↗</span>
               </a>
+
+              <a href="https://github.com/native-cube/terraform-aws-vpc-flow-logs/releases" target="_blank" rel="noreferrer">
+                Releases <span aria-hidden="true">↗</span>
+              </a>
             </div>
+            <p class="module-trust">
+              <a href="https://github.com/native-cube/terraform-aws-vpc-flow-logs/blob/main/LICENSE" target="_blank" rel="noreferrer">Apache-2.0 license <span aria-hidden="true">↗</span></a>
+              <span>Source updated <time datetime="2025-08-08">8 Aug 2025</time></span>
+            </p>
           </article>
         </div>
         <!-- MODULE_CARDS_END -->
+      </section>
+
+      <section class="architecture-recipes" aria-labelledby="architecture-recipes-title">
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow">Common architectures</p>
+            <h2 id="architecture-recipes-title">Compose a proven starting point.</h2>
+          </div>
+          <p>
+            These maintained examples show complete configurations in context.
+            Review their variables and adapt networking, access, and security to
+            your environment before applying.
+          </p>
+        </div>
+        <div class="recipe-grid">
+          <article>
+            <p class="recipe-number" aria-hidden="true">01</p>
+            <h3>Production EKS foundation</h3>
+            <p>
+              Start with a standard EKS control plane, managed node groups,
+              core add-ons, access controls, and operational logging.
+            </p>
+            <ul aria-label="Modules used">
+              <li><a href="#eks">EKS</a></li>
+            </ul>
+            <a class="recipe-action" href="https://github.com/native-cube/terraform-aws-eks/tree/main/examples/advanced" target="_blank" rel="noreferrer">
+              Open advanced example <span aria-hidden="true">↗</span>
+            </a>
+          </article>
+          <article>
+            <p class="recipe-number" aria-hidden="true">02</p>
+            <h3>Encrypted EKS platform</h3>
+            <p>
+              Create a managed KMS key, then use its ARN for Kubernetes secrets
+              and control-plane log encryption in an EKS configuration.
+            </p>
+            <ul aria-label="Modules used">
+              <li><a href="#kms">KMS</a></li>
+              <li><a href="#eks">EKS</a></li>
+            </ul>
+            <div class="recipe-actions">
+              <a class="recipe-action" href="https://github.com/native-cube/terraform-aws-kms/tree/main/examples/core" target="_blank" rel="noreferrer">
+                KMS example <span aria-hidden="true">↗</span>
+              </a>
+              <a class="recipe-action" href="https://github.com/native-cube/terraform-aws-eks/tree/main/examples/advanced" target="_blank" rel="noreferrer">
+                EKS example <span aria-hidden="true">↗</span>
+              </a>
+            </div>
+          </article>
+          <article>
+            <p class="recipe-number" aria-hidden="true">03</p>
+            <h3>EKS Auto Mode baseline</h3>
+            <p>
+              Launch an Auto Mode cluster with AWS-managed compute, load
+              balancing, storage, and secure endpoint defaults.
+            </p>
+            <ul aria-label="Modules used">
+              <li><a href="#eks-auto">EKS Auto Mode</a></li>
+            </ul>
+            <a class="recipe-action" href="https://github.com/native-cube/terraform-aws-eks-auto/tree/main/examples/minimal" target="_blank" rel="noreferrer">
+              Open minimal example <span aria-hidden="true">↗</span>
+            </a>
+          </article>
+        </div>
+      </section>
+
+      <section class="best-practices" aria-labelledby="best-practices-title">
+        <div class="best-practices-heading">
+          <p class="eyebrow">Operational guardrails</p>
+          <h2 id="best-practices-title">Use modules with confidence.</h2>
+          <p>
+            A few habits make Terraform changes safer, more predictable, and
+            easier to review.
+          </p>
+        </div>
+        <ul>
+          <li>
+            <strong>Constrain versions</strong>
+            <span>Pin or deliberately constrain module and provider versions; upgrade through reviewed changes.</span>
+          </li>
+          <li>
+            <strong>Validate before apply</strong>
+            <span>Run <code>terraform fmt</code>, <code>terraform validate</code>, and inspect every <code>terraform plan</code>.</span>
+          </li>
+          <li>
+            <strong>Protect state</strong>
+            <span>Use encrypted remote state with access controls and locking; never commit state files.</span>
+          </li>
+          <li>
+            <strong>Keep secrets external</strong>
+            <span>Do not hard-code credentials or secrets. Treat state and saved plan files as sensitive.</span>
+          </li>
+        </ul>
+        <p class="best-practices-links">
+          Official HashiCorp guidance:
+          <a href="https://developer.hashicorp.com/terraform/language/style" target="_blank" rel="noreferrer">style guide</a>,
+          <a href="https://developer.hashicorp.com/terraform/language/expressions/version-constraints" target="_blank" rel="noreferrer">version constraints</a>,
+          <a href="https://developer.hashicorp.com/terraform/language/state/remote" target="_blank" rel="noreferrer">remote state</a>, and
+          <a href="https://developer.hashicorp.com/terraform/language/manage-sensitive-data" target="_blank" rel="noreferrer">sensitive data</a>.
+        </p>
       </section>
 
       <section class="closing-panel" aria-labelledby="closing-title">

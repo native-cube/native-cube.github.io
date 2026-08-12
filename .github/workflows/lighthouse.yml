@@ -21,6 +21,27 @@ jobs:
       - name: Validate SEO metadata and canonical URLs
         run: python3 scripts/seo-audit.py
 
+      - name: Validate HTML
+        uses: Cyb3r-Jak3/html5validator-action@v7.2.0
+        with:
+          root: .
+          blacklist: googlecaadda4a5b13e6cb.html node_modules .lighthouseci
+
+      - name: Validate internal and external links
+        uses: lycheeverse/lychee-action@v2
+        with:
+          args: >-
+            --root-dir .
+            --include-fragments
+            --timeout 30
+            --max-retries 3
+            --retry-wait-time 2
+            README.md
+            terraform-modules/index.html
+          fail: true
+          jobSummary: true
+          token: ${{ secrets.GITHUB_TOKEN }}
+
       - name: Start static preview
         run: |
           python3 -m http.server 8080 > /tmp/native-cube-http.log 2>&1 &
