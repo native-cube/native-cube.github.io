@@ -12,7 +12,13 @@
   const BLOCKED_KINDS = new Set(["Secret"]);
   const SEVERITY_RANK = { critical: 0, high: 1, medium: 2, low: 3 };
   const MAP_LIMIT = 24;
-  const SAMPLE = `# Example only — no cluster credentials or Secrets
+  const SAMPLE_SCENARIOS = [
+    {
+      name: "Namespace reader",
+      description: "A service account with read-only application access.",
+      source: `# Scenario: Namespace reader
+# A low-risk, namespace-scoped service account policy.
+# Example only — no cluster credentials or Secret objects.
 apiVersion: v1
 kind: ServiceAccount
 metadata:
@@ -26,7 +32,7 @@ metadata:
   namespace: production
 rules:
   - apiGroups: [""]
-    resources: ["configmaps"]
+    resources: ["configmaps", "pods"]
     verbs: ["get", "list", "watch"]
   - apiGroups: [""]
     resources: ["pods/log"]
@@ -45,7 +51,14 @@ roleRef:
   apiGroup: rbac.authorization.k8s.io
   kind: Role
   name: catalog-reader
----
+`,
+    },
+    {
+      name: "Deployment operator",
+      description: "A reusable ClusterRole restricted to one namespace.",
+      source: `# Scenario: Deployment operator
+# A ClusterRole reused through namespace-scoped RoleBindings.
+# Example only — no cluster credentials or Secret objects.
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRole
 metadata:
@@ -54,26 +67,39 @@ rules:
   - apiGroups: ["apps"]
     resources: ["deployments"]
     verbs: ["get", "list", "watch", "patch", "update"]
+  - apiGroups: [""]
+    resources: ["pods", "events"]
+    verbs: ["get", "list", "watch"]
 ---
 apiVersion: rbac.authorization.k8s.io/v1
 kind: RoleBinding
 metadata:
   name: deployment-operator
-  namespace: production
+  namespace: staging
 subjects:
   - kind: Group
-    name: platform-team
+    name: release-engineers
     apiGroup: rbac.authorization.k8s.io
 roleRef:
   apiGroup: rbac.authorization.k8s.io
   kind: ClusterRole
   name: deployment-operator
----
+`,
+    },
+    {
+      name: "Emergency debugger",
+      description: "Cluster-wide pod exec and Secret read access.",
+      source: `# Scenario: Emergency debugger
+# Sensitive cluster-wide troubleshooting access for an on-call group.
+# Example only — no cluster credentials or Secret objects.
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRole
 metadata:
   name: emergency-debugger
 rules:
+  - apiGroups: [""]
+    resources: ["pods", "pods/log"]
+    verbs: ["get", "list", "watch"]
   - apiGroups: [""]
     resources: ["pods/exec"]
     verbs: ["create"]
@@ -93,7 +119,115 @@ roleRef:
   apiGroup: rbac.authorization.k8s.io
   kind: ClusterRole
   name: emergency-debugger
-`;
+`,
+    },
+    {
+      name: "RBAC administrator",
+      description: "A critical policy with role-management and escalation rights.",
+      source: `# Scenario: RBAC administrator
+# A deliberately privileged policy for demonstrating escalation findings.
+# Example only — no cluster credentials or Secret objects.
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: delegated-rbac-administrator
+rules:
+  - apiGroups: ["rbac.authorization.k8s.io"]
+    resources: ["roles", "rolebindings"]
+    verbs: ["get", "list", "watch", "create", "update", "patch", "delete"]
+  - apiGroups: ["rbac.authorization.k8s.io"]
+    resources: ["clusterroles"]
+    resourceNames: ["view", "edit", "admin"]
+    verbs: ["get", "bind", "escalate"]
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: delegated-rbac-administrator
+subjects:
+  - kind: Group
+    name: access-administrators
+    apiGroup: rbac.authorization.k8s.io
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: delegated-rbac-administrator
+`,
+    },
+    {
+      name: "Aggregated observability",
+      description: "An aggregated ClusterRole assembled from labeled roles.",
+      source: `# Scenario: Aggregated observability
+# An aggregated ClusterRole composed from two labeled ClusterRoles.
+# Example only — no cluster credentials or Secret objects.
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: observability-pod-reader
+  labels:
+    rbac.native-cube.dev/aggregate-to-observability: "true"
+rules:
+  - apiGroups: [""]
+    resources: ["pods", "pods/log"]
+    verbs: ["get", "list", "watch"]
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: observability-workload-reader
+  labels:
+    rbac.native-cube.dev/aggregate-to-observability: "true"
+rules:
+  - apiGroups: ["apps"]
+    resources: ["deployments", "statefulsets", "daemonsets"]
+    verbs: ["get", "list", "watch"]
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: observability-reader
+aggregationRule:
+  clusterRoleSelectors:
+    - matchLabels:
+        rbac.native-cube.dev/aggregate-to-observability: "true"
+rules: []
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: observability-reader
+subjects:
+  - kind: Group
+    name: observability-team
+    apiGroup: rbac.authorization.k8s.io
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: observability-reader
+`,
+    },
+    {
+      name: "Incomplete export",
+      description: "A RoleBinding whose referenced role is missing.",
+      source: `# Scenario: Incomplete export
+# This intentionally omits the referenced ClusterRole.
+# Use it to see how analysis coverage gaps are reported.
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: application-support
+  namespace: payments
+subjects:
+  - kind: Group
+    name: application-support
+    apiGroup: rbac.authorization.k8s.io
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: application-support
+`,
+    },
+  ];
 
   const byId = (id) => document.getElementById(id);
   const source = byId("rbac-source");
@@ -104,6 +238,7 @@ roleRef:
   let showAllMap = false;
   let generatedYaml = "";
   let toastTimer;
+  let lastSampleIndex = -1;
 
   function escapeHtml(value) {
     return String(value ?? "")
@@ -137,6 +272,28 @@ roleRef:
   function setSourceStatus(state, message) {
     sourceStatus.className = `source-status${state ? ` is-${state}` : ""}`;
     sourceStatus.textContent = message;
+  }
+
+  function randomSampleIndex() {
+    if (SAMPLE_SCENARIOS.length < 2) return 0;
+    const candidates = SAMPLE_SCENARIOS
+      .map((_, index) => index)
+      .filter((index) => index !== lastSampleIndex);
+    const randomIndex = Math.floor(Math.random() * candidates.length);
+    return candidates[randomIndex];
+  }
+
+  function loadRandomSample() {
+    lastSampleIndex = randomSampleIndex();
+    const scenario = SAMPLE_SCENARIOS[lastSampleIndex];
+    source.value = scenario.source;
+    runAnalysis();
+    byId("source-format").textContent = scenario.name;
+    setSourceStatus(
+      "success",
+      `${scenario.name}: ${scenario.description} ${sourceStatus.textContent}`,
+    );
+    showToast(`${scenario.name} sample loaded`);
   }
 
   function parseDocuments(text) {
@@ -1493,14 +1650,11 @@ ${subjectNamespace}${subjectApiGroup}roleRef:
   }
 
   byId("analyze-button").addEventListener("click", () => runAnalysis({ scroll: true }));
-  byId("sample-button").addEventListener("click", () => {
-    source.value = SAMPLE;
-    runAnalysis();
-    showToast("Example RBAC policy loaded");
-  });
+  byId("sample-button").addEventListener("click", loadRandomSample);
   byId("clear-button").addEventListener("click", () => {
     source.value = "";
     comparisonSource.value = "";
+    lastSampleIndex = -1;
     resetAnalysis();
     setSourceStatus("", "Waiting for RBAC manifests.");
     byId("source-format").textContent = "YAML or JSON";

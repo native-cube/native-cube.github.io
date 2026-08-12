@@ -44,6 +44,11 @@ objects. Parsing and analysis stay in the browser. Secret objects are rejected,
 and users should never provide a kubeconfig, token, or other credentials. YAML
 input uses the existing vendored `js-yaml` 4.1.0 bundle.
 
+The random sample library demonstrates namespace read-only access, deployment
+operations, sensitive cluster access, RBAC administration, aggregated
+ClusterRoles, and incomplete policy exports. Consecutive sample selections do
+not repeat the same scenario.
+
 ## Terraform Modules
 
 Open `/terraform-modules/` to explore public AWS Terraform modules
