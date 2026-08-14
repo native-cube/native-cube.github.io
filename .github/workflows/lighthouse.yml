@@ -57,6 +57,7 @@ jobs:
           urls: |
             http://127.0.0.1:8080/
             http://127.0.0.1:8080/k8s-manifest-builder/
+            http://127.0.0.1:8080/helm-chart-builder/
             http://127.0.0.1:8080/kubernetes-rbac-explorer/
             http://127.0.0.1:8080/visual-subnet-calculator/
             http://127.0.0.1:8080/yaml-formatter/

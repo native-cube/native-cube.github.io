@@ -13,6 +13,7 @@ SITE_URL = "https://native-cube.github.io"
 PAGES = {
     Path("index.html"): f"{SITE_URL}/",
     Path("k8s-manifest-builder/index.html"): f"{SITE_URL}/k8s-manifest-builder/",
+    Path("helm-chart-builder/index.html"): f"{SITE_URL}/helm-chart-builder/",
     Path("kubernetes-rbac-explorer/index.html"): f"{SITE_URL}/kubernetes-rbac-explorer/",
     Path("visual-subnet-calculator/index.html"): f"{SITE_URL}/visual-subnet-calculator/",
     Path("yaml-formatter/index.html"): f"{SITE_URL}/yaml-formatter/",

@@ -1,0 +1,822 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta
+      name="description"
+      content="Build a Helm chart API v2 or experimental v3 chart in your browser. Generate values and templates, preview every file, and download a complete chart ZIP."
+    />
+    <meta name="author" content="Marcin Cuber" />
+    <meta name="theme-color" content="#f2f5f9" />
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Native Cube" />
+    <meta property="og:title" content="Free Helm Chart Builder | Native Cube" />
+    <meta
+      property="og:description"
+      content="Generate a Helm chart API v2 or experimental v3 chart with values, schema, Kubernetes templates, documentation, and tests."
+    />
+    <meta
+      property="og:url"
+      content="https://native-cube.github.io/helm-chart-builder/"
+    />
+    <meta
+      property="og:image"
+      content="https://native-cube.github.io/assets/social/native-cube-tools.png"
+    />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="Native Cube Helm Chart Builder" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Free Helm Chart Builder | Native Cube" />
+    <meta
+      name="twitter:description"
+      content="Generate a Helm chart API v2 or experimental v3 chart with values, schema, Kubernetes templates, documentation, and tests."
+    />
+    <meta
+      name="twitter:image"
+      content="https://native-cube.github.io/assets/social/native-cube-tools.png"
+    />
+    <meta name="twitter:image:alt" content="Native Cube Helm Chart Builder" />
+    <link
+      rel="canonical"
+      href="https://native-cube.github.io/helm-chart-builder/"
+    />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <title>Free Helm Chart Builder | Native Cube</title>
+    <link rel="stylesheet" href="./styles.css?v=4" />
+    <script src="./app.js?v=2" defer></script>
+    <script type="application/ld+json">
+      [
+        {
+          "@context": "https://schema.org",
+          "@type": "WebApplication",
+          "@id": "https://native-cube.github.io/helm-chart-builder/#application",
+          "url": "https://native-cube.github.io/helm-chart-builder/",
+          "name": "Helm Chart Builder",
+          "description": "Build and download a Helm chart API v2 or experimental v3 chart entirely in the browser.",
+          "applicationCategory": "DeveloperApplication",
+          "operatingSystem": "Any",
+          "browserRequirements": "Requires JavaScript",
+          "isAccessibleForFree": true,
+          "offers": {
+            "@type": "Offer",
+            "price": "0",
+            "priceCurrency": "USD"
+          },
+          "isPartOf": {
+            "@id": "https://native-cube.github.io/#website"
+          }
+        },
+        {
+          "@context": "https://schema.org",
+          "@type": "BreadcrumbList",
+          "@id": "https://native-cube.github.io/helm-chart-builder/#breadcrumb",
+          "itemListElement": [
+            {
+              "@type": "ListItem",
+              "position": 1,
+              "name": "Native Cube",
+              "item": "https://native-cube.github.io/"
+            },
+            {
+              "@type": "ListItem",
+              "position": 2,
+              "name": "Helm Chart Builder",
+              "item": "https://native-cube.github.io/helm-chart-builder/"
+            }
+          ]
+        }
+      ]
+    </script>
+  </head>
+  <body>
+    <a class="skip-link" href="#builder-form">Skip to chart builder</a>
+
+    <header class="site-header">
+      <a class="brand" href="../" aria-label="Native Cube home">
+        <svg class="brand-logo" viewBox="0 0 40 40" aria-hidden="true">
+          <path d="M20 2.5 36 11.3 20 20 4 11.3 20 2.5Z" fill="#2563eb" />
+          <path d="M4 11.3 20 20v17.5L4 28.7V11.3Z" fill="#14243b" />
+          <path d="M36 11.3 20 20v17.5l16-8.8V11.3Z" fill="#22a77a" />
+          <path
+            d="m20 8 6 3.3-6 3.2-6-3.2L20 8Z"
+            fill="#f2f5f9"
+            opacity=".95"
+          />
+        </svg>
+        <span class="brand-copy">
+          <span class="brand-name">Native <strong>Cube</strong></span>
+          <span class="brand-tagline">Cloud-native toolbox</span>
+        </span>
+      </a>
+      <div class="header-actions">
+        <div class="product-lockup" aria-label="Helm Chart Builder">
+          <span>Helm</span>
+          <strong>Chart Builder</strong>
+        </div>
+        <a
+          class="sponsor-link"
+          href="https://paypal.me/marcincube"
+          target="_blank"
+          rel="noreferrer"
+          aria-label="Support my daughter’s higher education and future open-source tools via PayPal (opens in a new tab)"
+          ><span aria-hidden="true">♥</span> Support via PayPal
+          <span aria-hidden="true">↗</span></a
+        >
+      </div>
+    </header>
+
+    <p class="sponsor-message">
+      <strong>Support two journeys with one meaningful contribution.</strong>
+      Help fund my daughter’s higher education and the continued development of
+      thoughtful, accessible open-source tools.
+    </p>
+
+    <main>
+      <section class="hero">
+        <div>
+          <p class="eyebrow">Helm / Chart authoring</p>
+          <h1>Shape the values.<br /><em>Generate the chart.</em></h1>
+        </div>
+        <div class="hero-copy">
+          <p>
+            Configure a Kubernetes workload and turn it into a documented Helm
+            chart with reusable values, templates, schema validation, and tests.
+          </p>
+          <ul class="privacy-list" aria-label="Tool guarantees">
+            <li>Runs entirely in your browser</li>
+            <li>No chart data is uploaded</li>
+            <li>Exports a complete ZIP</li>
+          </ul>
+        </div>
+      </section>
+
+      <section class="workspace" aria-label="Helm chart builder workspace">
+        <form id="builder-form" class="config-panel" novalidate>
+          <div class="panel-heading">
+            <div>
+              <span class="step-label">01 / Configure</span>
+              <h2>Chart settings</h2>
+            </div>
+            <button class="text-button" id="example-button" type="button">
+              Generate base example
+            </button>
+          </div>
+
+          <fieldset class="form-section">
+            <legend>
+              <span>Chart identity</span>
+              <small>Metadata written to Chart.yaml and the generated README.</small>
+            </legend>
+            <div class="field-grid">
+              <label class="field field-wide">
+                <span>Helm chart API</span>
+                <select
+                  id="chart-api-version"
+                  name="chartApiVersion"
+                  aria-describedby="chart-api-help chart-v3-warning"
+                >
+                  <option value="v2">v2 — Stable, Helm 3 and Helm 4</option>
+                  <option value="v3">v3 — Experimental, Helm 4</option>
+                </select>
+                <small id="chart-api-help">
+                  Choose the chart format written to Chart.yaml.
+                </small>
+              </label>
+              <div
+                class="api-warning field-wide is-hidden"
+                id="chart-v3-warning"
+                role="note"
+              >
+                <strong>Chart API v3 is experimental.</strong>
+                It requires Helm 4 and the
+                <code>HELM_EXPERIMENTAL_CHART_V3=1</code> feature gate. Support
+                varies between Helm 4 releases, so use v2 for production charts.
+              </div>
+              <label class="field">
+                <span>Chart name <b aria-hidden="true">*</b></span>
+                <input
+                  id="chart-name"
+                  name="chartName"
+                  type="text"
+                  value="web-application"
+                  maxlength="63"
+                  autocomplete="off"
+                  required
+                />
+                <small>Lowercase DNS label used as the chart directory.</small>
+              </label>
+              <label class="field">
+                <span>Chart version <b aria-hidden="true">*</b></span>
+                <input
+                  id="chart-version"
+                  name="chartVersion"
+                  type="text"
+                  value="0.1.0"
+                  autocomplete="off"
+                  required
+                />
+                <small>Semantic version for the chart package.</small>
+              </label>
+              <label class="field field-wide">
+                <span>Description <b aria-hidden="true">*</b></span>
+                <input
+                  id="description"
+                  name="description"
+                  type="text"
+                  value="A Helm chart for a web application"
+                  maxlength="180"
+                  required
+                />
+              </label>
+              <label class="field">
+                <span>Application version</span>
+                <input
+                  id="app-version"
+                  name="appVersion"
+                  type="text"
+                  value="1.0.0"
+                  autocomplete="off"
+                />
+              </label>
+              <label class="field">
+                <span>Kubernetes compatibility</span>
+                <input
+                  id="kube-version"
+                  name="kubeVersion"
+                  type="text"
+                  value=">=1.29.0-0"
+                  autocomplete="off"
+                />
+                <small>Optional Helm semantic-version constraint.</small>
+              </label>
+              <label class="field">
+                <span>Maintainer</span>
+                <input
+                  id="maintainer-name"
+                  name="maintainerName"
+                  type="text"
+                  placeholder="Platform team"
+                  autocomplete="name"
+                />
+              </label>
+              <label class="field">
+                <span>Source URL</span>
+                <input
+                  id="source-url"
+                  name="sourceUrl"
+                  type="url"
+                  placeholder="https://github.com/example/app"
+                  autocomplete="url"
+                />
+              </label>
+            </div>
+          </fieldset>
+
+          <fieldset class="form-section">
+            <legend>
+              <span>Workload</span>
+              <small>Choose the controller and container defaults exposed as values.</small>
+            </legend>
+            <div class="kind-picker">
+              <label>
+                <input type="radio" name="workloadKind" value="Deployment" checked />
+                <span><strong>Deployment</strong><small>Stateless replicas</small></span>
+              </label>
+              <label>
+                <input type="radio" name="workloadKind" value="StatefulSet" />
+                <span><strong>StatefulSet</strong><small>Stable identity</small></span>
+              </label>
+              <label>
+                <input type="radio" name="workloadKind" value="DaemonSet" />
+                <span><strong>DaemonSet</strong><small>One pod per node</small></span>
+              </label>
+            </div>
+            <div class="field-grid workload-fields">
+              <label class="field field-wide">
+                <span>Image repository <b aria-hidden="true">*</b></span>
+                <input
+                  id="image-repository"
+                  name="imageRepository"
+                  type="text"
+                  value="nginx"
+                  autocomplete="off"
+                  required
+                />
+              </label>
+              <label class="field">
+                <span>Default image tag</span>
+                <input
+                  id="image-tag"
+                  name="imageTag"
+                  type="text"
+                  value="1.27-alpine"
+                  autocomplete="off"
+                />
+              </label>
+              <label class="field">
+                <span>Pull policy</span>
+                <select id="image-pull-policy" name="imagePullPolicy">
+                  <option>IfNotPresent</option>
+                  <option>Always</option>
+                  <option>Never</option>
+                </select>
+              </label>
+              <label class="field" id="replica-field">
+                <span>Replica count</span>
+                <input
+                  id="replica-count"
+                  name="replicaCount"
+                  type="number"
+                  value="2"
+                  min="1"
+                  max="10000"
+                  inputmode="numeric"
+                />
+              </label>
+              <label class="field">
+                <span>Container port</span>
+                <input
+                  id="container-port"
+                  name="containerPort"
+                  type="number"
+                  value="80"
+                  min="1"
+                  max="65535"
+                  inputmode="numeric"
+                />
+              </label>
+              <label class="field field-wide">
+                <span>Environment variables</span>
+                <textarea
+                  id="environment"
+                  name="environment"
+                  rows="4"
+                  spellcheck="false"
+                  placeholder="LOG_LEVEL=info&#10;FEATURE_FLAG=true"
+                ></textarea>
+                <small>One NAME=value pair per line. Values remain strings.</small>
+              </label>
+            </div>
+          </fieldset>
+
+          <fieldset class="form-section">
+            <legend>
+              <span>Chart components</span>
+              <small>Optional templates are controlled through values.yaml switches.</small>
+            </legend>
+
+            <div class="option-list">
+              <div class="option-card">
+                <label class="switch-row">
+                  <span><strong>Service</strong><small>Expose the workload inside the cluster.</small></span>
+                  <input id="service-enabled" name="serviceEnabled" type="checkbox" checked />
+                </label>
+                <div class="option-fields" data-option-panel="service-enabled">
+                  <label class="field">
+                    <span>Service type</span>
+                    <select id="service-type" name="serviceType">
+                      <option>ClusterIP</option>
+                      <option>NodePort</option>
+                      <option>LoadBalancer</option>
+                    </select>
+                  </label>
+                  <label class="field">
+                    <span>Service port</span>
+                    <input
+                      id="service-port"
+                      name="servicePort"
+                      type="number"
+                      value="80"
+                      min="1"
+                      max="65535"
+                      inputmode="numeric"
+                    />
+                  </label>
+                  <label class="field field-wide">
+                    <span>Service annotations</span>
+                    <textarea
+                      id="service-annotations"
+                      name="serviceAnnotations"
+                      rows="4"
+                      spellcheck="false"
+                      placeholder="service.beta.kubernetes.io/aws-load-balancer-type=nlb&#10;prometheus.io/scrape=true"
+                    ></textarea>
+                    <small>One key=value annotation per line. Blank lines and lines starting with # are ignored.</small>
+                  </label>
+                </div>
+              </div>
+
+              <div class="option-card">
+                <label class="switch-row">
+                  <span><strong>Ingress</strong><small>Route a path, optionally for a specific host.</small></span>
+                  <input id="ingress-enabled" name="ingressEnabled" type="checkbox" />
+                </label>
+                <div class="option-fields is-hidden" data-option-panel="ingress-enabled">
+                  <label class="field">
+                    <span>Ingress class</span>
+                    <input
+                      id="ingress-class-name"
+                      name="ingressClassName"
+                      type="text"
+                      value="nginx"
+                      autocomplete="off"
+                    />
+                  </label>
+                  <label class="checkbox-field">
+                    <input
+                      id="ingress-host-enabled"
+                      name="ingressHostEnabled"
+                      type="checkbox"
+                      checked
+                    />
+                    <span>
+                      <strong>Include host</strong>
+                      <small>Disable to match requests for any host.</small>
+                    </span>
+                  </label>
+                  <label class="field" id="ingress-host-field">
+                    <span>Host</span>
+                    <input
+                      id="ingress-host"
+                      name="ingressHost"
+                      type="text"
+                      value="chart-example.local"
+                      autocomplete="off"
+                    />
+                  </label>
+                  <label class="field field-wide">
+                    <span>Path</span>
+                    <input
+                      id="ingress-path"
+                      name="ingressPath"
+                      type="text"
+                      value="/"
+                      autocomplete="off"
+                    />
+                  </label>
+                  <label class="field field-wide">
+                    <span>Ingress annotations</span>
+                    <textarea
+                      id="ingress-annotations"
+                      name="ingressAnnotations"
+                      rows="4"
+                      spellcheck="false"
+                      placeholder="nginx.ingress.kubernetes.io/rewrite-target=/&#10;cert-manager.io/cluster-issuer=letsencrypt"
+                    ></textarea>
+                    <small>One key=value annotation per line. Blank lines and lines starting with # are ignored.</small>
+                  </label>
+                </div>
+              </div>
+
+              <div class="option-card" id="autoscaling-option">
+                <label class="switch-row">
+                  <span><strong>Horizontal autoscaling</strong><small>Generate an autoscaling/v2 HPA.</small></span>
+                  <input id="autoscaling-enabled" name="autoscalingEnabled" type="checkbox" />
+                </label>
+                <div class="option-fields is-hidden" data-option-panel="autoscaling-enabled">
+                  <label class="field">
+                    <span>Minimum replicas</span>
+                    <input
+                      id="autoscaling-min"
+                      name="autoscalingMin"
+                      type="number"
+                      value="2"
+                      min="1"
+                      max="10000"
+                      inputmode="numeric"
+                    />
+                  </label>
+                  <label class="field">
+                    <span>Maximum replicas</span>
+                    <input
+                      id="autoscaling-max"
+                      name="autoscalingMax"
+                      type="number"
+                      value="10"
+                      min="1"
+                      max="10000"
+                      inputmode="numeric"
+                    />
+                  </label>
+                  <label class="field field-wide">
+                    <span>Target CPU utilization</span>
+                    <input
+                      id="autoscaling-cpu"
+                      name="autoscalingCpu"
+                      type="number"
+                      value="80"
+                      min="1"
+                      max="100"
+                      inputmode="numeric"
+                    />
+                  </label>
+                </div>
+              </div>
+
+              <div class="option-card" id="pdb-option">
+                <label class="switch-row">
+                  <span><strong>Pod disruption budget</strong><small>Protect availability during voluntary evictions.</small></span>
+                  <input id="pdb-enabled" name="pdbEnabled" type="checkbox" checked />
+                </label>
+                <div class="option-fields" data-option-panel="pdb-enabled">
+                  <label class="field field-wide">
+                    <span>Minimum available</span>
+                    <input
+                      id="pdb-min-available"
+                      name="pdbMinAvailable"
+                      type="text"
+                      value="1"
+                      autocomplete="off"
+                    />
+                    <small>An integer or percentage such as 50%.</small>
+                  </label>
+                </div>
+              </div>
+
+              <div class="option-card">
+                <label class="switch-row">
+                  <span><strong>ServiceAccount</strong><small>Create a dedicated account for the workload.</small></span>
+                  <input
+                    id="service-account-create"
+                    name="serviceAccountCreate"
+                    type="checkbox"
+                    checked
+                  />
+                </label>
+                <div class="option-fields" data-option-panel="service-account-create">
+                  <label class="field field-wide">
+                    <span>Annotations</span>
+                    <textarea
+                      id="service-account-annotations"
+                      name="serviceAccountAnnotations"
+                      rows="4"
+                      spellcheck="false"
+                      placeholder="eks.amazonaws.com/role-arn=arn:aws:iam::123456789012:role/example&#10;example.com/owner=platform"
+                    ></textarea>
+                    <small>One key=value annotation per line. Blank lines and lines starting with # are ignored.</small>
+                  </label>
+                </div>
+              </div>
+            </div>
+          </fieldset>
+
+          <fieldset class="form-section">
+            <legend>
+              <span>Runtime defaults</span>
+              <small>Safe starting values that chart consumers can override.</small>
+            </legend>
+            <div class="field-grid">
+              <label class="field">
+                <span>CPU request</span>
+                <input id="cpu-request" name="cpuRequest" type="text" value="100m" />
+              </label>
+              <label class="field">
+                <span>Memory request</span>
+                <input id="memory-request" name="memoryRequest" type="text" value="128Mi" />
+              </label>
+              <label class="field">
+                <span>CPU limit</span>
+                <input id="cpu-limit" name="cpuLimit" type="text" value="500m" />
+              </label>
+              <label class="field">
+                <span>Memory limit</span>
+                <input id="memory-limit" name="memoryLimit" type="text" value="256Mi" />
+              </label>
+            </div>
+            <div class="inline-options">
+              <label>
+                <input id="readiness-enabled" name="readinessEnabled" type="checkbox" checked />
+                <span><strong>Readiness probe</strong><small>HTTP GET on the configured path.</small></span>
+              </label>
+              <label>
+                <input id="liveness-enabled" name="livenessEnabled" type="checkbox" checked />
+                <span><strong>Liveness probe</strong><small>HTTP GET on the configured path.</small></span>
+              </label>
+            </div>
+            <label class="field probe-path">
+              <span>Probe path</span>
+              <input id="probe-path" name="probePath" type="text" value="/" />
+            </label>
+          </fieldset>
+
+          <div class="form-actions">
+            <p>
+              The preview refreshes two seconds after changes. Generated files
+              stay local to this browser session.
+            </p>
+            <button class="primary-button" type="submit">
+              Generate chart <span aria-hidden="true">→</span>
+            </button>
+          </div>
+        </form>
+
+        <aside class="output-panel" aria-label="Generated chart">
+          <div class="output-heading">
+            <div>
+              <span class="step-label">02 / Review</span>
+              <h2>Generated chart</h2>
+            </div>
+            <span class="status-pill" id="chart-status" aria-live="polite">Ready</span>
+          </div>
+
+          <div
+            class="validation-summary is-hidden"
+            id="validation-summary"
+            role="alert"
+            aria-live="polite"
+          ></div>
+
+          <div class="chart-browser">
+            <nav class="file-tree" aria-label="Generated chart files">
+              <div class="file-tree-heading">
+                <span id="chart-root-name">web-application/</span>
+                <small id="file-count">0 files</small>
+              </div>
+              <ul id="file-list"></ul>
+            </nav>
+            <section class="file-preview" aria-labelledby="selected-file-name">
+              <div class="code-heading">
+                <span id="selected-file-name">Chart.yaml</span>
+                <span id="selected-file-size">0 B</span>
+              </div>
+              <pre tabindex="0"><code id="file-output"></code></pre>
+            </section>
+          </div>
+
+          <div class="output-actions">
+            <button class="secondary-button" id="copy-button" type="button">
+              Copy selected file
+            </button>
+            <button class="primary-button" id="download-button" type="button">
+              Download chart ZIP <span aria-hidden="true">↓</span>
+            </button>
+          </div>
+
+          <div class="verify-box">
+            <strong>Verify locally</strong>
+            <code id="verify-command">helm lint ./web-application</code>
+            <button class="text-button" id="copy-command-button" type="button">
+              Copy commands
+            </button>
+          </div>
+        </aside>
+      </section>
+
+      <section class="guide" aria-labelledby="guide-title">
+        <div>
+          <p class="eyebrow">What the builder creates</p>
+          <h2 id="guide-title">A maintainable starting point, not a black box.</h2>
+        </div>
+        <div class="guide-grid">
+          <article>
+            <span>01</span>
+            <h3>Chart metadata</h3>
+            <p>
+              A stable chart API v2 or experimental v3 definition with versions,
+              compatibility, maintainers, and source links.
+            </p>
+          </article>
+          <article>
+            <span>02</span>
+            <h3>Values and schema</h3>
+            <p>
+              Documented defaults paired with a JSON Schema that catches invalid
+              chart configuration early.
+            </p>
+          </article>
+          <article>
+            <span>03</span>
+            <h3>Composable templates</h3>
+            <p>
+              Namespaced helpers, standard Kubernetes labels, conditional
+              components, release notes, and a connection test.
+            </p>
+          </article>
+        </div>
+      </section>
+
+      <section class="local-guide" aria-labelledby="local-guide-title">
+        <div class="local-guide-shell">
+          <div class="local-guide-header">
+            <div>
+              <p class="eyebrow">Use your chart locally</p>
+              <h2 id="local-guide-title">From downloaded ZIP to a running release.</h2>
+              <p class="local-guide-lead">
+                Helm can lint and render the chart without a cluster. Installing,
+                upgrading, testing, and inspecting a release use your active
+                Kubernetes context.
+              </p>
+            </div>
+            <aside class="helm-prerequisite" aria-label="Local prerequisites">
+              <span>Before you begin</span>
+              <p>
+                Install the Helm CLI and check its version. Before cluster
+                operations, confirm that kubectl points to the intended context.
+              </p>
+              <pre><code>helm version --short
+kubectl config current-context</code></pre>
+              <a
+                href="https://helm.sh/docs/intro/install/"
+                target="_blank"
+                rel="noreferrer"
+                >Install Helm <span aria-hidden="true">↗</span></a
+              >
+            </aside>
+          </div>
+
+          <ol class="local-steps">
+            <li>
+              <div class="local-step-heading">
+                <span>01</span>
+                <div>
+                  <h3>Unpack the chart</h3>
+                  <p>
+                    Use the downloaded archive name. The extracted directory
+                    matches the chart name configured above.
+                  </p>
+                </div>
+              </div>
+              <pre><code>unzip web-application-0.1.0.zip
+cd web-application</code></pre>
+            </li>
+            <li>
+              <div class="local-step-heading">
+                <span>02</span>
+                <div>
+                  <h3>Validate and render</h3>
+                  <p>
+                    Lint the chart, then inspect the Kubernetes manifests locally
+                    without changing anything in a cluster.
+                  </p>
+                </div>
+              </div>
+              <pre><code>helm lint --strict .
+helm template my-release . \
+  --namespace demo \
+  --debug &gt; rendered.yaml</code></pre>
+            </li>
+            <li>
+              <div class="local-step-heading">
+                <span>03</span>
+                <div>
+                  <h3>Install or upgrade</h3>
+                  <p>
+                    Use one repeatable command for the first installation and
+                    later chart or values changes.
+                  </p>
+                </div>
+              </div>
+              <pre><code>helm upgrade --install my-release . \
+  --namespace demo \
+  --create-namespace \
+  --values values.yaml</code></pre>
+            </li>
+            <li>
+              <div class="local-step-heading">
+                <span>04</span>
+                <div>
+                  <h3>Inspect and clean up</h3>
+                  <p>
+                    Check the release, run its generated connection test, and
+                    uninstall it when the local workflow is complete.
+                  </p>
+                </div>
+              </div>
+              <pre><code>helm status my-release --namespace demo
+helm get manifest my-release --namespace demo
+helm test my-release --namespace demo
+helm uninstall my-release --namespace demo</code></pre>
+            </li>
+          </ol>
+
+          <div class="chart-v3-note">
+            <span aria-hidden="true">v3</span>
+            <div>
+              <strong>Using experimental chart API v3?</strong>
+              <p>
+                Use Helm 4 and set the feature flag in the same terminal before
+                running lint, template, install, or upgrade commands.
+              </p>
+            </div>
+            <code>export HELM_EXPERIMENTAL_CHART_V3=1</code>
+            <a
+              href="https://helm.sh/docs/overview/#charts-v3"
+              target="_blank"
+              rel="noreferrer"
+              >Helm 4 chart v3 guidance <span aria-hidden="true">↗</span></a
+            >
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <span>Native Cube · Built for the terminal-adjacent parts of your day.</span>
+      <a href="../">Explore all tools</a>
+    </footer>
+
+    <div class="toast" id="toast" role="status" aria-live="polite"></div>
+  </body>
+</html>

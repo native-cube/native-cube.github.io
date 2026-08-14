@@ -12,6 +12,35 @@ scheduling, security, lifecycle, and rollout fields. The **Additional manifest
 fields** editor accepts a JSON object that is deep-merged into the generated
 resource for API fields not represented directly in the form.
 
+## Helm Chart Builder
+
+Open `/helm-chart-builder/` to configure a Deployment, StatefulSet, or DaemonSet
+and generate a reusable Helm chart entirely in the browser. The exported ZIP
+contains `Chart.yaml`, documented defaults, `values.schema.json`, namespaced
+helpers, workload and optional component templates, release notes, a connection
+test, and a generated README.
+
+Service, Ingress, and ServiceAccount annotations accept one `key=value` pair per
+line and are included in the generated values, template output, and manifest
+preview.
+
+The generated chart preview refreshes automatically two seconds after form
+changes, while the Generate button remains available for immediate updates.
+The page also includes a local Helm workflow for unpacking, linting, rendering,
+installing, upgrading, inspecting, testing, and removing the generated chart.
+
+The builder supports stable chart API `v2` and experimental chart API `v3`.
+Version `v2` remains the base-example default. Version `v3` requires Helm 4,
+`HELM_EXPERIMENTAL_CHART_V3=1`, and a Helm release whose experimental chart-v3
+implementation supports the operation being used.
+
+Ingress generation supports both name-based virtual hosts and hostless rules.
+Disable **Include host** to omit `spec.rules[].host` and match requests for any
+host handled by the selected Ingress controller.
+
+Use **Generate base example** for a ready-to-download NGINX chart. The tool
+provides an equivalent rendered-manifest preview; use the displayed `helm lint`
+and `helm template` commands for authoritative Helm rendering and validation.
 
 ## Visual Subnet Calculator
 
@@ -109,6 +138,7 @@ python3 -m http.server 8080
 ```
 
 - `http://localhost:8080/k8s-manifest-builder/`
+- `http://localhost:8080/helm-chart-builder/`
 - `http://localhost:8080/kubernetes-rbac-explorer/`
 - `http://localhost:8080/visual-subnet-calculator/`
 - `http://localhost:8080/yaml-formatter/`
