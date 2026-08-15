@@ -1,24 +1,24 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>https://native-cube.github.io/</loc>
+    <loc>https://native-cube.com/</loc>
   </url>
   <url>
-    <loc>https://native-cube.github.io/k8s-manifest-builder/</loc>
+    <loc>https://native-cube.com/k8s-manifest-builder/</loc>
   </url>
   <url>
-    <loc>https://native-cube.github.io/helm-chart-builder/</loc>
+    <loc>https://native-cube.com/helm-chart-builder/</loc>
   </url>
   <url>
-    <loc>https://native-cube.github.io/kubernetes-rbac-explorer/</loc>
+    <loc>https://native-cube.com/kubernetes-rbac-explorer/</loc>
   </url>
   <url>
-    <loc>https://native-cube.github.io/visual-subnet-calculator/</loc>
+    <loc>https://native-cube.com/visual-subnet-calculator/</loc>
   </url>
   <url>
-    <loc>https://native-cube.github.io/yaml-formatter/</loc>
+    <loc>https://native-cube.com/yaml-formatter/</loc>
   </url>
   <url>
-    <loc>https://native-cube.github.io/terraform-modules/</loc>
+    <loc>https://native-cube.com/terraform-modules/</loc>
   </url>
 </urlset>
