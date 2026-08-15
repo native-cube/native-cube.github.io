@@ -9,7 +9,7 @@ import xml.etree.ElementTree as ET
 
 
 ROOT = Path(__file__).resolve().parent.parent
-SITE_URL = "https://native-cube.github.io"
+SITE_URL = "https://native-cube.com"
 PAGES = {
     Path("index.html"): f"{SITE_URL}/",
     Path("k8s-manifest-builder/index.html"): f"{SITE_URL}/k8s-manifest-builder/",
