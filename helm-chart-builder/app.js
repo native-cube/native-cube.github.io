@@ -975,7 +975,7 @@ spec:
 
 ${config.description}
 
-This chart was generated locally with the [Native Cube Helm Chart Builder](https://native-cube.github.io/helm-chart-builder/).
+This chart was generated locally with the [Native Cube Helm Chart Builder](https://native-cube.com/helm-chart-builder/).
 ${apiNotice}
 **Chart API:** \`${config.chartApiVersion}\`
 

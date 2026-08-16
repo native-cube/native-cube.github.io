@@ -104,7 +104,7 @@ button:disabled {
 }
 
 .site-header,
-.sponsor-message,
+.community-note,
 .site-footer,
 main {
   width: min(1480px, calc(100% - 56px));
@@ -190,7 +190,7 @@ main {
   gap: 18px;
 }
 
-.sponsor-link {
+.community-link {
   display: inline-flex;
   align-items: center;
   gap: 6px;
@@ -214,7 +214,7 @@ main {
     transform 160ms ease;
 }
 
-.sponsor-link:hover {
+.community-link:hover {
   color: white;
   background: linear-gradient(135deg, #3473f4, #1c57ba);
   box-shadow:
@@ -223,12 +223,12 @@ main {
   transform: translateY(-2px);
 }
 
-.sponsor-link:focus-visible {
+.community-link:focus-visible {
   outline: 3px solid rgba(37, 99, 235, 0.35);
   outline-offset: 3px;
 }
 
-.sponsor-message {
+.community-note {
   margin-top: 16px;
   margin-bottom: 0;
   padding: 12px 16px;
@@ -242,11 +242,11 @@ main {
   box-shadow: 0 8px 24px rgba(23, 55, 94, 0.06);
 }
 
-.sponsor-message strong {
+.community-note strong {
   color: var(--ink);
 }
 
-.sponsor-message + main .hero {
+.community-note + main .hero {
   padding-top: 44px;
 }
 
@@ -1015,7 +1015,7 @@ kbd {
 
 @media (max-width: 840px) {
   .site-header,
-  .sponsor-message,
+  .community-note,
   .site-footer,
   main {
     width: min(100% - 32px, 1480px);
@@ -1082,7 +1082,7 @@ kbd {
 
 @media (max-width: 600px) {
   .site-header,
-  .sponsor-message,
+  .community-note,
   .site-footer,
   main {
     width: min(100% - 22px, 1480px);
@@ -1096,13 +1096,13 @@ kbd {
     gap: 0;
   }
 
-  .sponsor-link {
+  .community-link {
     min-height: 36px;
     padding: 7px 11px;
     font-size: 11px;
   }
 
-  .sponsor-message {
+  .community-note {
     margin-top: 12px;
     padding: 11px 13px;
     font-size: 11px;

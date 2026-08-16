@@ -318,7 +318,7 @@ def display_date(value):
 
 
 def render_json_ld(catalogue):
-    site_url = "https://native-cube.github.io/terraform-modules/"
+    site_url = "https://native-cube.com/terraform-modules/"
     items = []
     for position, module in enumerate(catalogue["modules"], start=1):
         urls = module_urls(catalogue, module)
@@ -349,7 +349,7 @@ def render_json_ld(catalogue):
             "name": "Native Cube AWS Terraform Modules",
             "description": f"A catalogue of {len(items)} public AWS Terraform modules maintained by Native Cube.",
             "dateModified": catalogue["synced_at"],
-            "isPartOf": {"@id": "https://native-cube.github.io/#website"},
+            "isPartOf": {"@id": "https://native-cube.com/#website"},
             "breadcrumb": {"@id": f"{site_url}#breadcrumb"},
             "mainEntity": {"@id": f"{site_url}#modules"},
         },
@@ -362,7 +362,7 @@ def render_json_ld(catalogue):
                     "@type": "ListItem",
                     "position": 1,
                     "name": "Native Cube",
-                    "item": "https://native-cube.github.io/",
+                    "item": "https://native-cube.com/",
                 },
                 {
                     "@type": "ListItem",

@@ -105,7 +105,7 @@ label:focus-within {
 }
 
 .site-header,
-.sponsor-message,
+.community-note,
 .site-footer,
 main {
   width: min(1480px, calc(100% - 56px));
@@ -183,7 +183,7 @@ main {
   letter-spacing: -0.01em;
 }
 
-.sponsor-link {
+.community-link {
   display: inline-flex;
   min-height: 40px;
   align-items: center;
@@ -203,14 +203,14 @@ main {
   transition: transform 160ms ease, box-shadow 160ms ease;
 }
 
-.sponsor-link:hover {
+.community-link:hover {
   box-shadow:
     0 11px 26px rgba(37, 99, 235, 0.36),
     inset 0 1px 0 rgba(255, 255, 255, 0.24);
   transform: translateY(-2px);
 }
 
-.sponsor-message {
+.community-note {
   margin-top: 16px;
   margin-bottom: 0;
   padding: 12px 16px;
@@ -224,7 +224,7 @@ main {
   line-height: 1.6;
 }
 
-.sponsor-message strong {
+.community-note strong {
   color: var(--ink);
 }
 
@@ -1664,7 +1664,7 @@ td code {
 
 @media (max-width: 1180px) {
   .site-header,
-  .sponsor-message,
+  .community-note,
   .site-footer,
   main {
     width: min(100% - 32px, 980px);
@@ -1705,7 +1705,7 @@ td code {
 
 @media (max-width: 760px) {
   .site-header,
-  .sponsor-message,
+  .community-note,
   .site-footer,
   main {
     width: min(100% - 22px, 680px);
@@ -1724,13 +1724,13 @@ td code {
     gap: 0;
   }
 
-  .sponsor-link {
+  .community-link {
     min-height: 36px;
     padding: 7px 11px;
     font-size: 12px;
   }
 
-  .sponsor-message {
+  .community-note {
     margin-top: 12px;
     padding: 11px 13px;
     font-size: 12px;

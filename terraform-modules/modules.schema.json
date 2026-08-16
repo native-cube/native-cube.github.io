@@ -1,6 +1,6 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://native-cube.github.io/terraform-modules/modules.schema.json",
+  "$id": "https://native-cube.com/terraform-modules/modules.schema.json",
   "title": "Native Cube Terraform module catalogue",
   "type": "object",
   "additionalProperties": false,
