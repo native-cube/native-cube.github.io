@@ -4,6 +4,10 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta
+      name="robots"
+      content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1"
+    />
+    <meta
       name="description"
       content="Visualize Kubernetes RBAC permissions, query effective access, detect risky grants, compare snapshots, and export a security review—all locally in your browser."
     />
@@ -116,7 +120,7 @@
         </span>
       </a>
       <div class="header-actions">
-        <div class="product-lockup" aria-label="Kubernetes RBAC Explorer">
+        <div class="product-lockup" role="group" aria-label="Kubernetes RBAC Explorer">
           <span>Kubernetes security</span>
           <strong>RBAC Explorer</strong>
         </div>
@@ -245,7 +249,7 @@
               </button>
             </section>
 
-            <div class="exposure-grid" aria-label="Effective access exposure">
+            <div class="exposure-grid" role="group" aria-label="Effective access exposure">
               <article id="cluster-exposure-card">
                 <span>Cluster-wide identities</span>
                 <strong id="cluster-subject-count">0</strong>
@@ -310,7 +314,7 @@
                 <strong id="coverage-title">All binding references resolved</strong>
                 <small id="coverage-detail">0 RBAC objects analyzed</small>
               </div>
-              <div class="coverage-facts" aria-label="Policy inventory">
+              <div class="coverage-facts" role="group" aria-label="Policy inventory">
                 <span><strong id="coverage-subjects">0</strong> subjects</span>
                 <span><strong id="coverage-roles">0</strong> roles</span>
                 <span><strong id="coverage-bindings">0</strong> bindings</span>

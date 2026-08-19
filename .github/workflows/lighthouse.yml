@@ -41,6 +41,13 @@ jobs:
             --max-retries 3
             --retry-wait-time 2
             README.md
+            index.html
+            k8s-manifest-builder/index.html
+            helm-chart-builder/index.html
+            argocd-applicationset-studio/index.html
+            kubernetes-rbac-explorer/index.html
+            visual-subnet-calculator/index.html
+            yaml-formatter/index.html
             terraform-modules/index.html
           fail: true
           jobSummary: true
@@ -61,6 +68,7 @@ jobs:
             http://127.0.0.1:8080/
             http://127.0.0.1:8080/k8s-manifest-builder/
             http://127.0.0.1:8080/helm-chart-builder/
+            http://127.0.0.1:8080/argocd-applicationset-studio/
             http://127.0.0.1:8080/kubernetes-rbac-explorer/
             http://127.0.0.1:8080/visual-subnet-calculator/
             http://127.0.0.1:8080/yaml-formatter/

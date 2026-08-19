@@ -2,25 +2,35 @@
 
 from html.parser import HTMLParser
 from pathlib import Path
+from datetime import date
 import json
 import struct
 import sys
 import xml.etree.ElementTree as ET
+from urllib.parse import urlsplit
 
 
 ROOT = Path(__file__).resolve().parent.parent
 SITE_URL = "https://native-cube.com"
-PAGES = {
-    Path("index.html"): f"{SITE_URL}/",
-    Path("k8s-manifest-builder/index.html"): f"{SITE_URL}/k8s-manifest-builder/",
-    Path("helm-chart-builder/index.html"): f"{SITE_URL}/helm-chart-builder/",
-    Path("argocd-applicationset-studio/index.html"): f"{SITE_URL}/argocd-applicationset-studio/",
-    Path("kubernetes-rbac-explorer/index.html"): f"{SITE_URL}/kubernetes-rbac-explorer/",
-    Path("visual-subnet-calculator/index.html"): f"{SITE_URL}/visual-subnet-calculator/",
-    Path("yaml-formatter/index.html"): f"{SITE_URL}/yaml-formatter/",
-    Path("terraform-modules/index.html"): f"{SITE_URL}/terraform-modules/",
-}
 REDIRECT_PATH = Path("json-formatter/index.html")
+INDEXABLE_PATHS = tuple(
+    sorted(
+        (
+            path.relative_to(ROOT)
+            for path in ROOT.rglob("index.html")
+            if path.relative_to(ROOT) != REDIRECT_PATH
+        ),
+        key=lambda path: path.as_posix(),
+    )
+)
+PAGES = {
+    path: (
+        f"{SITE_URL}/"
+        if path == Path("index.html")
+        else f"{SITE_URL}/{path.parent.as_posix()}/"
+    )
+    for path in INDEXABLE_PATHS
+}
 REQUIRED_META = {
     "description",
     "og:description",
@@ -28,6 +38,7 @@ REQUIRED_META = {
     "og:image:alt",
     "og:title",
     "og:url",
+    "robots",
     "twitter:description",
     "twitter:image",
     "twitter:image:alt",
@@ -42,6 +53,7 @@ class PageAudit(HTMLParser):
         self.h1_count = 0
         self.links = []
         self.meta = {}
+        self.canonicals = []
         self.title = []
         self.json_ld = []
         self._in_title = False
@@ -56,8 +68,11 @@ class PageAudit(HTMLParser):
             self.h1_count += 1
         if tag == "a" and values.get("href"):
             self.links.append(values["href"])
-        if tag == "link" and values.get("rel") == "canonical":
-            self.meta["canonical"] = values.get("href", "")
+        rel = values.get("rel", "")
+        if tag == "link" and "canonical" in rel.lower().split():
+            canonical = values.get("href", "")
+            self.canonicals.append(canonical)
+            self.meta["canonical"] = canonical
         if tag == "meta":
             key = values.get("name") or values.get("property")
             if key:
@@ -91,6 +106,8 @@ def fail(message):
 
 def parse_page(relative_path):
     source = (ROOT / relative_path).read_text()
+    if "native-cube.github.io" in source.lower():
+        fail(f"{relative_path} references the non-canonical GitHub Pages hostname")
     forbidden = sorted(
         {
             codepoint
@@ -135,14 +152,34 @@ for path, canonical in PAGES.items():
         fail(f"{path} has no title")
     if page.h1_count != 1:
         fail(f"{path} has {page.h1_count} h1 elements; expected exactly one")
+    if len(page.canonicals) != 1:
+        fail(f"{path} has {len(page.canonicals)} canonical links; expected exactly one")
     if page.meta.get("canonical") != canonical:
         fail(f"{path} canonical is not {canonical}")
+    canonical_parts = urlsplit(canonical)
+    if (
+        canonical_parts.scheme != "https"
+        or canonical_parts.netloc != "native-cube.com"
+        or not canonical_parts.path.endswith("/")
+        or canonical_parts.query
+        or canonical_parts.fragment
+    ):
+        fail(f"{path} canonical is not a clean native-cube.com HTTPS URL")
 
     missing_meta = sorted(key for key in REQUIRED_META if not page.meta.get(key))
     if missing_meta:
         fail(f"{path} is missing metadata: {', '.join(missing_meta)}")
     if page.meta.get("og:url") != canonical:
         fail(f"{path} og:url does not match its canonical URL")
+    robots = {
+        directive.strip().lower()
+        for directive in page.meta["robots"].split(",")
+        if directive.strip()
+    }
+    if not {"index", "follow"}.issubset(robots):
+        fail(f"{path} must explicitly allow indexing and link following")
+    if {"noindex", "nofollow"} & robots:
+        fail(f"{path} contains a restrictive robots directive")
     if page.meta.get("twitter:card") != "summary_large_image":
         fail(f"{path} does not use a large Twitter card")
     if page.meta["twitter:image"] != page.meta["og:image"]:
@@ -162,19 +199,46 @@ if "../yaml-formatter/" not in redirect.meta.get("refresh", ""):
 
 namespace = {"sitemap": "http://www.sitemaps.org/schemas/sitemap/0.9"}
 sitemap = ET.parse(ROOT / "sitemap.xml")
-sitemap_urls = {
+sitemap_locations = [
     node.text for node in sitemap.findall(".//sitemap:loc", namespace) if node.text
-}
+]
+sitemap_urls = set(sitemap_locations)
+if len(sitemap_locations) != len(sitemap_urls):
+    fail("sitemap.xml contains duplicate canonical URLs")
 expected_urls = set(PAGES.values())
 if sitemap_urls != expected_urls:
     fail(
         "sitemap URLs differ from canonical pages: "
         f"expected {sorted(expected_urls)}, found {sorted(sitemap_urls)}"
     )
+for url_node in sitemap.findall(".//sitemap:url", namespace):
+    location = url_node.findtext("sitemap:loc", namespaces=namespace)
+    last_modified = url_node.findtext("sitemap:lastmod", namespaces=namespace)
+    if not last_modified:
+        fail(f"sitemap entry {location or '<missing loc>'} has no lastmod value")
+    try:
+        modified_date = date.fromisoformat(last_modified)
+    except ValueError:
+        fail(f"sitemap entry {location} has invalid lastmod value {last_modified}")
+    if modified_date > date.today():
+        fail(f"sitemap entry {location} has a future lastmod value")
 
 robots = (ROOT / "robots.txt").read_text()
 if f"Sitemap: {SITE_URL}/sitemap.xml" not in robots:
     fail("robots.txt does not advertise the canonical sitemap")
+if "Disallow:" in robots:
+    fail("robots.txt must not block indexable site paths")
+
+if (ROOT / "CNAME").read_text().strip() != "native-cube.com":
+    fail("CNAME must contain only the canonical native-cube.com hostname")
+
+verification_files = sorted(ROOT.glob("google*.html"))
+if not verification_files:
+    fail("Google Search Console verification file is missing")
+for verification_file in verification_files:
+    expected = f"google-site-verification: {verification_file.name}"
+    if verification_file.read_text().strip() != expected:
+        fail(f"{verification_file.name} does not contain its expected verification token")
 
 landing = parse_page(Path("index.html"))
 landing_links = set(landing.links)
