@@ -1401,6 +1401,220 @@ pre {
   }
 }
 
+/* Shared Native Cube page chrome */
+
+.site-header,
+.community-note,
+.site-footer,
+main {
+  width: min(1400px, calc(100% - 56px));
+  margin-inline: auto;
+}
+
+.site-header {
+  min-height: 72px;
+  gap: 20px;
+  border-bottom: 1px solid rgba(121, 137, 128, 0.24);
+}
+
+.brand {
+  gap: 11px;
+  color: var(--ink);
+}
+
+.brand-logo {
+  width: 34px;
+  height: 34px;
+  flex: 0 0 auto;
+  filter: drop-shadow(0 6px 10px rgba(37, 99, 235, 0.16));
+}
+
+.brand-copy {
+  gap: 1px;
+}
+
+.brand-name {
+  font-size: 15px;
+  font-weight: 820;
+}
+
+.brand-tagline {
+  color: var(--muted);
+  font: 650 8px/1.2 ui-monospace, SFMono-Regular, Menlo, monospace;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.header-actions {
+  gap: 18px;
+}
+
+.product-lockup {
+  gap: 2px;
+}
+
+.product-lockup span {
+  color: var(--blue);
+  font: 750 8px/1.2 ui-monospace, SFMono-Regular, Menlo, monospace;
+  letter-spacing: 0.1em;
+}
+
+.product-lockup strong {
+  margin-top: 0;
+  font-size: 11px;
+  letter-spacing: -0.01em;
+}
+
+.community-link {
+  min-height: 40px;
+  gap: 6px;
+  padding: 8px 15px;
+  color: white;
+  background: linear-gradient(135deg, var(--blue), var(--blue-dark));
+  border: 1px solid var(--blue-dark);
+  box-shadow:
+    0 8px 20px rgba(37, 99, 235, 0.28),
+    inset 0 1px 0 rgba(255, 255, 255, 0.2);
+  font-size: 12px;
+  white-space: nowrap;
+  transition:
+    box-shadow 160ms ease,
+    transform 160ms ease;
+}
+
+.community-link:hover {
+  color: white;
+  background: linear-gradient(135deg, var(--blue), var(--blue-dark));
+  box-shadow:
+    0 11px 26px rgba(37, 99, 235, 0.36),
+    inset 0 1px 0 rgba(255, 255, 255, 0.24);
+  transform: translateY(-2px);
+}
+
+.community-note {
+  margin-top: 14px;
+  margin-bottom: 0;
+  padding: 10px 15px;
+  color: var(--muted);
+  background: linear-gradient(90deg, rgba(232, 240, 255, 0.94), rgba(251, 253, 255, 0.86));
+  border: 1px solid var(--line);
+  border-left: 4px solid var(--blue);
+  border-radius: 10px;
+  box-shadow: 0 6px 20px rgba(20, 36, 59, 0.045);
+  font-size: 11px;
+  line-height: 1.55;
+  text-align: left;
+}
+
+.community-note strong {
+  color: var(--ink);
+}
+
+.site-footer {
+  display: flex;
+  min-height: 92px;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  color: var(--muted);
+  border-top: 1px solid var(--line);
+  font-size: 11px;
+}
+
+.site-footer a {
+  color: var(--blue);
+  font-weight: 750;
+  text-decoration: none;
+}
+
+.site-footer a:hover {
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.footer-links {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+}
+
+.site-footer .author-credit {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 7px 11px;
+  color: var(--blue);
+  background: #e8f0ff;
+  border: 1px solid #c6d8ff;
+  border-radius: 999px;
+  text-decoration: none;
+  transition:
+    color 150ms ease,
+    background 150ms ease,
+    transform 150ms ease;
+}
+
+.author-credit span {
+  color: var(--muted);
+  font-size: 9px;
+  font-weight: 650;
+}
+
+.author-credit strong {
+  font-size: 11px;
+  font-weight: 850;
+}
+
+.author-credit b {
+  font-size: 12px;
+}
+
+.site-footer .author-credit:hover {
+  color: white;
+  background: var(--blue);
+  text-decoration: none;
+  transform: translateY(-1px);
+}
+
+.site-footer .author-credit:hover span {
+  color: rgba(255, 255, 255, 0.74);
+}
+
+@media (max-width: 760px) {
+  .site-header,
+  .community-note,
+  .site-footer,
+  main {
+    width: min(100% - 32px, 1400px);
+  }
+
+  .product-lockup,
+  .community-link {
+    display: none;
+  }
+
+  .site-footer {
+    min-height: 150px;
+    align-items: flex-start;
+    flex-direction: column;
+    justify-content: center;
+  }
+
+  .footer-links {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+}
+
+@media (max-width: 440px) {
+  .site-header,
+  .community-note,
+  .site-footer,
+  main {
+    width: min(100% - 22px, 1400px);
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,
