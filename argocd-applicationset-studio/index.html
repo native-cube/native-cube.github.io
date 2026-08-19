@@ -158,7 +158,7 @@
           </p>
           <div class="hero-metrics" role="group" aria-label="Studio capabilities">
             <span><strong>5</strong> local generators</span>
-            <span><strong>4</strong> ready examples</span>
+            <span><strong>8</strong> ready examples</span>
             <span><strong>0</strong> uploads</span>
           </div>
         </div>
@@ -178,16 +178,83 @@
             <label for="example-select">
               <span>Example</span>
               <select id="example-select">
-                <option value="regional-matrix">Regional matrix</option>
-                <option value="git-directory">Git directory discovery</option>
-                <option value="merge-overrides">Merge overrides</option>
-                <option value="scm-provider">Mocked SCM provider</option>
+                <optgroup label="Composite generators">
+                  <option value="regional-matrix">Regional matrix</option>
+                  <option value="merge-overrides">Merge overrides</option>
+                </optgroup>
+                <optgroup label="Core generators">
+                  <option value="list-catalog">List workload catalog</option>
+                  <option value="cluster-selector">Cluster label selector</option>
+                  <option value="git-directory">Git directory discovery</option>
+                  <option value="git-files">Git file discovery</option>
+                </optgroup>
+                <optgroup label="Remote discovery — mocked locally">
+                  <option value="scm-provider">SCM provider</option>
+                  <option value="pull-requests">Pull requests</option>
+                </optgroup>
               </select>
             </label>
             <button id="sample-button" class="secondary-button" type="button">
               Generate example
             </button>
           </div>
+
+          <aside
+            id="generator-guide"
+            class="generator-guide"
+            aria-labelledby="generator-guide-title"
+            aria-live="polite"
+          >
+            <div class="generator-guide-header">
+              <span class="generator-guide-mark" aria-hidden="true">
+                <i></i><i></i><i></i>
+              </span>
+              <div>
+                <span class="generator-guide-kicker">Preview model</span>
+                <h3 id="generator-guide-title">Matrix combines two generators</h3>
+              </div>
+              <strong id="generator-guide-result" class="generator-guide-result">
+                4 Applications + 1 guardrail
+              </strong>
+            </div>
+            <p id="generator-guide-summary">
+              Two service rows are combined with two matching cluster records to
+              create four independent Application parameters.
+            </p>
+            <ol class="generator-flow" aria-label="Local preview workflow">
+              <li>
+                <span class="generator-flow-index">01</span>
+                <span>
+                  <small>Generator input</small>
+                  <strong id="generator-guide-input">2 services + 2 clusters</strong>
+                </span>
+              </li>
+              <li>
+                <span class="generator-flow-index">02</span>
+                <span>
+                  <small>Local evaluation</small>
+                  <strong>Render + validate</strong>
+                </span>
+              </li>
+              <li>
+                <span class="generator-flow-index">03</span>
+                <span>
+                  <small>Review the fleet</small>
+                  <strong>Applications + diagnostics</strong>
+                </span>
+              </li>
+            </ol>
+            <div class="generator-next-step">
+              <span class="generator-next-step-mark" aria-hidden="true">→</span>
+              <div>
+                <strong>Suggested next check</strong>
+                <p id="generator-guide-tip">
+                Open Diagnostics to see why payments-development is blocked on production-eu,
+                then allow that namespace or tighten the generator pairing.
+                </p>
+              </div>
+            </div>
+          </aside>
 
           <div class="source-tabs" role="tablist" aria-label="Configuration inputs">
             <button
@@ -877,31 +944,419 @@ spec:
       namespace: infra-*
 `;
 
+  const LIST_APPLICATIONSET = `apiVersion: argoproj.io/v1alpha1
+kind: ApplicationSet
+metadata:
+  name: workload-catalog
+  namespace: argocd
+spec:
+  goTemplate: true
+  goTemplateOptions:
+    - missingkey=error
+  generators:
+    - list:
+        elements:
+          - service: catalog
+            environment: development
+            revision: develop
+            namespace: catalog-development
+          - service: checkout
+            environment: staging
+            revision: release
+            namespace: checkout-staging
+          - service: storefront
+            environment: production
+            revision: main
+            namespace: storefront-production
+  template:
+    metadata:
+      name: '{{ .service }}-{{ .environment }}'
+      labels:
+        service: '{{ .service }}'
+        environment: '{{ .environment }}'
+    spec:
+      project: workloads
+      source:
+        repoURL: https://github.com/native-cube/platform-apps.git
+        targetRevision: '{{ .revision }}'
+        path: 'services/{{ .service }}'
+      destination:
+        server: https://kubernetes.default.svc
+        namespace: '{{ .namespace }}'
+      syncPolicy:
+        syncOptions:
+          - CreateNamespace=true
+`;
+
+  const LIST_PROJECTS = `apiVersion: argoproj.io/v1alpha1
+kind: AppProject
+metadata:
+  name: workloads
+  namespace: argocd
+spec:
+  sourceRepos:
+    - https://github.com/native-cube/platform-apps.git
+  destinations:
+    - server: https://kubernetes.default.svc
+      namespace: '*-*'
+`;
+
+  const CLUSTER_SELECTOR_APPLICATIONSET = `apiVersion: argoproj.io/v1alpha1
+kind: ApplicationSet
+metadata:
+  name: production-platform-agents
+  namespace: argocd
+spec:
+  goTemplate: true
+  goTemplateOptions:
+    - missingkey=error
+  generators:
+    - clusters:
+        selector:
+          matchLabels:
+            environment: production
+          matchExpressions:
+            - key: region
+              operator: In
+              values:
+                - europe
+                - americas
+        values:
+          channel: stable
+          region: '{{ .metadata.labels.region }}'
+  template:
+    metadata:
+      name: 'platform-agent-{{ .nameNormalized }}'
+      labels:
+        rollout-channel: '{{ .values.channel }}'
+        region: '{{ .values.region }}'
+    spec:
+      project: platform-agents
+      source:
+        repoURL: https://github.com/native-cube/platform-agents.git
+        targetRevision: main
+        path: overlays/production
+      destination:
+        server: '{{ .server }}'
+        namespace: platform-agents
+`;
+
+  const CLUSTER_SELECTOR_DATA = `clusters:
+  - name: production-eu
+    server: https://production-eu.example.com
+    labels:
+      environment: production
+      region: europe
+  - name: production-us
+    server: https://production-us.example.com
+    labels:
+      environment: production
+      region: americas
+  - name: production-apac
+    server: https://production-apac.example.com
+    labels:
+      environment: production
+      region: asia-pacific
+  - name: staging-eu
+    server: https://staging-eu.example.com
+    labels:
+      environment: staging
+      region: europe
+`;
+
+  const CLUSTER_SELECTOR_PROJECTS = `apiVersion: argoproj.io/v1alpha1
+kind: AppProject
+metadata:
+  name: platform-agents
+  namespace: argocd
+spec:
+  sourceRepos:
+    - https://github.com/native-cube/platform-agents.git
+  destinations:
+    - server: https://production-eu.example.com
+      namespace: platform-agents
+    - server: https://production-us.example.com
+      namespace: platform-agents
+`;
+
+  const GIT_FILE_APPLICATIONSET = `apiVersion: argoproj.io/v1alpha1
+kind: ApplicationSet
+metadata:
+  name: cluster-observability
+  namespace: argocd
+spec:
+  goTemplate: true
+  goTemplateOptions:
+    - missingkey=error
+  generators:
+    - git:
+        repoURL: https://github.com/native-cube/platform-fleet.git
+        revision: main
+        files:
+          - path: clusters/*/config.yaml
+  template:
+    metadata:
+      name: '{{ .cluster.name | normalize }}-observability'
+      labels:
+        environment: '{{ .environment }}'
+    spec:
+      project: observability
+      source:
+        repoURL: https://github.com/native-cube/platform-fleet.git
+        targetRevision: '{{ .revision }}'
+        path: addons/observability
+      destination:
+        server: '{{ .cluster.server }}'
+        namespace: observability
+`;
+
+  const GIT_FILE_DATA = `gitFiles:
+  - path: clusters/engineering-eu/config.yaml
+    data:
+      cluster:
+        name: engineering-eu
+        server: https://engineering-eu.example.com
+      environment: development
+      revision: develop
+  - path: clusters/staging-us/config.yaml
+    data:
+      cluster:
+        name: staging-us
+        server: https://staging-us.example.com
+      environment: staging
+      revision: release
+  - path: clusters/production-eu/config.yaml
+    data:
+      cluster:
+        name: production-eu
+        server: https://production-eu.example.com
+      environment: production
+      revision: main
+  - path: teams/platform/owners.yaml
+    data:
+      team: platform
+`;
+
+  const GIT_FILE_PROJECTS = `apiVersion: argoproj.io/v1alpha1
+kind: AppProject
+metadata:
+  name: observability
+  namespace: argocd
+spec:
+  sourceRepos:
+    - https://github.com/native-cube/platform-fleet.git
+  destinations:
+    - server: https://engineering-eu.example.com
+      namespace: observability
+    - server: https://staging-us.example.com
+      namespace: observability
+    - server: https://production-eu.example.com
+      namespace: observability
+`;
+
+  const PULL_REQUEST_APPLICATIONSET = `apiVersion: argoproj.io/v1alpha1
+kind: ApplicationSet
+metadata:
+  name: pull-request-previews
+  namespace: argocd
+spec:
+  goTemplate: true
+  goTemplateOptions:
+    - missingkey=error
+  generators:
+    - pullRequest:
+        github:
+          owner: native-cube
+          repo: platform-apps
+          labels:
+            - preview
+        filters:
+          - branchMatch: '^feature/.*'
+        requeueAfterSeconds: 1800
+  template:
+    metadata:
+      name: 'pr-{{ .number }}-{{ .branch | normalize }}'
+      labels:
+        preview: pull-request
+    spec:
+      project: previews
+      source:
+        repoURL: https://github.com/native-cube/platform-apps.git
+        targetRevision: '{{ .head_sha }}'
+        path: preview
+      destination:
+        server: https://kubernetes.default.svc
+        namespace: 'pr-{{ .number }}'
+`;
+
+  const PULL_REQUEST_DATA = `generatorResults:
+  pullRequest:
+    - number: "184"
+      branch: feature/cart-totals
+      head_sha: a184d92b8f1f4e0b
+      title: "Add cart totals preview"
+    - number: "207"
+      branch: feature/search-filters
+      head_sha: b207f04e6a9137cd
+      title: "Add faceted search filters"
+`;
+
+  const PULL_REQUEST_PROJECTS = `apiVersion: argoproj.io/v1alpha1
+kind: AppProject
+metadata:
+  name: previews
+  namespace: argocd
+spec:
+  sourceRepos:
+    - https://github.com/native-cube/platform-apps.git
+  destinations:
+    - server: https://kubernetes.default.svc
+      namespace: pr-*
+`;
+
   const EXAMPLES = {
     "regional-matrix": {
       label: "Regional matrix",
       source: SAMPLE_APPLICATIONSET,
       data: SAMPLE_DATA,
       projects: SAMPLE_PROJECTS,
+      guide: {
+        title: "Matrix combines two generators",
+        summary: "Two service rows are combined with two matching cluster records. Each combination becomes an independent parameter set before the Application template is rendered.",
+        input: "2 services + 2 Europe clusters",
+        result: "4 Applications + 1 guardrail",
+        tip: "Open Diagnostics to see why payments-development is blocked on production-eu, then allow that namespace or tighten the generator pairing.",
+      },
     },
     "git-directory": {
       label: "Git directory discovery",
       source: GIT_DIRECTORY_APPLICATIONSET,
       data: GIT_DIRECTORY_DATA,
       projects: GIT_DIRECTORY_PROJECTS,
+      guide: {
+        title: "Git directories become parameters",
+        summary: "The Studio applies the generator's include and exclude globs to locally supplied repository paths, then renders one Application for every matching directory.",
+        input: "5 mock paths + path rules",
+        result: "3 matched Applications",
+        tip: "Add another services/* path under Generator data, or change the exclude rule in the ApplicationSet.",
+      },
     },
     "merge-overrides": {
       label: "Merge overrides",
       source: MERGE_APPLICATIONSET,
       data: "",
       projects: MERGE_PROJECTS,
+      guide: {
+        title: "Merge applies targeted overrides",
+        summary: "A base List defines both environments. A second List matches the production server key and overrides only its replica value before rendering.",
+        input: "2 base rows + 1 override",
+        result: "2 merged Applications",
+        tip: "Change the production override from four replicas and inspect its parameter trace in the generated fleet.",
+      },
     },
     "scm-provider": {
       label: "Mocked SCM provider",
       source: SCM_APPLICATIONSET,
       data: SCM_DATA,
       projects: SCM_PROJECTS,
+      guide: {
+        title: "SCM results are mocked locally",
+        summary: "No GitHub request is made. The Studio reads generatorResults.scmProvider, treats each supplied repository as a discovered result, and renders the template locally.",
+        input: "3 supplied repository results",
+        result: "3 Applications",
+        tip: "Add a repository result with repository, url, and branch fields to preview another generated Application.",
+      },
     },
+    "list-catalog": {
+      label: "List workload catalog",
+      source: LIST_APPLICATIONSET,
+      data: "",
+      projects: LIST_PROJECTS,
+      guide: {
+        title: "List rows render directly",
+        summary: "Each literal List element supplies service, environment, revision, and namespace parameters to the shared Application template.",
+        input: "3 workload definitions",
+        result: "3 Applications",
+        tip: "Add a fourth List element or change one revision, then inspect the generated parameter trace.",
+      },
+    },
+    "cluster-selector": {
+      label: "Cluster label selector",
+      source: CLUSTER_SELECTOR_APPLICATIONSET,
+      data: CLUSTER_SELECTOR_DATA,
+      projects: CLUSTER_SELECTOR_PROJECTS,
+      guide: {
+        title: "Labels select deployment targets",
+        summary: "The Cluster generator filters four locally supplied clusters by environment and region, then adds stable rollout values to each match.",
+        input: "4 clusters + label selector",
+        result: "2 matched Applications",
+        tip: "Include asia-pacific in matchExpressions or change staging-eu to production to expand the selected fleet.",
+      },
+    },
+    "git-files": {
+      label: "Git file discovery",
+      source: GIT_FILE_APPLICATIONSET,
+      data: GIT_FILE_DATA,
+      projects: GIT_FILE_PROJECTS,
+      guide: {
+        title: "Git file contents drive the fleet",
+        summary: "Matching configuration files contribute nested cluster, environment, and revision values. An unrelated owners file is ignored by the path rule.",
+        input: "4 mock files + file glob",
+        result: "3 matched Applications",
+        tip: "Edit a config file's nested cluster values or add another clusters/*/config.yaml entry under Generator data.",
+      },
+    },
+    "pull-requests": {
+      label: "Mocked pull requests",
+      source: PULL_REQUEST_APPLICATIONSET,
+      data: PULL_REQUEST_DATA,
+      projects: PULL_REQUEST_PROJECTS,
+      guide: {
+        title: "Pull requests become preview environments",
+        summary: "The Studio uses supplied pull-request results instead of calling GitHub, then renders an isolated namespace from each PR number and head revision.",
+        input: "2 mocked pull requests",
+        result: "2 preview Applications",
+        tip: "Add a mocked result with number, branch, and head_sha fields to model another ephemeral environment.",
+      },
+    },
+  };
+
+  const GENERATOR_LABELS = {
+    list: "List",
+    clusters: "Cluster",
+    git: "Git",
+    matrix: "Matrix",
+    merge: "Merge",
+    scmProvider: "SCM provider",
+    pullRequest: "Pull request",
+    clusterDecisionResource: "Cluster decision resource",
+    plugin: "Plugin",
+    unknown: "Unknown",
+  };
+
+  const DIAGNOSTIC_GUIDANCE = {
+    "Application contains unresolved templates": "Check the parameter trace for the unresolved key, then add that value to the generator row or correct the template expression.",
+    "Application name is empty": "Set spec.template.metadata.name and make sure every variable used in the name exists in each generator result.",
+    "Application name is not a valid DNS subdomain": "Normalize the rendered name, remove uppercase or special characters, and keep the result under 254 characters.",
+    "Application source is missing": "Add spec.template.spec.source for one source, or spec.template.spec.sources for a multi-source Application.",
+    "Application template has no name": "Add spec.template.metadata.name. Include a generator value such as {{ .nameNormalized }} when names must be unique.",
+    "Application template is missing": "Add spec.template with metadata and spec fields that describe the Application each generator row should create.",
+    "Destination cluster is missing": "Set spec.template.spec.destination.server or destination.name. Use a generated value only when every row supplies it.",
+    "Destination is outside the AppProject": "Add the rendered server/name and namespace to AppProject spec.destinations, or change the Application destination to an allowed target.",
+    "Generated Application name collision": "Include another unique generator value in spec.template.metadata.name, such as cluster, environment, or path basename.",
+    "Generator is not an object": "Define each spec.generators entry as a mapping, for example '- list:' followed by its configuration.",
+    "Git generator has no files or directories": "Add git.directories or git.files rules, then provide matching gitDirectories or gitFiles entries under Generator data.",
+    "Go template syntax is not enabled": "Set spec.goTemplate: true when using dot-prefixed expressions such as {{ .name }}.",
+    "List elementsYaml is invalid": "Make elementsYaml render to a YAML array of objects, or replace it with a direct list.elements array.",
+    "List generator has no elements": "Add list.elements with one object per desired Application, or provide a valid elementsYaml array.",
+    "Matrix generator needs child generators": "Add at least two entries under matrix.generators. Matrix produces the Cartesian product of their parameter rows.",
+    "Merge generator is incomplete": "Add at least two merge.generators entries and a mergeKeys list whose values exist in every row that should match.",
+    "Repository is outside the AppProject": "Add the repository URL or an appropriate glob to AppProject spec.sourceRepos, or use a repository already allowed by the project.",
+    "Required template value is missing": "Supply the required key in every generator result, or provide a safe default in the template.",
+    "Single and multiple sources are both configured": "Keep either spec.source or spec.sources in the Application template; Argo CD does not accept both.",
+    "Template value is missing": "Add the missing value to Generator data or the generator definition, or correct the expression to match the available parameter path.",
+    "Unknown generator": "Use a supported ApplicationSet generator key. Remote generators can be previewed with matching generatorResults mock data.",
+    "templatePatch could not be applied": "Make sure templatePatch renders to a valid YAML object and that all values used by the patch exist in the generator row.",
   };
 
   const GENERATOR_KEYS = [
@@ -1047,11 +1502,74 @@ spec:
     return documents[0];
   }
 
+  function renderGeneratorGuide(guide) {
+    byId("generator-guide-title").textContent = guide.title;
+    byId("generator-guide-summary").textContent = guide.summary;
+    byId("generator-guide-input").textContent = guide.input;
+    byId("generator-guide-result").textContent = guide.result;
+    byId("generator-guide-tip").textContent = guide.tip;
+  }
+
+  function renderManifestGuide(applicationSet, applicationCount) {
+    const generators = Array.isArray(applicationSet.spec?.generators)
+      ? applicationSet.spec.generators
+      : [];
+    const types = generators.map(generatorType);
+    const labels = types.map((type) => GENERATOR_LABELS[type] || type);
+    const title = labels.length
+      ? `${labels.join(" + ")} generator preview`
+      : "ApplicationSet generator preview";
+    renderGeneratorGuide({
+      title,
+      summary: `The Studio evaluates ${generators.length || "the"} top-level generator${generators.length === 1 ? "" : "s"} locally, resolves the supported template subset, and validates the resulting Applications without contacting Argo CD.`,
+      input: generators.length === 1 ? `${labels[0]} configuration + local data` : `${generators.length || 0} generators + local data`,
+      result: `${applicationCount} Application${applicationCount === 1 ? "" : "s"} + diagnostics`,
+      tip: "Use Generator data for mock clusters, Git paths, or remote-generator results, then inspect an Application's parameter trace.",
+    });
+  }
+
+  function diagnosticSuggestion(severity, title, detail, options) {
+    if (options.suggestion) return options.suggestion;
+    if (DIAGNOSTIC_GUIDANCE[title]) return DIAGNOSTIC_GUIDANCE[title];
+    if (title === "Preview could not be generated") {
+      if (/not valid YAML|line \d+, column \d+/i.test(detail)) {
+        return "Open the referenced input tab, correct the reported YAML line and column, then preview again.";
+      }
+      if (/empty|no ApplicationSet/i.test(detail)) {
+        return "Load an example or paste one argoproj.io/v1alpha1 ApplicationSet manifest into the ApplicationSet tab.";
+      }
+      if (/exceeds the .* limit/i.test(detail)) {
+        return "Reduce generator rows or Matrix combinations, preview smaller groups, and split very large fleets into separate ApplicationSets.";
+      }
+      return "Correct the referenced manifest or generator-data field, then run Preview fleet again.";
+    }
+    if (title === "Cluster inventory is empty") {
+      return "Open Generator data and add clusters entries with name, server, and any labels used by the selector.";
+    }
+    if (title === "Git generator produced no parameters") {
+      return "Add mock Git paths under gitDirectories or gitFiles and make sure they match the generator's include and exclude globs.";
+    }
+    if (title.endsWith("generator needs mock results")) {
+      return "Open Generator data and add an array under generatorResults for this generator type or its displayed generator path.";
+    }
+    if (title === "No Applications were generated") {
+      return "Compare generator selectors with the local mock data. At least one input row must satisfy every active filter.";
+    }
+    if (title === "Unexpected ApplicationSet API version") {
+      return "Use apiVersion: argoproj.io/v1alpha1 for the current ApplicationSet resource schema.";
+    }
+    if (severity === "error") {
+      return "Review the referenced Application or generator, correct the highlighted field, and preview the fleet again.";
+    }
+    return "";
+  }
+
   function addDiagnostic(severity, title, detail, options = {}) {
     state.diagnostics.push({
       severity,
       title,
       detail,
+      suggestion: diagnosticSuggestion(severity, title, detail, options),
       code: options.code || title,
       application: options.application || "",
       generator: options.generator || "",
@@ -1957,6 +2475,7 @@ spec:
         addDiagnostic("warning", "No Applications were generated", "Review generator selectors and provide any required local simulation data.", { code: "empty-fleet" });
       }
       state.applications = rows.map((row, index) => renderApplication(state.applicationSet, row, index));
+      renderManifestGuide(state.applicationSet, state.applications.length);
       state.applications.forEach(validateApplication);
       addFleetDiagnostics();
       deduplicateDiagnostics();
@@ -1966,13 +2485,14 @@ spec:
       }
       const errorCount = state.diagnostics.filter((item) => item.severity === "error").length;
       status.className = `source-status ${errorCount ? "is-error" : "is-success"}`;
-      status.textContent = `${state.applicationSet.metadata?.name || "ApplicationSet"} generated ${state.applications.length} Application${state.applications.length === 1 ? "" : "s"} with ${errorCount} error${errorCount === 1 ? "" : "s"}.`;
+      status.textContent = `${state.applicationSet.metadata?.name || "ApplicationSet"} generated ${state.applications.length} Application${state.applications.length === 1 ? "" : "s"} with ${errorCount} error${errorCount === 1 ? "" : "s"}.${errorCount ? " Review Diagnostics for suggested fixes." : ""}`;
       renderAll();
     } catch (error) {
       status.className = "source-status is-error";
-      status.textContent = error.message;
+      status.textContent = `${error.message} Open Diagnostics for a suggested fix.`;
       addDiagnostic("error", "Preview could not be generated", error.message, { code: "preview-failed" });
       renderAll();
+      setView("diagnostics");
     }
   }
 
@@ -2094,6 +2614,7 @@ spec:
       <div>
         <strong>${escapeHtml(diagnostic.title)}</strong>
         <p>${escapeHtml(diagnostic.detail)}</p>
+        ${diagnostic.suggestion ? `<div class="diagnostic-suggestion"><span>Suggested fix</span><p>${escapeHtml(diagnostic.suggestion)}</p></div>` : ""}
         ${diagnostic.application || diagnostic.generator ? `<span class="diagnostic-context">${escapeHtml([diagnostic.application, diagnostic.generator].filter(Boolean).join(" · "))}</span>` : ""}
       </div>
     </article>`).join("");
@@ -2313,6 +2834,7 @@ spec:
     byId("baseline-button").textContent = "Save baseline";
     setInputView("manifest");
     analyze();
+    renderGeneratorGuide(example.guide);
     showToast(`${example.label} example generated.`);
   }
 
@@ -2333,6 +2855,13 @@ spec:
     const status = byId("source-status");
     status.className = "source-status";
     status.textContent = "Choose an example or provide an ApplicationSet to begin.";
+    renderGeneratorGuide({
+      title: "Add one ApplicationSet to begin",
+      summary: "The Studio evaluates supported generators in your browser, renders their Application templates, and checks the resulting fleet without contacting Argo CD.",
+      input: "Manifest + optional mock data",
+      result: "Fleet preview + diagnostics",
+      tip: "Load an example to explore the workflow, or paste an ApplicationSet and add local generator data for clusters, Git paths, or remote results.",
+    });
     renderAll();
     setInputView("manifest");
     byId("applicationset-source").focus();

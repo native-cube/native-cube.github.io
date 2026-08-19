@@ -849,6 +849,36 @@ pre {
   line-height: 1.5;
 }
 
+.diagnostic-suggestion {
+  margin-top: 9px;
+  padding: 9px 10px;
+  background: white;
+  border-left: 3px solid var(--blue);
+  border-radius: 0 7px 7px 0;
+}
+
+.diagnostic-card.warning .diagnostic-suggestion {
+  border-left-color: var(--warning);
+}
+
+.diagnostic-card.error .diagnostic-suggestion {
+  border-left-color: var(--danger);
+}
+
+.diagnostic-suggestion span {
+  display: block;
+  color: var(--ink);
+  font-size: 8px;
+  font-weight: 900;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.diagnostic-card .diagnostic-suggestion p {
+  margin-top: 3px;
+  color: var(--ink);
+}
+
 .diagnostic-context {
   display: inline-block;
   margin-top: 7px;
@@ -1516,7 +1546,7 @@ h1 {
   grid-template-columns: minmax(0, 1fr) auto;
   align-items: end;
   gap: 9px;
-  margin-bottom: 17px;
+  margin-bottom: 9px;
   padding: 12px;
   background: white;
   border: 1px solid var(--line);
@@ -1551,6 +1581,224 @@ h1 {
 .example-bar .secondary-button {
   min-height: 39px;
   white-space: nowrap;
+}
+
+.generator-guide {
+  margin-bottom: 17px;
+  padding: 15px 16px 14px;
+  overflow: hidden;
+  background: #fff;
+  border: 1px solid #d8e1ed;
+  border-left: 4px solid var(--blue);
+  border-radius: 12px;
+  box-shadow: 0 8px 24px rgba(30, 55, 90, 0.055);
+}
+
+.generator-guide-header {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 11px;
+}
+
+.generator-guide-mark {
+  position: relative;
+  display: grid;
+  width: 34px;
+  height: 34px;
+  place-items: center;
+  overflow: hidden;
+  background: var(--ink);
+  border-radius: 9px;
+}
+
+.generator-guide-mark::before,
+.generator-guide-mark::after {
+  position: absolute;
+  width: 13px;
+  height: 1px;
+  background: rgba(255, 255, 255, 0.5);
+  content: "";
+}
+
+.generator-guide-mark::before {
+  transform: rotate(29deg);
+}
+
+.generator-guide-mark::after {
+  transform: rotate(-29deg);
+}
+
+.generator-guide-mark i {
+  z-index: 1;
+  width: 5px;
+  height: 5px;
+  background: white;
+  border: 1px solid var(--ink);
+  border-radius: 50%;
+}
+
+.generator-guide-mark i:first-child {
+  position: absolute;
+  top: 8px;
+  left: 7px;
+}
+
+.generator-guide-mark i:nth-child(2) {
+  position: absolute;
+  bottom: 8px;
+  left: 7px;
+}
+
+.generator-guide-mark i:last-child {
+  position: absolute;
+  top: 15px;
+  right: 7px;
+  background: #68e1ac;
+}
+
+.generator-guide-kicker {
+  display: block;
+  margin-bottom: 3px;
+  color: var(--blue);
+  font-size: 8px;
+  font-weight: 900;
+  letter-spacing: 0.11em;
+  text-transform: uppercase;
+}
+
+.generator-guide h3 {
+  margin: 0;
+  overflow: hidden;
+  font-size: 14px;
+  letter-spacing: -0.02em;
+  line-height: 1.2;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.generator-guide-result {
+  max-width: 155px;
+  padding: 6px 8px;
+  color: var(--blue-dark);
+  background: #edf4ff;
+  border: 1px solid #cfe0f8;
+  border-radius: 7px;
+  font-size: 8px;
+  font-weight: 900;
+  letter-spacing: 0.025em;
+  line-height: 1.3;
+  text-align: center;
+}
+
+.generator-guide > p {
+  margin: 10px 0 0 45px;
+  color: var(--muted);
+  font-size: 10.5px;
+  line-height: 1.5;
+}
+
+.generator-flow {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1px;
+  margin: 12px 0 0;
+  padding: 1px;
+  overflow: hidden;
+  background: #dfe6ef;
+  border-radius: 9px;
+  list-style: none;
+}
+
+.generator-flow li {
+  position: relative;
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  align-items: center;
+  gap: 8px;
+  min-width: 0;
+  min-height: 48px;
+  padding: 8px 10px;
+  background: #f7f9fc;
+}
+
+.generator-flow li:not(:last-child)::after {
+  position: absolute;
+  z-index: 1;
+  top: 50%;
+  right: -5px;
+  width: 9px;
+  height: 9px;
+  background: #f7f9fc;
+  border-top: 1px solid #dfe6ef;
+  border-right: 1px solid #dfe6ef;
+  content: "";
+  transform: translateY(-50%) rotate(45deg);
+}
+
+.generator-flow li > span:last-child,
+.generator-flow small,
+.generator-flow strong {
+  display: block;
+}
+
+.generator-flow-index {
+  color: var(--blue);
+  font-size: 9px;
+  font-weight: 950;
+  letter-spacing: -0.02em;
+}
+
+.generator-flow small {
+  color: var(--muted);
+  font-size: 7.5px;
+  font-weight: 900;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.generator-flow strong {
+  margin-top: 3px;
+  font-size: 9.5px;
+  line-height: 1.3;
+}
+
+.generator-next-step {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  align-items: start;
+  gap: 9px;
+  margin-top: 10px;
+  padding: 10px 11px;
+  background: #f3f8f6;
+  border: 1px solid #d7e9e1;
+  border-radius: 9px;
+}
+
+.generator-next-step-mark {
+  display: grid;
+  width: 21px;
+  height: 21px;
+  place-items: center;
+  color: white;
+  background: var(--green);
+  border-radius: 6px;
+  font-size: 11px;
+  font-weight: 900;
+}
+
+.generator-next-step strong {
+  color: var(--green);
+  font-size: 8px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.generator-next-step p {
+  margin: 3px 0 0;
+  color: #4d665e;
+  font-size: 9.5px;
+  line-height: 1.45;
 }
 
 .source-tabs {
@@ -1771,6 +2019,33 @@ h1 {
 
   .example-bar .secondary-button {
     width: 100%;
+  }
+
+  .generator-guide-header {
+    grid-template-columns: auto minmax(0, 1fr);
+  }
+
+  .generator-guide h3 {
+    white-space: normal;
+  }
+
+  .generator-guide-result {
+    grid-column: 1 / -1;
+    max-width: none;
+    margin-left: 45px;
+    text-align: left;
+  }
+
+  .generator-guide > p {
+    margin-left: 0;
+  }
+
+  .generator-flow {
+    grid-template-columns: 1fr;
+  }
+
+  .generator-flow li:not(:last-child)::after {
+    display: none;
   }
 
   .source-tab {
