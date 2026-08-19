@@ -110,7 +110,7 @@ spec:
         revision: main
         directories:
           - path: services/*
-          - path: services/legacy-*
+          - path: services/internal-*
             exclude: true
         values:
           environment: development
@@ -139,7 +139,7 @@ spec:
   - services/catalog
   - services/checkout
   - services/notifications
-  - services/legacy-billing
+  - services/internal-billing
   - infrastructure/monitoring
 `;
 
@@ -319,7 +319,13 @@ spec:
     "plugin",
   ];
 
-  const SUPPORTED_GENERATORS = new Set(["list", "clusters", "git", "matrix", "merge"]);
+  const MAX_INPUT_LENGTH = 2 * 1024 * 1024;
+  const MAX_GENERATED_APPLICATIONS = 1000;
+  const YAML_LOAD_OPTIONS = Object.freeze({
+    maxAliases: 1000,
+    maxDepth: 100,
+    maxTotalMergeKeys: 10000,
+  });
   const MISSING = Symbol("missing");
   const state = {
     applicationSet: null,
@@ -392,7 +398,7 @@ spec:
       noRefs: true,
       lineWidth: 110,
       noCompatMode: true,
-      quotingType: '"',
+      quoteStyle: "double",
       forceQuotes: false,
     });
   }
@@ -402,11 +408,14 @@ spec:
       if (allowEmpty) return [];
       throw new Error(`${label} is empty.`);
     }
+    if (text.length > MAX_INPUT_LENGTH) {
+      throw new Error(`${label} exceeds the 2 MB local preview limit.`);
+    }
     const documents = [];
     try {
       window.jsyaml.loadAll(text, (document) => {
         if (document !== null && document !== undefined) documents.push(document);
-      });
+      }, YAML_LOAD_OPTIONS);
     } catch (error) {
       const location = error.mark
         ? ` at line ${error.mark.line + 1}, column ${error.mark.column + 1}`
@@ -790,7 +799,7 @@ spec:
     let elements = config.elements;
     if (!elements && typeof config.elementsYaml === "string") {
       try {
-        elements = window.jsyaml.load(config.elementsYaml);
+        elements = window.jsyaml.load(config.elementsYaml, YAML_LOAD_OPTIONS);
       } catch (error) {
         addDiagnostic("error", "List elementsYaml is invalid", error.reason || error.message, { generator: path });
         return [];
@@ -920,8 +929,12 @@ spec:
       return [];
     }
     let combinations = [{ params: {}, trace: [], template: null }];
-    generators.forEach((child, index) => {
+    for (let index = 0; index < generators.length; index += 1) {
+      const child = generators[index];
       const childRows = generateRows(child, data, `${path}.${index + 1}`);
+      if (childRows.length && combinations.length > Math.floor(MAX_GENERATED_APPLICATIONS / childRows.length)) {
+        throw new Error(`${path} exceeds the ${MAX_GENERATED_APPLICATIONS}-Application local preview limit.`);
+      }
       const next = [];
       combinations.forEach((left) => {
         childRows.forEach((right) => {
@@ -933,7 +946,7 @@ spec:
         });
       });
       combinations = next;
-    });
+    }
     return combinations;
   }
 
@@ -1023,6 +1036,9 @@ spec:
       default:
         rows = mockRows(type, data, path);
     }
+    if (rows.length > MAX_GENERATED_APPLICATIONS) {
+      throw new Error(`${path} exceeds the ${MAX_GENERATED_APPLICATIONS}-Application local preview limit.`);
+    }
     return normalizeRows(rows, generator, path, type);
   }
 
@@ -1034,7 +1050,7 @@ spec:
       const patchText = renderString(applicationSet.spec.templatePatch, row.params, context);
       if (patchText.trim()) {
         try {
-          const parsedPatch = window.jsyaml.load(patchText);
+          const parsedPatch = window.jsyaml.load(patchText, YAML_LOAD_OPTIONS);
           if (isObject(parsedPatch)) rendered = deepMerge(rendered, parsedPatch);
           else throw new Error("templatePatch did not render to an object");
         } catch (error) {
@@ -1332,7 +1348,14 @@ spec:
       if (!Array.isArray(generators) || generators.length === 0) {
         throw new Error("ApplicationSet spec.generators must contain at least one generator.");
       }
-      const rows = generators.flatMap((generator, index) => generateRows(generator, generatorData, `G${index + 1}`));
+      const rows = [];
+      for (let index = 0; index < generators.length; index += 1) {
+        const generated = generateRows(generators[index], generatorData, `G${index + 1}`);
+        if (rows.length + generated.length > MAX_GENERATED_APPLICATIONS) {
+          throw new Error(`The fleet exceeds the ${MAX_GENERATED_APPLICATIONS}-Application local preview limit.`);
+        }
+        rows.push(...generated);
+      }
       if (rows.length === 0) {
         addDiagnostic("warning", "No Applications were generated", "Review generator selectors and provide any required local simulation data.", { code: "empty-fleet" });
       }
@@ -1734,6 +1757,7 @@ spec:
   function initializeEvents() {
     byId("preview-button").addEventListener("click", analyze);
     byId("sample-button").addEventListener("click", loadSample);
+    byId("example-select").addEventListener("change", loadSample);
     byId("clear-button").addEventListener("click", clearStudio);
     byId("application-search").addEventListener("input", renderApplicationList);
     byId("baseline-button").addEventListener("click", saveBaseline);
@@ -1788,15 +1812,28 @@ spec:
   }
 
   function initialize() {
+    if (window.__applicationSetStudioV1Initialized) return;
+    window.__applicationSetStudioV1Initialized = true;
     if (!window.jsyaml) {
       byId("source-status").className = "source-status is-error";
       byId("source-status").textContent = "The local YAML parser could not be loaded.";
       byId("preview-button").disabled = true;
       return;
     }
-    initializeEvents();
-    loadSample();
+    try {
+      initializeEvents();
+      loadSample();
+    } catch (error) {
+      window.__applicationSetStudioV1Initialized = false;
+      byId("source-status").className = "source-status is-error";
+      byId("source-status").textContent = `Studio startup failed: ${error.message}`;
+      byId("preview-button").disabled = true;
+    }
   }
 
-  initialize();
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", initialize, { once: true });
+  } else {
+    initialize();
+  }
 })();

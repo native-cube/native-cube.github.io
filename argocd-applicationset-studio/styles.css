@@ -46,8 +46,7 @@ textarea {
 }
 
 button,
-summary,
-.drop-zone {
+summary {
   -webkit-tap-highlight-color: transparent;
 }
 
@@ -236,57 +235,6 @@ h1 em {
   line-height: 1.65;
 }
 
-.privacy-list {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
-  margin: 22px 0 0;
-  padding: 0;
-  list-style: none;
-}
-
-.privacy-list li {
-  padding: 7px 10px;
-  color: var(--green);
-  background: var(--mint);
-  border-radius: 999px;
-  font-size: 11px;
-  font-weight: 800;
-}
-
-.privacy-list li::before {
-  margin-right: 5px;
-  content: "✓";
-}
-
-.privacy-note {
-  display: grid;
-  grid-template-columns: auto 1fr auto;
-  align-items: center;
-  gap: 14px;
-  margin-bottom: 18px;
-  padding: 15px 18px;
-  background: #eef6ff;
-  border: 1px solid #cfe1f8;
-  border-radius: 16px;
-}
-
-.privacy-icon {
-  color: var(--blue);
-  font-size: 20px;
-}
-
-.privacy-note strong {
-  font-size: 13px;
-}
-
-.privacy-note p {
-  margin: 3px 0 0;
-  color: var(--muted);
-  font-size: 12px;
-  line-height: 1.5;
-}
-
 .local-badge,
 .format-badge,
 .fidelity-badge,
@@ -344,62 +292,15 @@ h1 em {
 }
 
 .panel-heading .step-label,
-.section-heading .step-label,
 .dialog-heading .step-label {
   margin-bottom: 7px;
 }
 
 .panel-heading h2,
-.section-heading h2,
 .dialog-heading h2 {
   margin: 0;
   font-size: clamp(24px, 2.4vw, 34px);
   letter-spacing: -0.045em;
-}
-
-.drop-zone {
-  display: grid;
-  min-height: 105px;
-  place-items: center;
-  align-content: center;
-  gap: 3px;
-  margin-bottom: 18px;
-  color: var(--muted);
-  background: rgba(255, 255, 255, 0.75);
-  border: 1px dashed #aebfd2;
-  border-radius: 14px;
-  text-align: center;
-  cursor: pointer;
-  transition: border-color 160ms ease, background 160ms ease;
-}
-
-.drop-zone:hover,
-.drop-zone.is-dragging {
-  background: #f3f8ff;
-  border-color: var(--blue);
-}
-
-.drop-zone input {
-  position: absolute;
-  width: 1px;
-  height: 1px;
-  overflow: hidden;
-  opacity: 0;
-}
-
-.drop-zone > span {
-  color: var(--blue);
-  font-size: 22px;
-  font-weight: 700;
-}
-
-.drop-zone strong {
-  color: var(--ink);
-  font-size: 13px;
-}
-
-.drop-zone small {
-  font-size: 11px;
 }
 
 .editor-label {
@@ -436,71 +337,11 @@ h1 em {
   padding: 15px;
 }
 
-.supporting-editor {
-  min-height: 190px;
-  padding: 13px;
-}
-
 .editor-help {
   margin: 8px 0 18px;
   color: var(--muted);
   font-size: 11px;
   line-height: 1.5;
-}
-
-.input-drawer {
-  margin-top: 10px;
-  background: rgba(255, 255, 255, 0.68);
-  border: 1px solid var(--line);
-  border-radius: 12px;
-}
-
-.input-drawer summary {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 12px;
-  padding: 13px 14px;
-  cursor: pointer;
-  list-style: none;
-}
-
-.input-drawer summary::-webkit-details-marker {
-  display: none;
-}
-
-.input-drawer summary > span:first-child {
-  display: flex;
-  flex-direction: column;
-}
-
-.input-drawer summary strong {
-  font-size: 12px;
-}
-
-.input-drawer summary small {
-  margin-top: 2px;
-  color: var(--muted);
-  font-size: 10px;
-}
-
-.input-drawer summary > span:last-child {
-  color: var(--blue);
-  font-size: 18px;
-  transition: transform 160ms ease;
-}
-
-.input-drawer[open] summary > span:last-child {
-  transform: rotate(45deg);
-}
-
-.input-drawer .editor-label {
-  margin: 0 14px 7px;
-}
-
-.input-drawer textarea {
-  width: calc(100% - 28px);
-  margin: 0 14px 14px;
 }
 
 .source-status {
@@ -1082,40 +923,6 @@ pre {
   background: var(--mint);
 }
 
-.capabilities {
-  margin-top: 72px;
-}
-
-.section-heading {
-  max-width: 790px;
-}
-
-.capability-grid {
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 16px;
-  margin-top: 28px;
-}
-
-.capability-grid article {
-  padding: 24px;
-  background: rgba(255, 255, 255, 0.82);
-  border: 1px solid var(--line);
-  border-radius: 16px;
-}
-
-.capability-grid article > span {
-  color: var(--blue);
-  font-size: 10px;
-  font-weight: 900;
-}
-
-.capability-grid h3 {
-  margin: 22px 0 8px;
-  font-size: 17px;
-}
-
-.capability-grid p,
 .scope-note p {
   margin: 0;
   color: var(--muted);
@@ -1299,10 +1106,6 @@ pre {
     min-height: 440px;
   }
 
-  .capability-grid {
-    grid-template-columns: 1fr;
-  }
-
   .scope-note {
     grid-template-columns: 1fr;
     gap: 12px;
@@ -1340,10 +1143,6 @@ pre {
 
   h1 {
     font-size: clamp(42px, 13.2vw, 64px);
-  }
-
-  .privacy-note {
-    grid-template-columns: auto 1fr;
   }
 
   .local-badge {

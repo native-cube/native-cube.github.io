@@ -63,6 +63,15 @@ labels mocked or approximated results. It never contacts Argo CD, Kubernetes,
 Git, or an SCM provider, and generated output should be verified with the
 ApplicationSet controller before production use.
 
+The Studio ships one embedded v1 browser runtime so it also works on enterprise
+networks that block JavaScript file responses. It includes js-yaml 5.2.2. After
+changing `app.js` or upgrading the vendored parser, refresh and verify the page:
+
+```sh
+python3 scripts/embed-applicationset-studio-runtime.py --write
+python3 scripts/embed-applicationset-studio-runtime.py --check
+```
+
 ## Visual Subnet Calculator
 
 Open `/visual-subnet-calculator/` to split an IPv4 CIDR block into a visual,

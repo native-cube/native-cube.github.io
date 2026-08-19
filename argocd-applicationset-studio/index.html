@@ -56,9 +56,7 @@
     />
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
     <title>Argo CD ApplicationSet Studio | Native Cube</title>
-    <link rel="stylesheet" href="./styles.css?v=3" />
-    <script src="../yaml-formatter/vendor/js-yaml.min.js?v=4.1.0" defer></script>
-    <script src="./app.js?v=2" defer></script>
+    <link rel="stylesheet" href="./styles.css?v=1" />
     <script type="application/ld+json">
       [
         {
@@ -552,5 +550,1886 @@
     </div>
 
     <div id="toast" class="toast" role="status" aria-live="polite"></div>
+
+    <!--
+      The v1 runtime is intentionally embedded. Some enterprise networks block
+      JavaScript file responses from newly published domains; keeping js-yaml
+      5.2.2 and the Studio runtime in this document makes startup deterministic.
+    -->
+    <script id="yaml-runtime-v1">
+(function(e,t){typeof exports==`object`&&typeof module<`u`?t(exports):typeof define==`function`&&define.amd?define([`exports`],t):(e=typeof globalThis<`u`?globalThis:e||self,t(e.jsyaml={}))})(this,function(e){Object.defineProperty(e,Symbol.toStringTag,{value:`Module`});var t=Symbol(`NOT_RESOLVED`),n=Symbol(`MERGE_KEY`);function r(e,t){var n,r,i,a,o,s;return{tagName:e,nodeKind:`scalar`,implicit:(n=t.implicit)==null?!1:n,matchByTagPrefix:(r=t.matchByTagPrefix)==null?!1:r,implicitFirstChars:(i=t.implicitFirstChars)==null?null:i,resolve:t.resolve,identify:(a=t.identify)==null?null:a,represent:(o=t.represent)==null?(e=>String(e)):o,representTagName:(s=t.representTagName)==null?null:s}}function i(e,t){var n,r,i,a,o;let s=t.finalize===void 0;return{tagName:e,nodeKind:`sequence`,implicit:!1,matchByTagPrefix:(n=t.matchByTagPrefix)==null?!1:n,create:t.create,addItem:t.addItem,finalize:(r=t.finalize)==null?(e=>e):r,carrierIsResult:s,identify:(i=t.identify)==null?null:i,represent:(a=t.represent)==null?(e=>e):a,representTagName:(o=t.representTagName)==null?null:o}}function a(e,t){var n,r,i,a,o;let s=t.finalize===void 0;return{tagName:e,nodeKind:`mapping`,implicit:!1,matchByTagPrefix:(n=t.matchByTagPrefix)==null?!1:n,create:t.create,addPair:t.addPair,has:t.has,keys:t.keys,get:t.get,finalize:(r=t.finalize)==null?(e=>e):r,carrierIsResult:s,identify:(i=t.identify)==null?null:i,represent:(a=t.represent)==null?(e=>e):a,representTagName:(o=t.representTagName)==null?null:o}}var o=r(`tag:yaml.org,2002:str`,{resolve:e=>e,identify:e=>typeof e==`string`}),s=[``,`~`,`null`,`Null`,`NULL`],c=r(`tag:yaml.org,2002:null`,{implicit:!0,implicitFirstChars:[``,`~`,`n`,`N`],resolve:e=>s.indexOf(e)===-1?t:null,identify:e=>e===null,represent:()=>`null`}),l=r(`tag:yaml.org,2002:null`,{implicit:!0,implicitFirstChars:[`n`],resolve:(e,n)=>e===`null`||n&&e===``?null:t,identify:e=>e===null,represent:()=>`null`}),u=[``,`~`,`null`,`Null`,`NULL`],d=r(`tag:yaml.org,2002:null`,{implicit:!0,implicitFirstChars:[``,`~`,`n`,`N`],resolve:e=>u.indexOf(e)===-1?t:null,identify:e=>e===null,represent:()=>`null`}),f=[`true`,`True`,`TRUE`],p=[`false`,`False`,`FALSE`],m=r(`tag:yaml.org,2002:bool`,{implicit:!0,implicitFirstChars:[`t`,`T`,`f`,`F`],resolve:e=>f.indexOf(e)===-1?p.indexOf(e)===-1?t:!1:!0,identify:e=>Object.prototype.toString.call(e)===`[object Boolean]`,represent:e=>e?`true`:`false`}),h=[`true`],ee=[`false`],te=r(`tag:yaml.org,2002:bool`,{implicit:!0,implicitFirstChars:[`t`,`f`],resolve:e=>h.indexOf(e)===-1?ee.indexOf(e)===-1?t:!1:!0,identify:e=>Object.prototype.toString.call(e)===`[object Boolean]`,represent:e=>e?`true`:`false`}),ne=[`true`,`True`,`TRUE`,`y`,`Y`,`yes`,`Yes`,`YES`,`on`,`On`,`ON`],re=[`false`,`False`,`FALSE`,`n`,`N`,`no`,`No`,`NO`,`off`,`Off`,`OFF`],ie=r(`tag:yaml.org,2002:bool`,{implicit:!0,implicitFirstChars:[`y`,`Y`,`n`,`N`,`t`,`T`,`f`,`F`,`o`,`O`],resolve:e=>ne.indexOf(e)===-1?re.indexOf(e)===-1?t:!1:!0,identify:e=>Object.prototype.toString.call(e)===`[object Boolean]`,represent:e=>e?`true`:`false`}),ae=RegExp(`^(?:0o[0-7]+|0x[0-9a-fA-F]+|[-+]?[0-9]+)$`),oe=RegExp(`^(?:[-+]?0b[0-1]+|[-+]?0o[0-7]+|[-+]?0x[0-9a-fA-F]+|[-+]?[0-9]+)$`);function se(e){let t=e,n=1;return(t[0]===`-`||t[0]===`+`)&&(t[0]===`-`&&(n=-1),t=t.slice(1)),t.startsWith(`0b`)?n*parseInt(t.slice(2),2):t.startsWith(`0o`)?n*parseInt(t.slice(2),8):t.startsWith(`0x`)?n*parseInt(t.slice(2),16):n*parseInt(t,10)}function ce(e,n){if(n){if(!oe.test(e))return t}else if(!ae.test(e))return t;let r=se(e);return Number.isFinite(r)?r:t}var le=r(`tag:yaml.org,2002:int`,{implicit:!0,implicitFirstChars:[`-`,`+`,...`0123456789`],resolve:ce,identify:e=>Number.isInteger(e)&&!Object.is(e,-0)&&e.toString(10).indexOf(`e`)<0,represent:e=>e.toString(10)}),ue=RegExp(`^-?(?:0|[1-9][0-9]*)$`),de=RegExp(`^(?:[-+]?0b[0-1]+|[-+]?0o[0-7]+|[-+]?0x[0-9a-fA-F]+|[-+]?[0-9]+)$`);function fe(e){let t=e,n=1;return(t[0]===`-`||t[0]===`+`)&&(t[0]===`-`&&(n=-1),t=t.slice(1)),t.startsWith(`0b`)?n*parseInt(t.slice(2),2):t.startsWith(`0o`)?n*parseInt(t.slice(2),8):t.startsWith(`0x`)?n*parseInt(t.slice(2),16):n*parseInt(t,10)}function pe(e,n){if(n){if(!de.test(e))return t}else if(!ue.test(e))return t;let r=fe(e);return Number.isFinite(r)?r:t}var me=r(`tag:yaml.org,2002:int`,{implicit:!0,implicitFirstChars:[`-`,...`0123456789`],resolve:pe,identify:e=>Number.isInteger(e)&&!Object.is(e,-0)&&e.toString(10).indexOf(`e`)<0,represent:e=>e.toString(10)}),he=RegExp(`^(?:[-+]?0b[0-1_]+|[-+]?0[0-7_]+|[-+]?0x[0-9a-fA-F_]+|[-+]?[0-9][0-9_]*(?::[0-5]?[0-9])+|[-+]?(?:0|[1-9][0-9_]*))$`);function ge(e){let t=e.replace(/_/g,``),n=1;if((t[0]===`-`||t[0]===`+`)&&(t[0]===`-`&&(n=-1),t=t.slice(1)),t.startsWith(`0b`))return n*parseInt(t.slice(2),2);if(t.startsWith(`0x`))return n*parseInt(t.slice(2),16);if(t.includes(`:`)){let e=0;for(let n of t.split(`:`))e=e*60+Number(n);return n*e}return t!==`0`&&t[0]===`0`?n*parseInt(t,8):n*parseInt(t,10)}function _e(e){if(!he.test(e))return t;let n=ge(e);return Number.isFinite(n)?n:t}var ve=r(`tag:yaml.org,2002:int`,{implicit:!0,implicitFirstChars:[`-`,`+`,...`0123456789`],resolve:_e,identify:e=>Number.isInteger(e)&&!Object.is(e,-0)&&e.toString(10).indexOf(`e`)<0,represent:e=>e.toString(10)}),ye=RegExp(`^(?:[-+]?[0-9]+(?:\\.[0-9]*)?(?:[eE][-+]?[0-9]+)?|[-+]?\\.[0-9]+(?:[eE][-+]?[0-9]+)?|[-+]?\\.(?:inf|Inf|INF)|\\.(?:nan|NaN|NAN))$`),be=RegExp(`^(?:[-+]?\\.(?:inf|Inf|INF)|\\.(?:nan|NaN|NAN))$`);function xe(e){if(!ye.test(e))return t;let n=e.toLowerCase(),r=n[0]===`-`?-1:1;if(`+-`.includes(n[0])&&(n=n.slice(1)),n===`.inf`)return r===1?1/0:-1/0;if(n===`.nan`)return NaN;let i=r*parseFloat(n);return Number.isFinite(i)||be.test(e)?i:t}function Se(e){if(isNaN(e))return`.nan`;if(e===1/0)return`.inf`;if(e===-1/0)return`-.inf`;if(Object.is(e,-0))return`-0.0`;let t=e.toString(10);return/^[-+]?[0-9]+e/.test(t)?t.replace(`e`,`.e`):t}var Ce=r(`tag:yaml.org,2002:float`,{implicit:!0,implicitFirstChars:[`-`,`+`,`.`,...`0123456789`],resolve:xe,identify:e=>typeof e==`number`&&(!Number.isInteger(e)||Object.is(e,-0)||e.toString(10).indexOf(`e`)>=0),represent:Se}),we=RegExp(`^-?(?:0|[1-9][0-9]*)(?:\\.[0-9]*)?(?:[eE][-+]?[0-9]+)?$`),Te=RegExp(`^(?:[-+]?[0-9]+(?:\\.[0-9]*)?(?:[eE][-+]?[0-9]+)?|[-+]?\\.[0-9]+(?:[eE][-+]?[0-9]+)?|[-+]?\\.(?:inf|Inf|INF)|\\.(?:nan|NaN|NAN))$`);function Ee(e,n){if(n){if(!Te.test(e))return t;let n=e.toLowerCase(),r=n[0]===`-`?-1:1;if(`+-`.includes(n[0])&&(n=n.slice(1)),n===`.inf`)return r===1?1/0:-1/0;if(n===`.nan`)return NaN;let i=r*parseFloat(n);return Number.isFinite(i)?i:t}if(!we.test(e))return t;let r=Number(e);return Number.isFinite(r)?r:t}function De(e){if(isNaN(e))return`.nan`;if(e===1/0)return`.inf`;if(e===-1/0)return`-.inf`;if(Object.is(e,-0))return`-0.0`;let t=e.toString(10);return/^[-+]?[0-9]+e/.test(t)?t.replace(`e`,`.e`):t}var Oe=r(`tag:yaml.org,2002:float`,{implicit:!0,implicitFirstChars:[`-`,...`0123456789`],resolve:Ee,identify:e=>typeof e==`number`&&(!Number.isInteger(e)||Object.is(e,-0)||e.toString(10).indexOf(`e`)>=0),represent:De}),ke=RegExp(`^(?:[-+]?(?:(?:[0-9][0-9_]*)?\\.[0-9_]*)(?:[eE][-+][0-9]+)?|[-+]?[0-9][0-9_]*(?::[0-5]?[0-9])+\\.[0-9_]*|[-+]?\\.(?:inf|Inf|INF)|\\.(?:nan|NaN|NAN))$`),Ae=RegExp(`^(?:[-+]?\\.(?:inf|Inf|INF)|\\.(?:nan|NaN|NAN))$`);function je(e){if(!ke.test(e))return t;let n=e.toLowerCase().replace(/_/g,``),r=n[0]===`-`?-1:1;if(`+-`.includes(n[0])&&(n=n.slice(1)),n===`.inf`)return r===1?1/0:-1/0;if(n===`.nan`)return NaN;let i=0;if(n.includes(`:`)){for(let e of n.split(`:`))i=i*60+Number(e);i*=r}else i=r*parseFloat(n);return Number.isFinite(i)||Ae.test(e)?i:t}function Me(e){if(isNaN(e))return`.nan`;if(e===1/0)return`.inf`;if(e===-1/0)return`-.inf`;if(Object.is(e,-0))return`-0.0`;let t=e.toString(10);return/^[-+]?[0-9]+e/.test(t)?t.replace(`e`,`.e`):t}var Ne=r(`tag:yaml.org,2002:float`,{implicit:!0,implicitFirstChars:[`-`,`+`,`.`,...`0123456789`],resolve:je,identify:e=>typeof e==`number`&&(!Number.isInteger(e)||Object.is(e,-0)||e.toString(10).indexOf(`e`)>=0),represent:Me}),Pe=r(`tag:yaml.org,2002:merge`,{implicit:!0,implicitFirstChars:[`<`],resolve:(e,r)=>e===`<<`||r&&e===``?n:t}),Fe=/^[A-Za-z0-9+/]*={0,2}$/;function Ie(e){let n=e.replace(/\s/g,``);if(n.length%4!=0||!Fe.test(n))return t;let r=atob(n),i=new Uint8Array(r.length);for(let e=0;e<r.length;e++)i[e]=r.charCodeAt(e);return i}function Le(e){let t=``;for(let n=0;n<e.length;n++)t+=String.fromCharCode(e[n]);return btoa(t)}var Re=r(`tag:yaml.org,2002:binary`,{resolve:Ie,identify:e=>Object.prototype.toString.call(e)===`[object Uint8Array]`,represent:Le}),ze=RegExp(`^([0-9][0-9][0-9][0-9])-([0-9][0-9])-([0-9][0-9])$`),Be=RegExp(`^([0-9][0-9][0-9][0-9])-([0-9][0-9]?)-([0-9][0-9]?)(?:[Tt]|[ \\t]+)([0-9][0-9]?):([0-9][0-9]):([0-9][0-9])(?:\\.([0-9]*))?(?:[ \\t]*(Z|([-+])([0-9][0-9]?)(?::([0-9][0-9]))?))?$`);function Ve(e){let n=ze.exec(e);if(n===null&&(n=Be.exec(e)),n===null)return t;let r=+n[1],i=n[2]-1,a=+n[3];if(!n[4]){let e=new Date(Date.UTC(r,i,a));return e.getUTCFullYear()!==r||e.getUTCMonth()!==i||e.getUTCDate()!==a?t:e}let o=+n[4],s=+n[5],c=+n[6],l=0;if(o>23||s>59||c>59)return t;if(n[7]){let e=n[7].slice(0,3);for(;e.length<3;)e+=`0`;l=+e}let u=new Date(Date.UTC(r,i,a,o,s,c,l));if(u.getUTCFullYear()!==r||u.getUTCMonth()!==i||u.getUTCDate()!==a)return t;if(n[9]){let e=+n[10],r=+(n[11]||0);if(e>23||r>59)return t;let i=(e*60+r)*6e4;u.setTime(u.getTime()-(n[9]===`-`?-i:i))}return u}var He=r(`tag:yaml.org,2002:timestamp`,{implicit:!0,implicitFirstChars:[...`0123456789`],resolve:Ve,identify:e=>e instanceof Date,represent:e=>e.toISOString()}),Ue=i(`tag:yaml.org,2002:seq`,{create:()=>[],addItem:(e,t)=>{e.push(t)},identify:Array.isArray});function We(e){if(typeof e!=`object`||!e||Array.isArray(e))return!1;let t=Object.getPrototypeOf(e);return t===null||t===Object.prototype}function Ge(e,t){let n={};for(let r of t)e[r]!==void 0&&(n[r]=e[r]);return n}var Ke=i(`tag:yaml.org,2002:omap`,{create:()=>({list:[],seen:new Set}),addItem:(e,t)=>{let n;if(t instanceof Map){if(t.size!==1)return`cannot resolve an ordered map item`;n=t.keys().next().value}else if(We(t)){let e=Object.keys(t);if(e.length!==1)return`cannot resolve an ordered map item`;n=e[0]}else return`cannot resolve an ordered map item`;return e.seen.has(n)?`duplicate key in ordered map`:(e.seen.add(n),e.list.push(t),``)},finalize:e=>e.list}),qe=i(`tag:yaml.org,2002:pairs`,{create:()=>[],addItem:(e,t)=>{if(t instanceof Map)return t.size===1?(e.push(t.entries().next().value),``):`cannot resolve a pairs item`;if(Object.prototype.toString.call(t)!==`[object Object]`)return`cannot resolve a pairs item`;let n=t,r=Object.keys(n);return r.length===1?(e.push([r[0],n[r[0]]]),``):`cannot resolve a pairs item`}}),Je=a(`tag:yaml.org,2002:map`,{create:()=>({}),identify:We,represent:e=>{let t=new Map;for(let n of Object.keys(e))t.set(n,e[n]);return t},addPair:(e,t,n)=>{if(typeof t==`object`&&t)return`object-based map does not support complex keys`;let r=String(t);return r===`__proto__`?Object.defineProperty(e,r,{value:n,enumerable:!0,configurable:!0,writable:!0}):e[r]=n,``},has:(e,t)=>typeof t==`object`&&t?!1:Object.prototype.hasOwnProperty.call(e,String(t)),keys:e=>Object.keys(e),get:(e,t)=>e[String(t)]}),Ye=a(`tag:yaml.org,2002:set`,{create:()=>new Set,identify:e=>e instanceof Set,represent:e=>{let t=new Map;for(let n of e)t.set(n,null);return t},addPair:(e,t,n)=>n===null?(e.add(t),``):`cannot resolve a set item`,has:(e,t)=>e.has(t),keys:e=>e.keys(),get:()=>null});function g(e){"@babel/helpers - typeof";return g=typeof Symbol==`function`&&typeof Symbol.iterator==`symbol`?function(e){return typeof e}:function(e){return e&&typeof Symbol==`function`&&e.constructor===Symbol&&e!==Symbol.prototype?`symbol`:typeof e},g(e)}function Xe(e,t){if(g(e)!=`object`||!e)return e;var n=e[Symbol.toPrimitive];if(n!==void 0){var r=n.call(e,t||`default`);if(g(r)!=`object`)return r;throw TypeError(`@@toPrimitive must return a primitive value.`)}return(t===`string`?String:Number)(e)}function Ze(e){var t=Xe(e,`string`);return g(t)==`symbol`?t:t+``}function _(e,t,n){return(t=Ze(t))in e?Object.defineProperty(e,t,{value:n,enumerable:!0,configurable:!0,writable:!0}):e[t]=n,e}function Qe(){return{scalar:{},sequence:{},mapping:{}}}function $e(){return{scalar:[],sequence:[],mapping:[]}}function et(e){let t=[];for(let n of e){let e=t.length;for(let r=0;r<t.length;r++){let i=t[r];if(i.nodeKind===n.nodeKind&&i.tagName===n.tagName&&i.matchByTagPrefix===n.matchByTagPrefix){e=r;break}}t[e]=n}return t}var v=class e{constructor(e){_(this,`tags`,void 0),_(this,`implicitScalarTags`,void 0),_(this,`implicitScalarByFirstChar`,void 0),_(this,`implicitScalarAnyFirstChar`,void 0),_(this,`defaultScalarTag`,void 0),_(this,`defaultSequenceTag`,void 0),_(this,`defaultMappingTag`,void 0),_(this,`exact`,void 0),_(this,`prefix`,void 0);let t=et(e),n=[],r=Qe(),i=$e();for(let e of t){if(e.nodeKind===`scalar`&&e.implicit){if(e.matchByTagPrefix)throw Error(`Implicit scalar tags cannot match by tag prefix`);n.push(e)}switch(e.nodeKind){case`scalar`:e.matchByTagPrefix?i.scalar.push(e):r.scalar[e.tagName]=e;break;case`sequence`:e.matchByTagPrefix?i.sequence.push(e):r.sequence[e.tagName]=e;break;case`mapping`:e.matchByTagPrefix?i.mapping.push(e):r.mapping[e.tagName]=e;break}}let a=n.filter(e=>e.implicitFirstChars===null),o=new Set;for(let e of n)if(e.implicitFirstChars!==null)for(let t of e.implicitFirstChars)o.add(t);let s=new Map;for(let e of o)s.set(e,n.filter(t=>t.implicitFirstChars===null||t.implicitFirstChars.indexOf(e)!==-1));let c=r.scalar[`tag:yaml.org,2002:str`];if(!c)throw Error(`schema does not define the default scalar tag (tag:yaml.org,2002:str)`);this.tags=t,this.implicitScalarTags=n,this.implicitScalarByFirstChar=s,this.implicitScalarAnyFirstChar=a,this.defaultScalarTag=c,this.defaultSequenceTag=r.sequence[`tag:yaml.org,2002:seq`],this.defaultMappingTag=r.mapping[`tag:yaml.org,2002:map`],this.exact=r,this.prefix=i}withTags(...t){let n=[];for(let e of t)n=n.concat(e);return new e([...this.tags,...n])}},tt=new v([o,Ue,Je]),nt=new v([...tt.tags,l,te,me,Oe]),rt=new v([...tt.tags,c,m,le,Ce]),it=new v([...tt.tags,d,ie,ve,Ne,He,Pe,Re,Ke,qe,Ye]),at=a(`tag:yaml.org,2002:map`,{create:()=>new Map,addPair:(e,t,n)=>(e.set(t,n),``),has:(e,t)=>e.has(t),keys:e=>e.keys(),get:(e,t)=>e.get(t),identify:e=>e instanceof Map||We(e),represent:e=>{if(e instanceof Map)return e;let t=new Map,n=e;for(let e of Object.keys(n))t.set(e,n[e]);return t}});function ot(e){if(Array.isArray(e)){let t=Array.prototype.slice.call(e);for(let e=0;e<t.length;e++){if(Array.isArray(t[e]))return null;typeof t[e]==`object`&&Object.prototype.toString.call(t[e])===`[object Object]`&&(t[e]=`[object Object]`)}return String(t)}return typeof e==`object`&&Object.prototype.toString.call(e)===`[object Object]`?`[object Object]`:String(e)}var st=a(`tag:yaml.org,2002:map`,{create:()=>({}),identify:We,represent:e=>{let t=new Map;for(let n of Object.keys(e))t.set(n,e[n]);return t},addPair:(e,t,n)=>{let r=ot(t);return r===null?`nested arrays are not supported inside keys`:(r===`__proto__`?Object.defineProperty(e,r,{value:n,enumerable:!0,configurable:!0,writable:!0}):e[r]=n,``)},has:(e,t)=>{let n=ot(t);return n!==null&&Object.prototype.hasOwnProperty.call(e,n)},keys:e=>Object.keys(e),get:(e,t)=>e[String(t)]});function ct(e,t){var n=Object.keys(e);if(Object.getOwnPropertySymbols){var r=Object.getOwnPropertySymbols(e);t&&(r=r.filter(function(t){return Object.getOwnPropertyDescriptor(e,t).enumerable})),n.push.apply(n,r)}return n}function y(e){for(var t=1;t<arguments.length;t++){var n=arguments[t]==null?{}:arguments[t];t%2?ct(Object(n),!0).forEach(function(t){_(e,t,n[t])}):Object.getOwnPropertyDescriptors?Object.defineProperties(e,Object.getOwnPropertyDescriptors(n)):ct(Object(n)).forEach(function(t){Object.defineProperty(e,t,Object.getOwnPropertyDescriptor(n,t))})}return e}var lt={maxLength:79,indent:1,linesBefore:3,linesAfter:2};function ut(e,t,n,r,i){let a=``,o=``,s=Math.floor(i/2)-1;return r-t>s&&(a=` ... `,t=r-s+a.length),n-r>s&&(o=` ...`,n=r+s-o.length),{str:a+e.slice(t,n).replace(/\t/g,`→`)+o,pos:r-t+a.length}}function dt(e,t){return` `.repeat(Math.max(t-e.length,0))+e}function ft(e,t){if(!e.buffer)return null;let n=y(y({},lt),t),r=/\r?\n|\r|\0/g,i=[0],a=[],o,s=-1;for(;o=r.exec(e.buffer);)a.push(o.index),i.push(o.index+o[0].length),e.position<=o.index&&s<0&&(s=i.length-2);s<0&&(s=i.length-1);let c=``,l=Math.min(e.line+n.linesAfter,a.length).toString().length,u=n.maxLength-(n.indent+l+3);for(let t=1;t<=n.linesBefore&&!(s-t<0);t++){let r=ut(e.buffer,i[s-t],a[s-t],e.position-(i[s]-i[s-t]),u);c=`${` `.repeat(n.indent)}${dt((e.line-t+1).toString(),l)} | ${r.str}\n${c}`}let d=ut(e.buffer,i[s],a[s],e.position,u);c+=`${` `.repeat(n.indent)}${dt((e.line+1).toString(),l)} | ${d.str}\n`,c+=`${`-`.repeat(n.indent+l+3+d.pos)}^\n`;for(let t=1;t<=n.linesAfter&&!(s+t>=a.length);t++){let r=ut(e.buffer,i[s+t],a[s+t],e.position-(i[s]-i[s+t]),u);c+=`${` `.repeat(n.indent)}${dt((e.line+t+1).toString(),l)} | ${r.str}\n`}return c.replace(/\n$/,``)}function pt(e,t){let n=``;return e.mark?(e.mark.name&&(n+=`in "${e.mark.name}" `),n+=`(${e.mark.line+1}:${e.mark.column+1})`,!t&&e.mark.snippet&&(n+=`\n\n${e.mark.snippet}`),`${e.reason} ${n}`):e.reason}var b=class extends Error{constructor(e,t){super(),_(this,`reason`,void 0),_(this,`mark`,void 0),this.name=`YAMLException`,this.reason=e,this.mark=t,this.message=pt(this,!1),Error.captureStackTrace&&Error.captureStackTrace(this,this.constructor)}toString(e){return`${this.name}: ${pt(this,e)}`}};function mt(e,t,n,r=``){let i=0,a=0;for(let n=0;n<t;n++){let t=e.charCodeAt(n);t===10?(i++,a=n+1):t===13&&(i++,e.charCodeAt(n+1)===10&&n++,a=n+1)}let o={name:r,buffer:e,position:t,line:i,column:t-a};throw o.snippet=ft(o),new b(n,o)}var ht=1,gt=2,_t=3,vt=4,yt=5,bt=6,xt=1,St=2,Ct=3,wt=4,Tt=5,Et=1,Dt=2,Ot=1,kt=2,At=3,jt=-1;function Mt(e){switch(e){case 48:return`\0`;case 97:return`\x07`;case 98:return`\b`;case 116:return`	`;case 9:return`	`;case 110:return`
+`;case 118:return`\v`;case 102:return`\f`;case 114:return`\r`;case 101:return`\x1B`;case 32:return` `;case 34:return`"`;case 47:return`/`;case 92:return`\\`;case 78:return``;case 95:return`\xA0`;case 76:return`\u2028`;case 80:return`\u2029`;default:return``}}var Nt=Array(256),Pt=Array(256);for(let e=0;e<256;e++)Nt[e]=+!!Mt(e),Pt[e]=Mt(e);function Ft(e){return e<=65535?String.fromCharCode(e):String.fromCharCode((e-65536>>10)+55296,(e-65536&1023)+56320)}function It(e){return e>=48&&e<=57?e-48:(e|32)-97+10}function Lt(e){return e===120?2:e===117?4:8}function Rt(e,t,n){let r=0;for(;t<n;){let n=e.charCodeAt(t);if(n===10)r++,t++;else if(n===13)r++,t++,e.charCodeAt(t)===10&&t++;else if(n===32||n===9)t++;else break}return{position:t,breaks:r}}function zt(e){return e===1?` `:`
+`.repeat(e-1)}function Bt(e,t,n){let r=``,i=t,a=t,o=t;for(;i<n;){let t=e.charCodeAt(i);if(t===10||t===13){r+=e.slice(a,o);let t=Rt(e,i,n);r+=zt(t.breaks),i=a=o=t.position}else i++,t!==32&&t!==9&&(o=i)}return r+e.slice(a,o)}function Vt(e,t,n){let r=``,i=t,a=t,o=t;for(;i<n;){let t=e.charCodeAt(i);if(t===39)r+=e.slice(a,i)+`'`,i+=2,a=o=i;else if(t===10||t===13){r+=e.slice(a,o);let t=Rt(e,i,n);r+=zt(t.breaks),i=a=o=t.position}else i++,t!==32&&t!==9&&(o=i)}return r+e.slice(a,n)}function Ht(e,t,n){let r=``,i=t,a=t,o=t;for(;i<n;){let t=e.charCodeAt(i);if(t===92){r+=e.slice(a,i),i++;let t=e.charCodeAt(i);if(t===10||t===13)i=Rt(e,i,n).position;else if(t<256&&Nt[t])r+=Pt[t],i++;else{let n=Lt(t),a=0;for(;n>0;n--){i++;let t=It(e.charCodeAt(i));a=(a<<4)+t}r+=Ft(a),i++}a=o=i}else if(t===10||t===13){r+=e.slice(a,o);let t=Rt(e,i,n);r+=zt(t.breaks),i=a=o=t.position}else i++,t!==32&&t!==9&&(o=i)}return r+e.slice(a,n)}function Ut(e,t,n,r,i,a){let o=r<0?0:r,s=e.slice(t,n).replace(/\r\n?/g,`
+`),c=s===``?[]:(s.endsWith(`
+`)?s.slice(0,-1):s).split(`
+`),l=``,u=!1,d=0,f=!1;for(let e of c){let t=0;for(;t<o&&e.charCodeAt(t)===32;)t++;if(r<0||t>=e.length){d++;continue}let n=e.slice(o),i=n.charCodeAt(0);a?i===32||i===9?(f=!0,l+=`
+`.repeat(u?1+d:d)):f?(f=!1,l+=`
+`.repeat(d+1)):d===0?u&&(l+=` `):l+=`
+`.repeat(d):l+=`
+`.repeat(u?1+d:d),l+=n,u=!0,d=0}return i===3?l+=`
+`.repeat(u?1+d:d):i!==2&&u&&(l+=`
+`),l}function Wt(e,t){if(t.valueStart===jt)return``;let{valueStart:n,valueEnd:r}=t;if(t.fast)return e.slice(n,r);switch(t.style){case 2:return Vt(e,n,r);case 3:return Ht(e,n,r);case 4:return Ut(e,n,r,t.indent,t.chomping,!1);case 5:return Ut(e,n,r,t.indent,t.chomping,!0);default:return Bt(e,n,r)}}var Gt={"!":`!`,"!!":`tag:yaml.org,2002:`};function Kt(e){return encodeURI(e).replace(/!/g,`%21`)}function qt(e,t){var n,r;if(e.startsWith(`!<`)&&e.endsWith(`>`))return decodeURIComponent(e.slice(2,-1));let i=e.indexOf(`!`,1),a=i===-1?`!`:e.slice(0,i+1),o=(n=(r=t==null?void 0:t[a])==null?Gt[a]:r)==null?a:n;return decodeURIComponent(o)+decodeURIComponent(e.slice(a.length))}function Jt(e){let t=e;return t.charCodeAt(0)===33?(t=t.slice(1),`!${Kt(t)}`):t.slice(0,18)===`tag:yaml.org,2002:`?`!!${Kt(t.slice(18))}`:`!<${Kt(t)}>`}var x=-1,Yt={filename:``,schema:rt,json:!1,maxTotalMergeKeys:1e4,maxAliases:-1};function Xt(e){return`tagStart`in e&&e.tagStart!==x?e.tagStart:`anchorStart`in e&&e.anchorStart!==x?e.anchorStart:`valueStart`in e&&e.valueStart!==x?e.valueStart:`start`in e?e.start:0}function S(e,t){mt(e.source,e.position,t,e.filename)}function Zt(e,t,n,r){try{return n.finalize(r)}catch(n){if(n instanceof b)throw n;mt(e.source,t,n instanceof Error?n.message:String(n),e.filename)}}function Qt(e,t,n){let r=e[n];if(r)return r;for(let e of t)if(n.startsWith(e.tagName))return e}function $t(e,t,n,r,i){let a=Qt(t,n,r);if(a)return a;S(e,`unknown ${i} tag !<${r}>`)}function en(e,n){let r=Wt(e.source,n),i=n.tagStart===x?``:e.source.slice(n.tagStart,n.tagEnd),a=e.schema.defaultScalarTag;if(i!==``){var o;if(i===`!`)return{value:r,tag:a};let n=qt(i,e.tagHandlers),s=Qt(e.schema.exact.scalar,e.schema.prefix.scalar,n);if(s){let i=s.resolve(r,!0,n);return i===t&&S(e,`cannot resolve a node with !<${n}> explicit tag`),{value:i,tag:s}}let c=(o=Qt(e.schema.exact.mapping,e.schema.prefix.mapping,n))==null?Qt(e.schema.exact.sequence,e.schema.prefix.sequence,n):o;if(c){r!==``&&S(e,`cannot resolve a node with !<${n}> explicit tag`);let t=c.create(n);return{value:c.carrierIsResult?t:Zt(e,e.position,c,t),tag:c}}S(e,`unknown scalar tag !<${n}>`)}if(n.style===1){var s;let n=(s=e.schema.implicitScalarByFirstChar.get(r.charAt(0)))==null?e.schema.implicitScalarAnyFirstChar:s;for(let e of n){let n=e.resolve(r,!1,e.tagName);if(n!==t)return{value:n,tag:e}}}return{value:a.resolve(r,!1,a.tagName),tag:a}}function tn(e,t,n,r,i,a){let o=t.tagStart===x?``:e.source.slice(t.tagStart,t.tagEnd),s=o===``||o===`!`?i:qt(o,e.tagHandlers);return{tagName:s,tag:$t(e,n,r,s,a)}}function nn(e){return e.nodeKind===`mapping`}function rn(e,t,n,r){for(let a of r.keys(n)){var i;if(e.maxTotalMergeKeys!==-1&&++e.totalMergeKeys>e.maxTotalMergeKeys&&S(e,`merge keys exceeded maxTotalMergeKeys (${e.maxTotalMergeKeys})`),t.tag.has(t.value,a))continue;let o=t.tag.addPair(t.value,a,r.get(n,a));o&&S(e,o),((i=t.overridable)==null?t.overridable=new Set:i).add(a)}}function an(e,t,n,r){if(e.position=t.keyPosition,nn(r))rn(e,t,n,r);else if(r.nodeKind===`sequence`&&Array.isArray(n))for(let r of n)rn(e,t,r,t.tag);else S(e,`cannot merge mappings; the provided source object is unacceptable`)}function on(e,t,r,i,a){var o,s;if(e.position=t.keyPosition,r===n){an(e,t,i,a);return}!e.json&&t.tag.has(t.value,r)&&!((o=t.overridable)!=null&&o.has(r))&&S(e,`duplicated mapping key`);let c=t.tag.addPair(t.value,r,i);c&&S(e,c),(s=t.overridable)==null||s.delete(r)}function sn(e,t,n){let r=e.frames[e.frames.length-1];if(r.kind===`document`)r.value=t,r.hasValue=!0;else if(r.kind===`sequence`){r.merge&&(nn(n)||S(e,`cannot merge mappings; the provided source object is unacceptable`));let i=r.tag.addItem(r.value,t,r.index++);i&&S(e,i)}else if(r.hasKey){let i=r.key;r.key=void 0,r.hasKey=!1,on(e,r,i,t,n)}else r.key=t,r.keyPosition=e.position,r.hasKey=!0}function cn(e,t,n,r,i){if(t.anchorStart!==x){let a={value:n,tag:r,isValueFinal:i};return e.anchors.set(e.source.slice(t.anchorStart,t.anchorEnd),a),a}return null}function ln(e,t){let r=y(y(y({},Yt),t),{},{events:e,documents:[],eventIndex:0,position:0,frames:[],anchors:new Map,tagHandlers:Object.create(null),totalMergeKeys:0,aliasCount:0});for(;r.eventIndex<r.events.length;){let e=r.events[r.eventIndex++];switch(r.position=Xt(e),e.type){case 1:r.anchors=new Map,r.aliasCount=0,r.tagHandlers=Object.create(null);for(let t of e.directives)t.kind===`tag`&&(r.tagHandlers[t.handle]=t.prefix);r.frames.push({kind:`document`,position:r.position,value:void 0,hasValue:!1});break;case 4:{let{value:t,tag:n}=en(r,e);cn(r,e,t,n,!0),sn(r,t,n);break}case 2:{let t=tn(r,e,r.schema.exact.sequence,r.schema.prefix.sequence,`tag:yaml.org,2002:seq`,`sequence`),i=t.tag.create(t.tagName),a=cn(r,e,i,t.tag,t.tag.carrierIsResult),o=r.frames[r.frames.length-1],s=o!==void 0&&o.kind===`mapping`&&o.hasKey&&o.key===n;r.frames.push({kind:`sequence`,position:r.position,value:i,tag:t.tag,anchor:a,index:0,merge:s});break}case 3:{let t=tn(r,e,r.schema.exact.mapping,r.schema.prefix.mapping,`tag:yaml.org,2002:map`,`mapping`),n=t.tag.create(t.tagName),i=cn(r,e,n,t.tag,t.tag.carrierIsResult);r.frames.push({kind:`mapping`,position:r.position,value:n,tag:t.tag,anchor:i,key:void 0,keyPosition:r.position,hasKey:!1,overridable:null});break}case 5:{r.maxAliases!==-1&&++r.aliasCount>r.maxAliases&&S(r,`aliases exceeded maxAliases (${r.maxAliases})`);let t=r.source.slice(e.anchorStart,e.anchorEnd),n=r.anchors.get(t);n||S(r,`unidentified alias "${t}"`),n.isValueFinal||S(r,`recursive alias "${t}" is not supported for tag ${n.tag.tagName} because it uses finalize()`),sn(r,n.value,n.tag);break}case 6:{let e=r.frames.pop();if(e.kind===`document`)r.documents.push(e.value);else{let t=e.tag.carrierIsResult?e.value:Zt(r,e.position,e.tag,e.value);e.anchor&&(e.anchor.value=t,e.anchor.isValueFinal=!0),sn(r,t,e.tag)}break}}}return r.documents}var C=-1,un=Object.prototype.hasOwnProperty,w=1,dn=2,fn=3,pn=4,mn=/[\x00-\x08\x0B\x0C\x0E-\x1F\x7F-\x84\x86-\x9F\uFFFE\uFFFF]|[\uD800-\uDBFF](?![\uDC00-\uDFFF])|(?:[^\uD800-\uDBFF]|^)[\uDC00-\uDFFF]/,hn=/[,\[\]{}]/,gn=/^(?:!|!!|![0-9A-Za-z-]+!)$/,_n=String.raw`(?:%[0-9A-Fa-f]{2}|[0-9A-Za-z\-#;/?:@&=+$,_.!~*'()\[\]])`,vn=String.raw`(?:%[0-9A-Fa-f]{2}|[0-9A-Za-z\-#;/?:@&=+$.~*'()_])`,yn=RegExp(`^(?:${_n})*$`),bn=RegExp(`^(?:${vn})+$`),xn=RegExp(`^(?:!(?:${_n})*|${vn}(?:${_n})*)$`),Sn={filename:``,maxDepth:100};function Cn(e,t,n){e.events.push({type:1,explicitStart:t,explicitEnd:n,directives:e.directives})}function wn(e,t,n,r,i,a,o){e.events.push({type:2,start:t,anchorStart:n,anchorEnd:r,tagStart:i,tagEnd:a,style:o})}function Tn(e,t,n,r,i,a,o){e.events.push({type:3,start:t,anchorStart:n,anchorEnd:r,tagStart:i,tagEnd:a,style:o})}function En(e,t){e.events.splice(t.eventsLength,0,{type:3,start:t.position,anchorStart:C,anchorEnd:C,tagStart:C,tagEnd:C,style:2})}function T(e,t,n,r,i,a,o,s,c=1,l=-1,u=!1){e.events.push({type:4,valueStart:t,valueEnd:n,anchorStart:r,anchorEnd:i,tagStart:a,tagEnd:o,style:s,chomping:c,indent:l,fast:u})}function Dn(e,t,n){e.events.push({type:5,anchorStart:t,anchorEnd:n})}function E(e){e.events.push({type:6})}function D(e){T(e,C,C,C,C,C,C,1)}function On(){return{anchorStart:C,anchorEnd:C,tagStart:C,tagEnd:C}}function O(e){return{position:e.position,line:e.line,lineStart:e.lineStart,lineIndent:e.lineIndent,firstTabInLine:e.firstTabInLine,eventsLength:e.events.length}}function k(e,t){e.position=t.position,e.line=t.line,e.lineStart=t.lineStart,e.lineIndent=t.lineIndent,e.firstTabInLine=t.firstTabInLine,e.events.length=t.eventsLength}function A(e,t){mt(e.input.slice(0,e.length),e.position,t,e.filename)}function j(e){return e===10||e===13}function M(e){return e===9||e===32}function N(e){return M(e)||j(e)}function P(e){return e===0||N(e)}function F(e){return e===44||e===91||e===93||e===123||e===125}function kn(e){return e>=48&&e<=57?e-48:-1}function An(e){if(e>=48&&e<=57)return e-48;let t=e|32;return t>=97&&t<=102?t-97+10:-1}function jn(e){return e===120?2:e===117?4:e===85?8:0}function Mn(e){return e===48||e===97||e===98||e===116||e===9||e===110||e===118||e===102||e===114||e===101||e===32||e===34||e===47||e===92||e===78||e===95||e===76||e===80}function Nn(e){e.input.charCodeAt(e.position)===10?e.position++:(e.position++,e.input.charCodeAt(e.position)===10&&e.position++),e.line++,e.lineStart=e.position,e.lineIndent=0,e.firstTabInLine=-1}function I(e,t){let n=0,r=e.input.charCodeAt(e.position),i=e.position===e.lineStart||N(e.input.charCodeAt(e.position-1));for(;r!==0;){for(;M(r);)i=!0,r===9&&e.firstTabInLine===-1&&(e.firstTabInLine=e.position),r=e.input.charCodeAt(++e.position);if(t&&i&&r===35)do r=e.input.charCodeAt(++e.position);while(!j(r)&&r!==0);if(!j(r))break;for(Nn(e),n++,i=!0,r=e.input.charCodeAt(e.position);r===32;)e.lineIndent++,r=e.input.charCodeAt(++e.position)}return n}function L(e,t=e.position){let n=e.input.charCodeAt(t);if((n===45||n===46)&&n===e.input.charCodeAt(t+1)&&n===e.input.charCodeAt(t+2)){let n=e.input.charCodeAt(t+3);return n===0||N(n)}return!1}function Pn(e){let t=e.input.charCodeAt(e.position);for(;t!==0&&!j(t);)t=e.input.charCodeAt(++e.position)}function Fn(e,t,n){mn.test(e.input.slice(t,n))&&A(e,`the stream contains non-printable characters`)}function In(e,t,n){if(e.input.charCodeAt(e.position)!==33)return!1;t.tagStart!==C&&A(e,`duplication of a tag property`);let r=e.position,i=!1,a=!1,o=`!`,s=e.input.charCodeAt(++e.position);s===60?(i=!0,s=e.input.charCodeAt(++e.position)):s===33&&(a=!0,o=`!!`,s=e.input.charCodeAt(++e.position));let c=e.position,l;if(i){for(;s!==0&&s!==62;)s=e.input.charCodeAt(++e.position);s!==62&&A(e,`unexpected end of the stream within a verbatim tag`),l=e.input.slice(c,e.position),e.position++}else{for(;s!==0&&!N(s)&&!(n&&F(s));)s===33&&(a?A(e,`tag suffix cannot contain exclamation marks`):(o=e.input.slice(c-1,e.position+1),gn.test(o)||A(e,`named tag handle cannot contain such characters`),a=!0,c=e.position+1)),s=e.input.charCodeAt(++e.position);l=e.input.slice(c,e.position),hn.test(l)&&A(e,`tag suffix cannot contain flow indicator characters`)}return l&&!(i?yn.test(l):bn.test(l))&&A(e,`tag name cannot contain such characters: ${l}`),!i&&o!==`!`&&o!==`!!`&&!un.call(e.tagHandlers,o)&&A(e,`undeclared tag handle "${o}"`),t.tagStart=r,t.tagEnd=e.position,!0}function Ln(e,t){if(e.input.charCodeAt(e.position)!==38)return!1;t.anchorStart!==C&&A(e,`duplication of an anchor property`),e.position++;let n=e.position;for(;e.input.charCodeAt(e.position)!==0&&!N(e.input.charCodeAt(e.position))&&!F(e.input.charCodeAt(e.position));)e.position++;return e.position===n&&A(e,`name of an anchor node must contain at least one character`),t.anchorStart=n,t.anchorEnd=e.position,!0}function Rn(e,t){if(e.input.charCodeAt(e.position)!==42)return!1;(t.anchorStart!==C||t.tagStart!==C)&&A(e,`alias node should not have any properties`),e.position++;let n=e.position;for(;e.input.charCodeAt(e.position)!==0&&!N(e.input.charCodeAt(e.position))&&!F(e.input.charCodeAt(e.position));)e.position++;return e.position===n&&A(e,`name of an alias node must contain at least one character`),Dn(e,n,e.position),!0}function zn(e,t){I(e,!1),e.lineIndent<t&&A(e,`deficient indentation`)}function Bn(e,t,n){if(e.input.charCodeAt(e.position)!==39)return!1;e.position++;let r=e.position,i=!0;for(;e.input.charCodeAt(e.position)!==0;){let a=e.input.charCodeAt(e.position);if(a===39){if(e.input.charCodeAt(e.position+1)===39){i=!1,e.position+=2;continue}let t=e.position;return e.position++,T(e,r,t,n.anchorStart,n.anchorEnd,n.tagStart,n.tagEnd,2,1,-1,i),!0}j(a)?(i=!1,zn(e,t)):e.position===e.lineStart&&L(e)?A(e,`unexpected end of the document within a single quoted scalar`):a!==9&&a<32?A(e,`expected valid JSON character`):e.position++}A(e,`unexpected end of the stream within a single quoted scalar`)}function Vn(e,t,n){if(e.input.charCodeAt(e.position)!==34)return!1;e.position++;let r=e.position,i=!0;for(;e.input.charCodeAt(e.position)!==0;){let a=e.input.charCodeAt(e.position);if(a===34){let t=e.position;return e.position++,T(e,r,t,n.anchorStart,n.anchorEnd,n.tagStart,n.tagEnd,3,1,-1,i),!0}if(a===92){i=!1;let n=e.input.charCodeAt(++e.position);if(j(n))zn(e,t);else if(Mn(n))e.position++;else{let t=jn(n);for(t===0&&A(e,`unknown escape sequence`);t-->0;)e.position++,An(e.input.charCodeAt(e.position))<0&&A(e,`expected hexadecimal character`);e.position++}}else j(a)?(i=!1,zn(e,t)):e.position===e.lineStart&&L(e)?A(e,`unexpected end of the document within a double quoted scalar`):a!==9&&a<32?A(e,`expected valid JSON character`):e.position++}A(e,`unexpected end of the stream within a double quoted scalar`)}function Hn(e,t,n){let r=e.input.charCodeAt(e.position),i=1,a=-1,o=!1;if(r!==124&&r!==62)return!1;let s=r===124?4:5;for(e.position++;e.input.charCodeAt(e.position)!==0;){let n=e.input.charCodeAt(e.position),r=kn(n);if(n===43||n===45)i!==1&&A(e,`repeat of a chomping mode identifier`),i=n===43?3:2,e.position++;else if(r>=0)r===0&&A(e,`bad explicit indentation width of a block scalar; it cannot be less than one`),o&&A(e,`repeat of an indentation width identifier`),a=t+r-1,o=!0,e.position++;else break}let c=!1;for(;M(e.input.charCodeAt(e.position));)c=!0,e.position++;c&&e.input.charCodeAt(e.position)===35&&Pn(e),j(e.input.charCodeAt(e.position))?Nn(e):e.input.charCodeAt(e.position)!==0&&A(e,`a line break is expected`);let l=o?a:-1,u=0,d=e.position,f=e.position;for(;e.input.charCodeAt(e.position)!==0;){let n=e.position,r=0;for(;e.input.charCodeAt(n+r)===32;)r++;let i=e.input.charCodeAt(n+r);if(i===0){l>=0?r>l&&(f=n+r):r>0&&(f=n+r);break}if(n===e.lineStart&&L(e,n))break;if(!o&&l===-1&&j(i)&&(u=Math.max(u,r)),!o&&l===-1&&!j(i)&&(i===9&&r<t&&(e.position=n+r,A(e,`tab characters must not be used in indentation`)),r<u&&(e.position=n+r,A(e,`bad indentation of a mapping entry`))),l===-1&&i!==0&&!j(i)&&r<t){e.lineIndent=r,e.position=n+r;break}!o&&i!==0&&!j(i)&&l===-1&&(l=r);let a=l===-1?t+1:l;if(i!==0&&!j(i)&&r<a){e.lineIndent=r,e.position=n+r;break}Pn(e),f=e.position,j(e.input.charCodeAt(e.position))&&(Nn(e),f=e.position)}return Fn(e,d,f),T(e,d,f,n.anchorStart,n.anchorEnd,n.tagStart,n.tagEnd,s,i,l),!0}function Un(e,t){let n=e.input.charCodeAt(e.position),r=t===w;if(n===0||N(n)||n===35||n===38||n===42||n===33||n===124||n===62||n===39||n===34||n===37||n===64||n===96||r&&F(n))return!1;if(n===63||n===45){let t=e.input.charCodeAt(e.position+1);if(P(t)||r&&F(t))return!1}return!0}function Wn(e,t,n,r){if(!Un(e,n))return!1;let i=e.position,a=e.position,o=e.input.charCodeAt(e.position),s=n===w,c=!1;for(;o!==0&&!(e.position===e.lineStart&&L(e));){if(o===58){let t=e.input.charCodeAt(e.position+1);if(P(t)||s&&F(t))break}else if(o===35){if(N(e.input.charCodeAt(e.position-1)))break}else if(s&&F(o))break;else if(j(o)){let n=e.position,r=e.line,i=e.lineStart,a=e.lineIndent;if(I(e,!1),e.lineIndent>=t){c=!0,o=e.input.charCodeAt(e.position);continue}e.position=n,e.line=r,e.lineStart=i,e.lineIndent=a;break}M(o)||(a=e.position+1),o=e.input.charCodeAt(++e.position)}return a===i?!1:(Fn(e,i,a),T(e,i,a,r.anchorStart,r.anchorEnd,r.tagStart,r.tagEnd,1,1,-1,!c),!0)}function R(e,t){let n=e.line;I(e,!0),(e.line>n&&e.lineIndent<t||e.firstTabInLine!==-1&&e.lineIndent<t)&&A(e,`deficient indentation`)}function Gn(e,t,n){let r=e.input.charCodeAt(e.position),i=r===123,a=e.position,o=!0;if(r!==91&&r!==123)return!1;let s=i?125:93;for(i?Tn(e,a,n.anchorStart,n.anchorEnd,n.tagStart,n.tagEnd,2):wn(e,a,n.anchorStart,n.anchorEnd,n.tagStart,n.tagEnd,2),e.position++;e.input.charCodeAt(e.position)!==0;){R(e,t);let n=e.input.charCodeAt(e.position);if(n===s)return e.position++,E(e),!0;o?n===44&&A(e,`expected the node content, but found ','`):A(e,`missed comma between flow collection entries`);let r=!1,a=!1;n===63&&N(e.input.charCodeAt(e.position+1))&&(r=a=!0,e.position+=1,R(e,t));let c=e.line,l=O(e),u=z(e,t,w,!1,!0);R(e,t),n=e.input.charCodeAt(e.position),(i||a||e.line===c)&&n===58?(r=!0,e.position++,R(e,t),i||En(e,l),u||D(e),z(e,t,w,!1,!0)||D(e),R(e,t),i||E(e)):i&&r?(u||D(e),D(e)):i?D(e):r&&(En(e,l),u||D(e),D(e),E(e)),n=e.input.charCodeAt(e.position),n===44?(o=!0,e.position++):o=!1}A(e,`unexpected end of the stream within a flow collection`)}function Kn(e,t,n){if(e.firstTabInLine!==-1||e.input.charCodeAt(e.position)!==45||!P(e.input.charCodeAt(e.position+1)))return!1;for(wn(e,e.position,n.anchorStart,n.anchorEnd,n.tagStart,n.tagEnd,1);e.input.charCodeAt(e.position)===45&&P(e.input.charCodeAt(e.position+1));){e.firstTabInLine!==-1&&(e.position=e.firstTabInLine,A(e,`tab characters must not be used in indentation`));let n=e.line;e.position++;let r=I(e,!0)>0;if(e.firstTabInLine!==-1&&e.input.charCodeAt(e.position)===45&&P(e.input.charCodeAt(e.position+1))&&A(e,`bad indentation of a sequence entry`),r&&e.lineIndent<=t?D(e):z(e,t,fn,!1,!0),I(e,!0),e.lineIndent<t||e.position>=e.length)break;e.lineIndent>t&&A(e,`bad indentation of a sequence entry`),e.line===n&&e.input.charCodeAt(e.position)===45&&P(e.input.charCodeAt(e.position+1))&&A(e,`bad indentation of a sequence entry`)}return E(e),!0}function qn(e,t,n,r){let i=!1,a=!1,o=!1,s=!1;if(e.firstTabInLine!==-1)return!1;let c=e.input.charCodeAt(e.position);for(;c!==0;){!i&&e.firstTabInLine!==-1&&(e.position=e.firstTabInLine,A(e,`tab characters must not be used in indentation`));let l=e.input.charCodeAt(e.position+1),u=e.line;if((c===63||c===58)&&P(l))o||(Tn(e,e.position,r.anchorStart,r.anchorEnd,r.tagStart,r.tagEnd,1),o=!0),c===63?(i&&D(e),a=!0,i=!0):i?i=!1:(D(e),a=!0,i=!1),e.position+=1,s=!0;else{i&&(D(e),i=!1);let t=O(e);if(!z(e,n,dn,!1,!0))break;if(e.line===u){for(c=e.input.charCodeAt(e.position);M(c);)c=e.input.charCodeAt(++e.position);if(c===58){if(c=e.input.charCodeAt(++e.position),P(c)||A(e,`a whitespace character is expected after the key-value separator within a block mapping`),!o){for(k(e,t),Tn(e,t.position,r.anchorStart,r.anchorEnd,r.tagStart,r.tagEnd,1),o=!0,z(e,n,dn,!1,!0),c=e.input.charCodeAt(e.position);M(c);)c=e.input.charCodeAt(++e.position);e.position++}a=!0,i=!1,s=!1}else if(a)A(e,`expected ':' after a mapping key`);else return r.anchorStart!==C||r.tagStart!==C?(k(e,t),!1):!0}else if(a)A(e,`can not read a block mapping entry; a multiline key may not be an implicit key`);else return r.anchorStart!==C||r.tagStart!==C?(k(e,t),!1):!0}if(z(e,t,pn,!0,s)&&(s=!1),i||s&&(D(e),s=!1),I(e,!0),c=e.input.charCodeAt(e.position),(e.line===u||e.lineIndent>t)&&c!==0)A(e,`bad indentation of a mapping entry`);else if(e.lineIndent<t)break}return a?(i&&D(e),o&&E(e),!0):!1}function z(e,t,n,r,i,a=!0){e.depth>=e.maxDepth&&A(e,`nesting exceeded maxDepth (${e.maxDepth})`),e.depth++;let o=1,s=!1,c=!1,l=null,u=On(),d=n===pn||n===fn,f=d,p=d;if(r&&I(e,!0)&&(s=!0,o=e.lineIndent>t?1:e.lineIndent===t?0:-1),e.position===e.lineStart&&L(e))return e.depth--,!1;if(o===1)for(;;){let r=e.input.charCodeAt(e.position),i=O(e);if(s&&o!==1&&(r===33||r===38))break;if(s&&p&&(u.tagStart!==C||u.anchorStart!==C)&&(r===33||r===38)){var m;let n=O(e),r=t+1;if(qn(e,e.position-e.lineStart,r,u)&&((m=e.events[n.eventsLength])==null?void 0:m.type)===3)return e.depth--,!0;k(e,n)}if(s&&(r===33&&u.tagStart!==C||r===38&&u.anchorStart!==C)||!In(e,u,n===w)&&!Ln(e,u))break;l===null&&(l=i),I(e,!0)?(s=!0,f=p,o=e.lineIndent>t?1:e.lineIndent===t?0:-1):f=!1}if(f&&(f=s||i),o===1||n===pn){let r=n===w||n===dn?t:t+1,i=e.position-e.lineStart;if(o===1)if(f&&(Kn(e,i,u)||qn(e,i,r,u))||Gn(e,r,u))c=!0;else{let t=e.input.charCodeAt(e.position);if(l!==null&&a&&p&&!f&&t!==124&&t!==62){var h;let t=O(e),n=l.position-l.lineStart;k(e,l),qn(e,n,r,On())&&((h=e.events[t.eventsLength])==null?void 0:h.type)===3?c=!0:k(e,t)}!c&&(d&&Hn(e,r,u)||Bn(e,r,u)||Vn(e,r,u)||Rn(e,u)||Wn(e,r,n,u))&&(c=!0)}else o===0&&(c=f&&Kn(e,i,u))}return d=d&&!c,!c&&(u.anchorStart!==C||u.tagStart!==C||d)&&(T(e,C,C,u.anchorStart,u.anchorEnd,u.tagStart,u.tagEnd,1),c=!0),e.depth--,c||u.anchorStart!==C||u.tagStart!==C}function Jn(e){if(e.lineIndent>0||e.input.charCodeAt(e.position)!==37)return!1;e.position++;let t=e.position;for(;e.input.charCodeAt(e.position)!==0&&!N(e.input.charCodeAt(e.position));)e.position++;let n=e.input.slice(t,e.position),r=[];for(n.length===0&&A(e,`directive name must not be less than one character in length`);e.input.charCodeAt(e.position)!==0&&!j(e.input.charCodeAt(e.position));){for(;M(e.input.charCodeAt(e.position));)e.position++;if(e.input.charCodeAt(e.position)===35||j(e.input.charCodeAt(e.position))||e.input.charCodeAt(e.position)===0)break;let t=e.position;for(;e.input.charCodeAt(e.position)!==0&&!N(e.input.charCodeAt(e.position));)e.position++;r.push(e.input.slice(t,e.position))}if(j(e.input.charCodeAt(e.position))&&Nn(e),n===`YAML`){e.directives.some(e=>e.kind===`yaml`)&&A(e,`duplication of %YAML directive`),r.length!==1&&A(e,`YAML directive accepts exactly one argument`);let t=/^([0-9]+)\.([0-9]+)$/.exec(r[0]);t===null&&A(e,`ill-formed argument of the YAML directive`),parseInt(t[1],10)!==1&&A(e,`unacceptable YAML version of the document`),e.directives.push({kind:`yaml`,version:r[0]})}else if(n===`TAG`){r.length!==2&&A(e,`TAG directive accepts exactly two arguments`);let[t,n]=r;gn.test(t)||A(e,`ill-formed tag handle (first argument) of the TAG directive`),un.call(e.tagHandlers,t)&&A(e,`there is a previously declared suffix for "${t}" tag handle`),xn.test(n)||A(e,`ill-formed tag prefix (second argument) of the TAG directive`),e.tagHandlers[t]=n,e.directives.push({kind:`tag`,handle:t,prefix:n})}return!0}function Yn(e){e.directives=[],e.tagHandlers=Object.create(null);let t=!1;for(I(e,!0);Jn(e);)t=!0,I(e,!0);let n=!1,r=!1,i=!0;if(e.lineIndent===0&&e.input.charCodeAt(e.position)===45&&e.input.charCodeAt(e.position+1)===45&&e.input.charCodeAt(e.position+2)===45&&P(e.input.charCodeAt(e.position+3))){n=!0;let t=e.line;e.position+=3,I(e,!0),i=e.line>t}else t&&A(e,`directives end mark is expected`);let a=e.events.length;if(!n&&e.position===e.lineStart&&e.input.charCodeAt(e.position)===46&&L(e)){e.position+=3,I(e,!0);return}if(Cn(e,n,!1),z(e,e.lineIndent-1,pn,!1,i,i)||D(e),I(e,!0),e.position===e.lineStart&&L(e)&&(r=e.input.charCodeAt(e.position)===46,r)){let t=e.line;e.position+=3,I(e,!0),e.line===t&&e.position<e.length&&A(e,`end of the stream or a document separator is expected`)}let o=e.events[a];(o==null?void 0:o.type)===1&&(o.explicitEnd=r),E(e),!r&&e.position<e.length&&!(e.position===e.lineStart&&L(e))&&A(e,`end of the stream or a document separator is expected`)}function Xn(e,t){let n=e.length,r=y(y(y({},Sn),t),{},{input:`${e}\0`,length:n,position:0,line:0,lineStart:0,lineIndent:0,firstTabInLine:-1,depth:0,directives:[],tagHandlers:Object.create(null),events:[]}),i=e.indexOf(`\0`);for(i!==-1&&mt(e,i,`null byte is not allowed in input`,r.filename),r.input.charCodeAt(r.position)===65279&&r.position++;r.position<r.length&&(I(r,!0),!(r.position>=r.length));){let e=r.position;Yn(r),r.position===e&&A(r,`can not read a document`)}return r.events}var Zn=y(y({},Sn),Yt);function Qn(e,t={}){let n=y(y({},Zn),t),r=String(e),i=Object.keys(Sn),a=Object.keys(Yt);return ln(Xn(r,Ge(n,i)),y(y({},Ge(n,a)),{},{source:r}))}function $n(e,t,n){let r=null;typeof t==`function`?r=t:typeof t==`object`&&t&&(n=t);let i=Qn(e,n);if(r===null)return i;for(let e of i)r(e)}function er(e,t){let n=Qn(e,t);if(n.length===0)throw new b(`expected a document, but the input is empty`);if(n.length===1)return n[0];throw new b(`expected a single document in the stream, but found more`)}var B=class{constructor(){_(this,`tagged`,!1),_(this,`flow`,!1),_(this,`singleQuoted`,!1),_(this,`doubleQuoted`,!1),_(this,`literal`,!1),_(this,`folded`,!1)}},V=Symbol(`INVALID`);function tr(e){let t=new Set([e.defaultScalarTag,e.defaultSequenceTag,e.defaultMappingTag].filter(e=>e!==void 0)),n=e.implicitScalarTags,r=e.tags.filter(e=>!(e.nodeKind===`scalar`&&e.implicit)&&!t.has(e)),i=e.tags.filter(e=>t.has(e));return[...n.map(e=>({tag:e,implicitTag:!0})),...r.map(e=>({tag:e,implicitTag:!1})),...i.map(e=>({tag:e,implicitTag:!0}))]}function nr(e,t){for(let n=0,r=e.representTypes.length;n<r;n+=1){let{tag:r,implicitTag:i}=e.representTypes[n];if(r.identify&&r.identify(t)){let e;return e=r.matchByTagPrefix&&r.representTagName?r.representTagName(t):r.tagName,{tag:r,tagName:e,implicitTag:i}}}return null}function H(e,t){if(!e.noRefs&&typeof t==`object`&&t){let n=e.refs.get(t);if(n)return n.anchor===void 0&&(n.anchor=`ref_${e.refCounter++}`),{kind:`alias`,tag:``,style:new B,anchor:n.anchor}}let n=nr(e,t);if(!n){if(t===void 0||e.skipInvalid)return V;throw new b(`unacceptable kind of an object to dump ${Object.prototype.toString.call(t)}`)}let{tag:r,tagName:i,implicitTag:a}=n,o=a?i:Jt(i);if(r.nodeKind===`scalar`){let e=new B;return e.tagged=!a,{kind:`scalar`,tag:o,style:e,value:r.represent(t)}}if(r.nodeKind===`sequence`){let n=r.represent(t),i=new B;i.tagged=!a;let s={kind:`sequence`,tag:o,style:i,items:[]};e.noRefs||e.refs.set(t,s);for(let t=0,r=n.length;t<r;t+=1){let r=H(e,n[t]);r===V&&n[t]===void 0&&(r=H(e,null)),r!==V&&s.items.push(r)}return s}let s=r.represent(t),c=new B;c.tagged=!a;let l={kind:`mapping`,tag:o,style:c,items:[]};e.noRefs||e.refs.set(t,l);for(let[t,n]of s){let r=H(e,t);if(r===V)continue;let i=H(e,n);i!==V&&l.items.push({key:r,value:i})}return l}function rr(e,t,n={}){var r,i;let a=H({representTypes:tr(t),noRefs:(r=n.noRefs)==null?!1:r,skipInvalid:(i=n.skipInvalid)==null?!1:i,refs:new Map,refCounter:0},e);return[{contents:a===V?null:a,directives:[]}]}var ir=Symbol(`visit:break`),ar=Symbol(`visit:skip`);function or(e,t,n){let r=t(e,n);if(r===ir)return!0;if(r===ar)return!1;let i=n.depth+1;switch(e.kind){case`sequence`:for(let n of e.items)if(or(n,t,{depth:i,parent:e,isKey:!1}))return!0;break;case`mapping`:for(let{key:n,value:r}of e.items)if(or(n,t,{depth:i,parent:e,isKey:!0})||or(r,t,{depth:i,parent:e,isKey:!1}))return!0;break}return!1}function sr(e,t){for(let n of e)if(n.contents&&or(n.contents,t,{depth:0,parent:null,isKey:!1}))return}var cr=65279,lr=9,U=10,ur=13,dr=32,fr=33,pr=34,mr=35,hr=37,gr=38,_r=39,vr=42,yr=44,br=45,W=58,xr=61,Sr=62,Cr=63,wr=64,Tr=91,Er=93,Dr=96,Or=123,kr=124,Ar=125,G={};G[0]=`\\0`,G[7]=`\\a`,G[8]=`\\b`,G[9]=`\\t`,G[10]=`\\n`,G[11]=`\\v`,G[12]=`\\f`,G[13]=`\\r`,G[27]=`\\e`,G[34]=`\\"`,G[92]=`\\\\`,G[133]=`\\N`,G[160]=`\\_`,G[8232]=`\\L`,G[8233]=`\\P`;var jr={indent:2,seqNoIndent:!1,seqInlineFirst:!0,sortKeys:!1,lineWidth:80,flowBracketPadding:!1,flowSkipCommaSpace:!1,flowSkipColonSpace:!1,quoteFlowKeys:!1,quoteStyle:`single`,forceQuotes:!1,tagBeforeAnchor:!1};function Mr(e){return e.style.tagged?e.tag:Jt(e.tag)}function Nr(e){let t=y(y({},jr),e);return y(y({},t),{},{defaultScalarTagName:t.schema.defaultScalarTag.tagName,implicitResolvers:t.schema.implicitScalarTags})}function Pr(e){let t=e.toString(16).toUpperCase(),n=e<=255?`x`:`u`,r=e<=255?2:4;return`\\${n}${`0`.repeat(r-t.length)}${t}`}function Fr(e,t){let n=` `.repeat(t),r=0,i=``,a=e.length;for(;r<a;){let t,o=e.indexOf(`
+`,r);o===-1?(t=e.slice(r),r=a):(t=e.slice(r,o+1),r=o+1),t.length&&t!==`
+`&&(i+=n),i+=t}return i}function Ir(e,t){return`\n${` `.repeat(e.indent*t)}`}function Lr(e,t){let n=e.indent*Math.max(1,t);return{indent:n,blockIndent:t===0?e.indent+1:e.indent,lineWidth:e.lineWidth===-1?-1:Math.max(Math.min(e.lineWidth,40),e.lineWidth-n)}}function Rr(e,n){for(let r=0,i=e.implicitResolvers.length;r<i;r+=1){let i=e.implicitResolvers[r];if(i.resolve(n,!1,i.tagName)!==t)return i.tagName}return e.defaultScalarTagName}function K(e){return e===dr||e===lr}function zr(e){let t=e.charCodeAt(0);if(t!==br&&t!==46||e.charCodeAt(1)!==t||e.charCodeAt(2)!==t)return!1;if(e.length===3)return!0;let n=e.charCodeAt(3);return K(n)||n===ur||n===U}function q(e){return e>=32&&e<=126||e>=161&&e<=55295&&e!==8232&&e!==8233||e>=57344&&e<=65533&&e!==cr||e>=65536&&e<=1114111}function Br(e){return q(e)&&e!==cr&&e!==ur&&e!==U}function Vr(e,t,n){let r=Br(e),i=r&&!K(e);return(n?r:r&&e!==yr&&e!==Tr&&e!==Er&&e!==Or&&e!==Ar)&&e!==mr&&!(t===W&&!i)||Br(t)&&!K(t)&&e===mr||t===W&&i&&(n||e!==yr&&e!==Tr&&e!==Er&&e!==Or&&e!==Ar)}function Hr(e){return q(e)&&e!==cr&&!K(e)&&e!==br&&e!==Cr&&e!==W&&e!==yr&&e!==Tr&&e!==Er&&e!==Or&&e!==Ar&&e!==mr&&e!==gr&&e!==vr&&e!==fr&&e!==kr&&e!==xr&&e!==Sr&&e!==_r&&e!==pr&&e!==hr&&e!==wr&&e!==Dr}function Ur(e,t){let n=J(e,0);if(Hr(n))return!0;if(e.length>1&&(n===br||n===Cr||n===W)){let r=J(e,1);return!K(r)&&Vr(r,n,t)}return!1}function Wr(e){return!K(e)&&e!==W}function J(e,t){let n=e.charCodeAt(t),r;return n>=55296&&n<=56319&&t+1<e.length&&(r=e.charCodeAt(t+1),r>=56320&&r<=57343)?(n-55296)*1024+r-56320+65536:n}function Gr(e){return/^\n* /.test(e)}var Y=1,X=2,Kr=3,qr=4,Z=5;function Jr(e,t,n,r,i,a){let{blockIndent:o,lineWidth:s}=n,c,l=0,u=-1,d=!1,f=!1,p=s!==-1,m=-1,h=!zr(t)&&Ur(t,a)&&Wr(J(t,t.length-1));if(r||i)for(c=0;c<t.length;l>=65536?c+=2:c++){if(l=J(t,c),!q(l))return Z;h=h&&Vr(l,u,a),u=l}else{for(c=0;c<t.length;l>=65536?c+=2:c++){if(l=J(t,c),l===U)d=!0,p&&(f=f||c-m-1>s&&t[m+1]!==` `,m=c);else if(!q(l))return Z;h=h&&Vr(l,u,a),u=l}f=f||p&&c-m-1>s&&t[m+1]!==` `}return!d&&!f?h&&!i?Y:e.quoteStyle===`double`?Z:X:o>9&&Gr(t)?Z:f?qr:Kr}function Yr(e,t,n){let{indent:r,blockIndent:i,lineWidth:a}=n;switch(t){case Y:return Qr(e,r);case X:return`'${Qr(e,r).replace(/'/g,`''`)}'`;case Kr:return`|`+Zr(e,i)+$r(Fr(e,r));case qr:return`>`+Zr(e,i)+$r(Fr(ei(e,a),r));case Z:return`"${ni(e)}"`}}function Xr(e,t,n,r,i){let a=r||!i;if(t.style.singleQuoted)return X;if(t.style.doubleQuoted)return Z;if(!a){if(t.style.literal)return Kr;if(t.style.folded)return qr}let o=t.value;if(o.length===0)return t.style.tagged||Rr(e,o)===t.tag?Y:e.quoteStyle===`double`?Z:X;let s=Jr(e,o,n,a,e.forceQuotes&&!r,i);return s===Y&&!t.style.tagged&&Rr(e,o)!==t.tag?e.quoteStyle===`double`?Z:X:s}function Zr(e,t){let n=Gr(e)?String(t):``,r=e[e.length-1]===`
+`;return`${n}${r&&(e[e.length-2]===`
+`||e===`
+`)?`+`:r?``:`-`}\n`}function Qr(e,t){let n=e.indexOf(`
+`);if(n===-1)return e;let r=` `.repeat(t),i=e.slice(0,n),a=/(\n+)([^\n]*)/g;a.lastIndex=n;let o;for(;o=a.exec(e);){let e=o[1].length,t=o[2];i+=`
+`.repeat(e+1)+r+t}return i}function $r(e){return e[e.length-1]===`
+`?e.slice(0,-1):e}function ei(e,t){let n=/(\n+)([^\n]*)/g,r=e.indexOf(`
+`);r===-1&&(r=e.length),n.lastIndex=r;let i=ti(e.slice(0,r),t),a=e[0]===`
+`||e[0]===` `,o,s;for(;s=n.exec(e);){let e=s[1],n=s[2];o=n[0]===` `,i+=e+(!a&&!o&&n!==``?`
+`:``)+ti(n,t),a=o}return i}function ti(e,t){if(e===``||e[0]===` `)return e;let n=/ [^ ]/g,r,i=0,a,o=0,s=0,c=``;for(;r=n.exec(e);)s=r.index,s-i>t&&(a=o>i?o:s,c+=`\n${e.slice(i,a)}`,i=a+1),o=s;return c+=`
+`,e.length-i>t&&o>i?c+=`${e.slice(i,o)}\n${e.slice(o+1)}`:c+=e.slice(i),c.slice(1)}function ni(e){let t=``,n=0;for(let r=0;r<e.length;n>=65536?r+=2:r++){n=J(e,r);let i=G[n];if(i){t+=i;continue}if(q(n)){t+=e[r],n>=65536&&(t+=e[r+1]);continue}t+=Pr(n)}return t}function ri(e,t,n){let r=``;for(let i=0,a=n.items.length;i<a;i+=1){let a=Q(e,t,n.items[i],{});r!==``&&(r+=`,${e.flowSkipCommaSpace?``:` `}`),r+=a}let i=e.flowBracketPadding&&r!==``?` `:``;return`[${i}${r}${i}]`}function ii(e,t,n,r){let i=``;for(let a=0,o=n.items.length;a<o;a+=1){let o=Q(e,t+1,n.items[a],{block:!0,compact:e.seqInlineFirst,isblockseq:!0});(!r||i!==``)&&(i+=Ir(e,t)),o===``||U===o.charCodeAt(0)?i+=`-`:i+=`- `,i+=o}return i}function ai(e,t,n){let r=``,i=si(e,n.items);for(let{key:n,value:a}of i){let i=``;r!==``&&(i+=`,${e.flowSkipCommaSpace?``:` `}`);let o=Q(e,t,n,{iskey:!0}),s=o.length>1024;s?i+=`? `:e.quoteFlowKeys&&(i+=`"`);let c=Q(e,t,a,{}),l=e.flowSkipColonSpace||c===``?``:` `;i+=`${o}${e.quoteFlowKeys&&!s?`"`:``}:${l}${c}`,r+=i}let a=e.flowBracketPadding&&r!==``?` `:``;return`{${a}${r}${a}}`}function oi(e){return e.kind===`scalar`?e.value:e}function si(e,t){if(!e.sortKeys)return t;let n=t.slice();if(e.sortKeys===!0)n.sort((e,t)=>{let n=oi(e.key),r=oi(t.key);return n<r?-1:+(n>r)});else{let t=e.sortKeys;n.sort((e,n)=>t(oi(e.key),oi(n.key)))}return n}function ci(e,t,n,r){let i=``,a=si(e,n.items);for(let n=0,o=a.length;n<o;n+=1){let o=``;(!r||i!==``)&&(o+=Ir(e,t));let{key:s,value:c}=a[n],l=(s.kind===`mapping`||s.kind===`sequence`)&&!s.style.flow&&s.items.length!==0||s.kind===`scalar`&&(s.style.literal||s.style.folded),u=l?Q(e,t+1,s,{block:!0,compact:!0,isblockseq:!li(e,s,t+1)}):Q(e,t+1,s,{block:!0,compact:!0,iskey:!0}),d=s.kind===`scalar`&&s.value.indexOf(`
+`)!==-1,f=l||d||u.length>1024;f&&(u&&U===u.charCodeAt(0)?o+=`?`:o+=`? `),o+=u,f&&(o+=Ir(e,t));let p=Q(e,t+1,c,{block:!0,compact:f,isblockseq:f&&!li(e,c,t+1)}),m=s.kind===`scalar`&&s.value===``&&u!==``&&u.charCodeAt(u.length-1)!==_r&&u.charCodeAt(u.length-1)!==pr,h=!f&&(s.kind===`alias`||m)?` `:``;p===``||U===p.charCodeAt(0)?o+=`${h}:`:o+=`${h}: `,o+=p,i+=o}return i}function li(e,t,n){return t.style.tagged||t.anchor!==void 0||e.indent<2&&n>0}function Q(e,t,n,r){var i;if(n.kind===`alias`)return`*${n.anchor}`;let{block:a=!1,iskey:o=!1,isblockseq:s=!1}=r,c=(i=r.compact)==null?!1:i,l=n.anchor!==void 0;li(e,n,t)&&(c=!1);let u,d=n.style.tagged,f=a&&(n.kind===`mapping`||n.kind===`sequence`)&&!n.style.flow&&n.items.length!==0;if(n.kind===`mapping`)u=f?ci(e,t,n,c):ai(e,t,n);else if(n.kind===`sequence`)u=f?e.seqNoIndent&&!s&&t>0?ii(e,t-1,n,c):ii(e,t,n,c):ri(e,t,n);else{let r=Lr(e,t),i=Xr(e,n,r,o,a);u=Yr(n.value,i,r),d=n.style.tagged||i!==Y&&n.tag!==e.defaultScalarTagName}if(f&&c&&t>0&&e.indent>2&&(u=`${` `.repeat(e.indent-2)}${u}`),d||l){let t=[],r=d?Mr(n):null,i=l?`&${n.anchor}`:null;e.tagBeforeAnchor?(r!==null&&t.push(r),i!==null&&t.push(i)):(i!==null&&t.push(i),r!==null&&t.push(r));let a=u===``||u.charCodeAt(0)===U?``:` `;u=`${t.join(` `)}${a}${u}`}return u}function ui(e){return(e.kind===`sequence`||e.kind===`mapping`)&&!e.style.flow&&e.items.length!==0&&!e.style.tagged&&e.anchor===void 0}function di(e){let t=e;for(;(t.kind===`sequence`||t.kind===`mapping`)&&!t.style.flow&&t.items.length!==0;)t=t.kind===`sequence`?t.items[t.items.length-1]:t.items[t.items.length-1].value;if(t.kind!==`scalar`||!(t.style.literal||t.style.folded))return!1;let{value:n}=t;return n.endsWith(`
+
+`)||n===`
+`}function fi(e){let t=``;for(let n of e.directives){if(n.kind===`yaml`){t+=`%YAML ${n.version}\n`;continue}let{handle:e,prefix:r}=n;t+=`%TAG ${e} ${r}\n`}return t}function pi(e,t){let n=Nr(t),r=``,i=!1;for(let t=0;t<e.length;t+=1){let a=e[t],o=fi(a),s=o!==``,c=a.explicitStart||s||t>0&&!i;if(r+=o,a.contents===null)c&&(r+=`---
+`);else if(c){let e=Q(n,0,a.contents,{block:!0,compact:!0}),t=e===``?``:s||ui(a.contents)?`
+`:` `;r+=`---${t}${e}\n`}else r+=Q(n,0,a.contents,{block:!0,compact:!0})+`
+`;i=a.explicitEnd||a.contents!==null&&di(a.contents),i&&(r+=`...
+`)}return r}var mi=it.withTags(y(y({},ve),{},{resolve:(e,n,r)=>{let i=ve.resolve(e,n,r);return i===t?le.resolve(e,n,r):i}}),y(y({},Ne),{},{resolve:(e,n,r)=>{let i=Ne.resolve(e,n,r);return i===t?Ce.resolve(e,n,r):i}})),hi=y(y({},jr),{},{schema:mi,skipInvalid:!1,noRefs:!1,flowLevel:-1,transform:()=>{}});function gi(e,t={}){let n=y(y({},hi),t),r=rr(e,n.schema,{noRefs:n.noRefs,skipInvalid:n.skipInvalid});return n.flowLevel>=0&&sr(r,(e,t)=>{if(!(t.depth<n.flowLevel))return e.style.flow=!0,ar}),n.transform(r),pi(r,y(y({},Ge(n,Object.keys(jr))),{},{schema:n.schema}))}var $=-1;function _i(e){return`tagStart`in e&&e.tagStart!==$?e.tagStart:`anchorStart`in e&&e.anchorStart!==$?e.anchorStart:`valueStart`in e&&e.valueStart!==$?e.valueStart:`start`in e?e.start:0}function vi(e,t){return t.tagStart===$?``:e.source.slice(t.tagStart,t.tagEnd)}function yi(e,t){return t.anchorStart===$?void 0:e.source.slice(t.anchorStart,t.anchorEnd)}function bi(e,n){var r;let{schema:i}=e,a=(r=i.implicitScalarByFirstChar.get(n.charAt(0)))==null?i.implicitScalarAnyFirstChar:r;for(let e of a)if(e.resolve(n,!1,e.tagName)!==t)return e.tagName;return i.defaultScalarTag.tagName}function xi(e,t){let n=Wt(e.source,t),r=vi(e,t),i=new B;switch(t.style){case 2:i.singleQuoted=!0;break;case 3:i.doubleQuoted=!0;break;case 4:i.literal=!0;break;case 5:i.folded=!0;break}let a;return r===``?a=t.style===1?bi(e,n):e.schema.defaultScalarTag.tagName:(i.tagged=!0,a=r),{kind:`scalar`,tag:a,style:i,anchor:yi(e,t),value:n}}function Si(e,t,n){let r=vi(e,t),i=new B;t.style===2&&(i.flow=!0);let a;return r===``?a=n:(a=r,i.tagged=!0),{tag:a,style:i,anchor:yi(e,t)}}function Ci(e,t){let n=e.frames[e.frames.length-1];n.kind===`document`?n.doc.contents=t:n.kind===`sequence`?n.node.items.push(t):n.key?(n.node.items.push({key:n.key,value:t}),n.key=null):n.key=t}function wi(e,t){let n={source:t.source,schema:t.schema,eventIndex:0,position:0,frames:[],documents:[]};for(;n.eventIndex<e.length;){let t=e[n.eventIndex++];switch(n.position=_i(t),t.type){case 1:{let e={contents:null,explicitStart:t.explicitStart,explicitEnd:t.explicitEnd,directives:t.directives};n.frames.push({kind:`document`,doc:e});break}case 4:Ci(n,xi(n,t));break;case 2:{let{tag:e,style:r,anchor:i}=Si(n,t,`tag:yaml.org,2002:seq`),a={kind:`sequence`,tag:e,style:r,anchor:i,items:[]};n.frames.push({kind:`sequence`,node:a});break}case 3:{let{tag:e,style:r,anchor:i}=Si(n,t,`tag:yaml.org,2002:map`),a={kind:`mapping`,tag:e,style:r,anchor:i,items:[]};n.frames.push({kind:`mapping`,node:a,key:null});break}case 5:{let e=n.source.slice(t.anchorStart,t.anchorEnd);Ci(n,{kind:`alias`,tag:``,style:new B,anchor:e});break}case 6:{let e=n.frames.pop();e.kind===`document`?n.documents.push(e.doc):Ci(n,e.node);break}}}return n.documents}e.CHOMPING_CLIP=Ot,e.CHOMPING_KEEP=At,e.CHOMPING_STRIP=kt,e.COLLECTION_STYLE_BLOCK=Et,e.COLLECTION_STYLE_FLOW=Dt,e.CORE_SCHEMA=rt,e.EVENT_ALIAS=yt,e.EVENT_DOCUMENT=ht,e.EVENT_MAPPING=_t,e.EVENT_POP=bt,e.EVENT_SCALAR=vt,e.EVENT_SEQUENCE=gt,e.FAILSAFE_SCHEMA=tt,e.JSON_SCHEMA=nt,e.MERGE_KEY=n,e.NOT_RESOLVED=t,e.SCALAR_STYLE_DOUBLE_QUOTED=Ct,e.SCALAR_STYLE_FOLDED_BLOCK=Tt,e.SCALAR_STYLE_LITERAL_BLOCK=wt,e.SCALAR_STYLE_PLAIN=xt,e.SCALAR_STYLE_SINGLE_QUOTED=St,e.Schema=v,e.Style=B,e.VISIT_BREAK=ir,e.VISIT_SKIP=ar,e.YAML11_SCHEMA=it,e.YAMLException=b,e.binaryTag=Re,e.boolCoreTag=m,e.boolJsonTag=te,e.boolYaml11Tag=ie,e.constructFromEvents=ln,e.defineMappingTag=a,e.defineScalarTag=r,e.defineSequenceTag=i,e.dump=gi,e.eventsToAst=wi,e.floatCoreTag=Ce,e.floatJsonTag=Oe,e.floatYaml11Tag=Ne,e.getScalarValue=Wt,e.intCoreTag=le,e.intJsonTag=me,e.intYaml11Tag=ve,e.jsToAst=rr,e.legacyMapTag=st,e.load=er,e.loadAll=$n,e.mapTag=Je,e.mergeTag=Pe,e.nullCoreTag=c,e.nullJsonTag=l,e.nullYaml11Tag=d,e.omapTag=Ke,e.pairsTag=qe,e.parseEvents=Xn,e.present=pi,e.realMapTag=at,e.seqTag=Ue,e.setTag=Ye,e.strTag=o,e.timestampTag=He,e.visit=sr});
+    </script>
+    <script id="applicationset-studio-runtime-v1">
+("use strict");
+
+(() => {
+  const SAMPLE_APPLICATIONSET = `apiVersion: argoproj.io/v1alpha1
+kind: ApplicationSet
+metadata:
+  name: regional-services
+  namespace: argocd
+spec:
+  goTemplate: true
+  goTemplateOptions:
+    - missingkey=error
+  generators:
+    - matrix:
+        generators:
+          - list:
+              elements:
+                - team: payments
+                  environment: development
+                  revision: develop
+                - team: payments
+                  environment: production
+                  revision: main
+          - clusters:
+              selector:
+                matchLabels:
+                  region: europe
+  template:
+    metadata:
+      name: '{{ .team }}-{{ .environment }}-{{ .nameNormalized }}'
+      labels:
+        team: '{{ .team }}'
+        environment: '{{ .environment }}'
+    spec:
+      project: '{{ .team }}'
+      source:
+        repoURL: https://github.com/native-cube/platform-apps.git
+        targetRevision: '{{ .revision }}'
+        path: 'services/{{ .team }}'
+      destination:
+        server: '{{ .server }}'
+        namespace: '{{ .team }}-{{ .environment }}'
+      syncPolicy:
+        automated:
+          enabled: true
+          prune: true
+          selfHeal: true
+        syncOptions:
+          - CreateNamespace=true
+  syncPolicy:
+    preserveResourcesOnDeletion: true
+`;
+
+  const SAMPLE_DATA = `clusters:
+  - name: engineering-eu
+    server: https://engineering-eu.example.com
+    labels:
+      region: europe
+      tier: non-production
+  - name: production-eu
+    server: https://production-eu.example.com
+    labels:
+      region: europe
+      tier: production
+  - name: development-us
+    server: https://development-us.example.com
+    labels:
+      region: americas
+      tier: non-production
+
+# Mock unsupported generators by type or generator path, for example:
+# generatorResults:
+#   pullRequest:
+#     - branch: feature/demo
+#       number: "42"
+`;
+
+  const SAMPLE_PROJECTS = `apiVersion: argoproj.io/v1alpha1
+kind: AppProject
+metadata:
+  name: payments
+  namespace: argocd
+spec:
+  description: Payment services managed through ApplicationSets
+  sourceRepos:
+    - https://github.com/native-cube/platform-apps.git
+  destinations:
+    - server: https://engineering-eu.example.com
+      namespace: payments-*
+    # Deliberately restrict production to demonstrate a guardrail finding.
+    - server: https://production-eu.example.com
+      namespace: payments-production
+  clusterResourceWhitelist:
+    - group: ""
+      kind: Namespace
+`;
+
+  const GIT_DIRECTORY_APPLICATIONSET = `apiVersion: argoproj.io/v1alpha1
+kind: ApplicationSet
+metadata:
+  name: monorepo-services
+  namespace: argocd
+spec:
+  goTemplate: true
+  goTemplateOptions:
+    - missingkey=error
+  generators:
+    - git:
+        repoURL: https://github.com/native-cube/platform-apps.git
+        revision: main
+        directories:
+          - path: services/*
+          - path: services/internal-*
+            exclude: true
+        values:
+          environment: development
+  template:
+    metadata:
+      name: '{{ .path.basenameNormalized }}-{{ .values.environment }}'
+      labels:
+        discovered-by: git-directory
+    spec:
+      project: platform
+      source:
+        repoURL: https://github.com/native-cube/platform-apps.git
+        targetRevision: main
+        path: '{{ .path.path }}'
+      destination:
+        server: https://kubernetes.default.svc
+        namespace: 'apps-{{ .path.basenameNormalized }}'
+      syncPolicy:
+        syncOptions:
+          - CreateNamespace=true
+  syncPolicy:
+    preserveResourcesOnDeletion: true
+`;
+
+  const GIT_DIRECTORY_DATA = `gitDirectories:
+  - services/catalog
+  - services/checkout
+  - services/notifications
+  - services/internal-billing
+  - infrastructure/monitoring
+`;
+
+  const GIT_DIRECTORY_PROJECTS = `apiVersion: argoproj.io/v1alpha1
+kind: AppProject
+metadata:
+  name: platform
+  namespace: argocd
+spec:
+  sourceRepos:
+    - https://github.com/native-cube/platform-apps.git
+  destinations:
+    - server: https://kubernetes.default.svc
+      namespace: apps-*
+`;
+
+  const MERGE_APPLICATIONSET = `apiVersion: argoproj.io/v1alpha1
+kind: ApplicationSet
+metadata:
+  name: environment-overrides
+  namespace: argocd
+spec:
+  goTemplate: true
+  goTemplateOptions:
+    - missingkey=error
+  generators:
+    - merge:
+        mergeKeys:
+          - server
+        generators:
+          - list:
+              elements:
+                - environment: development
+                  server: https://development.example.com
+                  revision: develop
+                  values:
+                    replicas: "1"
+                - environment: production
+                  server: https://production.example.com
+                  revision: main
+                  values:
+                    replicas: "2"
+          - list:
+              elements:
+                - server: https://production.example.com
+                  values:
+                    replicas: "4"
+  template:
+    metadata:
+      name: 'orders-{{ .environment }}'
+      annotations:
+        example.native-cube.com/replicas: '{{ .values.replicas }}'
+    spec:
+      project: workloads
+      source:
+        repoURL: https://github.com/native-cube/platform-apps.git
+        targetRevision: '{{ .revision }}'
+        path: services/orders
+      destination:
+        server: '{{ .server }}'
+        namespace: 'orders-{{ .environment }}'
+  syncPolicy:
+    preserveResourcesOnDeletion: true
+`;
+
+  const MERGE_PROJECTS = `apiVersion: argoproj.io/v1alpha1
+kind: AppProject
+metadata:
+  name: workloads
+  namespace: argocd
+spec:
+  sourceRepos:
+    - https://github.com/native-cube/platform-apps.git
+  destinations:
+    - server: https://development.example.com
+      namespace: orders-development
+    - server: https://production.example.com
+      namespace: orders-production
+`;
+
+  const SCM_APPLICATIONSET = `apiVersion: argoproj.io/v1alpha1
+kind: ApplicationSet
+metadata:
+  name: module-examples
+  namespace: argocd
+spec:
+  goTemplate: true
+  goTemplateOptions:
+    - missingkey=error
+  generators:
+    - scmProvider:
+        cloneProtocol: https
+        github:
+          organization: native-cube
+        filters:
+          - repositoryMatch: ^terraform-aws-.*
+  template:
+    metadata:
+      name: '{{ .repository | normalize }}'
+      labels:
+        source: scm-provider
+    spec:
+      project: infrastructure
+      source:
+        repoURL: '{{ .url }}'
+        targetRevision: '{{ .branch }}'
+        path: examples/complete
+      destination:
+        server: https://kubernetes.default.svc
+        namespace: 'infra-{{ .repository | normalize }}'
+  syncPolicy:
+    preserveResourcesOnDeletion: true
+`;
+
+  const SCM_DATA = `generatorResults:
+  scmProvider:
+    - repository: terraform-aws-eks
+      url: https://github.com/native-cube/terraform-aws-eks.git
+      branch: main
+    - repository: terraform-aws-kms
+      url: https://github.com/native-cube/terraform-aws-kms.git
+      branch: main
+    - repository: terraform-aws-vpc-flow-logs
+      url: https://github.com/native-cube/terraform-aws-vpc-flow-logs.git
+      branch: main
+`;
+
+  const SCM_PROJECTS = `apiVersion: argoproj.io/v1alpha1
+kind: AppProject
+metadata:
+  name: infrastructure
+  namespace: argocd
+spec:
+  sourceRepos:
+    - https://github.com/native-cube/terraform-aws-*.git
+  destinations:
+    - server: https://kubernetes.default.svc
+      namespace: infra-*
+`;
+
+  const EXAMPLES = {
+    "regional-matrix": {
+      label: "Regional matrix",
+      source: SAMPLE_APPLICATIONSET,
+      data: SAMPLE_DATA,
+      projects: SAMPLE_PROJECTS,
+    },
+    "git-directory": {
+      label: "Git directory discovery",
+      source: GIT_DIRECTORY_APPLICATIONSET,
+      data: GIT_DIRECTORY_DATA,
+      projects: GIT_DIRECTORY_PROJECTS,
+    },
+    "merge-overrides": {
+      label: "Merge overrides",
+      source: MERGE_APPLICATIONSET,
+      data: "",
+      projects: MERGE_PROJECTS,
+    },
+    "scm-provider": {
+      label: "Mocked SCM provider",
+      source: SCM_APPLICATIONSET,
+      data: SCM_DATA,
+      projects: SCM_PROJECTS,
+    },
+  };
+
+  const GENERATOR_KEYS = [
+    "list",
+    "clusters",
+    "git",
+    "matrix",
+    "merge",
+    "scmProvider",
+    "pullRequest",
+    "clusterDecisionResource",
+    "plugin",
+  ];
+
+  const MAX_INPUT_LENGTH = 2 * 1024 * 1024;
+  const MAX_GENERATED_APPLICATIONS = 1000;
+  const YAML_LOAD_OPTIONS = Object.freeze({
+    maxAliases: 1000,
+    maxDepth: 100,
+    maxTotalMergeKeys: 10000,
+  });
+  const MISSING = Symbol("missing");
+  const state = {
+    applicationSet: null,
+    applications: [],
+    diagnostics: [],
+    projects: new Map(),
+    selectedName: "",
+    baseline: null,
+    changes: null,
+    fidelity: {
+      mocked: false,
+      approximated: false,
+      unsupportedExpressions: new Set(),
+    },
+    lastDialogFocus: null,
+  };
+
+  let toastTimer = 0;
+
+  function byId(id) {
+    return document.getElementById(id);
+  }
+
+  function escapeHtml(value) {
+    return String(value)
+      .replaceAll("&", "&amp;")
+      .replaceAll("<", "&lt;")
+      .replaceAll(">", "&gt;")
+      .replaceAll('"', "&quot;")
+      .replaceAll("'", "&#039;");
+  }
+
+  function clone(value) {
+    if (value === undefined) return undefined;
+    return JSON.parse(JSON.stringify(value));
+  }
+
+  function isObject(value) {
+    return Boolean(value) && typeof value === "object" && !Array.isArray(value);
+  }
+
+  function deepMerge(base, override) {
+    if (!isObject(base) || !isObject(override)) return clone(override);
+    const result = clone(base);
+    Object.entries(override).forEach(([key, value]) => {
+      result[key] = isObject(value) && isObject(result[key])
+        ? deepMerge(result[key], value)
+        : clone(value);
+    });
+    return result;
+  }
+
+  function stableValue(value) {
+    if (Array.isArray(value)) return value.map(stableValue);
+    if (!isObject(value)) return value;
+    return Object.keys(value)
+      .sort()
+      .reduce((result, key) => {
+        result[key] = stableValue(value[key]);
+        return result;
+      }, {});
+  }
+
+  function stableStringify(value) {
+    return JSON.stringify(stableValue(value));
+  }
+
+  function yamlDump(value) {
+    return window.jsyaml.dump(value, {
+      noRefs: true,
+      lineWidth: 110,
+      noCompatMode: true,
+      quoteStyle: "double",
+      forceQuotes: false,
+    });
+  }
+
+  function parseDocuments(text, label, allowEmpty = false) {
+    if (!text.trim()) {
+      if (allowEmpty) return [];
+      throw new Error(`${label} is empty.`);
+    }
+    if (text.length > MAX_INPUT_LENGTH) {
+      throw new Error(`${label} exceeds the 2 MB local preview limit.`);
+    }
+    const documents = [];
+    try {
+      window.jsyaml.loadAll(text, (document) => {
+        if (document !== null && document !== undefined) documents.push(document);
+      }, YAML_LOAD_OPTIONS);
+    } catch (error) {
+      const location = error.mark
+        ? ` at line ${error.mark.line + 1}, column ${error.mark.column + 1}`
+        : "";
+      throw new Error(`${label} is not valid YAML or JSON${location}: ${error.reason || error.message}`);
+    }
+    if (!allowEmpty && documents.length === 0) throw new Error(`${label} contains no documents.`);
+    return documents;
+  }
+
+  function assertSafeDocuments(documents, label) {
+    documents.forEach((document) => {
+      if (isObject(document) && document.kind === "Secret") {
+        throw new Error(`${label} contains a Secret. Remove credentials and provide only ApplicationSet or AppProject configuration.`);
+      }
+      if (
+        isObject(document) &&
+        Array.isArray(document.users) &&
+        Array.isArray(document.contexts) &&
+        Object.hasOwn(document, "current-context")
+      ) {
+        throw new Error(`${label} appears to contain a kubeconfig. Kubeconfig input is not accepted.`);
+      }
+    });
+  }
+
+  function parseGeneratorData(text) {
+    const documents = parseDocuments(text, "Generator data", true);
+    if (documents.length === 0) return {};
+    if (documents.length > 1) throw new Error("Generator data must contain a single YAML or JSON document.");
+    if (!isObject(documents[0])) throw new Error("Generator data must be an object.");
+    return documents[0];
+  }
+
+  function addDiagnostic(severity, title, detail, options = {}) {
+    state.diagnostics.push({
+      severity,
+      title,
+      detail,
+      code: options.code || title,
+      application: options.application || "",
+      generator: options.generator || "",
+    });
+  }
+
+  function addDiagnosticOnce(severity, title, detail, options = {}) {
+    const code = options.code || title;
+    if (state.diagnostics.some((item) => item.code === code && item.application === (options.application || ""))) {
+      return;
+    }
+    addDiagnostic(severity, title, detail, { ...options, code });
+  }
+
+  function normalizeName(value) {
+    return String(value || "")
+      .toLowerCase()
+      .replace(/[^a-z0-9.-]+/g, "-")
+      .replace(/^[^a-z0-9]+|[^a-z0-9]+$/g, "")
+      .replace(/-+/g, "-")
+      .slice(0, 253);
+  }
+
+  function slugify(value, maxLength = 63, smart = false) {
+    let result = String(value || "")
+      .toLowerCase()
+      .replace(/[^a-z0-9]+/g, "-")
+      .replace(/^-+|-+$/g, "");
+    if (result.length <= maxLength) return result;
+    result = result.slice(0, maxLength);
+    if (smart && result.includes("-")) result = result.replace(/-[^-]*$/, "");
+    return result.replace(/-+$/g, "");
+  }
+
+  function pathParameters(path) {
+    const clean = String(path || "").replace(/^\/+|\/+$/g, "");
+    const segments = clean ? clean.split("/") : [];
+    const basename = segments.at(-1) || "";
+    return {
+      path: clean,
+      basename,
+      basenameNormalized: normalizeName(basename),
+      filename: basename,
+      filenameNormalized: normalizeName(basename),
+      segments,
+    };
+  }
+
+  function getPath(source, rawPath) {
+    if (source === null || source === undefined) return MISSING;
+    let path = String(rawPath || "").trim();
+    if (path === ".") return source;
+    path = path.replace(/^\./, "");
+    if (!path) return source;
+    if (Object.hasOwn(source, path)) return source[path];
+    const segments = path.split(".").filter(Boolean);
+    let cursor = source;
+    for (const segment of segments) {
+      if (cursor === null || cursor === undefined || !Object.hasOwn(Object(cursor), segment)) return MISSING;
+      cursor = cursor[segment];
+    }
+    return cursor;
+  }
+
+  function tokenize(expression) {
+    const tokens = [];
+    let current = "";
+    let quote = "";
+    for (let index = 0; index < expression.length; index += 1) {
+      const character = expression[index];
+      if (quote) {
+        current += character;
+        if (character === quote && expression[index - 1] !== "\\") quote = "";
+      } else if (character === '"' || character === "'") {
+        quote = character;
+        current += character;
+      } else if (/\s/.test(character)) {
+        if (current) tokens.push(current);
+        current = "";
+      } else {
+        current += character;
+      }
+    }
+    if (current) tokens.push(current);
+    return tokens;
+  }
+
+  function splitPipeline(expression) {
+    const parts = [];
+    let current = "";
+    let quote = "";
+    let depth = 0;
+    for (let index = 0; index < expression.length; index += 1) {
+      const character = expression[index];
+      if (quote) {
+        current += character;
+        if (character === quote && expression[index - 1] !== "\\") quote = "";
+      } else if (character === '"' || character === "'") {
+        quote = character;
+        current += character;
+      } else if (character === "(") {
+        depth += 1;
+        current += character;
+      } else if (character === ")") {
+        depth = Math.max(0, depth - 1);
+        current += character;
+      } else if (character === "|" && depth === 0) {
+        parts.push(current.trim());
+        current = "";
+      } else {
+        current += character;
+      }
+    }
+    if (current.trim()) parts.push(current.trim());
+    return parts;
+  }
+
+  function literalOrPath(token, parameters) {
+    if (token === undefined) return MISSING;
+    const trimmed = token.trim().replace(/^\((.*)\)$/s, "$1").trim();
+    if (
+      (trimmed.startsWith('"') && trimmed.endsWith('"')) ||
+      (trimmed.startsWith("'") && trimmed.endsWith("'"))
+    ) {
+      return trimmed.slice(1, -1).replaceAll("\\\"", '"');
+    }
+    if (trimmed === "true") return true;
+    if (trimmed === "false") return false;
+    if (trimmed === "nil" || trimmed === "null") return null;
+    if (/^-?\d+(\.\d+)?$/.test(trimmed)) return Number(trimmed);
+    return getPath(parameters, trimmed);
+  }
+
+  function applyTemplateFunction(name, args, pipedValue, parameters, context) {
+    const values = args.map((token) => literalOrPath(token, parameters));
+    const input = pipedValue !== MISSING
+      ? pipedValue
+      : name === "slugify" ? values.pop() : values.shift();
+    switch (name) {
+      case "normalize":
+        return normalizeName(input);
+      case "slugify": {
+        const length = values.find((value) => typeof value === "number") || 63;
+        const smart = values.find((value) => typeof value === "boolean") || false;
+        return slugify(input, length, smart);
+      }
+      case "lower":
+        return String(input === MISSING ? "" : input).toLowerCase();
+      case "upper":
+        return String(input === MISSING ? "" : input).toUpperCase();
+      case "trim":
+        return String(input === MISSING ? "" : input).trim();
+      case "quote":
+        return `"${String(input === MISSING ? "" : input).replaceAll('"', '\\"')}"`;
+      case "toString":
+        return input === MISSING || input === null ? "" : String(input);
+      case "default": {
+        const defaultValue = pipedValue !== MISSING ? values[0] : input;
+        const candidate = pipedValue !== MISSING ? pipedValue : values[0];
+        return candidate === MISSING || candidate === "" || candidate === null || candidate === false
+          ? defaultValue
+          : candidate;
+      }
+      case "required": {
+        const message = pipedValue !== MISSING ? values[0] : input;
+        const candidate = pipedValue !== MISSING ? pipedValue : values[0];
+        if (candidate === MISSING || candidate === "" || candidate === null) {
+          context.errors.push(String(message || "A required template value is missing."));
+          return "";
+        }
+        return candidate;
+      }
+      default:
+        state.fidelity.approximated = true;
+        state.fidelity.unsupportedExpressions.add(name);
+        context.unsupported.add(name);
+        return input === MISSING ? "" : input;
+    }
+  }
+
+  function evaluateExpression(expression, parameters, context) {
+    const clean = expression.replace(/^-\s*|\s*-$/g, "").trim();
+    if (!clean) return "";
+    if (/^(if|range|with|end|else)\b/.test(clean)) {
+      context.unsupported.add(clean.split(/\s/)[0]);
+      state.fidelity.approximated = true;
+      return "";
+    }
+    if (clean.includes("(") || clean.includes(")")) {
+      context.unsupported.add("nested template expressions");
+      state.fidelity.approximated = true;
+      return "";
+    }
+    const pipeline = splitPipeline(clean);
+    let value = MISSING;
+    pipeline.forEach((part, index) => {
+      const tokens = tokenize(part);
+      if (tokens.length === 0) return;
+      if (index === 0 && tokens[0] === "index") {
+        const container = literalOrPath(tokens[1], parameters);
+        const key = literalOrPath(tokens[2], parameters);
+        value = container !== MISSING && container !== null && Object.hasOwn(Object(container), key)
+          ? container[key]
+          : MISSING;
+      } else if (
+        ["normalize", "slugify", "lower", "upper", "trim", "quote", "toString", "default", "required"].includes(tokens[0]) ||
+        (index > 0 && !tokens[0].startsWith(".")) ||
+        (index === 0 && tokens.length > 1 && !tokens[0].startsWith(".") && !tokens[0].startsWith('"') && !tokens[0].startsWith("'"))
+      ) {
+        value = applyTemplateFunction(tokens[0], tokens.slice(1), index > 0 ? value : MISSING, parameters, context);
+      } else {
+        value = literalOrPath(part, parameters);
+      }
+    });
+    if (value === MISSING) {
+      context.missing.add(clean);
+      return "";
+    }
+    if (value === null || value === undefined) return "";
+    if (isObject(value) || Array.isArray(value)) return JSON.stringify(value);
+    return String(value);
+  }
+
+  function renderString(value, parameters, context) {
+    if (!value.includes("{{")) return value;
+    return value.replace(/{{(-)?([\s\S]*?)(-)?}}/g, (_match, _left, expression) =>
+      evaluateExpression(expression, parameters, context));
+  }
+
+  function renderValue(value, parameters, context) {
+    if (typeof value === "string") return renderString(value, parameters, context);
+    if (Array.isArray(value)) return value.map((item) => renderValue(item, parameters, context));
+    if (isObject(value)) {
+      return Object.entries(value).reduce((result, [key, child]) => {
+        result[key] = renderValue(child, parameters, context);
+        return result;
+      }, {});
+    }
+    return value;
+  }
+
+  function globRegExp(pattern, pathAware = false) {
+    let expression = "^";
+    const source = String(pattern || "");
+    for (let index = 0; index < source.length; index += 1) {
+      const character = source[index];
+      if (character === "*") {
+        if (source[index + 1] === "*") {
+          expression += ".*";
+          index += 1;
+        } else {
+          expression += pathAware ? "[^/]*" : ".*";
+        }
+      } else if (character === "?") {
+        expression += pathAware ? "[^/]" : ".";
+      } else {
+        expression += character.replace(/[\\^$.*+?()[\]{}|]/g, "\\$&");
+      }
+    }
+    return new RegExp(`${expression}$`);
+  }
+
+  function matchesGlob(value, pattern, pathAware = false) {
+    return globRegExp(pattern, pathAware).test(String(value || ""));
+  }
+
+  function selectorValue(parameters, key) {
+    const direct = getPath(parameters, key);
+    if (direct !== MISSING) return direct;
+    const label = getPath(parameters, `metadata.labels.${key}`);
+    return label !== MISSING ? label : MISSING;
+  }
+
+  function matchesSelector(parameters, selector) {
+    if (!isObject(selector)) return true;
+    const labels = selector.matchLabels || {};
+    if (Object.entries(labels).some(([key, value]) => String(selectorValue(parameters, key)) !== String(value))) {
+      return false;
+    }
+    return (selector.matchExpressions || []).every((expression) => {
+      const actual = selectorValue(parameters, expression.key);
+      const values = (expression.values || []).map(String);
+      switch (expression.operator) {
+        case "In":
+          return actual !== MISSING && values.includes(String(actual));
+        case "NotIn":
+          return actual !== MISSING && !values.includes(String(actual));
+        case "Exists":
+          return actual !== MISSING;
+        case "DoesNotExist":
+          return actual === MISSING;
+        default:
+          return false;
+      }
+    });
+  }
+
+  function generatorType(generator) {
+    return GENERATOR_KEYS.find((key) => Object.hasOwn(generator || {}, key)) || "unknown";
+  }
+
+  function normalizeCluster(cluster) {
+    const name = cluster.name || cluster.cluster || "";
+    const labels = clone(cluster.labels || cluster.metadata?.labels || {});
+    const annotations = clone(cluster.annotations || cluster.metadata?.annotations || {});
+    return {
+      name,
+      nameNormalized: normalizeName(name),
+      server: cluster.server || cluster.url || "",
+      project: cluster.project || "",
+      metadata: { labels, annotations },
+      values: clone(cluster.values || {}),
+    };
+  }
+
+  function renderGeneratorValues(values, parameters, generatorPath) {
+    if (!isObject(values)) return {};
+    const context = { missing: new Set(), unsupported: new Set(), errors: [] };
+    const rendered = renderValue(values, parameters, context);
+    context.missing.forEach((expression) => {
+      addDiagnosticOnce(
+        "warning",
+        "Generator value is missing",
+        `The expression ${expression} could not be resolved while evaluating ${generatorPath}.`,
+        { code: `generator-value-${generatorPath}-${expression}`, generator: generatorPath },
+      );
+    });
+    return rendered;
+  }
+
+  function normalizeRows(rows, generator, path, type) {
+    return rows
+      .filter((row) => matchesSelector(row.params, generator.selector))
+      .map((row) => ({
+        ...row,
+        trace: [`${path} ${type}`].concat(row.trace || []),
+        template: generator.template ? deepMerge(row.template || {}, generator.template) : row.template,
+      }));
+  }
+
+  function listRows(config, path) {
+    let elements = config.elements;
+    if (!elements && typeof config.elementsYaml === "string") {
+      try {
+        elements = window.jsyaml.load(config.elementsYaml, YAML_LOAD_OPTIONS);
+      } catch (error) {
+        addDiagnostic("error", "List elementsYaml is invalid", error.reason || error.message, { generator: path });
+        return [];
+      }
+    }
+    if (!Array.isArray(elements)) {
+      addDiagnostic("error", "List generator has no elements", `${path} must define elements or elementsYaml as an array.`, { generator: path });
+      return [];
+    }
+    return elements.map((element, index) => ({
+      params: isObject(element) ? clone(element) : { value: element },
+      trace: [`element ${index + 1}`],
+      template: null,
+    }));
+  }
+
+  function clusterRows(config, data, path) {
+    state.fidelity.mocked = true;
+    const clusters = Array.isArray(data.clusters) ? data.clusters : [];
+    if (clusters.length === 0) {
+      addDiagnostic("warning", "Cluster inventory is empty", `${path} requires local clusters in Generator data.`, { generator: path });
+      return [];
+    }
+    return clusters
+      .map(normalizeCluster)
+      .filter((cluster) => matchesSelector(cluster, config.selector))
+      .map((cluster) => ({
+        params: {
+          ...cluster,
+          values: {
+            ...cluster.values,
+            ...renderGeneratorValues(config.values || {}, cluster, path),
+          },
+        },
+        trace: [`mock cluster ${cluster.name || "unnamed"}`],
+        template: null,
+      }));
+  }
+
+  function matchingGitDirectories(config, data, path) {
+    const entries = Array.isArray(data.gitDirectories) ? data.gitDirectories : [];
+    const rules = Array.isArray(config.directories) ? config.directories : [];
+    const normalized = entries.map((entry) => typeof entry === "string" ? { path: entry } : entry);
+    const included = normalized.filter((entry) => {
+      if (entry.repoURL && entry.repoURL !== config.repoURL) return false;
+      if (entry.revision && config.revision && entry.revision !== config.revision) return false;
+      const positive = rules.some((rule) => !rule.exclude && matchesGlob(entry.path, rule.path, true));
+      const excluded = rules.some((rule) => rule.exclude && matchesGlob(entry.path, rule.path, true));
+      return positive && !excluded;
+    });
+    const seen = new Set();
+    return included.filter((entry) => {
+      if (seen.has(entry.path)) return false;
+      seen.add(entry.path);
+      return true;
+    }).map((entry) => {
+      const params = {
+        path: pathParameters(entry.path),
+        values: clone(entry.values || {}),
+      };
+      params.values = {
+        ...params.values,
+        ...renderGeneratorValues(config.values || {}, params, path),
+      };
+      return { params, trace: [`mock directory ${entry.path}`], template: null };
+    });
+  }
+
+  function matchingGitFiles(config, data, path) {
+    const entries = Array.isArray(data.gitFiles) ? data.gitFiles : [];
+    const rules = Array.isArray(config.files) ? config.files : [];
+    return entries
+      .filter((entry) => {
+        if (!isObject(entry) || !entry.path) return false;
+        if (entry.repoURL && entry.repoURL !== config.repoURL) return false;
+        if (entry.revision && config.revision && entry.revision !== config.revision) return false;
+        return rules.some((rule) => matchesGlob(entry.path, rule.path, true));
+      })
+      .map((entry) => {
+        const supplied = isObject(entry.data) ? clone(entry.data) : {};
+        const params = deepMerge(supplied, {
+          path: pathParameters(entry.path),
+          values: clone(entry.values || {}),
+        });
+        params.values = {
+          ...(params.values || {}),
+          ...renderGeneratorValues(config.values || {}, params, path),
+        };
+        return { params, trace: [`mock file ${entry.path}`], template: null };
+      });
+  }
+
+  function gitRows(config, data, path) {
+    state.fidelity.mocked = true;
+    const rows = [];
+    if (config.directories) rows.push(...matchingGitDirectories(config, data, path));
+    if (config.files) rows.push(...matchingGitFiles(config, data, path));
+    if (!config.directories && !config.files) {
+      addDiagnostic("error", "Git generator has no files or directories", `${path} does not define a supported Git input.`, { generator: path });
+    } else if (rows.length === 0) {
+      addDiagnostic("warning", "Git generator produced no parameters", `No local Git paths matched ${path}. Add gitDirectories or gitFiles to Generator data.`, { generator: path });
+    }
+    return rows;
+  }
+
+  function mergeMatrixParameters(left, right, path) {
+    const result = clone(left);
+    Object.entries(right).forEach(([key, value]) => {
+      if (Object.hasOwn(result, key) && stableStringify(result[key]) !== stableStringify(value)) {
+        addDiagnosticOnce(
+          "error",
+          "Matrix parameter collision",
+          `${path} produced conflicting values for ${key}. The preview shows the later value, but the controller may reject this combination.`,
+          { code: `matrix-collision-${path}-${key}`, generator: path },
+        );
+      }
+      result[key] = clone(value);
+    });
+    return result;
+  }
+
+  function matrixRows(config, data, path) {
+    state.fidelity.approximated = true;
+    const generators = Array.isArray(config.generators) ? config.generators : [];
+    if (generators.length < 2) {
+      addDiagnostic("error", "Matrix generator needs child generators", `${path} must combine at least two generators.`, { generator: path });
+      return [];
+    }
+    let combinations = [{ params: {}, trace: [], template: null }];
+    for (let index = 0; index < generators.length; index += 1) {
+      const child = generators[index];
+      const childRows = generateRows(child, data, `${path}.${index + 1}`);
+      if (childRows.length && combinations.length > Math.floor(MAX_GENERATED_APPLICATIONS / childRows.length)) {
+        throw new Error(`${path} exceeds the ${MAX_GENERATED_APPLICATIONS}-Application local preview limit.`);
+      }
+      const next = [];
+      combinations.forEach((left) => {
+        childRows.forEach((right) => {
+          next.push({
+            params: mergeMatrixParameters(left.params, right.params, path),
+            trace: left.trace.concat(right.trace),
+            template: deepMerge(left.template || {}, right.template || {}),
+          });
+        });
+      });
+      combinations = next;
+    }
+    return combinations;
+  }
+
+  function mergeKey(parameters, keys) {
+    const values = keys.map((key) => getPath(parameters, key));
+    if (values.some((value) => value === MISSING)) return null;
+    return stableStringify(values);
+  }
+
+  function mergeRows(config, data, path) {
+    state.fidelity.approximated = true;
+    const generators = Array.isArray(config.generators) ? config.generators : [];
+    const keys = Array.isArray(config.mergeKeys) ? config.mergeKeys : [];
+    if (generators.length < 2 || keys.length === 0) {
+      addDiagnostic("error", "Merge generator is incomplete", `${path} requires at least two generators and one merge key.`, { generator: path });
+      return [];
+    }
+    const baseRows = generateRows(generators[0], data, `${path}.1`);
+    const result = baseRows.map((row) => clone(row));
+    generators.slice(1).forEach((child, childIndex) => {
+      const overrides = generateRows(child, data, `${path}.${childIndex + 2}`);
+      const overrideMap = new Map();
+      overrides.forEach((row) => {
+        const key = mergeKey(row.params, keys);
+        if (key !== null) overrideMap.set(key, row);
+      });
+      result.forEach((row) => {
+        const key = mergeKey(row.params, keys);
+        const override = key === null ? null : overrideMap.get(key);
+        if (override) {
+          row.params = deepMerge(row.params, override.params);
+          row.trace = row.trace.concat(override.trace);
+          row.template = deepMerge(row.template || {}, override.template || {});
+        }
+      });
+    });
+    return result;
+  }
+
+  function mockRows(type, data, path) {
+    const mocks = data.generatorResults || {};
+    const supplied = mocks[path] || mocks[type];
+    if (!Array.isArray(supplied)) {
+      addDiagnostic(
+        "warning",
+        `${type} generator needs mock results`,
+        `This browser preview cannot call ${type}. Add generatorResults.${type} or generatorResults["${path}"] to Generator data.`,
+        { generator: path },
+      );
+      state.fidelity.approximated = true;
+      return [];
+    }
+    state.fidelity.mocked = true;
+    return supplied.map((params, index) => ({
+      params: isObject(params) ? clone(params) : { value: params },
+      trace: [`mock ${type} result ${index + 1}`],
+      template: null,
+    }));
+  }
+
+  function generateRows(generator, data, path) {
+    if (!isObject(generator)) {
+      addDiagnostic("error", "Generator is not an object", `${path} cannot be evaluated.`, { generator: path });
+      return [];
+    }
+    const type = generatorType(generator);
+    let rows;
+    switch (type) {
+      case "list":
+        rows = listRows(generator.list || {}, path);
+        break;
+      case "clusters":
+        rows = clusterRows(generator.clusters || {}, data, path);
+        break;
+      case "git":
+        rows = gitRows(generator.git || {}, data, path);
+        break;
+      case "matrix":
+        rows = matrixRows(generator.matrix || {}, data, path);
+        break;
+      case "merge":
+        rows = mergeRows(generator.merge || {}, data, path);
+        break;
+      case "unknown":
+        addDiagnostic("error", "Unknown generator", `${path} does not contain a recognized generator type.`, { generator: path });
+        return [];
+      default:
+        rows = mockRows(type, data, path);
+    }
+    if (rows.length > MAX_GENERATED_APPLICATIONS) {
+      throw new Error(`${path} exceeds the ${MAX_GENERATED_APPLICATIONS}-Application local preview limit.`);
+    }
+    return normalizeRows(rows, generator, path, type);
+  }
+
+  function renderApplication(applicationSet, row, index) {
+    const template = deepMerge(applicationSet.spec?.template || {}, row.template || {});
+    const context = { missing: new Set(), unsupported: new Set(), errors: [] };
+    let rendered = renderValue(template, row.params, context);
+    if (typeof applicationSet.spec?.templatePatch === "string") {
+      const patchText = renderString(applicationSet.spec.templatePatch, row.params, context);
+      if (patchText.trim()) {
+        try {
+          const parsedPatch = window.jsyaml.load(patchText, YAML_LOAD_OPTIONS);
+          if (isObject(parsedPatch)) rendered = deepMerge(rendered, parsedPatch);
+          else throw new Error("templatePatch did not render to an object");
+        } catch (error) {
+          addDiagnostic("error", "templatePatch could not be applied", error.reason || error.message, { generator: row.trace[0] });
+        }
+      }
+      state.fidelity.approximated = true;
+    }
+    const name = rendered.metadata?.name || `unnamed-${index + 1}`;
+    const missingIsError = (applicationSet.spec?.goTemplateOptions || []).includes("missingkey=error");
+    context.missing.forEach((expression) => {
+      addDiagnostic(
+        missingIsError ? "error" : "warning",
+        "Template value is missing",
+        `${expression} could not be resolved while rendering ${name}.`,
+        { code: `missing-${name}-${expression}`, application: name, generator: row.trace[0] },
+      );
+    });
+    context.unsupported.forEach((expression) => {
+      addDiagnosticOnce(
+        "warning",
+        "Template expression is approximated",
+        `${expression} is outside the studio's supported template subset. Validate the result with the controller.`,
+        { code: `unsupported-expression-${expression}` },
+      );
+    });
+    context.errors.forEach((message) => {
+      addDiagnostic("error", "Required template value is missing", message, { application: name, generator: row.trace[0] });
+    });
+    const application = {
+      apiVersion: "argoproj.io/v1alpha1",
+      kind: "Application",
+      metadata: clone(rendered.metadata || {}),
+      spec: clone(rendered.spec || {}),
+    };
+    return {
+      name,
+      application,
+      params: clone(row.params),
+      trace: row.trace,
+      generator: row.trace[0] || "Generator",
+    };
+  }
+
+  function dnsSubdomainIsValid(name) {
+    return name.length <= 253 && /^[a-z0-9]([a-z0-9.-]*[a-z0-9])?$/.test(name);
+  }
+
+  function patternListAllows(value, patterns) {
+    if (!Array.isArray(patterns) || patterns.length === 0) return false;
+    const denied = patterns
+      .filter((pattern) => String(pattern).startsWith("!"))
+      .some((pattern) => matchesGlob(value, String(pattern).slice(1)));
+    const allowed = patterns
+      .filter((pattern) => !String(pattern).startsWith("!"))
+      .some((pattern) => matchesGlob(value, pattern));
+    return allowed && !denied;
+  }
+
+  function destinationAllowed(destination, project) {
+    const destinations = project.spec?.destinations || [];
+    return destinations.some((rule) => {
+      const clusterMatches = rule.server
+        ? matchesGlob(destination.server || "", rule.server)
+        : matchesGlob(destination.name || "", rule.name || "");
+      return clusterMatches && matchesGlob(destination.namespace || "", rule.namespace || "");
+    });
+  }
+
+  function validateProject(item) {
+    const application = item.application;
+    const projectName = application.spec?.project || "default";
+    const project = state.projects.get(projectName);
+    if (!project) {
+      if (state.projects.size > 0) {
+        addDiagnostic(
+          "warning",
+          "AppProject was not supplied",
+          `${item.name} references ${projectName}, but that project is not available for local guardrail checks.`,
+          { code: `project-missing-${projectName}`, application: item.name },
+        );
+      }
+      return;
+    }
+    const sources = Array.isArray(application.spec?.sources)
+      ? application.spec.sources
+      : application.spec?.source ? [application.spec.source] : [];
+    sources.forEach((source) => {
+      if (source.repoURL && !patternListAllows(source.repoURL, project.spec?.sourceRepos || [])) {
+        addDiagnostic(
+          "error",
+          "Repository is outside the AppProject",
+          `${source.repoURL} is not permitted by ${projectName}.spec.sourceRepos.`,
+          { application: item.name, code: `repo-${item.name}-${source.repoURL}` },
+        );
+      }
+    });
+    const destination = application.spec?.destination || {};
+    if (!destinationAllowed(destination, project)) {
+      addDiagnostic(
+        "error",
+        "Destination is outside the AppProject",
+        `${destination.name || destination.server || "The destination"}/${destination.namespace || ""} is not permitted by ${projectName}.`,
+        { application: item.name, code: `destination-${item.name}` },
+      );
+    }
+  }
+
+  function validateApplication(item) {
+    const application = item.application;
+    const name = application.metadata?.name || "";
+    if (!name) {
+      addDiagnostic("error", "Application name is empty", "The template must render metadata.name.", { application: item.name });
+    } else if (!dnsSubdomainIsValid(name)) {
+      addDiagnostic(
+        "error",
+        "Application name is not a valid DNS subdomain",
+        `${name} must contain lowercase letters, numbers, dots, or hyphens and be no longer than 253 characters.`,
+        { application: item.name },
+      );
+    }
+    if (stableStringify(application).includes("{{")) {
+      addDiagnostic("error", "Application contains unresolved templates", "One or more template expressions remain in the rendered output.", { application: item.name });
+    }
+    const hasSource = isObject(application.spec?.source);
+    const hasSources = Array.isArray(application.spec?.sources) && application.spec.sources.length > 0;
+    if (!hasSource && !hasSources) {
+      addDiagnostic("error", "Application source is missing", `${item.name} must define spec.source or spec.sources.`, { application: item.name });
+    }
+    if (hasSource && hasSources) {
+      addDiagnostic("error", "Single and multiple sources are both configured", `${item.name} cannot define both spec.source and spec.sources.`, { application: item.name });
+    }
+    const destination = application.spec?.destination || {};
+    if (!destination.server && !destination.name) {
+      addDiagnostic("error", "Destination cluster is missing", `${item.name} must set destination.server or destination.name.`, { application: item.name });
+    }
+    if (!destination.namespace) {
+      addDiagnostic("warning", "Destination namespace is empty", `${item.name} may only be able to deploy cluster-scoped resources.`, { application: item.name });
+    }
+    validateProject(item);
+  }
+
+  function validateApplicationSet(applicationSet) {
+    const template = applicationSet.spec?.template;
+    if (!isObject(template)) {
+      addDiagnostic("error", "Application template is missing", "ApplicationSet spec.template must define the generated Application.", { code: "missing-template" });
+      return;
+    }
+    const templateText = stableStringify(template);
+    if (applicationSet.spec?.goTemplate !== true && /{{\s*\./.test(templateText)) {
+      addDiagnostic(
+        "error",
+        "Go template syntax is not enabled",
+        "The template uses dot-prefixed parameters, but spec.goTemplate is not true.",
+        { code: "go-template-disabled" },
+      );
+    }
+    if (typeof template.spec?.project === "string" && template.spec.project.includes("{{")) {
+      addDiagnostic(
+        "warning",
+        "Project name is generated dynamically",
+        "Only trusted administrators should be allowed to change generators that can select an AppProject.",
+        { code: "dynamic-project" },
+      );
+    }
+    if (!template.metadata?.name) {
+      addDiagnostic("error", "Application template has no name", "spec.template.metadata.name is required for stable generated Applications.", { code: "template-name" });
+    }
+  }
+
+  function addFleetDiagnostics() {
+    const byName = new Map();
+    const byTarget = new Map();
+    state.applications.forEach((item) => {
+      const names = byName.get(item.name) || [];
+      names.push(item);
+      byName.set(item.name, names);
+      const spec = item.application.spec || {};
+      const sources = spec.sources || (spec.source ? [spec.source] : []);
+      const target = stableStringify({
+        destination: spec.destination,
+        sources: sources.map((source) => ({
+          repoURL: source.repoURL,
+          path: source.path,
+          chart: source.chart,
+          targetRevision: source.targetRevision,
+        })),
+      });
+      const targets = byTarget.get(target) || [];
+      targets.push(item.name);
+      byTarget.set(target, targets);
+    });
+    byName.forEach((items, name) => {
+      if (items.length > 1) {
+        addDiagnostic("error", "Generated Application name collision", `${items.length} generator results render metadata.name as ${name}.`, { code: `duplicate-${name}`, application: name });
+      }
+    });
+    byTarget.forEach((names) => {
+      if (names.length > 1 && new Set(names).size > 1) {
+        addDiagnostic("warning", "Multiple Applications share the same target", `${names.join(", ")} use the same source and destination combination.`, { code: `same-target-${stableStringify(names)}` });
+      }
+    });
+    const automated = state.applications.filter((item) => item.application.spec?.syncPolicy?.automated?.enabled !== false && isObject(item.application.spec?.syncPolicy?.automated));
+    const pruning = automated.filter((item) => item.application.spec.syncPolicy.automated.prune === true);
+    const allowEmpty = automated.filter((item) => item.application.spec.syncPolicy.automated.allowEmpty === true);
+    const forced = state.applications.filter((item) => (item.application.spec?.syncPolicy?.syncOptions || []).some((option) => /^(Force|Replace)=true$/i.test(option)));
+    if (pruning.length) {
+      addDiagnosticOnce("warning", "Automated pruning is enabled", `${pruning.length} Application${pruning.length === 1 ? "" : "s"} can remove live resources that disappear from the desired state.`, { code: "fleet-prune" });
+    }
+    if (allowEmpty.length) {
+      addDiagnosticOnce("warning", "Empty applications may prune all resources", `${allowEmpty.length} Application${allowEmpty.length === 1 ? "" : "s"} combine automated sync with allowEmpty.`, { code: "fleet-allow-empty" });
+    }
+    if (forced.length) {
+      addDiagnosticOnce("warning", "Destructive sync options are enabled", `${forced.length} Application${forced.length === 1 ? "" : "s"} use Force or Replace and may recreate resources.`, { code: "fleet-force-replace" });
+    }
+    if (state.applicationSet?.spec?.syncPolicy?.preserveResourcesOnDeletion !== true) {
+      addDiagnosticOnce("warning", "Generated resources are not preserved on deletion", "Deleting the ApplicationSet may cascade through generated Applications and their managed resources.", { code: "preservation-policy" });
+    }
+  }
+
+  function deduplicateDiagnostics() {
+    const seen = new Set();
+    state.diagnostics = state.diagnostics.filter((diagnostic) => {
+      const key = stableStringify([
+        diagnostic.severity,
+        diagnostic.code,
+        diagnostic.application,
+        diagnostic.generator,
+      ]);
+      if (seen.has(key)) return false;
+      seen.add(key);
+      return true;
+    });
+  }
+
+  function compareWithBaseline() {
+    if (!state.baseline) {
+      state.changes = null;
+      return;
+    }
+    const previous = new Map(state.baseline.map((item) => [item.name, item]));
+    const current = new Map(state.applications.map((item) => [item.name, item]));
+    const added = [];
+    const removed = [];
+    const changed = [];
+    current.forEach((item, name) => {
+      if (!previous.has(name)) added.push(name);
+      else if (stableStringify(item.application) !== stableStringify(previous.get(name).application)) {
+        changed.push({ name, details: describeApplicationChange(previous.get(name).application, item.application) });
+      }
+    });
+    previous.forEach((_item, name) => {
+      if (!current.has(name)) removed.push(name);
+    });
+    state.changes = { added, removed, changed };
+  }
+
+  function describeApplicationChange(previous, current) {
+    const changes = [];
+    if (previous.spec?.project !== current.spec?.project) changes.push("project");
+    if (stableStringify(previous.spec?.destination) !== stableStringify(current.spec?.destination)) changes.push("destination");
+    if (stableStringify(previous.spec?.source) !== stableStringify(current.spec?.source) || stableStringify(previous.spec?.sources) !== stableStringify(current.spec?.sources)) changes.push("source");
+    if (stableStringify(previous.spec?.syncPolicy) !== stableStringify(current.spec?.syncPolicy)) changes.push("sync policy");
+    if (stableStringify(previous.metadata?.labels) !== stableStringify(current.metadata?.labels)) changes.push("labels");
+    return changes.length ? changes : ["manifest"];
+  }
+
+  function analyze() {
+    const status = byId("source-status");
+    state.diagnostics = [];
+    state.applications = [];
+    state.projects = new Map();
+    state.applicationSet = null;
+    state.fidelity = { mocked: false, approximated: false, unsupportedExpressions: new Set() };
+    try {
+      const sourceDocuments = parseDocuments(byId("applicationset-source").value, "ApplicationSet input");
+      assertSafeDocuments(sourceDocuments, "ApplicationSet input");
+      const projectDocuments = parseDocuments(byId("project-source").value, "AppProject input", true);
+      assertSafeDocuments(projectDocuments, "AppProject input");
+      const applicationSets = sourceDocuments.filter((document) => document?.kind === "ApplicationSet");
+      if (applicationSets.length === 0) throw new Error("No ApplicationSet resource was found.");
+      if (applicationSets.length > 1) throw new Error("Provide one ApplicationSet at a time so the generated fleet is unambiguous.");
+      state.applicationSet = clone(applicationSets[0]);
+      if (state.applicationSet.apiVersion !== "argoproj.io/v1alpha1") {
+        addDiagnostic("warning", "Unexpected ApplicationSet API version", `Found ${state.applicationSet.apiVersion || "no apiVersion"}; expected argoproj.io/v1alpha1.`);
+      }
+      [...sourceDocuments, ...projectDocuments]
+        .filter((document) => document?.kind === "AppProject")
+        .forEach((project) => {
+          if (project.metadata?.name) state.projects.set(project.metadata.name, clone(project));
+        });
+      const generatorData = parseGeneratorData(byId("generator-data").value);
+      validateApplicationSet(state.applicationSet);
+      const generators = state.applicationSet.spec?.generators;
+      if (!Array.isArray(generators) || generators.length === 0) {
+        throw new Error("ApplicationSet spec.generators must contain at least one generator.");
+      }
+      const rows = [];
+      for (let index = 0; index < generators.length; index += 1) {
+        const generated = generateRows(generators[index], generatorData, `G${index + 1}`);
+        if (rows.length + generated.length > MAX_GENERATED_APPLICATIONS) {
+          throw new Error(`The fleet exceeds the ${MAX_GENERATED_APPLICATIONS}-Application local preview limit.`);
+        }
+        rows.push(...generated);
+      }
+      if (rows.length === 0) {
+        addDiagnostic("warning", "No Applications were generated", "Review generator selectors and provide any required local simulation data.", { code: "empty-fleet" });
+      }
+      state.applications = rows.map((row, index) => renderApplication(state.applicationSet, row, index));
+      state.applications.forEach(validateApplication);
+      addFleetDiagnostics();
+      deduplicateDiagnostics();
+      compareWithBaseline();
+      if (!state.selectedName || !state.applications.some((item) => item.name === state.selectedName)) {
+        state.selectedName = state.applications[0]?.name || "";
+      }
+      const errorCount = state.diagnostics.filter((item) => item.severity === "error").length;
+      status.className = `source-status ${errorCount ? "is-error" : "is-success"}`;
+      status.textContent = `${state.applicationSet.metadata?.name || "ApplicationSet"} generated ${state.applications.length} Application${state.applications.length === 1 ? "" : "s"} with ${errorCount} error${errorCount === 1 ? "" : "s"}.`;
+      renderAll();
+    } catch (error) {
+      status.className = "source-status is-error";
+      status.textContent = error.message;
+      addDiagnostic("error", "Preview could not be generated", error.message, { code: "preview-failed" });
+      renderAll();
+    }
+  }
+
+  function diagnosticSeverityForApplication(name) {
+    const items = state.diagnostics.filter((diagnostic) => diagnostic.application === name);
+    if (items.some((item) => item.severity === "error")) return "error";
+    if (items.some((item) => item.severity === "warning")) return "warning";
+    return "ok";
+  }
+
+  function applicationSearchText(item) {
+    const spec = item.application.spec || {};
+    const sources = spec.sources || (spec.source ? [spec.source] : []);
+    return [
+      item.name,
+      spec.project,
+      spec.destination?.name,
+      spec.destination?.server,
+      spec.destination?.namespace,
+      ...sources.flatMap((source) => [source.repoURL, source.path, source.chart]),
+      ...item.trace,
+    ].filter(Boolean).join(" ").toLowerCase();
+  }
+
+  function renderApplicationList() {
+    const container = byId("application-list");
+    const query = byId("application-search").value.trim().toLowerCase();
+    const applications = state.applications.filter((item) => applicationSearchText(item).includes(query));
+    if (applications.length === 0) {
+      container.className = "application-list empty-state";
+      container.innerHTML = `<div><span class="empty-symbol" aria-hidden="true">◇</span><strong>${state.applications.length ? "No matching Applications" : "No Applications generated"}</strong><p>${state.applications.length ? "Try a different filter." : "Review generator data and diagnostics."}</p></div>`;
+      byId("application-detail").classList.add("is-hidden");
+      return;
+    }
+    container.className = "application-list";
+    container.innerHTML = applications.map((item) => {
+      const spec = item.application.spec || {};
+      const destination = spec.destination || {};
+      const severity = diagnosticSeverityForApplication(item.name);
+      return `<button class="application-card${item.name === state.selectedName ? " is-selected" : ""}" type="button" data-application="${escapeHtml(item.name)}">
+        <span>
+          <strong>${escapeHtml(item.name)}</strong>
+          <small>${escapeHtml(spec.project || "default")} · ${escapeHtml(destination.namespace || "cluster scoped")}</small>
+        </span>
+        <span class="status-dot${severity === "warning" ? " has-warning" : severity === "error" ? " has-error" : ""}" aria-label="${severity === "ok" ? "No application-specific issues" : `${severity} diagnostics`}"></span>
+      </button>`;
+    }).join("");
+    renderApplicationDetail();
+  }
+
+  function flatParameterChips(parameters, prefix = "", depth = 0) {
+    if (depth > 1 || !isObject(parameters)) return [];
+    const chips = [];
+    Object.entries(parameters).forEach(([key, value]) => {
+      const label = prefix ? `${prefix}.${key}` : key;
+      if (isObject(value) && depth < 1) chips.push(...flatParameterChips(value, label, depth + 1));
+      else if (!Array.isArray(value) && !isObject(value)) chips.push(`${label}=${value}`);
+    });
+    return chips.slice(0, 18);
+  }
+
+  function renderApplicationDetail() {
+    const detail = byId("application-detail");
+    const selected = state.applications.find((item) => item.name === state.selectedName);
+    if (!selected) {
+      detail.classList.add("is-hidden");
+      return;
+    }
+    detail.classList.remove("is-hidden");
+    byId("detail-name").textContent = selected.name;
+    byId("detail-generator").textContent = selected.generator;
+    byId("application-yaml").textContent = yamlDump(selected.application);
+    const chips = [...selected.trace, ...flatParameterChips(selected.params)];
+    byId("parameter-trace").innerHTML = chips.map((chip) => `<span class="parameter-chip" title="${escapeHtml(chip)}">${escapeHtml(chip)}</span>`).join("");
+  }
+
+  function destinationKey(application) {
+    const destination = application.spec?.destination || {};
+    return destination.name || destination.server || "Unspecified destination";
+  }
+
+  function renderFleetMap() {
+    const container = byId("fleet-map");
+    if (state.applications.length === 0) {
+      container.className = "fleet-map empty-state";
+      container.innerHTML = `<div><span class="empty-symbol" aria-hidden="true">⌁</span><strong>No destinations to map</strong><p>Preview an ApplicationSet to see its fleet topology.</p></div>`;
+      return;
+    }
+    const groups = new Map();
+    state.applications.forEach((item) => {
+      const key = destinationKey(item.application);
+      const group = groups.get(key) || [];
+      group.push(item);
+      groups.set(key, group);
+    });
+    container.className = "fleet-map";
+    container.innerHTML = [...groups.entries()].sort(([left], [right]) => left.localeCompare(right)).map(([destination, items]) => {
+      const namespaces = [...new Set(items.map((item) => item.application.spec?.destination?.namespace || "cluster scoped"))];
+      return `<article class="destination-card">
+        <header><h3 title="${escapeHtml(destination)}">${escapeHtml(destination)}</h3><span>${items.length}</span></header>
+        <small>${escapeHtml(namespaces.join(", "))}</small>
+        <div class="fleet-apps">${items.map((item) => `<span>${escapeHtml(item.name)}</span>`).join("")}</div>
+      </article>`;
+    }).join("");
+  }
+
+  function renderDiagnostics() {
+    const container = byId("diagnostic-list");
+    if (state.diagnostics.length === 0) {
+      container.className = "diagnostic-list empty-state";
+      container.innerHTML = `<div><span class="empty-symbol" aria-hidden="true">✓</span><strong>No issues detected</strong><p>The local preview passed its supported checks.</p></div>`;
+      return;
+    }
+    const rank = { error: 0, warning: 1, info: 2 };
+    const diagnostics = [...state.diagnostics].sort((left, right) => rank[left.severity] - rank[right.severity]);
+    container.className = "diagnostic-list";
+    container.innerHTML = diagnostics.map((diagnostic) => `<article class="diagnostic-card ${escapeHtml(diagnostic.severity)}">
+      <span class="diagnostic-icon" aria-hidden="true">${diagnostic.severity === "error" ? "!" : diagnostic.severity === "warning" ? "△" : "i"}</span>
+      <div>
+        <strong>${escapeHtml(diagnostic.title)}</strong>
+        <p>${escapeHtml(diagnostic.detail)}</p>
+        ${diagnostic.application || diagnostic.generator ? `<span class="diagnostic-context">${escapeHtml([diagnostic.application, diagnostic.generator].filter(Boolean).join(" · "))}</span>` : ""}
+      </div>
+    </article>`).join("");
+  }
+
+  function renderChanges() {
+    const container = byId("change-summary");
+    if (!state.baseline || !state.changes) {
+      container.className = "change-summary empty-state";
+      container.innerHTML = `<div><span class="empty-symbol" aria-hidden="true">±</span><strong>No baseline saved</strong><p>Save a fleet baseline, then edit and preview again.</p></div>`;
+      return;
+    }
+    const { added, removed, changed } = state.changes;
+    container.className = "change-summary";
+    const groups = [
+      ["Added", added.map((name) => ({ name, className: "added" }))],
+      ["Removed", removed.map((name) => ({ name, className: "removed" }))],
+      ["Changed", changed.map((item) => ({ name: `${item.name} · ${item.details.join(", ")}`, className: "" }))],
+    ];
+    container.innerHTML = `<div class="change-counts">
+      <div class="change-count"><span>Added</span><strong>${added.length}</strong></div>
+      <div class="change-count"><span>Removed</span><strong>${removed.length}</strong></div>
+      <div class="change-count"><span>Changed</span><strong>${changed.length}</strong></div>
+    </div>${groups.map(([title, items]) => items.length ? `<section class="change-group"><h3>${title}</h3><div class="change-items">${items.map((item) => `<span class="change-item ${item.className}">${escapeHtml(item.name)}</span>`).join("")}</div></section>` : "").join("")}${!added.length && !removed.length && !changed.length ? `<div class="empty-state"><div><span class="empty-symbol" aria-hidden="true">✓</span><strong>No fleet changes</strong><p>The current preview matches the saved baseline.</p></div></div>` : ""}`;
+  }
+
+  function renderSummary() {
+    const destinationCount = new Set(state.applications.map((item) => destinationKey(item.application))).size;
+    const warningCount = state.diagnostics.filter((item) => item.severity === "warning").length;
+    const errorCount = state.diagnostics.filter((item) => item.severity === "error").length;
+    byId("application-count").textContent = String(state.applications.length);
+    byId("destination-count").textContent = state.applications.length ? String(destinationCount) : "0";
+    byId("warning-count").textContent = String(warningCount);
+    byId("error-count").textContent = String(errorCount);
+    byId("diagnostic-tab-count").textContent = String(state.diagnostics.length);
+    byId("baseline-button").disabled = state.applications.length === 0;
+    byId("export-button").disabled = !state.applicationSet;
+    const badge = byId("fidelity-badge");
+    badge.className = "fidelity-badge";
+    if (!state.applicationSet) {
+      badge.textContent = "Waiting";
+    } else if (state.fidelity.mocked) {
+      badge.textContent = state.fidelity.approximated ? "Mock + subset" : "Mock-assisted";
+      badge.classList.add("is-mocked");
+    } else if (state.fidelity.approximated) {
+      badge.textContent = "Supported subset";
+      badge.classList.add("is-mocked");
+    } else {
+      badge.textContent = "Local";
+      badge.classList.add("is-local");
+    }
+  }
+
+  function renderAll() {
+    renderSummary();
+    renderApplicationList();
+    renderFleetMap();
+    renderDiagnostics();
+    renderChanges();
+  }
+
+  function setView(view) {
+    document.querySelectorAll(".tab").forEach((tab) => {
+      const selected = tab.dataset.view === view;
+      tab.classList.toggle("is-active", selected);
+      tab.setAttribute("aria-selected", String(selected));
+      tab.tabIndex = selected ? 0 : -1;
+    });
+    document.querySelectorAll(".tab-view").forEach((panel) => {
+      panel.classList.toggle("is-hidden", panel.id !== `${view}-view`);
+    });
+  }
+
+  function showToast(message) {
+    const toast = byId("toast");
+    window.clearTimeout(toastTimer);
+    toast.textContent = message;
+    toast.classList.add("is-visible");
+    toastTimer = window.setTimeout(() => toast.classList.remove("is-visible"), 2600);
+  }
+
+  async function copyText(text, message) {
+    try {
+      await navigator.clipboard.writeText(text);
+    } catch (_error) {
+      const helper = document.createElement("textarea");
+      helper.value = text;
+      helper.style.position = "fixed";
+      helper.style.opacity = "0";
+      document.body.append(helper);
+      helper.select();
+      document.execCommand("copy");
+      helper.remove();
+    }
+    showToast(message);
+  }
+
+  function downloadText(text, filename, type = "text/plain") {
+    const blob = new Blob([text], { type });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement("a");
+    link.href = url;
+    link.download = filename;
+    document.body.append(link);
+    link.click();
+    link.remove();
+    window.setTimeout(() => URL.revokeObjectURL(url), 0);
+    showToast(`${filename} downloaded.`);
+  }
+
+  function baseFilename() {
+    return normalizeName(state.applicationSet?.metadata?.name || "applicationset") || "applicationset";
+  }
+
+  function generatedYaml() {
+    return state.applications.map((item) => yamlDump(item.application).trim()).join("\n---\n") + "\n";
+  }
+
+  function inventory() {
+    return state.applications.map((item) => {
+      const spec = item.application.spec || {};
+      const sources = spec.sources || (spec.source ? [spec.source] : []);
+      return {
+        name: item.name,
+        project: spec.project || "default",
+        destination: clone(spec.destination || {}),
+        sources: sources.map((source) => ({
+          repoURL: source.repoURL || "",
+          targetRevision: source.targetRevision || "",
+          path: source.path || "",
+          chart: source.chart || "",
+        })),
+        generator: item.generator,
+      };
+    });
+  }
+
+  function markdownReport() {
+    const warnings = state.diagnostics.filter((item) => item.severity === "warning").length;
+    const errors = state.diagnostics.filter((item) => item.severity === "error").length;
+    const lines = [
+      `# ApplicationSet review: ${state.applicationSet?.metadata?.name || "unnamed"}`,
+      "",
+      `- Generated Applications: ${state.applications.length}`,
+      `- Destinations: ${new Set(state.applications.map((item) => destinationKey(item.application))).size}`,
+      `- Errors: ${errors}`,
+      `- Warnings: ${warnings}`,
+      `- Preview fidelity: ${byId("fidelity-badge").textContent}`,
+      "",
+      "## Fleet inventory",
+      "",
+      "| Application | Project | Destination | Namespace | Generator |",
+      "| --- | --- | --- | --- | --- |",
+      ...state.applications.map((item) => {
+        const spec = item.application.spec || {};
+        return `| ${item.name} | ${spec.project || "default"} | ${destinationKey(item.application)} | ${spec.destination?.namespace || ""} | ${item.generator} |`;
+      }),
+      "",
+      "## Diagnostics",
+      "",
+      ...(state.diagnostics.length ? state.diagnostics.map((item) => `- **${item.severity.toUpperCase()} — ${item.title}:** ${item.detail}${item.application ? ` (${item.application})` : ""}`) : ["No issues detected by the supported local checks."]),
+      "",
+      "## Change impact",
+      "",
+    ];
+    if (state.changes) {
+      lines.push(`- Added: ${state.changes.added.length ? state.changes.added.join(", ") : "none"}`);
+      lines.push(`- Removed: ${state.changes.removed.length ? state.changes.removed.join(", ") : "none"}`);
+      lines.push(`- Changed: ${state.changes.changed.length ? state.changes.changed.map((item) => item.name).join(", ") : "none"}`);
+    } else {
+      lines.push("No baseline was saved for this review.");
+    }
+    lines.push("", "> This report is a local simulation. Validate production configuration with the Argo CD ApplicationSet controller.", "");
+    return lines.join("\n");
+  }
+
+  function openExportDialog() {
+    state.lastDialogFocus = document.activeElement;
+    byId("export-dialog").classList.remove("is-hidden");
+    byId("close-export").focus();
+  }
+
+  function closeExportDialog() {
+    byId("export-dialog").classList.add("is-hidden");
+    if (state.lastDialogFocus) state.lastDialogFocus.focus();
+  }
+
+  function saveBaseline() {
+    state.baseline = clone(state.applications);
+    compareWithBaseline();
+    renderChanges();
+    byId("baseline-button").textContent = "Update baseline";
+    showToast(`${state.baseline.length} Applications saved as the baseline.`);
+  }
+
+  function setInputView(view) {
+    document.querySelectorAll(".source-tab").forEach((tab) => {
+      const selected = tab.dataset.inputView === view;
+      tab.classList.toggle("is-active", selected);
+      tab.setAttribute("aria-selected", String(selected));
+      tab.tabIndex = selected ? 0 : -1;
+    });
+    document.querySelectorAll(".source-tab-view").forEach((panel) => {
+      panel.classList.toggle("is-hidden", panel.id !== `${view}-input-view`);
+    });
+  }
+
+  function loadSample() {
+    const example = EXAMPLES[byId("example-select").value] || EXAMPLES["regional-matrix"];
+    byId("applicationset-source").value = example.source;
+    byId("generator-data").value = example.data;
+    byId("project-source").value = example.projects;
+    byId("application-search").value = "";
+    byId("source-format").textContent = "YAML";
+    state.baseline = null;
+    state.changes = null;
+    byId("baseline-button").textContent = "Save baseline";
+    setInputView("manifest");
+    analyze();
+    showToast(`${example.label} example generated.`);
+  }
+
+  function clearStudio() {
+    byId("applicationset-source").value = "";
+    byId("generator-data").value = "";
+    byId("project-source").value = "";
+    byId("application-search").value = "";
+    state.applicationSet = null;
+    state.applications = [];
+    state.diagnostics = [];
+    state.projects = new Map();
+    state.selectedName = "";
+    state.baseline = null;
+    state.changes = null;
+    state.fidelity = { mocked: false, approximated: false, unsupportedExpressions: new Set() };
+    byId("baseline-button").textContent = "Save baseline";
+    const status = byId("source-status");
+    status.className = "source-status";
+    status.textContent = "Choose an example or provide an ApplicationSet to begin.";
+    renderAll();
+    setInputView("manifest");
+    byId("applicationset-source").focus();
+  }
+
+  async function loadFile(file) {
+    if (!file) return;
+    if (file.size > 2 * 1024 * 1024) {
+      showToast("Choose a manifest smaller than 2 MB.");
+      return;
+    }
+    const text = await file.text();
+    byId("applicationset-source").value = text;
+    byId("source-format").textContent = file.name.endsWith(".json") ? "JSON" : "YAML";
+    setInputView("manifest");
+    analyze();
+  }
+
+  function initializeEvents() {
+    byId("preview-button").addEventListener("click", analyze);
+    byId("sample-button").addEventListener("click", loadSample);
+    byId("example-select").addEventListener("change", loadSample);
+    byId("clear-button").addEventListener("click", clearStudio);
+    byId("application-search").addEventListener("input", renderApplicationList);
+    byId("baseline-button").addEventListener("click", saveBaseline);
+    byId("export-button").addEventListener("click", openExportDialog);
+    byId("close-export").addEventListener("click", closeExportDialog);
+    byId("copy-application").addEventListener("click", () => {
+      const selected = state.applications.find((item) => item.name === state.selectedName);
+      if (selected) copyText(yamlDump(selected.application), `${selected.name} YAML copied.`);
+    });
+    byId("application-list").addEventListener("click", (event) => {
+      const button = event.target.closest("[data-application]");
+      if (!button) return;
+      state.selectedName = button.dataset.application;
+      renderApplicationList();
+    });
+    document.querySelectorAll(".tab").forEach((tab) => {
+      tab.addEventListener("click", () => setView(tab.dataset.view));
+      tab.addEventListener("keydown", (event) => {
+        if (!["ArrowLeft", "ArrowRight"].includes(event.key)) return;
+        const tabs = [...document.querySelectorAll(".tab")];
+        const current = tabs.indexOf(tab);
+        const increment = event.key === "ArrowRight" ? 1 : -1;
+        const next = tabs[(current + increment + tabs.length) % tabs.length];
+        setView(next.dataset.view);
+        next.focus();
+      });
+    });
+    document.querySelectorAll(".source-tab").forEach((tab) => {
+      tab.addEventListener("click", () => setInputView(tab.dataset.inputView));
+      tab.addEventListener("keydown", (event) => {
+        if (!["ArrowLeft", "ArrowRight"].includes(event.key)) return;
+        const tabs = [...document.querySelectorAll(".source-tab")];
+        const current = tabs.indexOf(tab);
+        const increment = event.key === "ArrowRight" ? 1 : -1;
+        const next = tabs[(current + increment + tabs.length) % tabs.length];
+        setInputView(next.dataset.inputView);
+        next.focus();
+      });
+    });
+    const fileInput = byId("applicationset-file");
+    fileInput.addEventListener("change", () => loadFile(fileInput.files[0]));
+    byId("export-dialog").addEventListener("click", (event) => {
+      if (event.target === byId("export-dialog")) closeExportDialog();
+    });
+    document.addEventListener("keydown", (event) => {
+      if (event.key === "Escape" && !byId("export-dialog").classList.contains("is-hidden")) closeExportDialog();
+    });
+    byId("download-applicationset").addEventListener("click", () => downloadText(yamlDump(state.applicationSet), `${baseFilename()}.yaml`, "text/yaml"));
+    byId("download-applications").addEventListener("click", () => downloadText(generatedYaml(), `${baseFilename()}-applications.yaml`, "text/yaml"));
+    byId("download-inventory").addEventListener("click", () => downloadText(`${JSON.stringify(inventory(), null, 2)}\n`, `${baseFilename()}-inventory.json`, "application/json"));
+    byId("download-report").addEventListener("click", () => downloadText(markdownReport(), `${baseFilename()}-review.md`, "text/markdown"));
+  }
+
+  function initialize() {
+    if (window.__applicationSetStudioV1Initialized) return;
+    window.__applicationSetStudioV1Initialized = true;
+    if (!window.jsyaml) {
+      byId("source-status").className = "source-status is-error";
+      byId("source-status").textContent = "The local YAML parser could not be loaded.";
+      byId("preview-button").disabled = true;
+      return;
+    }
+    try {
+      initializeEvents();
+      loadSample();
+    } catch (error) {
+      window.__applicationSetStudioV1Initialized = false;
+      byId("source-status").className = "source-status is-error";
+      byId("source-status").textContent = `Studio startup failed: ${error.message}`;
+      byId("preview-button").disabled = true;
+    }
+  }
+
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", initialize, { once: true });
+  } else {
+    initialize();
+  }
+})();
+    </script>
   </body>
 </html>
