@@ -10,6 +10,9 @@
     <loc>https://native-cube.com/helm-chart-builder/</loc>
   </url>
   <url>
+    <loc>https://native-cube.com/argocd-applicationset-studio/</loc>
+  </url>
+  <url>
     <loc>https://native-cube.com/kubernetes-rbac-explorer/</loc>
   </url>
   <url>

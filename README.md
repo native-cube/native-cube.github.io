@@ -42,6 +42,27 @@ Use **Generate base example** for a ready-to-download NGINX chart. The tool
 provides an equivalent rendered-manifest preview; use the displayed `helm lint`
 and `helm template` commands for authoritative Helm rendering and validation.
 
+## Argo CD ApplicationSet Studio
+
+Open `/argocd-applicationset-studio/` to simulate an Argo CD ApplicationSet and
+inspect the generated Application fleet entirely in the browser. The studio
+supports List, mock Cluster, mock Git directory/file, Matrix, and Merge
+generators. Generators that normally call an SCM provider, pull request API,
+decision resource, or plugin can use explicit local `generatorResults` data.
+
+The preview includes a searchable Application inventory, generator and parameter
+traces, a destination-oriented fleet map, duplicate and template diagnostics,
+sync-policy risk warnings, and multi-document YAML export. Optional AppProject
+manifests validate generated repository and destination boundaries. Save a fleet
+baseline to review added, removed, and changed Applications after an edit.
+Four curated examples demonstrate regional Matrix generation, Git directory
+discovery, Merge overrides, and locally mocked SCM provider results.
+
+The tool implements a documented subset of Go template and Sprig behavior and
+labels mocked or approximated results. It never contacts Argo CD, Kubernetes,
+Git, or an SCM provider, and generated output should be verified with the
+ApplicationSet controller before production use.
+
 ## Visual Subnet Calculator
 
 Open `/visual-subnet-calculator/` to split an IPv4 CIDR block into a visual,
@@ -139,6 +160,7 @@ python3 -m http.server 8080
 
 - `http://localhost:8080/k8s-manifest-builder/`
 - `http://localhost:8080/helm-chart-builder/`
+- `http://localhost:8080/argocd-applicationset-studio/`
 - `http://localhost:8080/kubernetes-rbac-explorer/`
 - `http://localhost:8080/visual-subnet-calculator/`
 - `http://localhost:8080/yaml-formatter/`

@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta
       name="description"
-      content="Free cloud-native browser tools and public AWS Terraform modules for Kubernetes, Helm chart authoring, network planning, configuration formatting, and infrastructure as code."
+      content="Free cloud-native browser tools and public AWS Terraform modules for Kubernetes, Argo CD, Helm chart authoring, network planning, configuration formatting, and infrastructure as code."
     />
     <meta name="author" content="Marcin Cuber" />
     <meta name="theme-color" content="#f2f5f9" />
@@ -58,7 +58,7 @@
         "name": "Native Cube",
         "alternateName": ["Native Cube Tools", "native-cube.com"],
         "url": "https://native-cube.com/",
-        "description": "Free browser-based cloud-native tools and public AWS Terraform modules for Kubernetes, Helm chart authoring, network planning, configuration formatting, and infrastructure as code.",
+        "description": "Free browser-based cloud-native tools and public AWS Terraform modules for Kubernetes, Argo CD, Helm chart authoring, network planning, configuration formatting, and infrastructure as code.",
         "creator": {
           "@type": "Person",
           "name": "Marcin Cuber",
@@ -493,9 +493,9 @@
       <p class="eyebrow">Purpose-built infrastructure utilities</p>
       <h1>Free tools for cloud-native work.</h1>
       <p class="intro">
-        Generate Kubernetes manifests and Helm charts, review RBAC access,
-        visually plan IPv4 subnets, format configuration, and discover reusable
-        Terraform modules.
+        Generate Kubernetes manifests and Helm charts, preview Argo CD fleets,
+        review RBAC access, visually plan IPv4 subnets, format configuration,
+        and discover reusable Terraform modules.
       </p>
       <p class="author-byline">
         <span>Created and maintained by</span>
@@ -543,6 +543,25 @@
           <h2>Helm Chart Builder</h2>
           <p>
             Configure a workload and export a documented Helm chart API v2 or v3.
+          </p>
+          <span class="arrow" aria-hidden="true">↗</span>
+        </a>
+        <a class="tool" href="./argocd-applicationset-studio/">
+          <span class="tag">Fleet preview &amp; guardrails</span>
+          <svg
+            class="tool-cube"
+            viewBox="0 0 40 40"
+            aria-hidden="true"
+          >
+            <path d="M20 2.5 36 11.3 20 20 4 11.3 20 2.5Z" fill="#ef7b4d" />
+            <path d="M4 11.3 20 20v17.5L4 28.7V11.3Z" fill="#14243b" />
+            <path d="M36 11.3 20 20v17.5l16-8.8V11.3Z" fill="#2563eb" />
+            <path d="m20 8 6 3.3-6 3.2-6-3.2L20 8Z" fill="#f2f5f9" />
+          </svg>
+          <h2>Argo CD ApplicationSet Studio</h2>
+          <p>
+            Simulate generators, preview Applications, and review fleet-wide
+            changes before deployment.
           </p>
           <span class="arrow" aria-hidden="true">↗</span>
         </a>

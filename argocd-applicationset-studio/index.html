@@ -1,0 +1,533 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta
+      name="description"
+      content="Design and preview Argo CD ApplicationSets in your browser. Simulate generators, inspect rendered Applications, validate AppProject boundaries, and compare fleet changes."
+    />
+    <meta name="author" content="Marcin Cuber" />
+    <meta name="theme-color" content="#f2f5f9" />
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Native Cube" />
+    <meta
+      property="og:title"
+      content="Argo CD ApplicationSet Studio | Native Cube"
+    />
+    <meta
+      property="og:description"
+      content="Preview generated Argo CD Applications, trace generator inputs, validate project boundaries, and understand fleet changes locally."
+    />
+    <meta
+      property="og:url"
+      content="https://native-cube.com/argocd-applicationset-studio/"
+    />
+    <meta
+      property="og:image"
+      content="https://native-cube.com/assets/social/native-cube-tools.png"
+    />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta
+      property="og:image:alt"
+      content="Native Cube Argo CD ApplicationSet Studio"
+    />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta
+      name="twitter:title"
+      content="Argo CD ApplicationSet Studio | Native Cube"
+    />
+    <meta
+      name="twitter:description"
+      content="Simulate ApplicationSet generators and review the resulting Argo CD application fleet locally."
+    />
+    <meta
+      name="twitter:image"
+      content="https://native-cube.com/assets/social/native-cube-tools.png"
+    />
+    <meta
+      name="twitter:image:alt"
+      content="Native Cube Argo CD ApplicationSet Studio"
+    />
+    <link
+      rel="canonical"
+      href="https://native-cube.com/argocd-applicationset-studio/"
+    />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <title>Argo CD ApplicationSet Studio | Native Cube</title>
+    <link rel="stylesheet" href="./styles.css?v=1" />
+    <script src="../yaml-formatter/vendor/js-yaml.min.js?v=4.1.0" defer></script>
+    <script src="./app.js?v=1" defer></script>
+    <script type="application/ld+json">
+      [
+        {
+          "@context": "https://schema.org",
+          "@type": "WebApplication",
+          "@id": "https://native-cube.com/argocd-applicationset-studio/#application",
+          "url": "https://native-cube.com/argocd-applicationset-studio/",
+          "name": "Argo CD ApplicationSet Studio",
+          "description": "Simulate Argo CD ApplicationSet generators, preview rendered Applications, validate AppProject boundaries, and compare fleet changes locally.",
+          "image": "https://native-cube.com/assets/social/native-cube-tools.png",
+          "applicationCategory": "DeveloperApplication",
+          "operatingSystem": "Any",
+          "browserRequirements": "Requires JavaScript",
+          "isAccessibleForFree": true,
+          "offers": {
+            "@type": "Offer",
+            "price": "0",
+            "priceCurrency": "USD"
+          },
+          "isPartOf": {
+            "@id": "https://native-cube.com/#website"
+          }
+        },
+        {
+          "@context": "https://schema.org",
+          "@type": "BreadcrumbList",
+          "@id": "https://native-cube.com/argocd-applicationset-studio/#breadcrumb",
+          "itemListElement": [
+            {
+              "@type": "ListItem",
+              "position": 1,
+              "name": "Native Cube",
+              "item": "https://native-cube.com/"
+            },
+            {
+              "@type": "ListItem",
+              "position": 2,
+              "name": "Argo CD ApplicationSet Studio",
+              "item": "https://native-cube.com/argocd-applicationset-studio/"
+            }
+          ]
+        }
+      ]
+    </script>
+  </head>
+  <body>
+    <a class="skip-link" href="#applicationset-source">Skip to ApplicationSet input</a>
+
+    <header class="site-header">
+      <a class="brand" href="../" aria-label="Native Cube home">
+        <svg class="brand-logo" viewBox="0 0 40 40" aria-hidden="true">
+          <path d="M20 2.5 36 11.3 20 20 4 11.3 20 2.5Z" fill="#2563eb" />
+          <path d="M4 11.3 20 20v17.5L4 28.7V11.3Z" fill="#14243b" />
+          <path d="M36 11.3 20 20v17.5l16-8.8V11.3Z" fill="#22a77a" />
+          <path d="m20 8 6 3.3-6 3.2-6-3.2L20 8Z" fill="#f2f5f9" opacity=".95" />
+        </svg>
+        <span class="brand-copy">
+          <span class="brand-name">Native <strong>Cube</strong></span>
+          <span class="brand-tagline">Cloud-native toolbox</span>
+        </span>
+      </a>
+      <div class="header-actions">
+        <div class="product-lockup" aria-label="Argo CD ApplicationSet Studio">
+          <span>Argo CD fleet design</span>
+          <strong>ApplicationSet Studio</strong>
+        </div>
+        <a
+          class="community-link"
+          href="https://paypal.me/marcincube"
+          target="_blank"
+          rel="noreferrer"
+          aria-label="Contribute to my daughter’s higher education and future open-source tools (opens in a new tab)"
+          ><span aria-hidden="true">♥</span> Join the journey
+          <span aria-hidden="true">↗</span></a
+        >
+      </div>
+    </header>
+
+    <main>
+      <section class="hero">
+        <div class="hero-intro">
+          <p class="eyebrow">Argo CD / Fleet engineering</p>
+          <h1>Preview the fleet.<br /><em>Ship with confidence.</em></h1>
+        </div>
+        <div class="hero-copy">
+          <p>
+            Model ApplicationSet generators, inspect every rendered Application,
+            and catch fleet-wide mistakes before they reach Argo CD.
+          </p>
+          <div class="hero-metrics" aria-label="Studio capabilities">
+            <span><strong>5</strong> local generators</span>
+            <span><strong>4</strong> ready examples</span>
+            <span><strong>0</strong> uploads</span>
+          </div>
+        </div>
+      </section>
+
+      <section class="workspace" aria-label="ApplicationSet design workspace">
+        <section class="source-panel" aria-labelledby="source-title">
+          <div class="panel-heading">
+            <div>
+              <span class="step-label">01 / Configure</span>
+              <h2 id="source-title">Source configuration</h2>
+            </div>
+            <span class="local-badge">Local only</span>
+          </div>
+
+          <div class="example-bar">
+            <label for="example-select">
+              <span>Example</span>
+              <select id="example-select">
+                <option value="regional-matrix">Regional matrix</option>
+                <option value="git-directory">Git directory discovery</option>
+                <option value="merge-overrides">Merge overrides</option>
+                <option value="scm-provider">Mocked SCM provider</option>
+              </select>
+            </label>
+            <button id="sample-button" class="secondary-button" type="button">
+              Generate example
+            </button>
+          </div>
+
+          <div class="source-tabs" role="tablist" aria-label="Configuration inputs">
+            <button
+              id="manifest-input-tab"
+              class="source-tab is-active"
+              type="button"
+              role="tab"
+              aria-selected="true"
+              aria-controls="manifest-input-view"
+              data-input-view="manifest"
+            >
+              ApplicationSet
+            </button>
+            <button
+              id="data-input-tab"
+              class="source-tab"
+              type="button"
+              role="tab"
+              aria-selected="false"
+              aria-controls="data-input-view"
+              data-input-view="data"
+            >
+              Generator data
+            </button>
+            <button
+              id="project-input-tab"
+              class="source-tab"
+              type="button"
+              role="tab"
+              aria-selected="false"
+              aria-controls="project-input-view"
+              data-input-view="project"
+            >
+              AppProjects
+            </button>
+          </div>
+
+          <section
+            id="manifest-input-view"
+            class="source-tab-view"
+            role="tabpanel"
+            aria-labelledby="manifest-input-tab"
+          >
+            <div class="editor-toolbar">
+              <label class="editor-label" for="applicationset-source">
+                ApplicationSet manifest
+              </label>
+              <div>
+                <span id="source-format" class="format-badge">YAML</span>
+                <label class="import-button" for="applicationset-file">
+                  Import file
+                  <input
+                    id="applicationset-file"
+                    type="file"
+                    accept=".yaml,.yml,.json,text/yaml,application/json"
+                  />
+                </label>
+              </div>
+            </div>
+            <textarea
+              id="applicationset-source"
+              class="code-input main-editor"
+              spellcheck="false"
+              autocomplete="off"
+              aria-describedby="source-help source-status"
+              placeholder="Paste an argoproj.io/v1alpha1 ApplicationSet…"
+            ></textarea>
+            <p id="source-help" class="editor-help">
+              One ApplicationSet per preview. Additional AppProject documents are accepted.
+            </p>
+          </section>
+
+          <section
+            id="data-input-view"
+            class="source-tab-view is-hidden"
+            role="tabpanel"
+            aria-labelledby="data-input-tab"
+          >
+            <label class="editor-label" for="generator-data">
+              Local generator inputs
+            </label>
+            <textarea
+              id="generator-data"
+              class="code-input main-editor"
+              spellcheck="false"
+              autocomplete="off"
+              placeholder="clusters:&#10;  - name: dev-eu&#10;    server: https://…"
+            ></textarea>
+            <p class="editor-help">
+              Mock cluster inventory, Git paths, or results from remote generators.
+            </p>
+          </section>
+
+          <section
+            id="project-input-view"
+            class="source-tab-view is-hidden"
+            role="tabpanel"
+            aria-labelledby="project-input-tab"
+          >
+            <label class="editor-label" for="project-source">
+              Optional AppProject guardrails
+            </label>
+            <textarea
+              id="project-source"
+              class="code-input main-editor"
+              spellcheck="false"
+              autocomplete="off"
+              placeholder="Paste one or more AppProject resources…"
+            ></textarea>
+            <p class="editor-help">
+              Validate generated repository and destination boundaries locally.
+            </p>
+          </section>
+
+          <div id="source-status" class="source-status" role="status" aria-live="polite">
+            Choose an example or provide an ApplicationSet to begin.
+          </div>
+
+          <div class="source-actions">
+            <button id="preview-button" class="primary-button" type="button">
+              Preview fleet <span aria-hidden="true">→</span>
+            </button>
+            <button id="clear-button" class="text-button" type="button">Clear</button>
+          </div>
+        </section>
+
+        <section class="result-panel" aria-labelledby="result-title">
+          <div class="panel-heading result-heading">
+            <div>
+              <span class="step-label">02 / Inspect</span>
+              <h2 id="result-title">Generated fleet</h2>
+            </div>
+            <div class="fidelity-lockup">
+              <span>Preview fidelity</span>
+              <strong id="fidelity-badge" class="fidelity-badge">Waiting</strong>
+            </div>
+          </div>
+
+          <div class="summary-grid" aria-label="Preview summary">
+            <div class="summary-card">
+              <span>Applications</span>
+              <strong id="application-count">0</strong>
+            </div>
+            <div class="summary-card">
+              <span>Destinations</span>
+              <strong id="destination-count">0</strong>
+            </div>
+            <div class="summary-card warning-summary">
+              <span>Warnings</span>
+              <strong id="warning-count">0</strong>
+            </div>
+            <div class="summary-card error-summary">
+              <span>Errors</span>
+              <strong id="error-count">0</strong>
+            </div>
+          </div>
+
+          <div class="result-toolbar">
+            <label class="search-field" for="application-search">
+              <span class="visually-hidden">Filter generated Applications</span>
+              <input
+                id="application-search"
+                type="search"
+                placeholder="Filter applications…"
+                autocomplete="off"
+              />
+            </label>
+            <div class="toolbar-actions">
+              <button id="baseline-button" class="compact-button" type="button" disabled>
+                Save baseline
+              </button>
+              <button id="export-button" class="compact-button" type="button" disabled>
+                Export
+              </button>
+            </div>
+          </div>
+
+          <div class="tabs" role="tablist" aria-label="Fleet preview views">
+            <button
+              id="applications-tab"
+              class="tab is-active"
+              type="button"
+              role="tab"
+              aria-selected="true"
+              aria-controls="applications-view"
+              data-view="applications"
+            >
+              Applications
+            </button>
+            <button
+              id="fleet-tab"
+              class="tab"
+              type="button"
+              role="tab"
+              aria-selected="false"
+              aria-controls="fleet-view"
+              data-view="fleet"
+            >
+              Fleet map
+            </button>
+            <button
+              id="diagnostics-tab"
+              class="tab"
+              type="button"
+              role="tab"
+              aria-selected="false"
+              aria-controls="diagnostics-view"
+              data-view="diagnostics"
+            >
+              Diagnostics <span id="diagnostic-tab-count" class="tab-count">0</span>
+            </button>
+            <button
+              id="changes-tab"
+              class="tab"
+              type="button"
+              role="tab"
+              aria-selected="false"
+              aria-controls="changes-view"
+              data-view="changes"
+            >
+              Changes
+            </button>
+          </div>
+
+          <div
+            id="applications-view"
+            class="tab-view"
+            role="tabpanel"
+            aria-labelledby="applications-tab"
+          >
+            <div id="application-list" class="application-list empty-state">
+              <div>
+                <span class="empty-symbol" aria-hidden="true">◇</span>
+                <strong>No preview yet</strong>
+                <p>Generated Applications will appear here.</p>
+              </div>
+            </div>
+            <section id="application-detail" class="application-detail is-hidden" aria-live="polite">
+              <div class="detail-heading">
+                <div>
+                  <span id="detail-generator" class="generator-badge">Generator</span>
+                  <h3 id="detail-name">Application</h3>
+                </div>
+                <button id="copy-application" class="compact-button" type="button">
+                  Copy YAML
+                </button>
+              </div>
+              <div id="parameter-trace" class="parameter-trace"></div>
+              <pre><code id="application-yaml"></code></pre>
+            </section>
+          </div>
+
+          <div
+            id="fleet-view"
+            class="tab-view is-hidden"
+            role="tabpanel"
+            aria-labelledby="fleet-tab"
+          >
+            <div id="fleet-map" class="fleet-map empty-state">
+              <div>
+                <span class="empty-symbol" aria-hidden="true">⌁</span>
+                <strong>No destinations to map</strong>
+                <p>Preview an ApplicationSet to see its fleet topology.</p>
+              </div>
+            </div>
+          </div>
+
+          <div
+            id="diagnostics-view"
+            class="tab-view is-hidden"
+            role="tabpanel"
+            aria-labelledby="diagnostics-tab"
+          >
+            <div id="diagnostic-list" class="diagnostic-list empty-state">
+              <div>
+                <span class="empty-symbol" aria-hidden="true">✓</span>
+                <strong>No diagnostics yet</strong>
+                <p>Validation results will appear after a preview.</p>
+              </div>
+            </div>
+          </div>
+
+          <div
+            id="changes-view"
+            class="tab-view is-hidden"
+            role="tabpanel"
+            aria-labelledby="changes-tab"
+          >
+            <div id="change-summary" class="change-summary empty-state">
+              <div>
+                <span class="empty-symbol" aria-hidden="true">±</span>
+                <strong>No baseline saved</strong>
+                <p>Save a fleet baseline, then edit and preview again.</p>
+              </div>
+            </div>
+          </div>
+        </section>
+      </section>
+
+      <details class="scope-note">
+        <summary>Preview capabilities and limits</summary>
+        <p>
+          The studio models common ApplicationSet behavior without contacting Argo CD,
+          Kubernetes, Git, or an SCM provider. List, mock Cluster, mock Git directory/file,
+          Matrix, and Merge generators are evaluated locally. Unsupported generators can
+          be supplied through <code>generatorResults</code> mock data and are marked as mocked.
+          Always validate production configuration with the ApplicationSet controller.
+        </p>
+      </details>
+    </main>
+
+    <div id="export-dialog" class="dialog-backdrop is-hidden" role="presentation">
+      <section
+        class="export-dialog"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="export-title"
+      >
+        <div class="dialog-heading">
+          <div>
+            <span class="step-label">Export</span>
+            <h2 id="export-title">Take the review with you</h2>
+          </div>
+          <button id="close-export" class="icon-button" type="button" aria-label="Close export dialog">
+            ×
+          </button>
+        </div>
+        <div class="export-options">
+          <button id="download-applicationset" type="button">
+            <strong>ApplicationSet YAML</strong>
+            <span>The parsed source manifest</span>
+          </button>
+          <button id="download-applications" type="button">
+            <strong>Generated Applications</strong>
+            <span>Multi-document simulated YAML</span>
+          </button>
+          <button id="download-inventory" type="button">
+            <strong>Fleet inventory</strong>
+            <span>Application destinations as JSON</span>
+          </button>
+          <button id="download-report" type="button">
+            <strong>Review report</strong>
+            <span>Diagnostics and change impact in Markdown</span>
+          </button>
+        </div>
+      </section>
+    </div>
+
+    <div id="toast" class="toast" role="status" aria-live="polite"></div>
+  </body>
+</html>
