@@ -25,6 +25,21 @@ def embed_runtime(page, runtime_id, source):
         raise RuntimeError(f"missing {runtime_id} closing tag")
     if b"</script" in source.lower():
         raise RuntimeError(f"{runtime_id} contains an unsafe script terminator")
+    try:
+        source_text = source.decode("utf-8")
+    except UnicodeDecodeError as error:
+        raise RuntimeError(f"{runtime_id} is not valid UTF-8") from error
+    forbidden = sorted(
+        {
+            codepoint
+            for codepoint in map(ord, source_text)
+            if (codepoint < 32 and codepoint not in {9, 10, 13})
+            or 127 <= codepoint <= 159
+        }
+    )
+    if forbidden:
+        values = ", ".join(f"U+{codepoint:04X}" for codepoint in forbidden)
+        raise RuntimeError(f"{runtime_id} contains HTML-forbidden code points: {values}")
     return page[:content_index] + source.rstrip(b"\r\n") + page[closing_index:]
 
 

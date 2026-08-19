@@ -90,8 +90,20 @@ def fail(message):
 
 
 def parse_page(relative_path):
+    source = (ROOT / relative_path).read_text()
+    forbidden = sorted(
+        {
+            codepoint
+            for codepoint in map(ord, source)
+            if (codepoint < 32 and codepoint not in {9, 10, 13})
+            or 127 <= codepoint <= 159
+        }
+    )
+    if forbidden:
+        values = ", ".join(f"U+{codepoint:04X}" for codepoint in forbidden)
+        fail(f"{relative_path} contains HTML-forbidden code points: {values}")
     parser = PageAudit()
-    parser.feed((ROOT / relative_path).read_text())
+    parser.feed(source)
     return parser
 
 

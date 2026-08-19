@@ -18,6 +18,9 @@ jobs:
       - name: Check out repository
         uses: actions/checkout@v6
 
+      - name: Verify embedded ApplicationSet Studio runtime
+        run: python3 scripts/embed-applicationset-studio-runtime.py --check
+
       - name: Validate SEO metadata and canonical URLs
         run: python3 scripts/seo-audit.py
 
