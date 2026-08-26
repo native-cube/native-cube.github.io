@@ -71,8 +71,8 @@
           "@id": "https://native-cube.com/terraform-modules/#webpage",
           "url": "https://native-cube.com/terraform-modules/",
           "name": "Native Cube AWS Terraform Modules",
-          "description": "A catalogue of 6 public AWS Terraform modules maintained by Native Cube.",
-          "dateModified": "2026-08-19T14:19:33Z",
+          "description": "A catalogue of 8 public AWS Terraform modules maintained by Native Cube.",
+          "dateModified": "2026-08-26T08:21:22Z",
           "isPartOf": {
             "@id": "https://native-cube.com/#website"
           },
@@ -107,7 +107,7 @@
           "@type": "ItemList",
           "@id": "https://native-cube.com/terraform-modules/#modules",
           "name": "Native Cube Terraform modules",
-          "numberOfItems": 6,
+          "numberOfItems": 8,
           "itemListElement": [
             {
               "@type": "ListItem",
@@ -195,6 +195,36 @@
                 "sameAs": "https://registry.terraform.io/modules/native-cube/vpc-flow-logs/aws/latest",
                 "codeRepository": "https://github.com/native-cube/terraform-aws-vpc-flow-logs",
                 "version": "2.3.0",
+                "programmingLanguage": "HCL",
+                "runtimePlatform": "Amazon Web Services"
+              }
+            },
+            {
+              "@type": "ListItem",
+              "position": 7,
+              "item": {
+                "@type": "SoftwareSourceCode",
+                "name": "Mq",
+                "description": "Terraform module for provisioning an Amazon MQ broker",
+                "url": "https://native-cube.com/terraform-modules/#mq",
+                "sameAs": "https://registry.terraform.io/modules/native-cube/mq/aws/latest",
+                "codeRepository": "https://github.com/native-cube/terraform-aws-mq",
+                "version": "1.0.0",
+                "programmingLanguage": "HCL",
+                "runtimePlatform": "Amazon Web Services"
+              }
+            },
+            {
+              "@type": "ListItem",
+              "position": 8,
+              "item": {
+                "@type": "SoftwareSourceCode",
+                "name": "RDS Aurora",
+                "description": "Terraform module to provision AWS RDS Aurora resources",
+                "url": "https://native-cube.com/terraform-modules/#rds-aurora",
+                "sameAs": "https://registry.terraform.io/modules/native-cube/rds-aurora/aws/latest",
+                "codeRepository": "https://github.com/native-cube/terraform-aws-rds-aurora",
+                "version": "1.0.0",
                 "programmingLanguage": "HCL",
                 "runtimePlatform": "Amazon Web Services"
               }
@@ -290,7 +320,7 @@
 
       <dl class="catalogue-summary" aria-label="Module catalogue summary">
         <div>
-          <dt><!-- MODULE_COUNT_START -->06<!-- MODULE_COUNT_END --></dt>
+          <dt><!-- MODULE_COUNT_START -->08<!-- MODULE_COUNT_END --></dt>
           <dd>Public modules</dd>
         </div>
         <div>
@@ -354,7 +384,7 @@
         <!-- MODULE_CARDS_START -->
         <p class="catalogue-sync">
           Registry and GitHub metadata synchronized
-          <time datetime="2026-08-19">19 Aug 2026</time>.
+          <time datetime="2026-08-26">26 Aug 2026</time>.
         </p>
         <div class="module-grid">
           <article id="eks" class="module-card module-card--eks">
@@ -1068,6 +1098,235 @@
             <p class="module-trust">
               <a href="https://github.com/native-cube/terraform-aws-vpc-flow-logs/blob/main/LICENSE" target="_blank" rel="noreferrer">Apache-2.0 license <span aria-hidden="true">↗</span></a>
               <span>Source updated <time datetime="2025-08-08">8 Aug 2025</time></span>
+            </p>
+          </article>
+
+          <article id="mq" class="module-card module-card--network">
+            <div class="card-topline">
+              <span class="module-icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24">
+                  <circle cx="5" cy="12" r="2.5" />
+                  <circle cx="19" cy="6" r="2.5" />
+                  <circle cx="19" cy="18" r="2.5" />
+                  <path d="m7.3 11 9.4-4M7.3 13l9.4 4" />
+                </svg>
+              </span>
+              <span class="module-type">Networking</span>
+              <span class="status-badge"><i></i> Active</span>
+            </div>
+            <h3><a class="module-permalink" href="#mq">Mq<span aria-hidden="true">#</span></a></h3>
+            <p class="module-description">Terraform module for provisioning an Amazon MQ broker</p>
+            <dl class="module-facts" aria-label="Mq module metadata">
+              <div>
+                <dt>Latest</dt>
+                <dd>v1.0.0</dd>
+              </div>
+              <div>
+                <dt>Required</dt>
+                <dd>2 inputs</dd>
+              </div>
+              <div>
+                <dt>Released</dt>
+                <dd><time datetime="2026-08-24">24 Aug 2026</time></dd>
+              </div>
+            </dl>
+            <p class="module-requirements">
+              <span>Terraform &gt;= 1.5.0</span>
+              <span>AWS &gt;= 6.61.0</span>
+            </p>
+            <div class="source-address">
+              <code>native-cube/mq/aws</code>
+              <button
+                type="button"
+                data-module-copy
+                data-module="mq"
+                data-title="Mq"
+                data-source="native-cube/mq/aws"
+                data-version="1.0.0"
+                data-required="2"
+                data-snippet="compact"
+                aria-label="Copy Mq module block"
+              >
+                <svg viewBox="0 0 24 24" aria-hidden="true">
+                  <rect x="8" y="8" width="10" height="11" rx="2" />
+                  <path d="M16 8V6a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h2" />
+                </svg>
+                <span>Copy module block</span>
+              </button>
+            </div>
+            <details class="usage-disclosure">
+              <summary>
+                <span>View usage and required inputs</span>
+                <svg viewBox="0 0 20 20" aria-hidden="true"><path d="m5 7.5 5 5 5-5" /></svg>
+              </summary>
+              <div class="usage-content">
+                <h4>Module block</h4>
+                <pre><code>module &quot;mq&quot; {
+  source  = &quot;native-cube/mq/aws&quot;
+  version = &quot;1.0.0&quot;
+
+  # insert the 2 required variables here
+}</code></pre>
+                <button
+                  class="starter-copy"
+                  type="button"
+                  data-module-copy
+                  data-module="mq"
+                  data-title="Mq"
+                  data-source="native-cube/mq/aws"
+                  data-version="1.0.0"
+                  data-required="2"
+                  data-inputs="[{&quot;name&quot;:&quot;broker_name&quot;,&quot;type&quot;:&quot;string&quot;,&quot;description&quot;:&quot;Name of the Amazon MQ broker and prefix for module-created resources.&quot;},{&quot;name&quot;:&quot;engine_version&quot;,&quot;type&quot;:&quot;string&quot;,&quot;description&quot;:&quot;Amazon MQ engine version. Specify an available version explicitly so upgrades are reviewed.&quot;}]"
+                  data-snippet="starter"
+                  aria-label="Copy Mq starter block with typed required inputs"
+                ><span>Copy starter block with typed inputs</span></button>
+                <template data-starter-example>module &quot;mq&quot; {
+  source  = &quot;native-cube/mq/aws&quot;
+  version = &quot;1.0.0&quot;
+
+  # broker_name    = &quot;replace-me&quot;
+  # engine_version = &quot;replace-me&quot;
+}</template>
+                <h4>Required inputs</h4>
+                <ul class="required-inputs">
+                  <li>
+                    <code>broker_name</code>
+                    <span>string</span>
+                  </li>
+                  <li>
+                    <code>engine_version</code>
+                    <span>string</span>
+                  </li>
+                </ul>
+              </div>
+            </details>
+            <div class="card-links">
+              <a href="https://registry.terraform.io/modules/native-cube/mq/aws/latest" target="_blank" rel="noreferrer">
+                Registry docs <span aria-hidden="true">↗</span>
+              </a>
+              <a href="https://github.com/native-cube/terraform-aws-mq" target="_blank" rel="noreferrer">
+                GitHub source <span aria-hidden="true">↗</span>
+              </a>
+
+              <a href="https://github.com/native-cube/terraform-aws-mq/releases" target="_blank" rel="noreferrer">
+                Releases <span aria-hidden="true">↗</span>
+              </a>
+            </div>
+            <p class="module-trust">
+              <span>License not declared</span>
+              <span>Source updated <time datetime="2026-08-24">24 Aug 2026</time></span>
+            </p>
+          </article>
+
+          <article id="rds-aurora" class="module-card module-card--network">
+            <div class="card-topline">
+              <span class="module-icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24">
+                  <circle cx="5" cy="12" r="2.5" />
+                  <circle cx="19" cy="6" r="2.5" />
+                  <circle cx="19" cy="18" r="2.5" />
+                  <path d="m7.3 11 9.4-4M7.3 13l9.4 4" />
+                </svg>
+              </span>
+              <span class="module-type">Networking</span>
+              <span class="status-badge"><i></i> Active</span>
+            </div>
+            <h3><a class="module-permalink" href="#rds-aurora">RDS Aurora<span aria-hidden="true">#</span></a></h3>
+            <p class="module-description">Terraform module to provision AWS RDS Aurora resources</p>
+            <dl class="module-facts" aria-label="RDS Aurora module metadata">
+              <div>
+                <dt>Latest</dt>
+                <dd>v1.0.0</dd>
+              </div>
+              <div>
+                <dt>Required</dt>
+                <dd>1 input</dd>
+              </div>
+              <div>
+                <dt>Released</dt>
+                <dd><time datetime="2026-08-26">26 Aug 2026</time></dd>
+              </div>
+            </dl>
+            <p class="module-requirements">
+              <span>Terraform &gt;= 1.11.4</span>
+              <span>AWS &gt;= 6.61.0, &lt; 7.0.0</span>
+            </p>
+            <div class="source-address">
+              <code>native-cube/rds-aurora/aws</code>
+              <button
+                type="button"
+                data-module-copy
+                data-module="rds-aurora"
+                data-title="RDS Aurora"
+                data-source="native-cube/rds-aurora/aws"
+                data-version="1.0.0"
+                data-required="1"
+                data-snippet="compact"
+                aria-label="Copy RDS Aurora module block"
+              >
+                <svg viewBox="0 0 24 24" aria-hidden="true">
+                  <rect x="8" y="8" width="10" height="11" rx="2" />
+                  <path d="M16 8V6a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h2" />
+                </svg>
+                <span>Copy module block</span>
+              </button>
+            </div>
+            <details class="usage-disclosure">
+              <summary>
+                <span>View usage and required inputs</span>
+                <svg viewBox="0 0 20 20" aria-hidden="true"><path d="m5 7.5 5 5 5-5" /></svg>
+              </summary>
+              <div class="usage-content">
+                <h4>Module block</h4>
+                <pre><code>module &quot;rds-aurora&quot; {
+  source  = &quot;native-cube/rds-aurora/aws&quot;
+  version = &quot;1.0.0&quot;
+
+  # insert the 1 required variable here
+}</code></pre>
+                <button
+                  class="starter-copy"
+                  type="button"
+                  data-module-copy
+                  data-module="rds-aurora"
+                  data-title="RDS Aurora"
+                  data-source="native-cube/rds-aurora/aws"
+                  data-version="1.0.0"
+                  data-required="1"
+                  data-inputs="[{&quot;name&quot;:&quot;name&quot;,&quot;type&quot;:&quot;string&quot;,&quot;description&quot;:&quot;Name used for the RDS cluster and as a prefix for module-created resources.&quot;}]"
+                  data-snippet="starter"
+                  aria-label="Copy RDS Aurora starter block with typed required inputs"
+                ><span>Copy starter block with typed inputs</span></button>
+                <template data-starter-example>module &quot;rds-aurora&quot; {
+  source  = &quot;native-cube/rds-aurora/aws&quot;
+  version = &quot;1.0.0&quot;
+
+  # name = &quot;replace-me&quot;
+}</template>
+                <h4>Required inputs</h4>
+                <ul class="required-inputs">
+                  <li>
+                    <code>name</code>
+                    <span>string</span>
+                  </li>
+                </ul>
+              </div>
+            </details>
+            <div class="card-links">
+              <a href="https://registry.terraform.io/modules/native-cube/rds-aurora/aws/latest" target="_blank" rel="noreferrer">
+                Registry docs <span aria-hidden="true">↗</span>
+              </a>
+              <a href="https://github.com/native-cube/terraform-aws-rds-aurora" target="_blank" rel="noreferrer">
+                GitHub source <span aria-hidden="true">↗</span>
+              </a>
+
+              <a href="https://github.com/native-cube/terraform-aws-rds-aurora/releases" target="_blank" rel="noreferrer">
+                Releases <span aria-hidden="true">↗</span>
+              </a>
+            </div>
+            <p class="module-trust">
+              <span>License not declared</span>
+              <span>Source updated <time datetime="2026-08-26">26 Aug 2026</time></span>
             </p>
           </article>
         </div>

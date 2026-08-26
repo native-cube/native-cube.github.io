@@ -3,7 +3,7 @@
   "$schema": "./modules.schema.json",
   "namespace": "native-cube",
   "provider": "aws",
-  "synced_at": "2026-08-19T14:19:33Z",
+  "synced_at": "2026-08-26T08:21:22Z",
   "modules": [
     {
       "name": "eks",
@@ -200,6 +200,61 @@
         "deprecated": false,
         "pushed_at": "2025-08-08T08:35:53Z",
         "license": "Apache-2.0"
+      }
+    },
+    {
+      "name": "mq",
+      "title": "Mq",
+      "category": "Networking",
+      "theme": "network",
+      "icon": "network",
+      "summary": "Terraform module for provisioning an Amazon MQ broker",
+      "metadata": {
+        "version": "1.0.0",
+        "published_at": "2026-08-24T13:39:45.402768Z",
+        "terraform_requirement": ">= 1.5.0",
+        "provider_requirement": ">= 6.61.0",
+        "required_inputs": [
+          {
+            "name": "broker_name",
+            "type": "string",
+            "description": "Name of the Amazon MQ broker and prefix for module-created resources."
+          },
+          {
+            "name": "engine_version",
+            "type": "string",
+            "description": "Amazon MQ engine version. Specify an available version explicitly so upgrades are reviewed."
+          }
+        ],
+        "archived": false,
+        "deprecated": false,
+        "pushed_at": "2026-08-24T13:37:14Z",
+        "license": null
+      }
+    },
+    {
+      "name": "rds-aurora",
+      "title": "RDS Aurora",
+      "category": "Networking",
+      "theme": "network",
+      "icon": "network",
+      "summary": "Terraform module to provision AWS RDS Aurora resources",
+      "metadata": {
+        "version": "1.0.0",
+        "published_at": "2026-08-26T08:20:17.916092Z",
+        "terraform_requirement": ">= 1.11.4",
+        "provider_requirement": ">= 6.61.0, < 7.0.0",
+        "required_inputs": [
+          {
+            "name": "name",
+            "type": "string",
+            "description": "Name used for the RDS cluster and as a prefix for module-created resources."
+          }
+        ],
+        "archived": false,
+        "deprecated": false,
+        "pushed_at": "2026-08-26T08:20:14Z",
+        "license": null
       }
     }
   ]
