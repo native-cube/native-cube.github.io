@@ -16,6 +16,16 @@ on:
   schedule:
     - cron: "17 7 * * 1"
   workflow_dispatch:
+    inputs:
+      reason:
+        description: "Why is this catalogue refresh being run?"
+        required: false
+        default: "Manual Terraform module catalogue refresh"
+        type: string
+
+concurrency:
+  group: terraform-module-catalogue-update
+  cancel-in-progress: false
 
 permissions:
   contents: read
@@ -70,6 +80,9 @@ jobs:
           commit-message: update terraform module catalogue
           title: Update Terraform module catalogue
           body: |
-            Automated weekly refresh of Terraform Registry and GitHub metadata.
+            Terraform module catalogue refresh.
 
-            The generated module cards and structured data are included in this pull request.
+            Trigger: `${{ github.event_name }}`
+            Reason: ${{ inputs.reason || 'Scheduled weekly refresh' }}
+
+            The generated module configuration, cards, and structured data are included in this pull request.

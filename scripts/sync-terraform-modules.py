@@ -184,31 +184,122 @@ def provider_requirement(module_payload, provider):
     raise SyncError(f"could not determine the {provider} provider requirement")
 
 
+def module_name_from_repository(repository_name, provider):
+    prefix = f"terraform-{provider}-"
+    if not repository_name.startswith(prefix):
+        return None
+    name = repository_name[len(prefix):]
+    if not re.fullmatch(r"[a-z0-9]+(?:-[a-z0-9]+)*", name):
+        return None
+    return name
+
+
+def title_from_name(name):
+    replacements = {
+        "eks": "EKS",
+        "iam": "IAM",
+        "kms": "KMS",
+        "rds": "RDS",
+        "vpc": "VPC",
+    }
+    return " ".join(replacements.get(part, part.capitalize()) for part in name.split("-"))
+
+
+def presentation_defaults(name, repository):
+    """Build the curated fields needed for a newly discovered module.
+
+    These defaults keep discovery unattended while allowing the resulting PR
+    to be refined by a maintainer before it is merged.
+    """
+    topics = {topic.lower() for topic in repository.get("topics", [])}
+    if "eks" in topics or "eks" in name:
+        category, theme, icon = "Kubernetes", "eks", "cluster"
+    elif {"security", "kms", "iam"} & topics or any(
+        token in name for token in ("kms", "iam", "security")
+    ):
+        category, theme, icon = "Security", "kms", "key"
+    else:
+        category, theme, icon = "Networking", "network", "network"
+
+    summary = (repository.get("description") or "").strip()
+    if len(summary) < 30:
+        summary = f"AWS {title_from_name(name)} Terraform module maintained by Native Cube."
+    return {
+        "name": name,
+        "title": title_from_name(name),
+        "category": category,
+        "theme": theme,
+        "icon": icon,
+        "summary": summary,
+    }
+
+
+def module_metadata(payload, repository, provider):
+    required_inputs = sorted(
+        (
+            {
+                "name": item.get("name", ""),
+                "type": item.get("type", ""),
+                "description": item.get("description", ""),
+            }
+            for item in payload.get("root", {}).get("inputs", [])
+            if item.get("required") is True
+        ),
+        key=lambda item: item["name"],
+    )
+    return {
+        "version": payload.get("version"),
+        "published_at": payload.get("published_at"),
+        "terraform_requirement": terraform_requirement(
+            payload.get("root", {}).get("readme", "")
+        ),
+        "provider_requirement": provider_requirement(payload, provider),
+        "required_inputs": required_inputs,
+        "archived": bool(repository.get("archived")),
+        "deprecated": bool(payload.get("deprecation")),
+        "pushed_at": repository.get("pushed_at"),
+        "license": (repository.get("license") or {}).get("spdx_id"),
+    }
+
+
+def github_repositories(namespace):
+    repositories = []
+    page = 1
+    while True:
+        batch = request_json(
+            f"https://api.github.com/orgs/{namespace}/repos?per_page=100&page={page}&type=public"
+        )
+        repositories.extend(batch)
+        if len(batch) < 100:
+            return repositories
+        page += 1
+
+
 def live_catalogue(catalogue):
     updated = deepcopy(catalogue)
     namespace = updated["namespace"]
     provider = updated["provider"]
-    expected_repositories = {
-        f"terraform-{provider}-{module['name']}" for module in updated["modules"]
-    }
-    repositories = request_json(
-        f"https://api.github.com/orgs/{namespace}/repos?per_page=100&type=public"
-    )
+    repositories = github_repositories(namespace)
     terraform_repositories = {
         repository["name"]: repository
         for repository in repositories
         if repository.get("name", "").startswith(f"terraform-{provider}-")
     }
-    actual_repositories = set(terraform_repositories)
-    if actual_repositories != expected_repositories:
-        missing = sorted(expected_repositories - actual_repositories)
-        unexpected = sorted(actual_repositories - expected_repositories)
-        details = []
-        if missing:
-            details.append(f"missing from GitHub: {', '.join(missing)}")
-        if unexpected:
-            details.append(f"not catalogued: {', '.join(unexpected)}")
-        raise SyncError("GitHub module catalogue drift: " + "; ".join(details))
+    stored_by_name = {module["name"]: module for module in updated["modules"]}
+    for repository_name, repository in sorted(terraform_repositories.items()):
+        name = module_name_from_repository(repository_name, provider)
+        if name and name not in stored_by_name:
+            discovered = presentation_defaults(name, repository)
+            discovered["metadata"] = {}
+            updated["modules"].append(discovered)
+            stored_by_name[name] = discovered
+
+    missing = sorted(
+        name for name in stored_by_name
+        if f"terraform-{provider}-{name}" not in terraform_repositories
+    )
+    if missing:
+        raise SyncError("GitHub module catalogue drift: missing from GitHub: " + ", ".join(missing))
 
     for module in updated["modules"]:
         name = module["name"]
@@ -220,35 +311,12 @@ def live_catalogue(catalogue):
         if payload.get("name") != name or payload.get("provider") != provider:
             raise SyncError(f"Registry returned unexpected metadata for {name}")
 
-        required_inputs = sorted(
-            (
-                {
-                    "name": item.get("name", ""),
-                    "type": item.get("type", ""),
-                    "description": item.get("description", ""),
-                }
-                for item in payload.get("root", {}).get("inputs", [])
-                if item.get("required") is True
-            ),
-            key=lambda item: item["name"],
-        )
-        module["metadata"] = {
-            "version": payload.get("version"),
-            "published_at": payload.get("published_at"),
-            "terraform_requirement": terraform_requirement(
-                payload.get("root", {}).get("readme", "")
-            ),
-            "provider_requirement": provider_requirement(payload, provider),
-            "required_inputs": required_inputs,
-            "archived": bool(repository.get("archived")),
-            "deprecated": bool(payload.get("deprecation")),
-            "pushed_at": repository.get("pushed_at"),
-            "license": (repository.get("license") or {}).get("spdx_id"),
-        }
+        module["metadata"] = module_metadata(payload, repository, provider)
 
     updated["synced_at"] = datetime.now(timezone.utc).replace(microsecond=0).isoformat().replace(
         "+00:00", "Z"
     )
+    validate_catalogue(updated)
     return updated
 
 
@@ -593,6 +661,15 @@ def metadata_drift(stored, live):
 
 def check(catalogue):
     live = live_catalogue(catalogue)
+    stored_names = {module["name"] for module in catalogue["modules"]}
+    live_names = {module["name"] for module in live["modules"]}
+    additions = sorted(live_names - stored_names)
+    if additions:
+        raise SyncError(
+            "new GitHub Terraform modules detected: "
+            + ", ".join(additions)
+            + "; run scripts/sync-terraform-modules.py --write"
+        )
     differences = metadata_drift(catalogue, live)
     if differences:
         raise SyncError(

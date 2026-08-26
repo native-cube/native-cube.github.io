@@ -139,12 +139,19 @@ python3 scripts/sync-terraform-modules.py --render
 python3 scripts/sync-terraform-modules.py --check
 ```
 
-To add a module, add its curated entry to `modules.json`, publish the matching
-`terraform-aws-<name>` repository and Registry module, then run `--write`. Add
+The weekly `--write` job discovers public `terraform-aws-<name>` repositories in
+the `native-cube` GitHub organization, adds an initial catalogue entry from the
+repository description, and refreshes its Registry metadata. The workflow opens
+or updates a pull request containing the JSON configuration and generated HTML;
+maintainers can refine the generated presentation fields in that PR. Add
 `example_path` only when the repository contains a complete maintained example.
-The weekly catalogue workflow refreshes metadata and opens or updates a pull
-request when anything changes. GitHub Actions must be permitted to create pull
-requests in the repository or organization workflow settings.
+GitHub Actions must be permitted to create pull requests in the repository or
+organization workflow settings.
+
+To run an update manually, open the repository’s **Actions** tab, select
+**Terraform module catalogue**, choose **Run workflow**, enter an optional reason,
+and confirm. The action refreshes the catalogue and opens or updates the same
+automation pull request.
 
 The dedicated social card is maintained as an editable SVG. On macOS, regenerate
 its required 1200×630 PNG with:
