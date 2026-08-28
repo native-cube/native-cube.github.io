@@ -2,7 +2,43 @@
 
 const copyButtons = document.querySelectorAll("[data-module-copy]");
 const copyStatus = document.querySelector("#copy-status");
+const moduleSearch = document.querySelector("#module-search");
+const categoryButtons = document.querySelectorAll("[data-category]");
+const moduleCards = document.querySelectorAll(".module-card");
+const moduleResults = document.querySelector("#module-results");
+const noModuleResults = document.querySelector("#no-module-results");
 let copyStatusTimer;
+let activeCategory = "all";
+
+function normalized(value) {
+  return value.trim().toLocaleLowerCase();
+}
+
+function filterModules() {
+  const query = normalized(moduleSearch.value);
+  let visibleCount = 0;
+
+  for (const card of moduleCards) {
+    const matchesCategory =
+      activeCategory === "all" || card.dataset.category === activeCategory;
+    const matchesQuery = !query || normalized(card.textContent).includes(query);
+    const isVisible = matchesCategory && matchesQuery;
+    card.hidden = !isVisible;
+    visibleCount += Number(isVisible);
+  }
+
+  const noun = visibleCount === 1 ? "module" : "modules";
+  moduleResults.textContent = `${visibleCount} ${noun}`;
+  noModuleResults.hidden = visibleCount !== 0;
+}
+
+function selectCategory(button) {
+  activeCategory = button.dataset.category;
+  for (const categoryButton of categoryButtons) {
+    categoryButton.setAttribute("aria-pressed", String(categoryButton === button));
+  }
+  filterModules();
+}
 
 function showCopyStatus(message, isError = false) {
   window.clearTimeout(copyStatusTimer);
@@ -121,4 +157,16 @@ async function copySource(button) {
 
 for (const button of copyButtons) {
   button.addEventListener("click", () => copySource(button));
+}
+
+moduleSearch.addEventListener("input", filterModules);
+moduleSearch.addEventListener("keydown", (event) => {
+  if (event.key === "Escape" && moduleSearch.value) {
+    moduleSearch.value = "";
+    filterModules();
+  }
+});
+
+for (const button of categoryButtons) {
+  button.addEventListener("click", () => selectCategory(button));
 }
