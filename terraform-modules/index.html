@@ -71,8 +71,8 @@
           "@id": "https://native-cube.com/terraform-modules/#webpage",
           "url": "https://native-cube.com/terraform-modules/",
           "name": "Native Cube AWS Terraform Modules",
-          "description": "A catalogue of 8 public AWS Terraform modules maintained by Native Cube.",
-          "dateModified": "2026-08-27T06:20:12Z",
+          "description": "A catalogue of 10 public AWS Terraform modules maintained by Native Cube.",
+          "dateModified": "2026-08-28T06:48:19Z",
           "isPartOf": {
             "@id": "https://native-cube.com/#website"
           },
@@ -107,7 +107,7 @@
           "@type": "ItemList",
           "@id": "https://native-cube.com/terraform-modules/#modules",
           "name": "Native Cube Terraform modules",
-          "numberOfItems": 8,
+          "numberOfItems": 10,
           "itemListElement": [
             {
               "@type": "ListItem",
@@ -228,6 +228,36 @@
                 "programmingLanguage": "HCL",
                 "runtimePlatform": "Amazon Web Services"
               }
+            },
+            {
+              "@type": "ListItem",
+              "position": 9,
+              "item": {
+                "@type": "SoftwareSourceCode",
+                "name": "Elasticache",
+                "description": "Terraform module to provision Amazon ElastiCache resources.",
+                "url": "https://native-cube.com/terraform-modules/#elasticache",
+                "sameAs": "https://registry.terraform.io/modules/native-cube/elasticache/aws/latest",
+                "codeRepository": "https://github.com/native-cube/terraform-aws-elasticache",
+                "version": "1.0.0",
+                "programmingLanguage": "HCL",
+                "runtimePlatform": "Amazon Web Services"
+              }
+            },
+            {
+              "@type": "ListItem",
+              "position": 10,
+              "item": {
+                "@type": "SoftwareSourceCode",
+                "name": "S3",
+                "description": "Terraform module for creating production-oriented Amazon S3 resources.",
+                "url": "https://native-cube.com/terraform-modules/#s3",
+                "sameAs": "https://registry.terraform.io/modules/native-cube/s3/aws/latest",
+                "codeRepository": "https://github.com/native-cube/terraform-aws-s3",
+                "version": "1.0.0",
+                "programmingLanguage": "HCL",
+                "runtimePlatform": "Amazon Web Services"
+              }
             }
           ]
         }
@@ -320,7 +350,7 @@
 
       <dl class="catalogue-summary" aria-label="Module catalogue summary">
         <div>
-          <dt><!-- MODULE_COUNT_START -->08<!-- MODULE_COUNT_END --></dt>
+          <dt><!-- MODULE_COUNT_START -->10<!-- MODULE_COUNT_END --></dt>
           <dd>Public modules</dd>
         </div>
         <div>
@@ -384,7 +414,7 @@
         <!-- MODULE_CARDS_START -->
         <p class="catalogue-sync">
           Registry and GitHub metadata synchronized
-          <time datetime="2026-08-27">27 Aug 2026</time>.
+          <time datetime="2026-08-28">28 Aug 2026</time>.
         </p>
         <div class="module-grid">
           <article id="eks" class="module-card module-card--eks">
@@ -1327,6 +1357,230 @@
             <p class="module-trust">
               <span>License not declared</span>
               <span>Source updated <time datetime="2026-08-26">26 Aug 2026</time></span>
+            </p>
+          </article>
+
+          <article id="elasticache" class="module-card module-card--network">
+            <div class="card-topline">
+              <span class="module-icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24">
+                  <circle cx="5" cy="12" r="2.5" />
+                  <circle cx="19" cy="6" r="2.5" />
+                  <circle cx="19" cy="18" r="2.5" />
+                  <path d="m7.3 11 9.4-4M7.3 13l9.4 4" />
+                </svg>
+              </span>
+              <span class="module-type">Networking</span>
+              <span class="status-badge"><i></i> Active</span>
+            </div>
+            <h3><a class="module-permalink" href="#elasticache">Elasticache<span aria-hidden="true">#</span></a></h3>
+            <p class="module-description">Terraform module to provision Amazon ElastiCache resources.</p>
+            <dl class="module-facts" aria-label="Elasticache module metadata">
+              <div>
+                <dt>Latest</dt>
+                <dd>v1.0.0</dd>
+              </div>
+              <div>
+                <dt>Required</dt>
+                <dd>2 inputs</dd>
+              </div>
+              <div>
+                <dt>Released</dt>
+                <dd><time datetime="2026-08-28">28 Aug 2026</time></dd>
+              </div>
+            </dl>
+            <p class="module-requirements">
+              <span>Terraform &gt;= 1.11.4</span>
+              <span>AWS &gt;= 6.62.0, &lt; 7.0.0</span>
+            </p>
+            <div class="source-address">
+              <code>native-cube/elasticache/aws</code>
+              <button
+                type="button"
+                data-module-copy
+                data-module="elasticache"
+                data-title="Elasticache"
+                data-source="native-cube/elasticache/aws"
+                data-version="1.0.0"
+                data-required="2"
+                data-snippet="compact"
+                aria-label="Copy Elasticache module block"
+              >
+                <svg viewBox="0 0 24 24" aria-hidden="true">
+                  <rect x="8" y="8" width="10" height="11" rx="2" />
+                  <path d="M16 8V6a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h2" />
+                </svg>
+                <span>Copy module block</span>
+              </button>
+            </div>
+            <details class="usage-disclosure">
+              <summary>
+                <span>View usage and required inputs</span>
+                <svg viewBox="0 0 20 20" aria-hidden="true"><path d="m5 7.5 5 5 5-5" /></svg>
+              </summary>
+              <div class="usage-content">
+                <h4>Module block</h4>
+                <pre><code>module &quot;elasticache&quot; {
+  source  = &quot;native-cube/elasticache/aws&quot;
+  version = &quot;1.0.0&quot;
+
+  # insert the 2 required variables here
+}</code></pre>
+                <button
+                  class="starter-copy"
+                  type="button"
+                  data-module-copy
+                  data-module="elasticache"
+                  data-title="Elasticache"
+                  data-source="native-cube/elasticache/aws"
+                  data-version="1.0.0"
+                  data-required="2"
+                  data-inputs="[{&quot;name&quot;:&quot;deployment_type&quot;,&quot;type&quot;:&quot;string&quot;,&quot;description&quot;:&quot;ElastiCache deployment to create: cluster, replication_group, or serverless. Use separate module calls for multiple independent deployments.&quot;},{&quot;name&quot;:&quot;name&quot;,&quot;type&quot;:&quot;string&quot;,&quot;description&quot;:&quot;ElastiCache deployment identifier and prefix for module-created supporting resources.&quot;}]"
+                  data-snippet="starter"
+                  aria-label="Copy Elasticache starter block with typed required inputs"
+                ><span>Copy starter block with typed inputs</span></button>
+                <template data-starter-example>module &quot;elasticache&quot; {
+  source  = &quot;native-cube/elasticache/aws&quot;
+  version = &quot;1.0.0&quot;
+
+  # deployment_type = &quot;replace-me&quot;
+  # name            = &quot;replace-me&quot;
+}</template>
+                <h4>Required inputs</h4>
+                <ul class="required-inputs">
+                  <li>
+                    <code>deployment_type</code>
+                    <span>string</span>
+                  </li>
+                  <li>
+                    <code>name</code>
+                    <span>string</span>
+                  </li>
+                </ul>
+              </div>
+            </details>
+            <div class="card-links">
+              <a href="https://registry.terraform.io/modules/native-cube/elasticache/aws/latest" target="_blank" rel="noreferrer">
+                Registry docs <span aria-hidden="true">↗</span>
+              </a>
+              <a href="https://github.com/native-cube/terraform-aws-elasticache" target="_blank" rel="noreferrer">
+                GitHub source <span aria-hidden="true">↗</span>
+              </a>
+
+              <a href="https://github.com/native-cube/terraform-aws-elasticache/releases" target="_blank" rel="noreferrer">
+                Releases <span aria-hidden="true">↗</span>
+              </a>
+            </div>
+            <p class="module-trust">
+              <span>License not declared</span>
+              <span>Source updated <time datetime="2026-08-28">28 Aug 2026</time></span>
+            </p>
+          </article>
+
+          <article id="s3" class="module-card module-card--network">
+            <div class="card-topline">
+              <span class="module-icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24">
+                  <circle cx="5" cy="12" r="2.5" />
+                  <circle cx="19" cy="6" r="2.5" />
+                  <circle cx="19" cy="18" r="2.5" />
+                  <path d="m7.3 11 9.4-4M7.3 13l9.4 4" />
+                </svg>
+              </span>
+              <span class="module-type">Networking</span>
+              <span class="status-badge"><i></i> Active</span>
+            </div>
+            <h3><a class="module-permalink" href="#s3">S3<span aria-hidden="true">#</span></a></h3>
+            <p class="module-description">Terraform module for creating production-oriented Amazon S3 resources.</p>
+            <dl class="module-facts" aria-label="S3 module metadata">
+              <div>
+                <dt>Latest</dt>
+                <dd>v1.0.0</dd>
+              </div>
+              <div>
+                <dt>Required</dt>
+                <dd>No required inputs</dd>
+              </div>
+              <div>
+                <dt>Released</dt>
+                <dd><time datetime="2026-08-28">28 Aug 2026</time></dd>
+              </div>
+            </dl>
+            <p class="module-requirements">
+              <span>Terraform &gt;= 1.5.0</span>
+              <span>AWS &gt;= 6.61.0, &lt; 7.0.0</span>
+            </p>
+            <div class="source-address">
+              <code>native-cube/s3/aws</code>
+              <button
+                type="button"
+                data-module-copy
+                data-module="s3"
+                data-title="S3"
+                data-source="native-cube/s3/aws"
+                data-version="1.0.0"
+                data-required="0"
+                data-snippet="compact"
+                aria-label="Copy S3 module block"
+              >
+                <svg viewBox="0 0 24 24" aria-hidden="true">
+                  <rect x="8" y="8" width="10" height="11" rx="2" />
+                  <path d="M16 8V6a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h2" />
+                </svg>
+                <span>Copy module block</span>
+              </button>
+            </div>
+            <details class="usage-disclosure">
+              <summary>
+                <span>View usage and required inputs</span>
+                <svg viewBox="0 0 20 20" aria-hidden="true"><path d="m5 7.5 5 5 5-5" /></svg>
+              </summary>
+              <div class="usage-content">
+                <h4>Module block</h4>
+                <pre><code>module &quot;s3&quot; {
+  source  = &quot;native-cube/s3/aws&quot;
+  version = &quot;1.0.0&quot;
+
+  # no required variables
+}</code></pre>
+                <button
+                  class="starter-copy"
+                  type="button"
+                  data-module-copy
+                  data-module="s3"
+                  data-title="S3"
+                  data-source="native-cube/s3/aws"
+                  data-version="1.0.0"
+                  data-required="0"
+                  data-inputs="[]"
+                  data-snippet="starter"
+                  aria-label="Copy S3 starter block with typed required inputs"
+                ><span>Copy starter block with typed inputs</span></button>
+                <template data-starter-example>module &quot;s3&quot; {
+  source  = &quot;native-cube/s3/aws&quot;
+  version = &quot;1.0.0&quot;
+
+  # no required variables
+}</template>
+                <h4>Required inputs</h4>
+                <p class="no-required-inputs">No required inputs. Configure optional variables as needed.</p>
+              </div>
+            </details>
+            <div class="card-links">
+              <a href="https://registry.terraform.io/modules/native-cube/s3/aws/latest" target="_blank" rel="noreferrer">
+                Registry docs <span aria-hidden="true">↗</span>
+              </a>
+              <a href="https://github.com/native-cube/terraform-aws-s3" target="_blank" rel="noreferrer">
+                GitHub source <span aria-hidden="true">↗</span>
+              </a>
+
+              <a href="https://github.com/native-cube/terraform-aws-s3/releases" target="_blank" rel="noreferrer">
+                Releases <span aria-hidden="true">↗</span>
+              </a>
+            </div>
+            <p class="module-trust">
+              <span>License not declared</span>
+              <span>Source updated <time datetime="2026-08-27">27 Aug 2026</time></span>
             </p>
           </article>
         </div>

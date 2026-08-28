@@ -3,7 +3,7 @@
   "$schema": "./modules.schema.json",
   "namespace": "native-cube",
   "provider": "aws",
-  "synced_at": "2026-08-27T06:20:12Z",
+  "synced_at": "2026-08-28T06:48:19Z",
   "modules": [
     {
       "name": "eks",
@@ -254,6 +254,55 @@
         "archived": false,
         "deprecated": false,
         "pushed_at": "2026-08-26T08:20:14Z",
+        "license": null
+      }
+    },
+    {
+      "name": "elasticache",
+      "title": "Elasticache",
+      "category": "Networking",
+      "theme": "network",
+      "icon": "network",
+      "summary": "Terraform module to provision Amazon ElastiCache resources.",
+      "metadata": {
+        "version": "1.0.0",
+        "published_at": "2026-08-28T06:44:25.218274Z",
+        "terraform_requirement": ">= 1.11.4",
+        "provider_requirement": ">= 6.62.0, < 7.0.0",
+        "required_inputs": [
+          {
+            "name": "deployment_type",
+            "type": "string",
+            "description": "ElastiCache deployment to create: cluster, replication_group, or serverless. Use separate module calls for multiple independent deployments."
+          },
+          {
+            "name": "name",
+            "type": "string",
+            "description": "ElastiCache deployment identifier and prefix for module-created supporting resources."
+          }
+        ],
+        "archived": false,
+        "deprecated": false,
+        "pushed_at": "2026-08-28T06:44:22Z",
+        "license": null
+      }
+    },
+    {
+      "name": "s3",
+      "title": "S3",
+      "category": "Networking",
+      "theme": "network",
+      "icon": "network",
+      "summary": "Terraform module for creating production-oriented Amazon S3 resources.",
+      "metadata": {
+        "version": "1.0.0",
+        "published_at": "2026-08-28T06:43:58.222889Z",
+        "terraform_requirement": ">= 1.5.0",
+        "provider_requirement": ">= 6.61.0, < 7.0.0",
+        "required_inputs": [],
+        "archived": false,
+        "deprecated": false,
+        "pushed_at": "2026-08-27T12:14:24Z",
         "license": null
       }
     }
