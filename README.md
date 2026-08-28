@@ -111,9 +111,10 @@ not repeat the same scenario.
 ## Terraform Modules
 
 Open `/terraform-modules/` to explore public AWS Terraform modules
-maintained by the native-cube GitHub organization. The catalogue covers Amazon
-EKS, EKS Auto Mode, managed node groups, Fargate profiles, KMS, and VPC Flow
-Logs, with direct links to each GitHub repository and Terraform Registry page.
+maintained by the native-cube GitHub organization. The catalogue covers
+Kubernetes platforms, security, networking, messaging, databases, caching, and
+object storage, with direct links to each GitHub repository and Terraform
+Registry page.
 
 Module names, descriptions, categories, complete-example paths, and visual
 treatments are maintained in `terraform-modules/modules.json`. Registry

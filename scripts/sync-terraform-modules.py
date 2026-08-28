@@ -489,6 +489,7 @@ def render_card(catalogue, module):
     input_markup = render_required_inputs(metadata["required_inputs"])
     icon = ICONS[module["icon"]]
     published_date = metadata["published_at"].split("T", 1)[0]
+    category_slug = re.sub(r"[^a-z0-9]+", "-", module["category"].lower()).strip("-")
 
     license_label = metadata["license"] or "Not declared"
     license_link = (
@@ -504,7 +505,11 @@ def render_card(catalogue, module):
         else ""
     )
 
-    return f'''          <article id="{escape(module["name"])}" class="module-card module-card--{escape(module["theme"])}">
+    return f'''          <article
+            id="{escape(module["name"])}"
+            class="module-card module-card--{escape(module["theme"])}"
+            data-category="{escape(category_slug)}"
+          >
             <div class="card-topline">
               <span class="module-icon" aria-hidden="true">
                 <svg viewBox="0 0 24 24">
@@ -516,24 +521,16 @@ def render_card(catalogue, module):
             </div>
             <h3><a class="module-permalink" href="#{escape(module["name"])}">{escape(module["title"])}<span aria-hidden="true">#</span></a></h3>
             <p class="module-description">{escape(module["summary"])}</p>
-            <dl class="module-facts" aria-label="{escape(module["title"])} module metadata">
+            <dl class="module-overview" aria-label="{escape(module["title"])} module overview">
               <div>
-                <dt>Latest</dt>
+                <dt>Version</dt>
                 <dd>v{escape(metadata["version"])}</dd>
               </div>
               <div>
                 <dt>Required</dt>
                 <dd>{required_label} {required_detail}</dd>
               </div>
-              <div>
-                <dt>Released</dt>
-                <dd><time datetime="{published_date}">{display_date(metadata["published_at"])}</time></dd>
-              </div>
             </dl>
-            <p class="module-requirements">
-              <span>Terraform {escape(metadata["terraform_requirement"])}</span>
-              <span>AWS {escape(metadata["provider_requirement"])}</span>
-            </p>
             <div class="source-address">
               <code>{escape(urls["source"])}</code>
               <button
@@ -551,15 +548,37 @@ def render_card(catalogue, module):
                   <rect x="8" y="8" width="10" height="11" rx="2" />
                   <path d="M16 8V6a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h2" />
                 </svg>
-                <span>Copy module block</span>
+                <span>Copy</span>
               </button>
             </div>
-            <details class="usage-disclosure">
+            <div class="card-actions">
+              <a class="registry-link" href="{urls["registry"]}" target="_blank" rel="noreferrer">
+                Registry docs <span aria-hidden="true">↗</span>
+              </a>
+              <a href="{urls["github"]}" target="_blank" rel="noreferrer">
+                GitHub <span aria-hidden="true">↗</span>
+              </a>
+            </div>
+            <details class="module-details">
               <summary>
-                <span>View usage and required inputs</span>
+                <span>Usage &amp; requirements</span>
                 <svg viewBox="0 0 20 20" aria-hidden="true"><path d="m5 7.5 5 5 5-5" /></svg>
               </summary>
-              <div class="usage-content">
+              <div class="details-content">
+                <dl class="detail-facts">
+                  <div>
+                    <dt>Released</dt>
+                    <dd><time datetime="{published_date}">{display_date(metadata["published_at"])}</time></dd>
+                  </div>
+                  <div>
+                    <dt>Terraform</dt>
+                    <dd>{escape(metadata["terraform_requirement"])}</dd>
+                  </div>
+                  <div>
+                    <dt>AWS provider</dt>
+                    <dd>{escape(metadata["provider_requirement"])}</dd>
+                  </div>
+                </dl>
                 <h4>Module block</h4>
                 <pre><code>{escape(example)}</code></pre>
                 <button
@@ -578,24 +597,18 @@ def render_card(catalogue, module):
                 <template data-starter-example>{escape(starter_example)}</template>
                 <h4>Required inputs</h4>
 {input_markup}
+                <div class="detail-links">
+{example_link}
+                  <a href="{urls["releases"]}" target="_blank" rel="noreferrer">
+                    Releases <span aria-hidden="true">↗</span>
+                  </a>
+                </div>
+                <p class="module-trust">
+                  {license_link}
+                  <span>Source updated <time datetime="{metadata["pushed_at"].split("T", 1)[0]}">{display_date(metadata["pushed_at"])}</time></span>
+                </p>
               </div>
             </details>
-            <div class="card-links">
-              <a href="{urls["registry"]}" target="_blank" rel="noreferrer">
-                Registry docs <span aria-hidden="true">↗</span>
-              </a>
-              <a href="{urls["github"]}" target="_blank" rel="noreferrer">
-                GitHub source <span aria-hidden="true">↗</span>
-              </a>
-{example_link}
-              <a href="{urls["releases"]}" target="_blank" rel="noreferrer">
-                Releases <span aria-hidden="true">↗</span>
-              </a>
-            </div>
-            <p class="module-trust">
-              {license_link}
-              <span>Source updated <time datetime="{metadata["pushed_at"].split("T", 1)[0]}">{display_date(metadata["pushed_at"])}</time></span>
-            </p>
           </article>'''
 
 
