@@ -235,9 +235,9 @@
     {
       "name": "rds-aurora",
       "title": "RDS Aurora",
-      "category": "Networking",
-      "theme": "network",
-      "icon": "network",
+      "category": "Storage",
+      "theme": "storage",
+      "icon": "storage",
       "summary": "Terraform module to provision AWS RDS Aurora resources",
       "metadata": {
         "version": "1.0.0",
@@ -260,9 +260,9 @@
     {
       "name": "elasticache",
       "title": "Elasticache",
-      "category": "Networking",
-      "theme": "network",
-      "icon": "network",
+      "category": "Storage",
+      "theme": "storage",
+      "icon": "storage",
       "summary": "Terraform module to provision Amazon ElastiCache resources.",
       "metadata": {
         "version": "1.0.0",
@@ -290,9 +290,9 @@
     {
       "name": "s3",
       "title": "S3",
-      "category": "Networking",
-      "theme": "network",
-      "icon": "network",
+      "category": "Storage",
+      "theme": "storage",
+      "icon": "storage",
       "summary": "Terraform module for creating production-oriented Amazon S3 resources.",
       "metadata": {
         "version": "1.0.0",

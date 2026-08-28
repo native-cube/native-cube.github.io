@@ -3,7 +3,8 @@
 const copyButtons = document.querySelectorAll("[data-module-copy]");
 const copyStatus = document.querySelector("#copy-status");
 const moduleSearch = document.querySelector("#module-search");
-const categoryButtons = document.querySelectorAll("[data-category]");
+const categoryFilters = document.querySelector(".category-filters");
+const categoryButtons = categoryFilters.querySelectorAll("button[data-category]");
 const moduleCards = document.querySelectorAll(".module-card");
 const moduleResults = document.querySelector("#module-results");
 const noModuleResults = document.querySelector("#no-module-results");
@@ -38,6 +39,31 @@ function selectCategory(button) {
     categoryButton.setAttribute("aria-pressed", String(categoryButton === button));
   }
   filterModules();
+}
+
+function moveCategorySelection(event) {
+  const currentIndex = [...categoryButtons].indexOf(document.activeElement);
+  if (currentIndex < 0) {
+    return;
+  }
+
+  let nextIndex;
+  if (event.key === "Home") {
+    nextIndex = 0;
+  } else if (event.key === "End") {
+    nextIndex = categoryButtons.length - 1;
+  } else if (event.key === "ArrowLeft") {
+    nextIndex = (currentIndex - 1 + categoryButtons.length) % categoryButtons.length;
+  } else if (event.key === "ArrowRight") {
+    nextIndex = (currentIndex + 1) % categoryButtons.length;
+  } else {
+    return;
+  }
+
+  event.preventDefault();
+  const nextButton = categoryButtons[nextIndex];
+  nextButton.focus();
+  selectCategory(nextButton);
 }
 
 function showCopyStatus(message, isError = false) {
@@ -167,6 +193,12 @@ moduleSearch.addEventListener("keydown", (event) => {
   }
 });
 
-for (const button of categoryButtons) {
-  button.addEventListener("click", () => selectCategory(button));
-}
+categoryFilters.addEventListener("click", (event) => {
+  const button = event.target.closest("button[data-category]");
+  if (button && categoryFilters.contains(button)) {
+    selectCategory(button);
+  }
+});
+categoryFilters.addEventListener("keydown", moveCategorySelection);
+
+filterModules();

@@ -23,7 +23,8 @@ CARDS_START = "<!-- MODULE_CARDS_START -->"
 CARDS_END = "<!-- MODULE_CARDS_END -->"
 COUNT_START = "<!-- MODULE_COUNT_START -->"
 COUNT_END = "<!-- MODULE_COUNT_END -->"
-THEMES = {"auto", "eks", "fargate", "kms", "network", "nodes"}
+THEMES = {"auto", "eks", "fargate", "kms", "network", "nodes", "storage"}
+STORAGE_TOKENS = {"storage", "database", "cache", "rds", "s3", "elasticache"}
 ICONS = {
     "bolt": '<path d="M13.5 2.8 6.8 13h5l-1.3 8.2L17.2 11h-5l1.3-8.2Z" />',
     "cluster": (
@@ -43,6 +44,11 @@ ICONS = {
         '                  <rect x="13.5" y="4" width="7" height="6" rx="1.5" />\n'
         '                  <rect x="8.5" y="14" width="7" height="6" rx="1.5" />\n'
         '                  <path d="M7 10v2h10v-2M12 12v2" />'
+    ),
+    "storage": (
+        '<ellipse cx="12" cy="5.5" rx="7.5" ry="3" />\n'
+        '                  <path d="M4.5 5.5v6c0 1.7 3.4 3 7.5 3s7.5-1.3 7.5-3v-6" />\n'
+        '                  <path d="M4.5 11.5v6c0 1.7 3.4 3 7.5 3s7.5-1.3 7.5-3v-6" />'
     ),
 }
 MONTHS = (
@@ -218,6 +224,8 @@ def presentation_defaults(name, repository):
         token in name for token in ("kms", "iam", "security")
     ):
         category, theme, icon = "Security", "kms", "key"
+    elif STORAGE_TOKENS & topics or any(token in name for token in STORAGE_TOKENS):
+        category, theme, icon = "Storage", "storage", "storage"
     else:
         category, theme, icon = "Networking", "network", "network"
 
@@ -619,7 +627,7 @@ def render_cards(catalogue):
           Registry and GitHub metadata synchronized
           <time datetime="{synced_date}">{display_date(catalogue["synced_at"])}</time>.
         </p>
-        <div class="module-grid">
+        <div id="module-grid" class="module-grid">
 {cards}
         </div>'''
 

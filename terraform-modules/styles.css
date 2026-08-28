@@ -528,6 +528,11 @@ h1 em {
   --module-soft: #eaf6f8;
 }
 
+.module-card--storage {
+  --module-accent: #a36124;
+  --module-soft: #fff4e8;
+}
+
 .card-topline {
   display: flex;
   align-items: center;
