@@ -17,10 +17,13 @@ ROOT = Path(__file__).resolve().parent.parent
 CATALOGUE_PATH = ROOT / "terraform-modules/modules.json"
 SCHEMA_PATH = ROOT / "terraform-modules/modules.schema.json"
 PAGE_PATH = ROOT / "terraform-modules/index.html"
+APP_PATH = ROOT / "terraform-modules/app.js"
 JSON_LD_START = "<!-- MODULE_JSON_LD_START -->"
 JSON_LD_END = "<!-- MODULE_JSON_LD_END -->"
 CARDS_START = "<!-- MODULE_CARDS_START -->"
 CARDS_END = "<!-- MODULE_CARDS_END -->"
+APP_START = "<!-- MODULE_APP_START -->"
+APP_END = "<!-- MODULE_APP_END -->"
 COUNT_START = "<!-- MODULE_COUNT_START -->"
 COUNT_END = "<!-- MODULE_COUNT_END -->"
 THEMES = {"auto", "eks", "fargate", "kms", "network", "nodes", "storage"}
@@ -632,6 +635,16 @@ def render_cards(catalogue):
         </div>'''
 
 
+def render_app():
+    source = APP_PATH.read_text().rstrip()
+    if "</script" in source.lower():
+        raise SyncError("terraform-modules/app.js cannot contain a closing script tag")
+    indented = "\n".join(f"      {line}" if line else "" for line in source.splitlines())
+    return f'''    <script>
+{indented}
+    </script>'''
+
+
 def replace_region(text, start_marker, end_marker, rendered, end_indent):
     start = text.find(start_marker)
     end = text.find(end_marker)
@@ -656,6 +669,7 @@ def rendered_page(catalogue):
         page, JSON_LD_START, JSON_LD_END, render_json_ld(catalogue), "    "
     )
     page = replace_region(page, CARDS_START, CARDS_END, render_cards(catalogue), "        ")
+    page = replace_region(page, APP_START, APP_END, render_app(), "    ")
     page = replace_inline(
         page, COUNT_START, COUNT_END, f"{len(catalogue['modules']):02d}"
     )

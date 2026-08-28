@@ -122,6 +122,11 @@ versions, release dates, required inputs, Terraform and AWS requirements,
 licenses, and GitHub status are synchronized into the same file and used to
 generate module cards, permalinks, starter snippets, and structured data.
 
+The catalogue browser logic is maintained in `terraform-modules/app.js` and
+embedded into the generated page so category filters and copy actions still work
+on enterprise networks that block JavaScript file responses. Run the render
+command after changing either the catalogue or browser logic.
+
 Editors can use `terraform-modules/modules.schema.json` for autocomplete. CI
 validates the catalogue against that schema and performs duplicate-name and
 generated-output checks in the synchronization script.
