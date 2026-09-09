@@ -70,8 +70,8 @@
           "@id": "https://native-cube.com/terraform-modules/#webpage",
           "url": "https://native-cube.com/terraform-modules/",
           "name": "Native Cube AWS Terraform Modules",
-          "description": "A catalogue of 10 public AWS Terraform modules maintained by Native Cube.",
-          "dateModified": "2026-08-28T06:48:19Z",
+          "description": "A catalogue of 11 public AWS Terraform modules maintained by Native Cube.",
+          "dateModified": "2026-09-09T08:48:48Z",
           "isPartOf": {
             "@id": "https://native-cube.com/#website"
           },
@@ -106,7 +106,7 @@
           "@type": "ItemList",
           "@id": "https://native-cube.com/terraform-modules/#modules",
           "name": "Native Cube Terraform modules",
-          "numberOfItems": 10,
+          "numberOfItems": 11,
           "itemListElement": [
             {
               "@type": "ListItem",
@@ -178,7 +178,7 @@
                 "url": "https://native-cube.com/terraform-modules/#kms",
                 "sameAs": "https://registry.terraform.io/modules/native-cube/kms/aws/latest",
                 "codeRepository": "https://github.com/native-cube/terraform-aws-kms",
-                "version": "2.0.0",
+                "version": "2.1.0",
                 "programmingLanguage": "HCL",
                 "runtimePlatform": "Amazon Web Services"
               }
@@ -257,6 +257,21 @@
                 "programmingLanguage": "HCL",
                 "runtimePlatform": "Amazon Web Services"
               }
+            },
+            {
+              "@type": "ListItem",
+              "position": 11,
+              "item": {
+                "@type": "SoftwareSourceCode",
+                "name": "Documentdb",
+                "description": "Terraform module supporting creation of AWS DocumentDB resources",
+                "url": "https://native-cube.com/terraform-modules/#documentdb",
+                "sameAs": "https://registry.terraform.io/modules/native-cube/documentdb/aws/latest",
+                "codeRepository": "https://github.com/native-cube/terraform-aws-documentdb",
+                "version": "1.1.0",
+                "programmingLanguage": "HCL",
+                "runtimePlatform": "Amazon Web Services"
+              }
             }
           ]
         }
@@ -319,7 +334,7 @@
         </div>
         <dl class="hero-summary" aria-label="Module catalogue summary">
           <div>
-            <dt><!-- MODULE_COUNT_START -->10<!-- MODULE_COUNT_END --></dt>
+            <dt><!-- MODULE_COUNT_START -->11<!-- MODULE_COUNT_END --></dt>
             <dd>Modules</dd>
           </div>
           <div>
@@ -373,7 +388,7 @@
         <!-- MODULE_CARDS_START -->
         <p class="catalogue-sync">
           Registry and GitHub metadata synchronized
-          <time datetime="2026-08-28">28 Aug 2026</time>.
+          <time datetime="2026-09-09">9 Sep 2026</time>.
         </p>
         <div id="module-grid" class="module-grid">
           <article
@@ -939,7 +954,7 @@
             <dl class="module-overview" aria-label="KMS module overview">
               <div>
                 <dt>Version</dt>
-                <dd>v2.0.0</dd>
+                <dd>v2.1.0</dd>
               </div>
               <div>
                 <dt>Required</dt>
@@ -954,7 +969,7 @@
                 data-module="kms"
                 data-title="KMS"
                 data-source="native-cube/kms/aws"
-                data-version="2.0.0"
+                data-version="2.1.0"
                 data-required="0"
                 data-snippet="compact"
                 aria-label="Copy KMS module block"
@@ -983,7 +998,7 @@
                 <dl class="detail-facts">
                   <div>
                     <dt>Released</dt>
-                    <dd><time datetime="2026-06-18">18 Jun 2026</time></dd>
+                    <dd><time datetime="2026-09-03">3 Sep 2026</time></dd>
                   </div>
                   <div>
                     <dt>Terraform</dt>
@@ -991,13 +1006,13 @@
                   </div>
                   <div>
                     <dt>AWS provider</dt>
-                    <dd>&gt;= 6.0</dd>
+                    <dd>&gt;= 6.62.0</dd>
                   </div>
                 </dl>
                 <h4>Module block</h4>
                 <pre><code>module &quot;kms&quot; {
   source  = &quot;native-cube/kms/aws&quot;
-  version = &quot;2.0.0&quot;
+  version = &quot;2.1.0&quot;
 
   # no required variables
 }</code></pre>
@@ -1008,7 +1023,7 @@
                   data-module="kms"
                   data-title="KMS"
                   data-source="native-cube/kms/aws"
-                  data-version="2.0.0"
+                  data-version="2.1.0"
                   data-required="0"
                   data-inputs="[]"
                   data-snippet="starter"
@@ -1016,7 +1031,7 @@
                 ><span>Copy starter block with typed inputs</span></button>
                 <template data-starter-example>module &quot;kms&quot; {
   source  = &quot;native-cube/kms/aws&quot;
-  version = &quot;2.0.0&quot;
+  version = &quot;2.1.0&quot;
 
   # no required variables
 }</template>
@@ -1032,7 +1047,7 @@
                 </div>
                 <p class="module-trust">
                   <a href="https://github.com/native-cube/terraform-aws-kms/blob/main/LICENSE" target="_blank" rel="noreferrer">Apache-2.0 license <span aria-hidden="true">↗</span></a>
-                  <span>Source updated <time datetime="2026-06-18">18 Jun 2026</time></span>
+                  <span>Source updated <time datetime="2026-09-03">3 Sep 2026</time></span>
                 </p>
               </div>
             </details>
@@ -1655,6 +1670,130 @@
                 <p class="module-trust">
                   <span>License not declared</span>
                   <span>Source updated <time datetime="2026-08-27">27 Aug 2026</time></span>
+                </p>
+              </div>
+            </details>
+          </article>
+
+          <article
+            id="documentdb"
+            class="module-card module-card--network"
+            data-category="networking"
+          >
+            <div class="card-topline">
+              <span class="module-icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24">
+                  <circle cx="5" cy="12" r="2.5" />
+                  <circle cx="19" cy="6" r="2.5" />
+                  <circle cx="19" cy="18" r="2.5" />
+                  <path d="m7.3 11 9.4-4M7.3 13l9.4 4" />
+                </svg>
+              </span>
+              <span class="module-type">Networking</span>
+              <span class="status-badge"><i></i> Active</span>
+            </div>
+            <h3><a class="module-permalink" href="#documentdb">Documentdb<span aria-hidden="true">#</span></a></h3>
+            <p class="module-description">Terraform module supporting creation of AWS DocumentDB resources</p>
+            <dl class="module-overview" aria-label="Documentdb module overview">
+              <div>
+                <dt>Version</dt>
+                <dd>v1.1.0</dd>
+              </div>
+              <div>
+                <dt>Required</dt>
+                <dd>1 input</dd>
+              </div>
+            </dl>
+            <div class="source-address">
+              <code>native-cube/documentdb/aws</code>
+              <button
+                type="button"
+                data-module-copy
+                data-module="documentdb"
+                data-title="Documentdb"
+                data-source="native-cube/documentdb/aws"
+                data-version="1.1.0"
+                data-required="1"
+                data-snippet="compact"
+                aria-label="Copy Documentdb module block"
+              >
+                <svg viewBox="0 0 24 24" aria-hidden="true">
+                  <rect x="8" y="8" width="10" height="11" rx="2" />
+                  <path d="M16 8V6a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h2" />
+                </svg>
+                <span>Copy</span>
+              </button>
+            </div>
+            <div class="card-actions">
+              <a class="registry-link" href="https://registry.terraform.io/modules/native-cube/documentdb/aws/latest" target="_blank" rel="noreferrer">
+                Registry docs <span aria-hidden="true">↗</span>
+              </a>
+              <a href="https://github.com/native-cube/terraform-aws-documentdb" target="_blank" rel="noreferrer">
+                GitHub <span aria-hidden="true">↗</span>
+              </a>
+            </div>
+            <details class="module-details">
+              <summary>
+                <span>Usage &amp; requirements</span>
+                <svg viewBox="0 0 20 20" aria-hidden="true"><path d="m5 7.5 5 5 5-5" /></svg>
+              </summary>
+              <div class="details-content">
+                <dl class="detail-facts">
+                  <div>
+                    <dt>Released</dt>
+                    <dd><time datetime="2026-09-09">9 Sep 2026</time></dd>
+                  </div>
+                  <div>
+                    <dt>Terraform</dt>
+                    <dd>&gt;= 1.11.4</dd>
+                  </div>
+                  <div>
+                    <dt>AWS provider</dt>
+                    <dd>&gt;= 6.63.0, &lt; 7.0.0</dd>
+                  </div>
+                </dl>
+                <h4>Module block</h4>
+                <pre><code>module &quot;documentdb&quot; {
+  source  = &quot;native-cube/documentdb/aws&quot;
+  version = &quot;1.1.0&quot;
+
+  # insert the 1 required variable here
+}</code></pre>
+                <button
+                  class="starter-copy"
+                  type="button"
+                  data-module-copy
+                  data-module="documentdb"
+                  data-title="Documentdb"
+                  data-source="native-cube/documentdb/aws"
+                  data-version="1.1.0"
+                  data-required="1"
+                  data-inputs="[{&quot;name&quot;:&quot;name&quot;,&quot;type&quot;:&quot;string&quot;,&quot;description&quot;:&quot;Cluster name and default prefix for related resources.&quot;}]"
+                  data-snippet="starter"
+                  aria-label="Copy Documentdb starter block with typed required inputs"
+                ><span>Copy starter block with typed inputs</span></button>
+                <template data-starter-example>module &quot;documentdb&quot; {
+  source  = &quot;native-cube/documentdb/aws&quot;
+  version = &quot;1.1.0&quot;
+
+  # name = &quot;replace-me&quot;
+}</template>
+                <h4>Required inputs</h4>
+                <ul class="required-inputs">
+                  <li>
+                    <code>name</code>
+                    <span>string</span>
+                  </li>
+                </ul>
+                <div class="detail-links">
+
+                  <a href="https://github.com/native-cube/terraform-aws-documentdb/releases" target="_blank" rel="noreferrer">
+                    Releases <span aria-hidden="true">↗</span>
+                  </a>
+                </div>
+                <p class="module-trust">
+                  <span>License not declared</span>
+                  <span>Source updated <time datetime="2026-09-09">9 Sep 2026</time></span>
                 </p>
               </div>
             </details>
