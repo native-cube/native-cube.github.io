@@ -3,7 +3,7 @@
   "$schema": "./modules.schema.json",
   "namespace": "native-cube",
   "provider": "aws",
-  "synced_at": "2026-08-28T06:48:19Z",
+  "synced_at": "2026-09-09T08:48:48Z",
   "modules": [
     {
       "name": "eks",
@@ -166,14 +166,14 @@
       "summary": "Configure an AWS KMS key with an optional alias, key policy, rotation controls, multi-Region support, and resource tags.",
       "example_path": "examples/core",
       "metadata": {
-        "version": "2.0.0",
-        "published_at": "2026-06-18T15:18:44.429466Z",
+        "version": "2.1.0",
+        "published_at": "2026-09-03T08:23:20.595504Z",
         "terraform_requirement": ">= 1.9.0",
-        "provider_requirement": ">= 6.0",
+        "provider_requirement": ">= 6.62.0",
         "required_inputs": [],
         "archived": false,
         "deprecated": false,
-        "pushed_at": "2026-06-18T15:26:32Z",
+        "pushed_at": "2026-09-03T08:25:24Z",
         "license": "Apache-2.0"
       }
     },
@@ -303,6 +303,31 @@
         "archived": false,
         "deprecated": false,
         "pushed_at": "2026-08-27T12:14:24Z",
+        "license": null
+      }
+    },
+    {
+      "name": "documentdb",
+      "title": "Documentdb",
+      "category": "Networking",
+      "theme": "network",
+      "icon": "network",
+      "summary": "Terraform module supporting creation of AWS DocumentDB resources",
+      "metadata": {
+        "version": "1.1.0",
+        "published_at": "2026-09-09T08:38:09.814379Z",
+        "terraform_requirement": ">= 1.11.4",
+        "provider_requirement": ">= 6.63.0, < 7.0.0",
+        "required_inputs": [
+          {
+            "name": "name",
+            "type": "string",
+            "description": "Cluster name and default prefix for related resources."
+          }
+        ],
+        "archived": false,
+        "deprecated": false,
+        "pushed_at": "2026-09-09T08:38:06Z",
         "license": null
       }
     }
