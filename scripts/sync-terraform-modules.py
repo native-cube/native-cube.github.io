@@ -291,11 +291,31 @@ def live_catalogue(catalogue):
     namespace = updated["namespace"]
     provider = updated["provider"]
     repositories = github_repositories(namespace)
-    terraform_repositories = {
+    all_terraform_repositories = {
         repository["name"]: repository
         for repository in repositories
         if repository.get("name", "").startswith(f"terraform-{provider}-")
     }
+
+    stored_names = {module["name"] for module in updated["modules"]}
+    missing = sorted(
+        name
+        for name in stored_names
+        if f"terraform-{provider}-{name}" not in all_terraform_repositories
+    )
+    if missing:
+        raise SyncError("GitHub module catalogue drift: missing from GitHub: " + ", ".join(missing))
+
+    terraform_repositories = {
+        name: repository
+        for name, repository in all_terraform_repositories.items()
+        if not repository.get("archived")
+    }
+    updated["modules"] = [
+        module
+        for module in updated["modules"]
+        if f'terraform-{provider}-{module["name"]}' in terraform_repositories
+    ]
     stored_by_name = {module["name"]: module for module in updated["modules"]}
     for repository_name, repository in sorted(terraform_repositories.items()):
         name = module_name_from_repository(repository_name, provider)
@@ -304,13 +324,6 @@ def live_catalogue(catalogue):
             discovered["metadata"] = {}
             updated["modules"].append(discovered)
             stored_by_name[name] = discovered
-
-    missing = sorted(
-        name for name in stored_by_name
-        if f"terraform-{provider}-{name}" not in terraform_repositories
-    )
-    if missing:
-        raise SyncError("GitHub module catalogue drift: missing from GitHub: " + ", ".join(missing))
 
     for module in updated["modules"]:
         name = module["name"]
@@ -699,10 +712,17 @@ def check(catalogue):
     stored_names = {module["name"] for module in catalogue["modules"]}
     live_names = {module["name"] for module in live["modules"]}
     additions = sorted(live_names - stored_names)
+    removals = sorted(stored_names - live_names)
     if additions:
         raise SyncError(
             "new GitHub Terraform modules detected: "
             + ", ".join(additions)
+            + "; run scripts/sync-terraform-modules.py --write"
+        )
+    if removals:
+        raise SyncError(
+            "archived GitHub Terraform modules detected: "
+            + ", ".join(removals)
             + "; run scripts/sync-terraform-modules.py --write"
         )
     differences = metadata_drift(catalogue, live)

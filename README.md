@@ -145,14 +145,15 @@ python3 scripts/sync-terraform-modules.py --render
 python3 scripts/sync-terraform-modules.py --check
 ```
 
-The weekly `--write` job discovers public `terraform-aws-<name>` repositories in
-the `native-cube` GitHub organization, adds an initial catalogue entry from the
-repository description, and refreshes its Registry metadata. The workflow opens
-or updates a pull request containing the JSON configuration and generated HTML;
-maintainers can refine the generated presentation fields in that PR. Add
-`example_path` only when the repository contains a complete maintained example.
-GitHub Actions must be permitted to create pull requests in the repository or
-organization workflow settings.
+The weekly `--write` job discovers public, non-archived
+`terraform-aws-<name>` repositories in the `native-cube` GitHub organization,
+adds an initial catalogue entry from the repository description, and refreshes
+its Registry metadata. Repositories are removed from the catalogue when they
+are archived. The workflow opens or updates a pull request containing the JSON
+configuration and generated HTML; maintainers can refine the generated
+presentation fields in that PR. Add `example_path` only when the repository
+contains a complete maintained example. GitHub Actions must be permitted to
+create pull requests in the repository or organization workflow settings.
 
 To run an update manually, open the repository’s **Actions** tab, select
 **Terraform module catalogue**, choose **Run workflow**, enter an optional reason,
