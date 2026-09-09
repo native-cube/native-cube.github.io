@@ -3,7 +3,7 @@
   "$schema": "./modules.schema.json",
   "namespace": "native-cube",
   "provider": "aws",
-  "synced_at": "2026-09-09T08:48:48Z",
+  "synced_at": "2026-09-09T14:12:07Z",
   "modules": [
     {
       "name": "eks",
@@ -32,39 +32,8 @@
         ],
         "archived": false,
         "deprecated": false,
-        "pushed_at": "2026-08-17T10:05:21Z",
+        "pushed_at": "2026-09-09T13:58:30Z",
         "license": null
-      }
-    },
-    {
-      "name": "eks-auto",
-      "title": "EKS Auto Mode",
-      "category": "Kubernetes",
-      "theme": "auto",
-      "icon": "bolt",
-      "summary": "Build an EKS Auto Mode cluster with managed compute, load balancing, block storage, Pod Identity, and rendered Kubernetes resources.",
-      "example_path": "examples/minimal",
-      "metadata": {
-        "version": "1.0.0",
-        "published_at": "2026-07-22T08:18:13.94084Z",
-        "terraform_requirement": ">= 1.5.0",
-        "provider_requirement": ">= 6.0",
-        "required_inputs": [
-          {
-            "name": "name",
-            "type": "string",
-            "description": "Name prefix for module-created resources. Used as the EKS cluster name when cluster_name is null."
-          },
-          {
-            "name": "subnet_ids",
-            "type": "list(string)",
-            "description": "Subnet IDs for the EKS control plane and EKS Auto Mode managed compute. Use at least two subnets in different Availability Zones."
-          }
-        ],
-        "archived": false,
-        "deprecated": false,
-        "pushed_at": "2026-06-25T07:33:49Z",
-        "license": "Apache-2.0"
       }
     },
     {

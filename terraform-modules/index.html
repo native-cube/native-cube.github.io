@@ -70,8 +70,8 @@
           "@id": "https://native-cube.com/terraform-modules/#webpage",
           "url": "https://native-cube.com/terraform-modules/",
           "name": "Native Cube AWS Terraform Modules",
-          "description": "A catalogue of 11 public AWS Terraform modules maintained by Native Cube.",
-          "dateModified": "2026-09-09T08:48:48Z",
+          "description": "A catalogue of 10 public AWS Terraform modules maintained by Native Cube.",
+          "dateModified": "2026-09-09T14:12:07Z",
           "isPartOf": {
             "@id": "https://native-cube.com/#website"
           },
@@ -106,7 +106,7 @@
           "@type": "ItemList",
           "@id": "https://native-cube.com/terraform-modules/#modules",
           "name": "Native Cube Terraform modules",
-          "numberOfItems": 11,
+          "numberOfItems": 10,
           "itemListElement": [
             {
               "@type": "ListItem",
@@ -128,21 +128,6 @@
               "position": 2,
               "item": {
                 "@type": "SoftwareSourceCode",
-                "name": "EKS Auto Mode",
-                "description": "Build an EKS Auto Mode cluster with managed compute, load balancing, block storage, Pod Identity, and rendered Kubernetes resources.",
-                "url": "https://native-cube.com/terraform-modules/#eks-auto",
-                "sameAs": "https://registry.terraform.io/modules/native-cube/eks-auto/aws/latest",
-                "codeRepository": "https://github.com/native-cube/terraform-aws-eks-auto",
-                "version": "1.0.0",
-                "programmingLanguage": "HCL",
-                "runtimePlatform": "Amazon Web Services"
-              }
-            },
-            {
-              "@type": "ListItem",
-              "position": 3,
-              "item": {
-                "@type": "SoftwareSourceCode",
                 "name": "EKS Managed Node Group",
                 "description": "Provision an EKS managed node group with IAM, scaling controls, launch template options, labels, and Kubernetes taints.",
                 "url": "https://native-cube.com/terraform-modules/#eks-node-group",
@@ -155,7 +140,7 @@
             },
             {
               "@type": "ListItem",
-              "position": 4,
+              "position": 3,
               "item": {
                 "@type": "SoftwareSourceCode",
                 "name": "EKS Fargate Profile",
@@ -170,7 +155,7 @@
             },
             {
               "@type": "ListItem",
-              "position": 5,
+              "position": 4,
               "item": {
                 "@type": "SoftwareSourceCode",
                 "name": "KMS",
@@ -185,7 +170,7 @@
             },
             {
               "@type": "ListItem",
-              "position": 6,
+              "position": 5,
               "item": {
                 "@type": "SoftwareSourceCode",
                 "name": "VPC Flow Logs",
@@ -200,7 +185,7 @@
             },
             {
               "@type": "ListItem",
-              "position": 7,
+              "position": 6,
               "item": {
                 "@type": "SoftwareSourceCode",
                 "name": "MQ",
@@ -215,7 +200,7 @@
             },
             {
               "@type": "ListItem",
-              "position": 8,
+              "position": 7,
               "item": {
                 "@type": "SoftwareSourceCode",
                 "name": "RDS Aurora",
@@ -230,7 +215,7 @@
             },
             {
               "@type": "ListItem",
-              "position": 9,
+              "position": 8,
               "item": {
                 "@type": "SoftwareSourceCode",
                 "name": "Elasticache",
@@ -245,7 +230,7 @@
             },
             {
               "@type": "ListItem",
-              "position": 10,
+              "position": 9,
               "item": {
                 "@type": "SoftwareSourceCode",
                 "name": "S3",
@@ -260,7 +245,7 @@
             },
             {
               "@type": "ListItem",
-              "position": 11,
+              "position": 10,
               "item": {
                 "@type": "SoftwareSourceCode",
                 "name": "Documentdb",
@@ -334,7 +319,7 @@
         </div>
         <dl class="hero-summary" aria-label="Module catalogue summary">
           <div>
-            <dt><!-- MODULE_COUNT_START -->11<!-- MODULE_COUNT_END --></dt>
+            <dt><!-- MODULE_COUNT_START -->10<!-- MODULE_COUNT_END --></dt>
             <dd>Modules</dd>
           </div>
           <div>
@@ -514,135 +499,7 @@
                 </div>
                 <p class="module-trust">
                   <span>License not declared</span>
-                  <span>Source updated <time datetime="2026-08-17">17 Aug 2026</time></span>
-                </p>
-              </div>
-            </details>
-          </article>
-
-          <article
-            id="eks-auto"
-            class="module-card module-card--auto"
-            data-category="kubernetes"
-          >
-            <div class="card-topline">
-              <span class="module-icon" aria-hidden="true">
-                <svg viewBox="0 0 24 24">
-                  <path d="M13.5 2.8 6.8 13h5l-1.3 8.2L17.2 11h-5l1.3-8.2Z" />
-                </svg>
-              </span>
-              <span class="module-type">Kubernetes</span>
-              <span class="status-badge"><i></i> Active</span>
-            </div>
-            <h3><a class="module-permalink" href="#eks-auto">EKS Auto Mode<span aria-hidden="true">#</span></a></h3>
-            <p class="module-description">Build an EKS Auto Mode cluster with managed compute, load balancing, block storage, Pod Identity, and rendered Kubernetes resources.</p>
-            <dl class="module-overview" aria-label="EKS Auto Mode module overview">
-              <div>
-                <dt>Version</dt>
-                <dd>v1.0.0</dd>
-              </div>
-              <div>
-                <dt>Required</dt>
-                <dd>2 inputs</dd>
-              </div>
-            </dl>
-            <div class="source-address">
-              <code>native-cube/eks-auto/aws</code>
-              <button
-                type="button"
-                data-module-copy
-                data-module="eks-auto"
-                data-title="EKS Auto Mode"
-                data-source="native-cube/eks-auto/aws"
-                data-version="1.0.0"
-                data-required="2"
-                data-snippet="compact"
-                aria-label="Copy EKS Auto Mode module block"
-              >
-                <svg viewBox="0 0 24 24" aria-hidden="true">
-                  <rect x="8" y="8" width="10" height="11" rx="2" />
-                  <path d="M16 8V6a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h2" />
-                </svg>
-                <span>Copy</span>
-              </button>
-            </div>
-            <div class="card-actions">
-              <a class="registry-link" href="https://registry.terraform.io/modules/native-cube/eks-auto/aws/latest" target="_blank" rel="noreferrer">
-                Registry docs <span aria-hidden="true">↗</span>
-              </a>
-              <a href="https://github.com/native-cube/terraform-aws-eks-auto" target="_blank" rel="noreferrer">
-                GitHub <span aria-hidden="true">↗</span>
-              </a>
-            </div>
-            <details class="module-details">
-              <summary>
-                <span>Usage &amp; requirements</span>
-                <svg viewBox="0 0 20 20" aria-hidden="true"><path d="m5 7.5 5 5 5-5" /></svg>
-              </summary>
-              <div class="details-content">
-                <dl class="detail-facts">
-                  <div>
-                    <dt>Released</dt>
-                    <dd><time datetime="2026-07-22">22 Jul 2026</time></dd>
-                  </div>
-                  <div>
-                    <dt>Terraform</dt>
-                    <dd>&gt;= 1.5.0</dd>
-                  </div>
-                  <div>
-                    <dt>AWS provider</dt>
-                    <dd>&gt;= 6.0</dd>
-                  </div>
-                </dl>
-                <h4>Module block</h4>
-                <pre><code>module &quot;eks-auto&quot; {
-  source  = &quot;native-cube/eks-auto/aws&quot;
-  version = &quot;1.0.0&quot;
-
-  # insert the 2 required variables here
-}</code></pre>
-                <button
-                  class="starter-copy"
-                  type="button"
-                  data-module-copy
-                  data-module="eks-auto"
-                  data-title="EKS Auto Mode"
-                  data-source="native-cube/eks-auto/aws"
-                  data-version="1.0.0"
-                  data-required="2"
-                  data-inputs="[{&quot;name&quot;:&quot;name&quot;,&quot;type&quot;:&quot;string&quot;,&quot;description&quot;:&quot;Name prefix for module-created resources. Used as the EKS cluster name when cluster_name is null.&quot;},{&quot;name&quot;:&quot;subnet_ids&quot;,&quot;type&quot;:&quot;list(string)&quot;,&quot;description&quot;:&quot;Subnet IDs for the EKS control plane and EKS Auto Mode managed compute. Use at least two subnets in different Availability Zones.&quot;}]"
-                  data-snippet="starter"
-                  aria-label="Copy EKS Auto Mode starter block with typed required inputs"
-                ><span>Copy starter block with typed inputs</span></button>
-                <template data-starter-example>module &quot;eks-auto&quot; {
-  source  = &quot;native-cube/eks-auto/aws&quot;
-  version = &quot;1.0.0&quot;
-
-  # name       = &quot;replace-me&quot;
-  # subnet_ids = []
-}</template>
-                <h4>Required inputs</h4>
-                <ul class="required-inputs">
-                  <li>
-                    <code>name</code>
-                    <span>string</span>
-                  </li>
-                  <li>
-                    <code>subnet_ids</code>
-                    <span>list(string)</span>
-                  </li>
-                </ul>
-                <div class="detail-links">
-              <a href="https://github.com/native-cube/terraform-aws-eks-auto/tree/main/examples/minimal" target="_blank" rel="noreferrer">
-                Complete example <span aria-hidden="true">↗</span>
-              </a>
-                  <a href="https://github.com/native-cube/terraform-aws-eks-auto/releases" target="_blank" rel="noreferrer">
-                    Releases <span aria-hidden="true">↗</span>
-                  </a>
-                </div>
-                <p class="module-trust">
-                  <a href="https://github.com/native-cube/terraform-aws-eks-auto/blob/main/LICENSE" target="_blank" rel="noreferrer">Apache-2.0 license <span aria-hidden="true">↗</span></a>
-                  <span>Source updated <time datetime="2026-06-25">25 Jun 2026</time></span>
+                  <span>Source updated <time datetime="2026-09-09">9 Sep 2026</time></span>
                 </p>
               </div>
             </details>
