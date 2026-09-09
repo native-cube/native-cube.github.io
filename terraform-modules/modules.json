@@ -309,7 +309,7 @@
     {
       "name": "documentdb",
       "title": "Documentdb",
-      "category": "Networking",
+      "category": "Storage",
       "theme": "network",
       "icon": "network",
       "summary": "Terraform module supporting creation of AWS DocumentDB resources",
