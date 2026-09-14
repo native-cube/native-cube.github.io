@@ -3,7 +3,7 @@
   "$schema": "./modules.schema.json",
   "namespace": "native-cube",
   "provider": "aws",
-  "synced_at": "2026-09-09T14:12:07Z",
+  "synced_at": "2026-09-14T14:07:26Z",
   "modules": [
     {
       "name": "eks",
@@ -14,8 +14,8 @@
       "summary": "Create an Amazon EKS cluster with managed node groups, core add-ons, access controls, EKS capabilities, and optional Karpenter readiness.",
       "example_path": "examples/basic",
       "metadata": {
-        "version": "1.5.0",
-        "published_at": "2026-08-17T10:05:23.818052Z",
+        "version": "2.0.0",
+        "published_at": "2026-09-09T15:22:24.684474Z",
         "terraform_requirement": ">= 1.5.0",
         "provider_requirement": ">= 6.59.0",
         "required_inputs": [
@@ -252,7 +252,7 @@
         ],
         "archived": false,
         "deprecated": false,
-        "pushed_at": "2026-08-28T06:44:22Z",
+        "pushed_at": "2026-09-10T12:45:08Z",
         "license": null
       }
     },
