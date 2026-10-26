@@ -3,7 +3,7 @@
   "$schema": "./modules.schema.json",
   "namespace": "native-cube",
   "provider": "aws",
-  "synced_at": "2026-10-12T16:45:51Z",
+  "synced_at": "2026-10-26T14:20:05Z",
   "modules": [
     {
       "name": "eks",
