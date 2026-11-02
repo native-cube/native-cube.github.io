@@ -1,0 +1,20 @@
+name: Live redirect checks
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "43 8 * * 2"
+
+permissions:
+  contents: read
+
+jobs:
+  redirects:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v6
+
+      - name: Check deployed redirects and canonical destinations
+        run: python3 scripts/check-redirects.py

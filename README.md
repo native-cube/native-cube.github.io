@@ -197,6 +197,17 @@ Run the repository SEO audit locally:
 python3 scripts/seo-audit.py
 ```
 
+After publishing, check live redirect chains and final canonical destinations:
+
+```sh
+python3 scripts/check-redirects.py
+```
+
+The separate `Live redirect checks` workflow checks production weekly and on
+manual runs. The local SEO audit also checks internal canonical links and
+fragments, distinct titles and descriptions, structured-data URLs, and sitemap
+freshness for the generated Terraform catalogue.
+
 The `Lighthouse and SEO` GitHub Actions workflow audits every canonical page
 on pull requests and pushes to `main`. It enforces minimum performance,
 accessibility, best-practices, and SEO scores together with lab thresholds for
@@ -204,6 +215,6 @@ Largest Contentful Paint, cumulative layout shift, and total blocking time. It
 also validates HTML and checks internal fragments and external links.
 
 Google Search Console requires account-issued ownership verification. Follow
-[`SEARCH_CONSOLE.md`](./SEARCH_CONSOLE.md) to add the URL-prefix property,
-install the unmodified verification file, submit the sitemap, and request
-indexing for each canonical page.
+[`SEARCH_CONSOLE.md`](./SEARCH_CONSOLE.md) to verify a Domain property, retain
+the unmodified verification file, submit the sitemap, and distinguish expected
+redirect exclusions from actual redirect errors.
