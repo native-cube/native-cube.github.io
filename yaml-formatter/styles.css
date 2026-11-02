@@ -21,6 +21,7 @@
   --editor: #0d2038;
   --editor-line: #21374f;
   --editor-ink: #e8eef7;
+  --select-arrow: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='m1 1 5 5 5-5' fill='none' stroke='%23637187' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
   --shadow: 0 20px 56px rgba(23, 55, 94, 0.1);
 }
 
@@ -419,12 +420,26 @@ main {
 .select-field select {
   width: 100%;
   min-height: 42px;
-  padding: 8px 34px 8px 11px;
-  background: white;
+  padding: 8px 40px 8px 11px;
+  -webkit-appearance: none;
+  appearance: none;
+  background-color: white;
+  background-image: var(--select-arrow);
+  background-position: right 14px center;
+  background-repeat: no-repeat;
+  background-size: 12px 8px;
   border: 1px solid var(--line-strong);
   border-radius: 9px;
   font-size: 12px;
   font-weight: 750;
+}
+
+@media (forced-colors: active) {
+  .select-field select {
+    -webkit-appearance: auto;
+    appearance: auto;
+    background-image: none;
+  }
 }
 
 .check-field {

@@ -37,6 +37,7 @@ invented or replaced with a placeholder.
    - `https://native-cube.com/kubernetes-rbac-explorer/`
    - `https://native-cube.com/visual-subnet-calculator/`
    - `https://native-cube.com/yaml-formatter/`
+   - `https://native-cube.com/json-diff/`
    - `https://native-cube.com/crontab/`
    - `https://native-cube.com/terraform-modules/`
 4. Do not submit `/json-formatter/`; it is a redirect alias.
@@ -172,6 +173,35 @@ titles, static examples, incoming links from related tools, and agreement betwee
 workflow. Shared schedules remain URL fragments and retain the same clean
 canonical, following Google's
 [canonicalization guidance](https://developers.google.com/search/docs/crawling-indexing/consolidate-duplicate-urls).
+
+## Check and measure the JSON and YAML diff page
+
+After publishing `/json-diff/`:
+
+1. Inspect `https://native-cube.com/json-diff/` with **Test live URL**. Confirm an
+   indexable HTTP 200 response and the exact canonical URL with its trailing
+   slash. Submit that canonical URL for indexing after the live checks pass.
+2. Check the original HTML and the rendered page. The heading, comparison
+   instructions, JSON and YAML examples, FAQ, related tools, and ordinary
+   navigation links are static HTML. Only comparison and highlighting require
+   JavaScript. Confirm that the live editor still works on desktop and mobile.
+3. Validate the linked `WebPage`, `WebApplication`, `BreadcrumbList`, `Person`,
+   and `ImageObject` entities with the
+   [Schema Markup Validator](https://validator.schema.org/) and
+   [Rich Results Test](https://search.google.com/test/rich-results). Keep the
+   feature list accurate. The page does not publish ratings or reviews; do not
+   invent them to remove rich-result eligibility warnings.
+4. In the Search Console performance report, filter to the exact page URL.
+   Monitor impressions, clicks, CTR, and position for JSON diff, JSON compare,
+   YAML diff, compare YAML files, and Kubernetes manifest comparison queries.
+   These are query groups to investigate, not verified search volumes or
+   ranking predictions. Check actual indexing and selected canonical in Search
+   Console; passing local checks cannot establish either.
+5. Keep `WebPage.dateModified` and sitemap `lastmod` aligned when content changes.
+   The local SEO audit enforces their agreement, page and social metadata,
+   schema relationships, static examples, and incoming links from the homepage
+   and formatter. Run `python3 scripts/check-redirects.py` after deployment to
+   verify the published redirects and canonical destinations.
 
 ## Keep sitemap dates accurate
 

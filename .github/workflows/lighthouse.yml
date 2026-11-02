@@ -27,6 +27,9 @@ jobs:
       - name: Test cron parsing and schedule evaluation
         run: node --test scripts/crontab.test.cjs
 
+      - name: Test JSON and YAML comparison
+        run: node --test scripts/json-diff.test.cjs
+
       - name: Validate HTML
         uses: Cyb3r-Jak3/html5validator-action@v7.2.0
         with:
@@ -51,6 +54,7 @@ jobs:
             kubernetes-rbac-explorer/index.html
             visual-subnet-calculator/index.html
             yaml-formatter/index.html
+            json-diff/index.html
             crontab/index.html
             terraform-modules/index.html
           fail: true
@@ -76,5 +80,6 @@ jobs:
             http://127.0.0.1:8080/kubernetes-rbac-explorer/
             http://127.0.0.1:8080/visual-subnet-calculator/
             http://127.0.0.1:8080/yaml-formatter/
+            http://127.0.0.1:8080/json-diff/
             http://127.0.0.1:8080/crontab/
             http://127.0.0.1:8080/terraform-modules/

@@ -179,16 +179,18 @@ def structured_entities(data):
     return [data]
 
 
-def assert_crontab_seo(page, entities):
-    canonical = f"{SITE_URL}/crontab/"
+def assert_tool_seo(page, entities, slug):
+    canonical = f"{SITE_URL}/{slug}/"
     by_type = {entity.get("@type"): entity for entity in entities if isinstance(entity.get("@type"), str)}
     required = {"WebPage", "WebApplication", "BreadcrumbList", "Person", "ImageObject"}
     missing = required - by_type.keys()
     if missing:
-        fail(f"crontab JSON-LD is missing entities: {', '.join(sorted(missing))}")
+        fail(f"{slug} JSON-LD is missing entities: {', '.join(sorted(missing))}")
+    if any(sum(entity.get("@type") == entity_type for entity in entities) != 1 for entity_type in required):
+        fail(f"{slug} must declare exactly one entity of each required type")
     identities = [by_type[entity_type].get("@id", "") for entity_type in required]
     if any(not identity.startswith(f"{canonical}#") for identity in identities) or len(set(identities)) != len(identities):
-        fail("crontab structured-data entities must have unique page-scoped IDs")
+        fail(f"{slug} structured-data entities must have unique page-scoped IDs")
     webpage = by_type["WebPage"]
     application = by_type["WebApplication"]
     breadcrumb = by_type["BreadcrumbList"]
@@ -196,11 +198,11 @@ def assert_crontab_seo(page, entities):
     social_image = by_type["ImageObject"]
     title = "".join(page.title).strip()
     if not (webpage.get("name") == page.meta["og:title"] == page.meta["twitter:title"] == title):
-        fail("crontab page, social, and structured-data titles must agree")
+        fail(f"{slug} page, social, and structured-data titles must agree")
     if webpage.get("description") != page.meta["description"]:
-        fail("crontab structured-data description must match its meta description")
+        fail(f"{slug} structured-data description must match its meta description")
     if webpage.get("inLanguage", "").lower() != page.language.lower():
-        fail("crontab structured-data language must match the HTML language")
+        fail(f"{slug} structured-data language must match the HTML language")
     for relationship, entity in [
         ("mainEntity", application),
         ("breadcrumb", breadcrumb),
@@ -208,28 +210,32 @@ def assert_crontab_seo(page, entities):
         ("primaryImageOfPage", social_image),
     ]:
         if webpage.get(relationship, {}).get("@id") != entity.get("@id"):
-            fail(f"crontab WebPage {relationship} must reference its actual entity")
+            fail(f"{slug} WebPage {relationship} must reference its actual entity")
     if application.get("mainEntityOfPage", {}).get("@id") != webpage.get("@id"):
-        fail("crontab application must reference its WebPage")
+        fail(f"{slug} application must reference its WebPage")
     if webpage.get("url") != canonical or application.get("url") != canonical:
-        fail("crontab structured-data URLs must use the clean canonical")
+        fail(f"{slug} structured-data URLs must use the clean canonical")
     offer = application.get("offers", {})
     if application.get("isAccessibleForFree") is not True or offer.get("price") not in (0, "0"):
-        fail("crontab application must accurately describe its free access")
+        fail(f"{slug} application must accurately describe its free access")
     if social_image.get("url") != page.meta["og:image"] or application.get("image") != social_image.get("url"):
-        fail("crontab structured data must use the actual social image")
+        fail(f"{slug} structured data must use the actual social image")
     if (social_image.get("width"), social_image.get("height")) != (1200, 630):
-        fail("crontab structured-data social image dimensions are incorrect")
+        fail(f"{slug} structured-data social image dimensions are incorrect")
     if author.get("url") not in page.links:
-        fail("crontab structured-data author must have a visible attribution link")
+        fail(f"{slug} structured-data author must have a visible attribution link")
     expected_items = [
         {"@type": "ListItem", "position": 1, "name": "Native Cube", "item": f"{SITE_URL}/"},
         {"@type": "ListItem", "position": 2, "name": application.get("name"), "item": canonical},
     ]
     if breadcrumb.get("itemListElement") != expected_items:
-        fail("crontab breadcrumb must identify the home page and current tool")
+        fail(f"{slug} breadcrumb must identify the home page and current tool")
     if not {"Breadcrumb", "On this page"}.issubset(page.navigation_labels):
-        fail("crontab must retain its visible breadcrumb and section navigation")
+        fail(f"{slug} must retain its visible breadcrumb and section navigation")
+
+
+def assert_crontab_seo(page, entities):
+    assert_tool_seo(page, entities, "crontab")
     h1 = next((text.lower() for tag, text in page.headings if tag == "h1"), "")
     if "crontab" not in h1 or "generator" not in h1:
         fail("crontab must have a descriptive generator heading in the original HTML")
@@ -237,6 +243,36 @@ def assert_crontab_seo(page, entities):
         fail("crontab must retain its static guide, examples, scheduler reference, and FAQ")
     if not {"*/5 * * * *", "0 * * * *", "0 0 * * *"}.issubset(page.examples):
         fail("crontab must provide static examples for five-minute, hourly, and daily schedules")
+
+
+def assert_json_diff_seo(page, entities):
+    assert_tool_seo(page, entities, "json-diff")
+    by_type = {entity.get("@type"): entity for entity in entities if isinstance(entity.get("@type"), str)}
+    application = by_type["WebApplication"]
+    webpage = by_type["WebPage"]
+    h1 = next((text for tag, text in page.headings if tag == "h1"), "")
+    if h1 != application.get("name"):
+        fail("json-diff application name must match its visible main heading")
+    if not (application.get("description") == page.meta["description"] == page.meta["og:description"] == page.meta["twitter:description"]):
+        fail("json-diff application, page, and social descriptions must agree")
+    if not all(term in "".join(page.title).lower() for term in ["json", "yaml", "diff"]):
+        fail("json-diff title must describe both supported formats and comparison")
+    if application.get("author", {}).get("@id") != by_type["Person"].get("@id"):
+        fail("json-diff application must identify its actual author")
+    if not isinstance(application.get("featureList"), list) or len(application["featureList"]) < 4:
+        fail("json-diff application must describe its comparison features")
+    if not webpage.get("dateModified"):
+        fail("json-diff must declare its actual modification date")
+    required_ids = {"comparison-workspace", "comparison-results", "guide-title", "examples-title", "faq-title", "related-tools-title"}
+    if not required_ids.issubset(page.ids):
+        fail("json-diff must retain its static guide, examples, FAQ, and related tools")
+    if not {"json-original", "json-updated", "yaml-original", "yaml-updated"}.issubset(page.examples):
+        fail("json-diff must retain original and updated examples in both formats")
+    canonical = f"{SITE_URL}/json-diff/"
+    targets = {urljoin(canonical, link) for link in page.links}
+    expected = {f"{SITE_URL}/{slug}/" for slug in ["yaml-formatter", "k8s-manifest-builder", "helm-chart-builder"]}
+    if not expected.issubset(targets):
+        fail("json-diff must retain links to related configuration tools")
 
 
 parsed_pages = {}
@@ -308,6 +344,8 @@ for path, canonical in PAGES.items():
 
 crontab_url = PAGES[Path("crontab/index.html")]
 assert_crontab_seo(parsed_pages[crontab_url], page_entities[crontab_url])
+json_diff_url = PAGES[Path("json-diff/index.html")]
+assert_json_diff_seo(parsed_pages[json_diff_url], page_entities[json_diff_url])
 
 for canonical, page in parsed_pages.items():
     if len(page.ids) != len(set(page.ids)):
@@ -365,10 +403,10 @@ for url_node in sitemap.findall(".//sitemap:url", namespace):
         catalogue = json.loads((ROOT / "terraform-modules/modules.json").read_text())
         if modified_date < date.fromisoformat(catalogue["synced_at"].split("T")[0]):
             fail("Terraform sitemap lastmod predates the published catalogue")
-    if location == crontab_url:
+    if location in {crontab_url, json_diff_url}:
         webpage = next(entity for entity in page_entities[location] if entity.get("@type") == "WebPage")
         if webpage.get("dateModified") != last_modified:
-            fail("crontab sitemap lastmod must match its WebPage dateModified")
+            fail(f"{location} sitemap lastmod must match its WebPage dateModified")
 
 robots = (ROOT / "robots.txt").read_text()
 if f"Sitemap: {SITE_URL}/sitemap.xml" not in robots:
@@ -404,6 +442,13 @@ for source in ["yaml-formatter/index.html", "k8s-manifest-builder/index.html"]:
     targets = {urljoin(PAGES[Path(source)], link) for link in page.links}
     if crontab_url not in targets:
         fail(f"{source} must retain its related cron scheduling link")
+
+
+for source in ["index.html", "yaml-formatter/index.html"]:
+    page = parsed_pages[PAGES[Path(source)]]
+    targets = {urljoin(PAGES[Path(source)], link) for link in page.links}
+    if json_diff_url not in targets:
+        fail(f"{source} must retain its link to JSON and YAML comparison")
 
 print(
     "SEO audit passed: "
