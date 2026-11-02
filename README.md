@@ -91,6 +91,50 @@ The shorter `/json-formatter/` alias redirects to this tool.
 YAML parsing and serialization use the vendored `js-yaml` 4.1.0 browser
 bundle, distributed under the MIT license included with the tool.
 
+## JSON & YAML Diff Checker
+
+Open `/json-diff/` to compare JSON, JSON-compatible YAML, or one of each entirely
+in the browser. Structural comparison ignores object key order, formatting, and
+YAML comments, and reports added, removed, and changed values by field path.
+Arrays can compare by position, as unordered multisets, or by a unique direct
+object field. Kubernetes mode matches multi-document YAML or JSON resource
+arrays by API version, kind, namespace, and name.
+
+The page reuses the formatter's header/footer markup, theme stylesheet, and
+vendored MIT-licensed js-yaml parser. Inputs are never uploaded or persisted.
+File import, individual format selection, formatting, swapping, filtering,
+copying, and complete JSON report downloads work locally. Editing inputs or
+comparison options invalidates the previous report immediately. Live comparison
+refreshes after a short typing pause and can be switched off for manual reviews.
+Editable source views highlight the affected lines and values, with matching
+gutter markers, live counts, Previous/Next navigation, and Alt+Up/Down shortcuts.
+Source locations follow JSON/YAML structure, keyed arrays, aliases, and reordered
+Kubernetes resources. Only the visible editor lines are rendered in the highlight
+layer so long documents remain practical to navigate.
+Results offer side-by-side and unified layouts, syntax coloring, inline value
+highlights, and readable Kubernetes resource labels alongside the original
+report paths.
+
+Each input is limited to 1 MiB, 80 nesting levels, and 50,000 expanded values;
+expanded text is capped at 4 MiB and reports at 2,000 changes. Duplicate mapping
+keys, recursive aliases, non-finite numbers, and unsafe integers are rejected.
+Numbers otherwise use JavaScript precision. Match paths are descriptive report
+labels, not JSON Patch operations. Large value previews are shortened; exports
+retain complete values.
+
+Run the comparison regression tests:
+
+```sh
+node --test scripts/json-diff.test.cjs
+```
+
+The page includes indexable JSON and YAML examples, instructions, FAQs, section
+navigation, related-tool links, and connected page/application/author/image
+structured data. `python3 scripts/seo-audit.py` checks metadata agreement,
+canonical URLs, schema relationships, examples, incoming links, and sitemap
+dates. Follow the JSON diff section in [`SEARCH_CONSOLE.md`](./SEARCH_CONSOLE.md)
+after deployment to inspect indexing and measure search performance.
+
 ## Kubernetes RBAC Explorer
 
 Open `/kubernetes-rbac-explorer/` to turn Kubernetes Roles and bindings into
@@ -226,6 +270,7 @@ python3 -m http.server 8080
 - `http://localhost:8080/kubernetes-rbac-explorer/`
 - `http://localhost:8080/visual-subnet-calculator/`
 - `http://localhost:8080/yaml-formatter/`
+- `http://localhost:8080/json-diff/`
 - `http://localhost:8080/crontab/`
 - `http://localhost:8080/terraform-modules/`
 

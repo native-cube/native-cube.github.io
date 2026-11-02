@@ -1,0 +1,535 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta
+      name="robots"
+      content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1"
+    />
+    <meta
+      name="description"
+      content="Compare JSON and YAML online with live highlighting, array matching, and Kubernetes manifest diffs. Free, private, and entirely in your browser."
+    />
+    <meta name="author" content="Marcin Cuber" />
+    <meta name="theme-color" content="#f2f5f9" />
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Native Cube" />
+    <meta
+      property="og:title"
+      content="JSON Diff Checker – Compare JSON &amp; YAML Online | Native Cube"
+    />
+    <meta
+      property="og:description"
+      content="Compare JSON and YAML online with live highlighting, array matching, and Kubernetes manifest diffs. Free, private, and entirely in your browser."
+    />
+    <meta property="og:url" content="https://native-cube.com/json-diff/" />
+    <meta property="og:image" content="https://native-cube.com/assets/social/json-diff.png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="Native Cube JSON and YAML Diff Checker" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta
+      name="twitter:title"
+      content="JSON Diff Checker – Compare JSON &amp; YAML Online | Native Cube"
+    />
+    <meta
+      name="twitter:description"
+      content="Compare JSON and YAML online with live highlighting, array matching, and Kubernetes manifest diffs. Free, private, and entirely in your browser."
+    />
+    <meta name="twitter:image" content="https://native-cube.com/assets/social/json-diff.png" />
+    <meta name="twitter:image:alt" content="Native Cube JSON and YAML Diff Checker" />
+    <link rel="canonical" href="https://native-cube.com/json-diff/" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <title>JSON Diff Checker – Compare JSON &amp; YAML Online | Native Cube</title>
+    <link rel="stylesheet" href="../yaml-formatter/styles.css?v=3" />
+    <link rel="stylesheet" href="./styles.css?v=4" />
+    <script src="../yaml-formatter/vendor/js-yaml.min.js?v=4.1.0" defer></script>
+    <script src="./diff.js?v=1" defer></script>
+    <script src="./source-map.js?v=1" defer></script>
+    <script src="./app.js?v=4" defer></script>
+    <script type="application/ld+json">
+      [
+        {
+          "@context": "https://schema.org",
+          "@type": "WebPage",
+          "@id": "https://native-cube.com/json-diff/#webpage",
+          "url": "https://native-cube.com/json-diff/",
+          "name": "JSON Diff Checker – Compare JSON & YAML Online | Native Cube",
+          "description": "Compare JSON and YAML online with live highlighting, array matching, and Kubernetes manifest diffs. Free, private, and entirely in your browser.",
+          "inLanguage": "en",
+          "isPartOf": {
+            "@id": "https://native-cube.com/#website"
+          },
+          "mainEntity": {
+            "@id": "https://native-cube.com/json-diff/#application"
+          },
+          "breadcrumb": {
+            "@id": "https://native-cube.com/json-diff/#breadcrumb"
+          },
+          "author": {
+            "@id": "https://native-cube.com/json-diff/#author"
+          },
+          "primaryImageOfPage": {
+            "@id": "https://native-cube.com/json-diff/#image"
+          },
+          "dateModified": "2026-11-02"
+        },
+        {
+          "@context": "https://schema.org",
+          "@type": "WebApplication",
+          "@id": "https://native-cube.com/json-diff/#application",
+          "url": "https://native-cube.com/json-diff/",
+          "name": "JSON & YAML Diff Checker",
+          "description": "Compare JSON and YAML online with live highlighting, array matching, and Kubernetes manifest diffs. Free, private, and entirely in your browser.",
+          "applicationCategory": "DeveloperApplication",
+          "operatingSystem": "Any",
+          "browserRequirements": "Requires JavaScript",
+          "isAccessibleForFree": true,
+          "offers": {
+            "@type": "Offer",
+            "price": "0",
+            "priceCurrency": "USD"
+          },
+          "image": "https://native-cube.com/assets/social/json-diff.png",
+          "mainEntityOfPage": {
+            "@id": "https://native-cube.com/json-diff/#webpage"
+          },
+          "isPartOf": {
+            "@id": "https://native-cube.com/#website"
+          },
+          "author": {
+            "@id": "https://native-cube.com/json-diff/#author"
+          },
+          "featureList": [
+            "Compare JSON and JSON-compatible YAML in the browser",
+            "Live source highlights and keyboard change navigation",
+            "Compare arrays by position, without order, or by a unique field",
+            "Match Kubernetes manifests across reordered documents",
+            "Side-by-side and unified change reports",
+            "Copy or download complete JSON comparison reports"
+          ]
+        },
+        {
+          "@context": "https://schema.org",
+          "@type": "BreadcrumbList",
+          "@id": "https://native-cube.com/json-diff/#breadcrumb",
+          "itemListElement": [
+            {
+              "@type": "ListItem",
+              "position": 1,
+              "name": "Native Cube",
+              "item": "https://native-cube.com/"
+            },
+            {
+              "@type": "ListItem",
+              "position": 2,
+              "name": "JSON & YAML Diff Checker",
+              "item": "https://native-cube.com/json-diff/"
+            }
+          ]
+        },
+        {
+          "@context": "https://schema.org",
+          "@type": "Person",
+          "@id": "https://native-cube.com/json-diff/#author",
+          "name": "Marcin Cuber",
+          "url": "https://marcincuber.github.io/"
+        },
+        {
+          "@context": "https://schema.org",
+          "@type": "ImageObject",
+          "@id": "https://native-cube.com/json-diff/#image",
+          "url": "https://native-cube.com/assets/social/json-diff.png",
+          "width": 1200,
+          "height": 630,
+          "caption": "Native Cube JSON and YAML Diff Checker"
+        }
+      ]
+    </script>
+  </head>
+  <body>
+    <a class="skip-link" href="#before-editor">Skip to comparison</a>
+    <header class="site-header">
+      <a class="brand" href="../" aria-label="Native Cube Cloud-native toolbox home">
+        <svg class="brand-logo" viewBox="0 0 40 40" aria-hidden="true">
+          <path d="M20 2.5 36 11.3 20 20 4 11.3 20 2.5Z" fill="#2563eb" />
+          <path d="M4 11.3 20 20v17.5L4 28.7V11.3Z" fill="#14243b" />
+          <path d="M36 11.3 20 20v17.5l16-8.8V11.3Z" fill="#22a77a" />
+          <path d="m20 8 6 3.3-6 3.2-6-3.2L20 8Z" fill="#f2f5f9" opacity=".95" />
+        </svg>
+        <span class="brand-copy">
+          <span class="brand-name">Native <strong>Cube</strong></span>
+          <span class="brand-tagline">Cloud-native toolbox</span>
+        </span>
+      </a>
+      <div class="header-actions">
+        <div class="product-lockup" role="group" aria-label="JSON and YAML Diff Checker">
+          <span>Compare configuration</span>
+          <strong>JSON &amp; YAML Diff Checker</strong>
+        </div>
+        <a
+          class="community-link"
+          href="https://paypal.me/marcincube"
+          target="_blank"
+          rel="noreferrer"
+          aria-label="Join the journey: contribute to my daughter’s higher education and future open-source tools (opens in a new tab)"
+          ><span aria-hidden="true">♥</span> Join the journey
+          <span aria-hidden="true">↗</span></a
+        >
+      </div>
+    </header>
+
+    <p class="community-note">
+      <strong>Two journeys, one shared future.</strong> Your contribution helps my
+      daughter pursue higher education and helps me continue creating thoughtful,
+      accessible open-source tools—free for everyone to use.
+    </p>
+
+    <main>
+      <nav class="breadcrumbs" aria-label="Breadcrumb">
+        <a href="../">Native Cube</a><span aria-hidden="true">/</span><span aria-current="page">JSON &amp; YAML Diff Checker</span>
+      </nav>
+      <section class="hero">
+        <div>
+          <p class="eyebrow">Compare JSON / YAML online</p>
+          <h1>JSON &amp; YAML<br /><em>Diff Checker</em></h1>
+        </div>
+        <p class="hero-copy">
+          Compare JSON or YAML files with live highlights for added, removed,
+          and changed values. Match arrays and Kubernetes resources, then export
+          a clear report. Your data stays in your browser.
+        </p>
+      </section>
+
+      <nav class="page-links" aria-label="On this page">
+        <a href="#comparison-workspace">Compare files</a>
+        <a href="#comparison-results">Review changes</a>
+        <a href="#guide-title">How to compare</a>
+        <a href="#examples-title">JSON &amp; YAML examples</a>
+        <a href="#faq-title">Common questions</a>
+      </nav>
+
+      <section id="comparison-workspace" class="tool-shell" aria-labelledby="tool-title">
+        <div class="tool-heading">
+          <div><span class="step-label">01 / Compare</span><h2 id="tool-title">Spot the difference.</h2></div>
+          <div class="privacy-badge"><span aria-hidden="true">◆</span> Browser only · No uploads</div>
+        </div>
+        <noscript><p class="validation-panel">Enable JavaScript to compare documents locally in your browser.</p></noscript>
+        <div class="workspace-toolbar">
+          <label class="select-field"><span>Try an example</span><select id="example-select"><option value="json">JSON API response</option><option value="yaml">YAML configuration</option><option value="kubernetes">Kubernetes manifests</option></select></label>
+          <button id="sample-button" class="example-button" type="button">Load example</button>
+          <div class="toolbar-actions"><button id="swap-button" class="text-button" type="button">Swap sides ⇄</button><button id="clear-button" class="text-button" type="button">Clear both</button></div>
+        </div>
+        <div class="live-review-bar">
+          <div class="live-change-counts" aria-label="Live comparison summary">
+            <strong id="live-total">Ready to compare</strong>
+            <span class="live-count added" id="live-added">+ 0 added</span>
+            <span class="live-count removed" id="live-removed">− 0 removed</span>
+            <span class="live-count changed" id="live-changed">~ 0 changed</span>
+          </div>
+          <label class="live-toggle"><input id="live-compare" type="checkbox" checked /><span>Compare as I type</span></label>
+        </div>
+        <div class="change-navigation" role="group" aria-label="Navigate differences">
+          <div class="change-navigation-actions">
+            <button id="previous-change" class="navigation-button" type="button" aria-label="Previous change" aria-keyshortcuts="Alt+ArrowUp" disabled><span aria-hidden="true">↑</span><span>Previous</span></button>
+            <span id="change-position" class="change-position" role="status" aria-live="polite">No changes</span>
+            <button id="next-change" class="navigation-button" type="button" aria-label="Next change" aria-keyshortcuts="Alt+ArrowDown" disabled><span>Next</span><span aria-hidden="true">↓</span></button>
+          </div>
+          <code id="active-change" class="active-change">Differences are highlighted directly in your inputs.</code>
+          <button id="review-change" class="text-button" type="button" disabled>Review details ↓</button>
+        </div>
+        <p id="source-highlight-help" class="source-highlight-help">Highlighted lines show changed fields; brighter text marks the edited values. Use Next / Previous or <kbd>Alt</kbd> + <kbd>↓</kbd> / <kbd>↑</kbd> to jump between changes. Input stays editable.</p>
+        <div class="editor-grid">
+
+          <section class="editor-card" aria-labelledby="before-title">
+            <div class="editor-heading">
+              <div><span class="editor-index">01</span><h3 id="before-title">Original</h3></div>
+              <div class="editor-actions">
+                <label class="editor-format"><span class="sr-only">Original input format</span><select id="before-format"><option value="auto">Auto detect</option><option value="json">JSON</option><option value="yaml">YAML</option></select></label>
+                <button class="text-button" type="button" data-open="before">Open file</button>
+                <input id="before-file" class="sr-only" type="file" accept=".json,.yaml,.yml,.txt,application/json,text/yaml,text/plain" aria-label="Open original file" tabindex="-1" />
+                <button class="text-button" type="button" data-format="before">Format</button>
+              </div>
+            </div>
+            <div class="editor-frame">
+              <pre id="before-lines" class="line-numbers" aria-hidden="true">1</pre>
+              <div class="editor-surface">
+                <pre id="before-backdrop" class="source-backdrop" aria-hidden="true"><code id="before-highlight"></code></pre>
+                <textarea id="before-editor" aria-label="Original JSON or YAML" aria-describedby="before-error source-highlight-help" spellcheck="false" autocomplete="off" autocapitalize="off" placeholder="Paste original JSON or YAML here…"></textarea>
+              </div>
+            </div>
+            <div class="editor-meta"><span id="before-stats">Ready for input</span><span>Tab: indent · Shift+Tab: leave</span></div>
+            <p id="before-error" class="input-error" hidden></p>
+          </section>
+
+          <section class="editor-card" aria-labelledby="after-title">
+            <div class="editor-heading">
+              <div><span class="editor-index">02</span><h3 id="after-title">Updated</h3></div>
+              <div class="editor-actions">
+                <label class="editor-format"><span class="sr-only">Updated input format</span><select id="after-format"><option value="auto">Auto detect</option><option value="json">JSON</option><option value="yaml">YAML</option></select></label>
+                <button class="text-button" type="button" data-open="after">Open file</button>
+                <input id="after-file" class="sr-only" type="file" accept=".json,.yaml,.yml,.txt,application/json,text/yaml,text/plain" aria-label="Open updated file" tabindex="-1" />
+                <button class="text-button" type="button" data-format="after">Format</button>
+              </div>
+            </div>
+            <div class="editor-frame">
+              <pre id="after-lines" class="line-numbers" aria-hidden="true">1</pre>
+              <div class="editor-surface">
+                <pre id="after-backdrop" class="source-backdrop" aria-hidden="true"><code id="after-highlight"></code></pre>
+                <textarea id="after-editor" aria-label="Updated JSON or YAML" aria-describedby="after-error source-highlight-help" spellcheck="false" autocomplete="off" autocapitalize="off" placeholder="Paste updated JSON or YAML here…"></textarea>
+              </div>
+            </div>
+            <div class="editor-meta"><span id="after-stats">Ready for input</span><span>Tab: indent · Shift+Tab: leave</span></div>
+            <p id="after-error" class="input-error" hidden></p>
+          </section>
+
+        </div>
+        <div class="settings-bar diff-settings" role="group" aria-label="Comparison options">
+          <label class="select-field"><span>Array comparison</span><select id="array-mode"><option value="ordered">Compare by position</option><option value="unordered">Ignore array order</option><option value="keyed">Match objects by field</option></select></label>
+          <label class="select-field" id="array-key-field" hidden><span>Object matching field</span><input id="array-key" type="text" value="name" placeholder="name or id" autocomplete="off" /></label>
+          <label class="select-field"><span>Document matching</span><select id="document-mode"><option value="position">Document position</option><option value="kubernetes">Kubernetes identity</option></select></label>
+          <button id="compare-button" class="primary-button" type="button">Compare documents <span aria-hidden="true">→</span></button>
+        </div>
+        <p class="workspace-note" id="mode-description">Object key order, indentation, and YAML comments are ignored. Array positions matter. Ctrl/⌘ + Enter compares.</p>
+        <div id="validation-panel" class="validation-panel is-idle" role="status" aria-live="polite">
+          <span class="status-icon" aria-hidden="true"></span>
+          <div><strong id="validation-title">Ready to compare</strong><p id="validation-message">Paste two documents, then choose Compare documents.</p></div>
+        </div>
+      </section>
+
+      <section id="comparison-results" class="results-section" aria-labelledby="results-title">
+        <div class="results-heading">
+          <div><span class="step-label">02 / Review</span><h2 id="results-title">A clear view of what changed.</h2></div>
+          <div class="report-actions"><button id="copy-button" class="example-button" type="button" disabled>Copy report</button><button id="download-button" class="example-button" type="button" disabled>Download JSON</button></div>
+        </div>
+        <div class="summary-grid" aria-label="Change counts">
+          <div class="summary-item"><span id="total-count">—</span><strong>Total changes</strong></div>
+          <div class="summary-item added"><span id="added-count">—</span><strong>+ Added</strong></div>
+          <div class="summary-item removed"><span id="removed-count">—</span><strong>− Removed</strong></div>
+          <div class="summary-item changed"><span id="changed-count">—</span><strong>~ Changed</strong></div>
+        </div>
+        <div class="result-toolbar">
+          <label class="select-field"><span>Show changes</span><select id="change-filter"><option value="all">All changes</option><option value="added">Added</option><option value="removed">Removed</option><option value="changed">Changed</option></select></label>
+          <label class="select-field path-search"><span>Find a field path</span><input id="path-filter" type="search" placeholder="e.g. /service/ports" autocomplete="off" /></label>
+          <fieldset class="segmented-field result-view">
+            <legend>Result layout</legend>
+            <div class="segmented-control">
+              <label><input type="radio" name="result-view" value="split" checked /><span>Side by side</span></label>
+              <label><input type="radio" name="result-view" value="unified" /><span>Unified</span></label>
+            </div>
+          </fieldset>
+          <span id="visible-count" class="workspace-note" role="status" aria-live="polite"></span>
+        </div>
+        <p class="workspace-note">Review <strong>− original</strong> and <strong>+ updated</strong> values. Highlighted text pinpoints edits. Reports include all changes; paths use <a href="#path-guide">JSON Pointer escaping</a>.</p>
+        <div id="diff-viewer" class="diff-viewer" data-view="split">
+          <div class="diff-viewer-heading"><span>Field changes</span><span class="diff-legend"><span>− Original</span><span>+ Updated</span></span></div>
+          <div class="diff-column-headings" aria-hidden="true"><span>Original <small>Before your changes</small></span><span>Updated <small>After your changes</small></span></div>
+          <div id="diff-results" class="diff-results"><p class="empty-state">Your comparison will appear here.</p></div>
+        </div>
+        <button id="more-button" class="example-button" type="button" hidden>Show 100 more changes</button>
+      </section>
+
+      <section class="guide" aria-labelledby="guide-title">
+        <div><span class="step-label">03 / How to compare</span><h2 id="guide-title">Compare data.<br />Understand the change.</h2></div>
+        <div class="guide-grid">
+          <article><span>01</span><h3>Paste or open two files</h3><p>Place your original JSON or YAML on the left and the updated version on the right. Compare JSON to YAML directly. Choose the format explicitly for ambiguous YAML flow syntax or scalar values.</p></article>
+          <article><span>02</span><h3>Choose how items match</h3><p>Compare arrays by position, ignore their order, or match object arrays by a unique field such as <code>id</code> or <code>name</code>. Kubernetes identity matches resources across reordered YAML documents.</p></article>
+          <article><span>03</span><h3>Review and export</h3><p>See differences highlighted in your inputs as you type. Jump between changes with Next / Previous, or review the detailed results below. Copy or download the complete JSON report. Nothing is uploaded or saved between visits.</p></article>
+        </div>
+      </section>
+
+      <section class="examples-section" aria-labelledby="examples-title">
+        <div class="content-heading">
+          <div>
+            <span class="step-label">04 / Worked examples</span>
+            <h2 id="examples-title">JSON and YAML diff examples.</h2>
+          </div>
+          <p>
+            Compare an API response or a configuration file. Each pair below
+            produces two changes; object key order and YAML comments do not
+            create extra differences.
+          </p>
+        </div>
+        <div class="example-grid">
+          <article data-example="json-original">
+            <div class="example-heading">
+              <div><span>Original JSON</span><h3>Before the API update</h3></div>
+            </div>
+            <pre><code>{
+  "service": "catalog-api",
+  "replicas": 2
+}</code></pre>
+          </article>
+          <article data-example="json-updated">
+            <div class="example-heading">
+              <div><span>Updated JSON</span><h3>A changed value and a new field</h3></div>
+            </div>
+            <pre><code>{
+  "replicas": 3,
+  "service": "catalog-api",
+  "debug": false
+}</code></pre>
+          </article>
+          <p class="example-outcome"><strong>JSON result:</strong> <code>/replicas</code> changes from 2 to 3, and <code>/debug</code> is added. Moving <code>service</code> creates no change.</p>
+          <article data-example="yaml-original">
+            <div class="example-heading">
+              <div><span>Original YAML</span><h3>Before the configuration update</h3></div>
+            </div>
+            <pre><code># Current release
+service:
+  name: catalog-api
+  replicas: 2
+  image: catalog:1.0</code></pre>
+          </article>
+          <article data-example="yaml-updated">
+            <div class="example-heading">
+              <div><span>Updated YAML</span><h3>Compare values across reordered keys</h3></div>
+            </div>
+            <pre><code># Next release
+service:
+  image: catalog:1.1
+  name: catalog-api
+  replicas: 3</code></pre>
+          </article>
+          <p class="example-outcome"><strong>YAML result:</strong> <code>/service/image</code> and <code>/service/replicas</code> change. The comment and key order are ignored.</p>
+        </div>
+      </section>
+
+      <section class="troubleshooting faq-section" aria-labelledby="faq-title">
+        <div class="content-heading"><div><span class="step-label">05 / Common questions</span><h2 id="faq-title">JSON and YAML comparison, explained.</h2></div><p>Use this checker for API responses, Helm values, Docker Compose configuration, and Kubernetes manifest reviews.</p></div>
+        <details open>
+          <summary>What is a structural JSON diff?</summary>
+          <p>
+            A structural diff compares parsed values and reports the fields that were added,
+            removed, or changed. It ignores formatting and object key order. A number such as
+            <code>3</code> differs from the string <code>"3"</code>; a missing field differs from a
+            field containing <code>null</code>. Added and removed objects count as one change at
+            their parent path.
+          </p>
+        </details>
+        <details>
+          <summary>Can I compare as I type and use keyboard shortcuts?</summary>
+          <p>
+            Yes. “Compare as I type” refreshes the highlights after a short pause. Switch it off for
+            manual comparison. Press <kbd>Ctrl</kbd>/<kbd>⌘</kbd> + <kbd>Enter</kbd> to compare, and
+            <kbd>Alt</kbd> + <kbd>↓</kbd>/<kbd>↑</kbd> to move between changes. Tab inserts two
+            spaces in an editor; Shift+Tab leaves it. “Show in inputs” links each detailed result
+            back to its source.
+          </p>
+        </details>
+        <details>
+          <summary>Can I compare YAML files or JSON against YAML?</summary>
+          <p>
+            Yes. Each input has its own format selector. JSON-compatible YAML values, anchors,
+            aliases, and multi-document streams are supported. YAML comments, quoting style, and
+            whitespace are not compared. Dates remain strings; custom tags and recursive aliases are
+            rejected. When an alias inherits a changed value, its reference is highlighted alongside
+            the anchor. For a formatting-only review, use your editor’s text diff. Use the <a
+            href="../yaml-formatter/">YAML &amp; JSON Formatter</a> to convert or validate a single
+            document.
+          </p>
+        </details>
+        <details>
+          <summary>How does ignoring array order work?</summary>
+          <p>
+            Items match by their complete value, including nested arrays compared without order.
+            Duplicate counts are preserved: <code>[1, 1]</code> differs from <code>[1]</code>.
+            Editing an item produces a removal and an addition in this mode. To track field edits
+            within object arrays, choose “Match objects by field” and enter a unique direct field
+            name. Object arrays require that field on every item; primitive and mixed arrays still
+            compare by position.
+          </p>
+        </details>
+        <details>
+          <summary>How do I compare Kubernetes YAML manifests?</summary>
+          <p>
+            Choose Kubernetes identity to match resources by <code>apiVersion</code>,
+            <code>kind</code>, <code>metadata.namespace</code>, and <code>metadata.name</code>.
+            Paste multi-document YAML or a JSON array of resources. Duplicate identities are
+            rejected. Missing namespaces remain distinct from an explicit <code>default</code>
+            namespace, and server-generated fields are included. This is an offline file comparison,
+            not a live cluster diff. You can create drafts with the <a
+            href="../k8s-manifest-builder/">Kubernetes Manifest Builder</a> or <a
+            href="../helm-chart-builder/">Helm Chart Builder</a>.
+          </p>
+        </details>
+        <details id="path-guide">
+          <summary>How do I read the field paths?</summary>
+          <p>
+            Normal paths use JSON Pointer notation: <code>/service/ports/0</code> identifies the
+            first port. A literal <code>~</code> in a key is escaped as <code>~0</code>, and a slash
+            as <code>~1</code>. An empty path denotes the root value. Multi-document comparisons add
+            a <code>/documents/0</code> prefix. Matched arrays and Kubernetes resources use
+            descriptive identity segments instead of indexes; these paths are report labels and
+            cannot be used as JSON Patch operations.
+          </p>
+        </details>
+        <details>
+          <summary>Is this JSON diff checker private and free?</summary>
+          <p>
+            Yes. Parsing, comparison, file reading, and report creation happen locally. Your input
+            is not uploaded, stored, or placed in a URL. No account is needed. Copying or
+            downloading a report explicitly creates a copy containing the changed values, so review
+            it before sharing.
+          </p>
+        </details>
+        <details>
+          <summary>Are there file size or number precision limits?</summary>
+          <p>
+            Each input is limited to 1 MiB, 80 nesting levels, and 50,000 expanded values. Expanded
+            text is capped at 4 MiB, and reports support up to 2,000 changes. Numbers use JavaScript
+            precision; non-finite values and unsafe integers are rejected. Quote large identifiers
+            or high-precision decimal values to compare them exactly. Duplicate JSON or YAML mapping
+            keys are rejected to avoid hiding overwritten values.
+          </p>
+        </details>
+      </section>
+
+      <section class="related-tools" aria-labelledby="related-tools-title">
+        <div class="content-heading">
+          <div>
+            <span class="step-label">06 / Related tools</span>
+            <h2 id="related-tools-title">Keep working with your configuration.</h2>
+          </div>
+          <p>Format a document, draft a workload, or create a Helm chart before comparing versions.</p>
+        </div>
+        <div class="related-grid">
+          <a href="../yaml-formatter/">
+            <span>Format &amp; validate</span>
+            <h3>YAML &amp; JSON Formatter <b aria-hidden="true">↗</b></h3>
+            <p>Validate syntax, format nested data, and convert between YAML and JSON.</p>
+          </a>
+          <a href="../k8s-manifest-builder/">
+            <span>Build a workload</span>
+            <h3>Kubernetes Manifest Builder <b aria-hidden="true">↗</b></h3>
+            <p>Draft Deployment, StatefulSet, or DaemonSet configuration and export YAML or JSON.</p>
+          </a>
+          <a href="../helm-chart-builder/">
+            <span>Create a chart</span>
+            <h3>Helm Chart Builder <b aria-hidden="true">↗</b></h3>
+            <p>Generate a reusable chart with documented values and a manifest preview.</p>
+          </a>
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <span>Native Cube · Built for the terminal-adjacent parts of your day.</span>
+      <div class="footer-links">
+        <a
+          class="author-credit"
+          href="https://marcincuber.github.io/"
+          target="_blank"
+          rel="author me noreferrer"
+        >
+          <span>Created by</span>
+          <strong>Marcin Cuber</strong>
+          <b aria-hidden="true">↗</b>
+        </a>
+        <a href="../">Explore all tools <span aria-hidden="true">↗</span></a>
+      </div>
+    </footer>
+    <div id="toast" class="toast" role="status" aria-live="polite"></div>
+  </body>
+</html>
