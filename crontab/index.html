@@ -1,0 +1,408 @@
+<!doctype html>
+<html lang="en-GB">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta
+      name="robots"
+      content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1"
+    />
+    <meta
+      name="description"
+      content="Build and test cron expressions online. Preview next runs with time zones and DST, then export crontab, Kubernetes, GitHub Actions, or AWS Scheduler config."
+    />
+    <meta name="author" content="Marcin Cuber" />
+    <meta name="theme-color" content="#f2f5f9" />
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Native Cube" />
+    <meta property="og:locale" content="en_GB" />
+    <meta
+      property="og:title"
+      content="Crontab Generator &amp; Cron Expression Tester | Native Cube"
+    />
+    <meta
+      property="og:description"
+      content="Create cron schedules, explain their syntax, and preview upcoming runs across time zones. Free browser tool for Linux, Kubernetes, GitHub Actions, and AWS."
+    />
+    <meta
+      property="og:url"
+      content="https://native-cube.com/crontab/"
+    />
+    <meta
+      property="og:image"
+      content="https://native-cube.com/assets/social/crontab.png"
+    />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:type" content="image/png" />
+    <meta
+      property="og:image:alt"
+      content="Native Cube Crontab Generator: build, explain, preview, and export cron schedules"
+    />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta
+      name="twitter:title"
+      content="Crontab Generator &amp; Cron Expression Tester | Native Cube"
+    />
+    <meta
+      name="twitter:description"
+      content="Create cron schedules, explain their syntax, and preview upcoming runs across time zones. Free browser tool for Linux, Kubernetes, GitHub Actions, and AWS."
+    />
+    <meta
+      name="twitter:image"
+      content="https://native-cube.com/assets/social/crontab.png"
+    />
+    <meta
+      name="twitter:image:alt"
+      content="Native Cube Crontab Generator: build, explain, preview, and export cron schedules"
+    />
+    <link
+      rel="canonical"
+      href="https://native-cube.com/crontab/"
+    />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <title>Crontab Generator &amp; Cron Expression Tester | Native Cube</title>
+    <link rel="stylesheet" href="./styles.css?v=4" />
+    <script src="./cron.js?v=1" defer></script>
+    <script src="./app.js?v=3" defer></script>
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@graph": [
+          {
+            "@type": "WebPage",
+            "@id": "https://native-cube.com/crontab/#webpage",
+            "url": "https://native-cube.com/crontab/",
+            "name": "Crontab Generator & Cron Expression Tester | Native Cube",
+            "description": "Build and test cron expressions online. Preview next runs with time zones and DST, then export crontab, Kubernetes, GitHub Actions, or AWS Scheduler config.",
+            "inLanguage": "en-GB",
+            "dateModified": "2026-11-02",
+            "isPartOf": {
+              "@id": "https://native-cube.com/#website"
+            },
+            "mainEntity": {
+              "@id": "https://native-cube.com/crontab/#application"
+            },
+            "breadcrumb": {
+              "@id": "https://native-cube.com/crontab/#breadcrumb"
+            },
+            "primaryImageOfPage": {
+              "@id": "https://native-cube.com/crontab/#primary-image"
+            },
+            "author": {
+              "@id": "https://native-cube.com/crontab/#author"
+            }
+          },
+          {
+            "@type": "WebApplication",
+            "@id": "https://native-cube.com/crontab/#application",
+            "url": "https://native-cube.com/crontab/",
+            "name": "Cron Schedule Builder",
+            "alternateName": [
+              "Crontab Generator",
+              "Cron Expression Tester"
+            ],
+            "description": "Build and test cron expressions online. Preview next runs with time zones and DST, then export crontab, Kubernetes, GitHub Actions, or AWS Scheduler config.",
+            "image": "https://native-cube.com/assets/social/crontab.png",
+            "inLanguage": "en-GB",
+            "applicationCategory": "DeveloperApplication",
+            "operatingSystem": "Any",
+            "isAccessibleForFree": true,
+            "browserRequirements": "Requires JavaScript and a browser with Intl time-zone support",
+            "offers": {
+              "@type": "Offer",
+              "price": "0",
+              "priceCurrency": "USD",
+              "url": "https://native-cube.com/crontab/"
+            },
+            "featureList": [
+              "Visual cron expression builder and syntax validation",
+              "Plain-English schedule explanations",
+              "Time-zone and daylight-saving previews with UTC comparison",
+              "Linux crontab, Kubernetes CronJob, GitHub Actions, and AWS EventBridge Scheduler exports",
+              "CSV downloads and shareable schedules"
+            ],
+            "softwareHelp": "https://native-cube.com/crontab/#syntax-title",
+            "creator": {
+              "@id": "https://native-cube.com/crontab/#author"
+            },
+            "mainEntityOfPage": {
+              "@id": "https://native-cube.com/crontab/#webpage"
+            }
+          },
+          {
+            "@type": "BreadcrumbList",
+            "@id": "https://native-cube.com/crontab/#breadcrumb",
+            "itemListElement": [
+              {
+                "@type": "ListItem",
+                "position": 1,
+                "name": "Native Cube",
+                "item": "https://native-cube.com/"
+              },
+              {
+                "@type": "ListItem",
+                "position": 2,
+                "name": "Cron Schedule Builder",
+                "item": "https://native-cube.com/crontab/"
+              }
+            ]
+          },
+          {
+            "@type": "Person",
+            "@id": "https://native-cube.com/crontab/#author",
+            "name": "Marcin Cuber",
+            "url": "https://marcincuber.github.io/"
+          },
+          {
+            "@type": "ImageObject",
+            "@id": "https://native-cube.com/crontab/#primary-image",
+            "url": "https://native-cube.com/assets/social/crontab.png",
+            "contentUrl": "https://native-cube.com/assets/social/crontab.png",
+            "width": 1200,
+            "height": 630,
+            "caption": "Native Cube Crontab Generator: build, explain, preview, and export cron schedules"
+          }
+        ]
+      }
+    </script>
+  </head>
+  <body>
+    <a class="skip-link" href="#expression">Skip to schedule editor</a>
+
+    <header class="site-header">
+      <a class="brand" href="../" aria-label="Native Cube, Cloud-native toolbox, home">
+        <svg class="brand-logo" viewBox="0 0 40 40" aria-hidden="true">
+          <path d="M20 2.5 36 11.3 20 20 4 11.3 20 2.5Z" fill="#2563eb" />
+          <path d="M4 11.3 20 20v17.5L4 28.7V11.3Z" fill="#14243b" />
+          <path d="M36 11.3 20 20v17.5l16-8.8V11.3Z" fill="#22a77a" />
+          <path d="m20 8 6 3.3-6 3.2-6-3.2L20 8Z" fill="#f2f5f9" opacity=".95" />
+        </svg>
+        <span class="brand-copy">
+          <span class="brand-name">Native <strong>Cube</strong></span>
+          <span class="brand-tagline">Cloud-native toolbox</span>
+        </span>
+      </a>
+      <div class="header-actions">
+        <div class="product-lockup" role="group" aria-label="Cron Schedule Builder">
+          <span>Scheduling</span>
+          <strong>Cron Schedule Builder</strong>
+        </div>
+        <a
+          class="community-link"
+          href="https://paypal.me/marcincube"
+          target="_blank"
+          rel="noreferrer"
+          aria-label="Join the journey: contribute to my daughter’s higher education and future open-source tools (opens in a new tab)"
+          ><span aria-hidden="true">♥</span> Join the journey
+          <span aria-hidden="true">↗</span></a
+        >
+      </div>
+    </header>
+
+    <p class="community-note">
+      <strong>Two journeys, one shared future.</strong> Your contribution helps my
+      daughter pursue higher education and helps me continue creating thoughtful,
+      accessible open-source tools—free for everyone to use.
+    </p>
+
+    <main>
+      <nav class="breadcrumbs" aria-label="Breadcrumb">
+        <ol>
+          <li><a href="../">Native Cube</a></li>
+          <li aria-current="page">Cron Schedule Builder</li>
+        </ol>
+      </nav>
+      <section class="hero">
+        <div>
+          <p class="eyebrow">Cron Schedule Builder</p>
+          <h1>Crontab generator.<br /><em>Know when it runs.</em></h1>
+        </div>
+        <p class="hero-copy">Create and test cron expressions for Linux, Kubernetes CronJobs, GitHub Actions, and AWS EventBridge Scheduler. Preview next runs in your time zone, check daylight-saving changes, and export the configuration. Free, with no signup.</p>
+      </section>
+
+      <nav class="page-navigation" aria-label="On this page">
+        <a href="#tool-title">Build a schedule</a>
+        <a href="#how-to-title">How to use</a>
+        <a href="#syntax-title">Crontab syntax</a>
+        <a href="#examples-title">Cron examples</a>
+        <a href="#platform-title">Scheduler differences</a>
+        <a href="#faq-title">FAQ</a>
+      </nav>
+      <noscript><p class="notice">Enable JavaScript to build schedules and preview runs. The syntax guide and examples below are available without it.</p></noscript>
+      <section class="tool-shell" aria-labelledby="tool-title">
+        <div class="tool-heading">
+          <div><span class="step-label">01 / Compose your schedule</span><h2 id="tool-title">Cron Schedule Builder</h2></div>
+          <span class="privacy-badge"><span aria-hidden="true">◆</span> Browser only · No signup</span>
+        </div>
+        <form id="schedule-form" novalidate>
+          <div class="settings-grid">
+            <label class="field">Scheduler
+              <select id="scheduler"><option value="linux">Linux cron</option><option value="kubernetes">Kubernetes CronJob</option><option value="github">GitHub Actions</option><option value="aws">AWS EventBridge Scheduler</option></select>
+            </label>
+            <div>
+              <label class="field" for="timezone">Schedule time zone</label>
+              <div class="zone-control">
+                <div class="timezone-picker" id="timezone-picker">
+                  <div class="timezone-input">
+                    <input id="timezone" value="UTC" role="combobox" aria-autocomplete="list" aria-haspopup="listbox" aria-expanded="false" aria-controls="timezone-options" autocomplete="off" autocapitalize="off" spellcheck="false" aria-describedby="zone-help validation-message" maxlength="100" />
+                    <button id="timezone-toggle" type="button" tabindex="-1" aria-label="Show time zones" aria-haspopup="listbox" aria-expanded="false" aria-controls="timezone-options">
+                      <svg viewBox="0 0 12 8" width="12" height="8" aria-hidden="true"><path d="m1 1 5 5 5-5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" /></svg>
+                    </button>
+                  </div>
+                  <ul id="timezone-options" class="timezone-options" role="listbox" aria-label="Time zones" hidden></ul>
+                  <p id="timezone-status" class="visually-hidden" role="status" aria-live="polite"></p>
+                </div>
+                <button id="local-zone" type="button" class="quiet-button">Use mine</button>
+              </div>
+              <p class="field-help" id="zone-help">Type an IANA time zone or choose from the list. Use ↑/↓ to browse and Enter to select.</p>
+            </div>
+          </div>
+          <div class="expression-panel">
+            <div class="expression-label"><label for="expression">Cron expression</label><span id="field-count">5 fields · minute precision</span></div>
+            <div class="expression-row"><input id="expression" value="30 9 * * MON-FRI" maxlength="512" spellcheck="false" autocomplete="off" autocapitalize="off" aria-describedby="expression-help validation-message" /><button class="primary-button" type="submit">Preview schedule <span aria-hidden="true">→</span></button></div>
+            <p id="expression-help">Minute · Hour · Day of month · Month · Day of week</p>
+          </div>
+          <div class="preset-row" role="group" aria-label="Schedule presets">
+            <span>Start with</span>
+            <button type="button" data-preset="frequent">Every 15 minutes</button>
+            <button type="button" data-preset="daily">Daily at midnight</button>
+            <button type="button" data-preset="weekdays">Weekdays at 09:30</button>
+            <button type="button" data-preset="weekly">Monday at 08:00</button>
+            <button type="button" data-preset="monthly">First of the month</button>
+          </div>
+          <details class="builder" id="builder">
+            <summary>Build visually <span>Choose values for each cron field</span></summary>
+            <p class="field-help">Edit any field below to update the expression. Lists, ranges, and steps work here too.</p>
+            <div id="builder-fields" class="builder-grid"></div>
+          </details>
+          <div id="validation-panel" class="validation-panel" role="status" aria-live="polite" aria-atomic="true"><strong id="validation-title">Ready to preview</strong><p id="validation-message">Edit the expression or choose a preset.</p></div>
+        </form>
+        <section class="explanation" aria-labelledby="explanation-title">
+          <span class="step-label" id="explanation-title">In plain English</span>
+          <h3 id="explanation">Weekdays at 09:30</h3>
+          <p id="schedule-note">Times use the selected schedule time zone.</p>
+          <div class="field-breakdown" id="field-breakdown" role="group" aria-label="Cron field breakdown"></div>
+        </section>
+        <div class="results-grid">
+          <section class="result-card" aria-labelledby="runs-title">
+            <div class="card-heading"><div><span class="step-label">02 / Look ahead</span><h3 id="runs-title">Next scheduled times</h3></div><button type="button" id="download-runs" class="quiet-button" disabled>Export CSV</button></div>
+            <div class="preview-settings">
+              <label class="field">After (UTC)<input id="preview-after" type="datetime-local" min="1970-01-01T00:00" max="2191-12-31T23:59" aria-describedby="preview-help" /></label>
+              <label class="field">Show
+                <select id="run-count">
+                  <option value="1">1 run</option>
+                  <option value="2" selected>2 runs</option>
+                  <option value="5">5 runs</option>
+                  <option value="10">10 runs</option>
+                  <option value="25">25 runs</option>
+                  <option value="50">50 runs</option>
+                </select>
+              </label>
+              <button type="button" id="use-now" class="quiet-button">Use now</button>
+            </div>
+            <p class="field-help" id="preview-help">Strictly after this instant. Preview searches up to eight calendar years.</p>
+            <div class="table-scroll" role="region" aria-label="Upcoming run times" tabindex="0">
+              <table><caption id="runs-caption">Schedule time zone and UTC, side by side</caption><thead><tr><th scope="col">#</th><th scope="col" id="zone-column">Schedule time (UTC)</th><th scope="col">UTC</th><th scope="col">Gap</th></tr></thead><tbody id="runs-body"></tbody></table>
+            </div>
+            <p id="runs-summary" class="field-help">Upcoming matches appear here.</p>
+          </section>
+          <section class="result-card export-card" aria-labelledby="export-title">
+            <div class="card-heading"><div><span class="step-label">03 / Take it with you</span><h3 id="export-title">Scheduler configuration</h3></div><span class="file-label" id="file-label">crontab</span></div>
+            <pre class="code-preview"><code id="config-output">Your configuration will appear here.</code></pre>
+            <div class="action-row"><button type="button" id="copy-config" class="primary-button" disabled>Copy config</button><button type="button" id="download-config" class="quiet-button" disabled>Download</button></div>
+            <div class="action-row secondary-actions"><button type="button" id="copy-expression" class="quiet-button" disabled>Copy expression</button><button type="button" id="share-schedule" class="quiet-button" disabled>Copy share link</button></div>
+            <p class="field-help" id="export-note">Replace the example command with your task. CRON_TZ requires a compatible cron implementation.</p>
+            <p class="field-help">Sharing includes the expression, scheduler, time zone, and preview start in the URL fragment. Nothing is uploaded.</p>
+          </section>
+        </div>
+        <p class="preview-disclaimer">This is a schedule preview, not a job runner. Actual execution also depends on the scheduler, its time-zone database, load, retry rules, and concurrency settings.</p>
+      </section>
+
+      <section class="content-section" aria-labelledby="how-to-title">
+        <div class="content-heading">
+          <div><span class="step-label">04 / Quick start</span><h2 id="how-to-title">How to build and test a cron expression</h2></div>
+          <p>Use the cron expression tester to check syntax and scheduled times before adding a task to your server, cluster, or workflow.</p>
+        </div>
+        <ol class="quick-start-grid">
+          <li><h3>Choose the scheduler and time zone</h3><p>Select Linux cron, Kubernetes, GitHub Actions, or AWS Scheduler. Set the IANA time zone used by your scheduler, or choose UTC for a schedule without daylight-saving changes.</p></li>
+          <li><h3>Enter or generate an expression</h3><p>Paste your schedule, choose a preset, or open the visual builder. Read the plain-English explanation and field breakdown; correct any validation errors before continuing.</p></li>
+          <li><h3>Check the next runs and export</h3><p>Two runs appear by default. Show up to 50, compare local times with UTC, and move the preview start to test clock changes. Copy the configuration or download it, then replace the example task with your own.</p></li>
+        </ol>
+      </section>
+
+      <section class="content-section" aria-labelledby="syntax-title">
+        <div class="content-heading"><div><span class="step-label">05 / Know the syntax</span><h2 id="syntax-title">Crontab syntax: the five cron fields</h2></div><p>A standard cron expression has minute, hour, day-of-month, month, and day-of-week fields. It describes wall-clock matches, not a fixed elapsed interval. AWS Scheduler adds a sixth field for the year.</p></div>
+        <div class="reference-grid">
+          <article class="reference-card"><h3>Read from left to right</h3><pre class="syntax-diagram"><code>┌────── minute       0–59
+│ ┌──── hour         0–23
+│ │ ┌── day of month 1–31
+│ │ │ ┌ month        1–12
+│ │ │ │ ┌ day of week
+* * * * *</code></pre><p>Sunday is 0 in standard cron (Linux also accepts 7). AWS uses 1 for Sunday through 7 for Saturday. Names such as <code>MON</code> and <code>JAN</code> reduce ambiguity.</p></article>
+          <article class="reference-card"><h3>Use the building blocks</h3><dl class="operator-list"><div><dt><code>*</code></dt><dd>Every value in a field</dd></div><div><dt><code>,</code></dt><dd>A list: <code>0,15,30,45</code></dd></div><div><dt><code>-</code></dt><dd>An inclusive range: <code>MON-FRI</code></dd></div><div><dt><code>/</code></dt><dd>A step: <code>*/15</code> or <code>9-17/2</code></dd></div><div><dt><code>?</code></dt><dd>AWS: leave one day field unspecified. Kubernetes: wildcard.</dd></div></dl><p><code>*/35</code> in minutes means minute 0 and 35 of each hour. The gaps alternate between 35 and 25 minutes.</p></article>
+          <article class="reference-card"><h3>Handle calendar boundaries</h3><p>With standard cron, restricting both day fields matches either one. <code>0 9 1 * MON</code> runs on the first of the month <em>and</em> every Monday.</p><p>AWS requires exactly one day field to be <code>?</code>. It also supports <code>L</code> (last), <code>W</code> (nearest weekday), and <code>#</code> (nth weekday), for example <code>MON#2</code>.</p><p>A day that does not exist never matches. Use <code>L</code> in AWS mode for the last day of every month.</p></article>
+        </div>
+      </section>
+
+      <section class="content-section" aria-labelledby="examples-title">
+        <div class="content-heading"><div><span class="step-label">06 / Common schedules</span><h2 id="examples-title">Cron examples: minutes, hours, days, and weeks</h2></div><p>These crontab examples use five-field Linux syntax and run in the selected time zone. Open one to inspect or adapt it in the builder.</p></div>
+        <div class="examples-grid">
+          <button type="button" class="example-card" data-example="*/5 * * * *"><code>*/5 * * * *</code><strong>Every five minutes</strong><span>Health checks and frequent tasks <b aria-hidden="true">↗</b></span></button>
+          <button type="button" class="example-card" data-example="*/15 * * * *"><code>*/15 * * * *</code><strong>Every fifteen minutes</strong><span>At minutes 0, 15, 30, and 45 of each hour <b aria-hidden="true">↗</b></span></button>
+          <button type="button" class="example-card" data-example="0 * * * *"><code>0 * * * *</code><strong>Every hour</strong><span>At minute 0 of each hour <b aria-hidden="true">↗</b></span></button>
+          <button type="button" class="example-card" data-example="0 */6 * * *"><code>0 */6 * * *</code><strong>Every six hours</strong><span>At 00:00, 06:00, 12:00, and 18:00 <b aria-hidden="true">↗</b></span></button>
+          <button type="button" class="example-card" data-example="0 0 * * *"><code>0 0 * * *</code><strong>Every day at midnight</strong><span>At 00:00 in the selected time zone <b aria-hidden="true">↗</b></span></button>
+          <button type="button" class="example-card" data-example="30 9 * * MON-FRI"><code>30 9 * * MON-FRI</code><strong>Weekday mornings</strong><span>Monday to Friday at 09:30 <b aria-hidden="true">↗</b></span></button>
+          <button type="button" class="example-card" data-example="0 2 * * SUN"><code>0 2 * * SUN</code><strong>Sunday at 02:00</strong><span>Check daylight-saving transitions <b aria-hidden="true">↗</b></span></button>
+          <button type="button" class="example-card" data-example="0 0 1 * *"><code>0 0 1 * *</code><strong>Monthly at midnight</strong><span>The first calendar day of each month <b aria-hidden="true">↗</b></span></button>
+          <button type="button" class="example-card" data-example="0 12 29 FEB *"><code>0 12 29 FEB *</code><strong>A leap-day check</strong><span>February 29 at noon, when it exists <b aria-hidden="true">↗</b></span></button>
+        </div>
+      </section>
+
+      <section class="content-section" aria-labelledby="platform-title">
+        <div class="content-heading"><div><span class="step-label">07 / Scheduler differences</span><h2 id="platform-title">Linux, Kubernetes, GitHub Actions, and AWS cron syntax</h2></div><p>Choose the platform before validating an expression. These notes explain what the preview models and what to verify before deployment.</p></div>
+        <div class="reference-grid platform-grid">
+          <article class="reference-card"><h3>Linux cron</h3><p>Five fields; Sunday 0 or 7; common <code>@hourly</code> through <code>@yearly</code> macros. This preview models Cronie-style wall-clock matching: missing times are skipped and repeated times appear twice.</p><p><code>CRON_TZ</code> is implementation-specific. Other cron daemons may compensate for clock changes differently.</p><a href="https://man7.org/linux/man-pages/man5/crontab.5.html">Read the crontab manual ↗</a></article>
+          <article class="reference-card"><h3>Kubernetes CronJob</h3><p>Five fields; Sunday 0–6; macros and <code>?</code> wildcards. Exports include <code>spec.timeZone</code>, stable since Kubernetes 1.27, and <code>concurrencyPolicy: Forbid</code>.</p><p>The preview skips missing local times and lists repeated ones. Job creation is approximate; deadlines and concurrency can change actual runs.</p><a href="https://kubernetes.io/docs/concepts/workloads/controllers/cron-jobs/">Read the CronJob documentation ↗</a></article>
+          <article class="reference-card"><h3>GitHub Actions</h3><p>Five fields; Sunday 0–6; no macros. UTC is the default; the generated workflow sets <code>timezone</code> explicitly. The minimum supported interval is five minutes.</p><p>Missing local times advance to the first valid time. For repeated times this preview uses the first occurrence; GitHub does not document that edge case. Workflows can be delayed or dropped under load.</p><a href="https://docs.github.com/en/actions/reference/workflows-and-actions/events-that-trigger-workflows#schedule">Read the schedule event documentation ↗</a></article>
+          <article class="reference-card"><h3>AWS EventBridge Scheduler</h3><p>Six fields with year 1970–2199. Exactly one day field must be <code>?</code>. Supports last-day <code>L</code>, nearest-weekday <code>nW</code>, last-weekday <code>nL</code>, and nth-weekday <code>n#1</code> through <code>n#5</code>.</p><p>Missing times are skipped; repeated times run once. Exports are schedule properties; add your name, target, and execution role separately. EventBridge rules are a different service.</p><a href="https://docs.aws.amazon.com/scheduler/latest/UserGuide/schedule-types.html">Read the Scheduler documentation ↗</a></article>
+        </div>
+      </section>
+
+      <section class="content-section faq-section" aria-labelledby="faq-title">
+        <div><span class="step-label">08 / Frequently asked questions</span><h2 id="faq-title">Crontab and cron expression FAQ</h2></div>
+        <div class="faq-list">
+          <details><summary>What is the difference between cron and crontab?</summary><p>Cron is a scheduler that runs tasks at matching times. A crontab is a table of those schedules and their commands. In a standard user crontab, each job line starts with five schedule fields followed by the command. Paste only the schedule fields into this tester.</p></details>
+          <details><summary>How do I schedule a cron job every five minutes?</summary><p>Use <code>*/5 * * * *</code> in a five-field crontab. It matches minutes 0, 5, 10, and so on through 55 of every hour. In AWS Scheduler mode, use <code>cron(*/5 * * * ? *)</code>. Choose the scheduler first because the field counts and day rules differ.</p></details>
+          <details><summary>How do I run a cron job every day at midnight?</summary><p>Use <code>0 0 * * *</code> for Linux, Kubernetes, or GitHub Actions. Midnight is evaluated in the scheduler's configured time zone. In AWS Scheduler mode, use <code>cron(0 0 * * ? *)</code>. Preview the next runs to check the UTC equivalents.</p></details>
+          <details><summary>How do I test a cron expression?</summary><p>Choose a scheduler, paste the expression, and select the time zone used by the actual scheduler. Review upcoming local and UTC times, then move the preview start to a month boundary or clock change. This builder calculates matches locally and does not run your task.</p></details>
+          <details><summary>Does a cron expression include a time zone?</summary><p>The expression describes calendar fields; the scheduler supplies the time zone. This tool exports a separate time-zone setting for each platform. A fixed UTC offset such as UTC+1 is not equivalent to Europe/London, whose offset changes during the year.</p></details>
+          <details><summary>Why does an expression with six fields fail?</summary><p>Six-field formats are not interchangeable. AWS Scheduler uses a final year field, while Quartz commonly adds seconds at the beginning and has different rules. Select AWS mode for AWS schedules. Quartz, seconds-based expressions, rate expressions, and @reboot are not supported.</p></details>
+          <details><summary>Why are there fewer runs than requested?</summary><p>The preview searches eight calendar years after the selected start. Rare schedules such as leap day may have fewer matches; impossible dates such as February 31 have none. A fixed AWS year may also fall outside the search window. That is different from a syntax error.</p></details>
+          <details><summary>Is my schedule sent to a server?</summary><p>No. Parsing, time-zone conversion, and configuration generation happen in your browser. The share button puts the schedule settings in a URL fragment so you can send the link yourself. Anyone with that link can read those settings.</p></details>
+        </div>
+      </section>
+      <aside class="related-tools" aria-label="Related tools"><strong>Keep building.</strong><a href="../yaml-formatter/">Validate YAML &amp; JSON <span aria-hidden="true">↗</span></a><a href="../k8s-manifest-builder/">Build a Kubernetes workload <span aria-hidden="true">↗</span></a><a href="../">Explore all tools <span aria-hidden="true">↗</span></a></aside>
+    </main>
+
+    <footer class="site-footer">
+      <span>Native Cube · Built for the terminal-adjacent parts of your day.</span>
+      <div class="footer-links">
+        <a
+          class="author-credit"
+          href="https://marcincuber.github.io/"
+          target="_blank"
+          rel="author me noreferrer"
+        >
+          <span>Created by</span>
+          <strong>Marcin Cuber</strong>
+          <b aria-hidden="true">↗</b>
+        </a>
+        <a href="../">Explore all tools <span aria-hidden="true">↗</span></a>
+      </div>
+    </footer>
+
+    <div id="toast" class="toast" role="status" aria-live="polite"></div>
+  </body>
+</html>

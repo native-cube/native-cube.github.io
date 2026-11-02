@@ -12,13 +12,15 @@ from urllib.parse import unquote, urljoin, urlsplit
 
 ROOT = Path(__file__).resolve().parent.parent
 SITE_URL = "https://native-cube.com"
-REDIRECT_PATH = Path("json-formatter/index.html")
+REDIRECTS = {
+    Path("json-formatter/index.html"): Path("yaml-formatter/index.html"),
+}
 INDEXABLE_PATHS = tuple(
     sorted(
         (
             path.relative_to(ROOT)
             for path in ROOT.rglob("index.html")
-            if path.relative_to(ROOT) != REDIRECT_PATH
+            if path.relative_to(ROOT) not in REDIRECTS
         ),
         key=lambda path: path.as_posix(),
     )
@@ -51,6 +53,10 @@ class PageAudit(HTMLParser):
         super().__init__()
         self.ids = []
         self.h1_count = 0
+        self.language = ""
+        self.headings = []
+        self.examples = []
+        self.navigation_labels = []
         self.links = []
         self.meta = {}
         self.canonicals = []
@@ -59,13 +65,26 @@ class PageAudit(HTMLParser):
         self._in_title = False
         self._in_json_ld = False
         self._json_parts = []
+        self._heading_tag = None
+        self._heading_parts = []
 
     def handle_starttag(self, tag, attrs):
         values = dict(attrs)
+        if tag == "html":
+            self.language = values.get("lang", "")
+        if tag == "nav":
+            self.navigation_labels.append(values.get("aria-label", ""))
         if values.get("id"):
             self.ids.append(values["id"])
         if tag == "h1":
             self.h1_count += 1
+        if tag in {"h1", "h2", "h3"}:
+            self._heading_tag = tag
+            self._heading_parts = []
+        if tag == "br" and self._heading_tag:
+            self._heading_parts.append(" ")
+        if values.get("data-example"):
+            self.examples.append(values["data-example"])
         if tag == "a" and values.get("href"):
             self.links.append(values["href"])
         rel = values.get("rel", "")
@@ -86,6 +105,9 @@ class PageAudit(HTMLParser):
             self._json_parts = []
 
     def handle_endtag(self, tag):
+        if tag == self._heading_tag:
+            self.headings.append((tag, " ".join("".join(self._heading_parts).split())))
+            self._heading_tag = None
         if tag == "title":
             self._in_title = False
         if tag == "script" and self._in_json_ld:
@@ -93,6 +115,8 @@ class PageAudit(HTMLParser):
             self._in_json_ld = False
 
     def handle_data(self, data):
+        if self._heading_tag:
+            self._heading_parts.append(data)
         if self._in_title:
             self.title.append(data)
         if self._in_json_ld:
@@ -145,7 +169,78 @@ def assert_social_image(url):
         )
 
 
+def structured_entities(data):
+    if isinstance(data, list):
+        return [entity for item in data for entity in structured_entities(item)]
+    if not isinstance(data, dict):
+        fail("JSON-LD must contain objects or arrays of objects")
+    if "@graph" in data:
+        return structured_entities(data["@graph"])
+    return [data]
+
+
+def assert_crontab_seo(page, entities):
+    canonical = f"{SITE_URL}/crontab/"
+    by_type = {entity.get("@type"): entity for entity in entities if isinstance(entity.get("@type"), str)}
+    required = {"WebPage", "WebApplication", "BreadcrumbList", "Person", "ImageObject"}
+    missing = required - by_type.keys()
+    if missing:
+        fail(f"crontab JSON-LD is missing entities: {', '.join(sorted(missing))}")
+    identities = [by_type[entity_type].get("@id", "") for entity_type in required]
+    if any(not identity.startswith(f"{canonical}#") for identity in identities) or len(set(identities)) != len(identities):
+        fail("crontab structured-data entities must have unique page-scoped IDs")
+    webpage = by_type["WebPage"]
+    application = by_type["WebApplication"]
+    breadcrumb = by_type["BreadcrumbList"]
+    author = by_type["Person"]
+    social_image = by_type["ImageObject"]
+    title = "".join(page.title).strip()
+    if not (webpage.get("name") == page.meta["og:title"] == page.meta["twitter:title"] == title):
+        fail("crontab page, social, and structured-data titles must agree")
+    if webpage.get("description") != page.meta["description"]:
+        fail("crontab structured-data description must match its meta description")
+    if webpage.get("inLanguage", "").lower() != page.language.lower():
+        fail("crontab structured-data language must match the HTML language")
+    for relationship, entity in [
+        ("mainEntity", application),
+        ("breadcrumb", breadcrumb),
+        ("author", author),
+        ("primaryImageOfPage", social_image),
+    ]:
+        if webpage.get(relationship, {}).get("@id") != entity.get("@id"):
+            fail(f"crontab WebPage {relationship} must reference its actual entity")
+    if application.get("mainEntityOfPage", {}).get("@id") != webpage.get("@id"):
+        fail("crontab application must reference its WebPage")
+    if webpage.get("url") != canonical or application.get("url") != canonical:
+        fail("crontab structured-data URLs must use the clean canonical")
+    offer = application.get("offers", {})
+    if application.get("isAccessibleForFree") is not True or offer.get("price") not in (0, "0"):
+        fail("crontab application must accurately describe its free access")
+    if social_image.get("url") != page.meta["og:image"] or application.get("image") != social_image.get("url"):
+        fail("crontab structured data must use the actual social image")
+    if (social_image.get("width"), social_image.get("height")) != (1200, 630):
+        fail("crontab structured-data social image dimensions are incorrect")
+    if author.get("url") not in page.links:
+        fail("crontab structured-data author must have a visible attribution link")
+    expected_items = [
+        {"@type": "ListItem", "position": 1, "name": "Native Cube", "item": f"{SITE_URL}/"},
+        {"@type": "ListItem", "position": 2, "name": application.get("name"), "item": canonical},
+    ]
+    if breadcrumb.get("itemListElement") != expected_items:
+        fail("crontab breadcrumb must identify the home page and current tool")
+    if not {"Breadcrumb", "On this page"}.issubset(page.navigation_labels):
+        fail("crontab must retain its visible breadcrumb and section navigation")
+    h1 = next((text.lower() for tag, text in page.headings if tag == "h1"), "")
+    if "crontab" not in h1 or "generator" not in h1:
+        fail("crontab must have a descriptive generator heading in the original HTML")
+    if not {"how-to-title", "syntax-title", "examples-title", "platform-title", "faq-title"}.issubset(page.ids):
+        fail("crontab must retain its static guide, examples, scheduler reference, and FAQ")
+    if not {"*/5 * * * *", "0 * * * *", "0 0 * * *"}.issubset(page.examples):
+        fail("crontab must provide static examples for five-minute, hourly, and daily schedules")
+
+
 parsed_pages = {}
+page_entities = {}
 titles = set()
 descriptions = set()
 for path, canonical in PAGES.items():
@@ -202,10 +297,17 @@ for path, canonical in PAGES.items():
         fail(f"{path} has no structured data")
     entities = []
     for payload in page.json_ld:
-        data = json.loads(payload)
-        entities.extend(data if isinstance(data, list) else [data])
+        try:
+            data = json.loads(payload)
+        except json.JSONDecodeError as error:
+            fail(f"{path} has invalid JSON-LD: {error}")
+        entities.extend(structured_entities(data))
+    page_entities[canonical] = entities
     if not any(entity.get("url") == canonical for entity in entities):
         fail(f"{path} structured data does not identify its canonical URL")
+
+crontab_url = PAGES[Path("crontab/index.html")]
+assert_crontab_seo(parsed_pages[crontab_url], page_entities[crontab_url])
 
 for canonical, page in parsed_pages.items():
     if len(page.ids) != len(set(page.ids)):
@@ -222,16 +324,17 @@ for canonical, page in parsed_pages.items():
         if target.fragment and unquote(target.fragment) not in parsed_pages[target_url].ids:
             fail(f"{canonical} links to a missing fragment: {link}")
 
-redirect = parse_page(REDIRECT_PATH)
-redirect_target = PAGES[Path("yaml-formatter/index.html")]
-if "noindex" in redirect.meta.get("robots", "").lower():
-    fail(f"{REDIRECT_PATH} must consolidate with its target without noindex")
-if redirect.canonicals != [redirect_target]:
-    fail(f"{REDIRECT_PATH} must canonicalize to /yaml-formatter/")
-if redirect.meta.get("refresh") != f"0; url={redirect_target}":
-    fail(f"{REDIRECT_PATH} must immediately redirect to the absolute canonical URL")
-if redirect_target not in redirect.links:
-    fail(f"{REDIRECT_PATH} must provide a direct fallback link to its target")
+for redirect_path, target_path in REDIRECTS.items():
+    redirect = parse_page(redirect_path)
+    redirect_target = PAGES[target_path]
+    if "noindex" in redirect.meta.get("robots", "").lower():
+        fail(f"{redirect_path} must consolidate with its target without noindex")
+    if redirect.canonicals != [redirect_target]:
+        fail(f"{redirect_path} must canonicalize to {redirect_target}")
+    if redirect.meta.get("refresh") != f"0; url={redirect_target}":
+        fail(f"{redirect_path} must immediately redirect to the absolute canonical URL")
+    if redirect_target not in redirect.links:
+        fail(f"{redirect_path} must provide a direct fallback link to its target")
 
 namespace = {"sitemap": "http://www.sitemaps.org/schemas/sitemap/0.9"}
 sitemap = ET.parse(ROOT / "sitemap.xml")
@@ -262,6 +365,10 @@ for url_node in sitemap.findall(".//sitemap:url", namespace):
         catalogue = json.loads((ROOT / "terraform-modules/modules.json").read_text())
         if modified_date < date.fromisoformat(catalogue["synced_at"].split("T")[0]):
             fail("Terraform sitemap lastmod predates the published catalogue")
+    if location == crontab_url:
+        webpage = next(entity for entity in page_entities[location] if entity.get("@type") == "WebPage")
+        if webpage.get("dateModified") != last_modified:
+            fail("crontab sitemap lastmod must match its WebPage dateModified")
 
 robots = (ROOT / "robots.txt").read_text()
 if f"Sitemap: {SITE_URL}/sitemap.xml" not in robots:
@@ -288,10 +395,18 @@ for canonical in PAGES.values():
     relative = canonical.removeprefix(f"{SITE_URL}/")
     if f"./{relative}" not in landing_links:
         fail(f"landing page does not link to {relative}")
-if "./json-formatter/" in landing_links:
-    fail("landing page must not link internally to the redirect alias")
+for redirect_path in REDIRECTS:
+    if f"./{redirect_path.parent.as_posix()}/" in landing_links:
+        fail(f"landing page must not link internally to the redirect alias {redirect_path}")
+
+for source in ["yaml-formatter/index.html", "k8s-manifest-builder/index.html"]:
+    page = parsed_pages[PAGES[Path(source)]]
+    targets = {urljoin(PAGES[Path(source)], link) for link in page.links}
+    if crontab_url not in targets:
+        fail(f"{source} must retain its related cron scheduling link")
 
 print(
     "SEO audit passed: "
-    f"{len(PAGES)} canonical pages, social cards, sitemap, robots, and redirect"
+    f"{len(PAGES)} canonical pages, social cards, sitemap, robots, "
+    f"and {len(REDIRECTS)} redirect{'s' if len(REDIRECTS) != 1 else ''}"
 )

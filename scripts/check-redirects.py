@@ -131,11 +131,15 @@ def redirect_cases():
         cases[canonical + "index.html"] = canonical
         if path != "/":
             cases[canonical.rstrip("/")] = canonical
-    target = SITE_URL + "/yaml-formatter/"
-    for host in HOSTS:
-        cases[host + "/json-formatter/"] = target
-    cases[SITE_URL + "/json-formatter"] = target
-    cases[SITE_URL + "/json-formatter/index.html"] = target
+    aliases = {
+        "/json-formatter/": "/yaml-formatter/",
+    }
+    for alias, destination in aliases.items():
+        target = SITE_URL + destination
+        for host in HOSTS:
+            cases[host + alias] = target
+        cases[SITE_URL + alias.rstrip("/")] = target
+        cases[SITE_URL + alias + "index.html"] = target
     return list(cases.items())
 
 
