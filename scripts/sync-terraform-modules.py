@@ -17,6 +17,7 @@ ROOT = Path(__file__).resolve().parent.parent
 CATALOGUE_PATH = ROOT / "terraform-modules/modules.json"
 SCHEMA_PATH = ROOT / "terraform-modules/modules.schema.json"
 PAGE_PATH = ROOT / "terraform-modules/index.html"
+SITEMAP_PATH = ROOT / "sitemap.xml"
 APP_PATH = ROOT / "terraform-modules/app.js"
 JSON_LD_START = "<!-- MODULE_JSON_LD_START -->"
 JSON_LD_END = "<!-- MODULE_JSON_LD_END -->"
@@ -695,6 +696,19 @@ def write_catalogue(catalogue):
 
 def write_page(catalogue):
     PAGE_PATH.write_text(rendered_page(catalogue))
+    # Preserve a later date from a manual content edit, while ensuring weekly
+    # catalogue updates also tell crawlers that the published page has changed.
+    sitemap = SITEMAP_PATH.read_text()
+    pattern = r"(<loc>https://native-cube\.com/terraform-modules/</loc>\s*<lastmod>)([^<]+)(</lastmod>)"
+    synced_date = catalogue["synced_at"].split("T", 1)[0]
+    updated, count = re.subn(
+        pattern,
+        lambda match: match[1] + max(match[2], synced_date) + match[3],
+        sitemap,
+    )
+    if count != 1:
+        raise SyncError("sitemap.xml must contain one dated Terraform catalogue entry")
+    SITEMAP_PATH.write_text(updated)
 
 
 def metadata_drift(stored, live):

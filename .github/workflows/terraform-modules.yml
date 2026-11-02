@@ -85,4 +85,4 @@ jobs:
             Trigger: `${{ github.event_name }}`
             Reason: ${{ inputs.reason || 'Scheduled weekly refresh' }}
 
-            The generated module configuration, cards, and structured data are included in this pull request.
+            The generated module configuration, cards, structured data, and sitemap date are included in this pull request.

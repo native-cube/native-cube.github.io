@@ -7,7 +7,7 @@ import json
 import struct
 import sys
 import xml.etree.ElementTree as ET
-from urllib.parse import urlsplit
+from urllib.parse import unquote, urljoin, urlsplit
 
 
 ROOT = Path(__file__).resolve().parent.parent
@@ -145,11 +145,18 @@ def assert_social_image(url):
         )
 
 
+parsed_pages = {}
+titles = set()
+descriptions = set()
 for path, canonical in PAGES.items():
     page = parse_page(path)
+    parsed_pages[canonical] = page
     title = "".join(page.title).strip()
     if not title:
         fail(f"{path} has no title")
+    if title in titles:
+        fail(f"{path} repeats another page's title")
+    titles.add(title)
     if page.h1_count != 1:
         fail(f"{path} has {page.h1_count} h1 elements; expected exactly one")
     if len(page.canonicals) != 1:
@@ -169,6 +176,11 @@ for path, canonical in PAGES.items():
     missing_meta = sorted(key for key in REQUIRED_META if not page.meta.get(key))
     if missing_meta:
         fail(f"{path} is missing metadata: {', '.join(missing_meta)}")
+    if page.meta["description"] in descriptions:
+        fail(f"{path} repeats another page's description")
+    descriptions.add(page.meta["description"])
+    if "refresh" in page.meta:
+        fail(f"{path} is a canonical page but contains a redirect")
     if page.meta.get("og:url") != canonical:
         fail(f"{path} og:url does not match its canonical URL")
     robots = {
@@ -186,16 +198,40 @@ for path, canonical in PAGES.items():
         fail(f"{path} uses different Open Graph and Twitter images")
 
     assert_social_image(page.meta["og:image"])
+    if not page.json_ld:
+        fail(f"{path} has no structured data")
+    entities = []
     for payload in page.json_ld:
-        json.loads(payload)
+        data = json.loads(payload)
+        entities.extend(data if isinstance(data, list) else [data])
+    if not any(entity.get("url") == canonical for entity in entities):
+        fail(f"{path} structured data does not identify its canonical URL")
+
+for canonical, page in parsed_pages.items():
+    if len(page.ids) != len(set(page.ids)):
+        fail(f"{canonical} has duplicate HTML IDs")
+    for link in page.links:
+        target = urlsplit(urljoin(canonical, link))
+        if target.hostname in {"www.native-cube.com", "native-cube.github.io"}:
+            fail(f"{canonical} links to a non-canonical hostname: {link}")
+        if target.hostname != "native-cube.com":
+            continue
+        target_url = f"{target.scheme}://{target.netloc}{target.path}"
+        if target_url not in parsed_pages:
+            fail(f"{canonical} links to a non-canonical or missing page: {link}")
+        if target.fragment and unquote(target.fragment) not in parsed_pages[target_url].ids:
+            fail(f"{canonical} links to a missing fragment: {link}")
 
 redirect = parse_page(REDIRECT_PATH)
-if redirect.meta.get("robots") != "noindex":
-    fail(f"{REDIRECT_PATH} must remain noindex")
-if redirect.meta.get("canonical") != PAGES[Path("yaml-formatter/index.html")]:
+redirect_target = PAGES[Path("yaml-formatter/index.html")]
+if "noindex" in redirect.meta.get("robots", "").lower():
+    fail(f"{REDIRECT_PATH} must consolidate with its target without noindex")
+if redirect.canonicals != [redirect_target]:
     fail(f"{REDIRECT_PATH} must canonicalize to /yaml-formatter/")
-if "../yaml-formatter/" not in redirect.meta.get("refresh", ""):
-    fail(f"{REDIRECT_PATH} meta refresh must target /yaml-formatter/")
+if redirect.meta.get("refresh") != f"0; url={redirect_target}":
+    fail(f"{REDIRECT_PATH} must immediately redirect to the absolute canonical URL")
+if redirect_target not in redirect.links:
+    fail(f"{REDIRECT_PATH} must provide a direct fallback link to its target")
 
 namespace = {"sitemap": "http://www.sitemaps.org/schemas/sitemap/0.9"}
 sitemap = ET.parse(ROOT / "sitemap.xml")
@@ -222,6 +258,10 @@ for url_node in sitemap.findall(".//sitemap:url", namespace):
         fail(f"sitemap entry {location} has invalid lastmod value {last_modified}")
     if modified_date > date.today():
         fail(f"sitemap entry {location} has a future lastmod value")
+    if location == PAGES[Path("terraform-modules/index.html")]:
+        catalogue = json.loads((ROOT / "terraform-modules/modules.json").read_text())
+        if modified_date < date.fromisoformat(catalogue["synced_at"].split("T")[0]):
+            fail("Terraform sitemap lastmod predates the published catalogue")
 
 robots = (ROOT / "robots.txt").read_text()
 if f"Sitemap: {SITE_URL}/sitemap.xml" not in robots:
