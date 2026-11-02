@@ -2,11 +2,11 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>https://native-cube.com/</loc>
-    <lastmod>2026-08-28</lastmod>
+    <lastmod>2026-11-02</lastmod>
   </url>
   <url>
     <loc>https://native-cube.com/k8s-manifest-builder/</loc>
-    <lastmod>2026-08-19</lastmod>
+    <lastmod>2026-11-02</lastmod>
   </url>
   <url>
     <loc>https://native-cube.com/helm-chart-builder/</loc>
@@ -31,5 +31,9 @@
   <url>
     <loc>https://native-cube.com/terraform-modules/</loc>
     <lastmod>2026-10-12</lastmod>
+  </url>
+  <url>
+    <loc>https://native-cube.com/crontab/</loc>
+    <lastmod>2026-11-02</lastmod>
   </url>
 </urlset>

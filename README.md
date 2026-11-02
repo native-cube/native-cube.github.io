@@ -108,6 +108,45 @@ operations, sensitive cluster access, RBAC administration, aggregated
 ClusterRoles, and incomplete policy exports. Consecutive sample selections do
 not repeat the same scenario.
 
+## Cron Schedule Builder
+
+Open `/crontab/` to build and explain cron expressions, preview
+upcoming times in an IANA time zone alongside UTC, and export scheduler configuration.
+Linux cron, Kubernetes CronJob, GitHub Actions, and AWS EventBridge Scheduler
+have separate validation rules and configuration exports. Presets and field
+shortcuts help build expressions without memorizing syntax.
+The time-zone field accepts manual IANA names and provides a searchable dropdown
+with mouse, touch, and keyboard selection.
+Choose 1, 2, 5, 10, 25, or 50 upcoming runs; share links retain the selected count.
+
+The builder supports lists, ranges, steps, named months and weekdays, common
+Linux/Kubernetes macros, Kubernetes question-mark wildcards, and AWS year,
+last-day, nearest-weekday, last-weekday, and nth-weekday fields. It handles
+missing and repeated local times, including half-hour clock changes, according
+to the documented preview policy for each platform. GitHub's undocumented
+fall-back behavior is explicitly modeled as the first occurrence. Actual
+execution remains the scheduler's responsibility.
+
+The preview searches eight calendar years after a user-selected UTC instant.
+Rare or impossible schedules report partial or empty results separately from
+syntax errors. Configuration, CSV downloads, and share links are generated in
+the browser. Sharing encodes settings in the URL fragment; there is no backend.
+Quartz, seconds fields, rate expressions, and `@reboot` are not supported.
+
+The dependency-free engine is in `crontab/cron.js`; DOM interaction
+and exports are in `app.js`, with page markup and responsive styles alongside them.
+Run the calendar and timezone regression tests with Node.js 22 or later:
+
+```sh
+node --test scripts/crontab.test.cjs
+```
+
+The page includes static instructions, crontab examples, a syntax reference,
+visible breadcrumbs, and connected page/application/author/image structured data.
+`python3 scripts/seo-audit.py` verifies these SEO relationships and related-tool
+links. Follow the crontab checks in [`SEARCH_CONSOLE.md`](./SEARCH_CONSOLE.md)
+after deployment to inspect indexing and measure actual search performance.
+
 ## Terraform Modules
 
 Open `/terraform-modules/` to explore public AWS Terraform modules
@@ -187,6 +226,7 @@ python3 -m http.server 8080
 - `http://localhost:8080/kubernetes-rbac-explorer/`
 - `http://localhost:8080/visual-subnet-calculator/`
 - `http://localhost:8080/yaml-formatter/`
+- `http://localhost:8080/crontab/`
 - `http://localhost:8080/terraform-modules/`
 
 ## Quality and search checks

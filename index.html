@@ -9,7 +9,7 @@
     />
     <meta
       name="description"
-      content="Free cloud-native browser tools and public AWS Terraform modules for Kubernetes, Argo CD, Helm chart authoring, network planning, configuration formatting, and infrastructure as code."
+      content="Free cloud-native browser tools for Kubernetes, Helm, Argo CD, cron schedules, subnet planning, and YAML formatting, plus public AWS Terraform modules."
     />
     <meta name="author" content="Marcin Cuber" />
     <meta name="theme-color" content="#f2f5f9" />
@@ -62,7 +62,7 @@
         "name": "Native Cube",
         "alternateName": ["Native Cube Tools", "native-cube.com"],
         "url": "https://native-cube.com/",
-        "description": "Free browser-based cloud-native tools and public AWS Terraform modules for Kubernetes, Argo CD, Helm chart authoring, network planning, configuration formatting, and infrastructure as code.",
+        "description": "Free browser-based cloud-native tools for Kubernetes, Helm, Argo CD, cron schedules, subnet planning, and YAML formatting, plus public AWS Terraform modules.",
         "creator": {
           "@type": "Person",
           "name": "Marcin Cuber",
@@ -498,8 +498,8 @@
       <h1>Free tools for cloud-native work.</h1>
       <p class="intro">
         Generate Kubernetes manifests and Helm charts, preview Argo CD fleets,
-        review RBAC access, visually plan IPv4 subnets, format configuration,
-        and discover reusable Terraform modules.
+        review RBAC access, visually plan IPv4 subnets, test cron schedules,
+        format configuration, and discover reusable Terraform modules.
       </p>
       <p class="author-byline">
         <span>Created and maintained by</span>
@@ -620,6 +620,21 @@
           <h2>YAML &amp; JSON Formatter</h2>
           <p>
             Validate, format, and convert configuration data without uploading it.
+          </p>
+          <span class="arrow" aria-hidden="true">↗</span>
+        </a>
+        <a class="tool" href="./crontab/">
+          <span class="tag">Crontab generator &amp; tester</span>
+          <svg class="tool-cube" viewBox="0 0 40 40" aria-hidden="true">
+            <path d="M20 2.5 36 11.3 20 20 4 11.3 20 2.5Z" fill="#2563eb" />
+            <path d="M4 11.3 20 20v17.5L4 28.7V11.3Z" fill="#14243b" />
+            <path d="M36 11.3 20 20v17.5l16-8.8V11.3Z" fill="#22a77a" />
+            <path d="m20 8 6 3.3-6 3.2-6-3.2L20 8Z" fill="#f2f5f9" />
+          </svg>
+          <h2>Cron Schedule Builder</h2>
+          <p>
+            Generate and test cron expressions, preview runs across time zones, and export
+            Linux, Kubernetes, GitHub Actions, or AWS schedules.
           </p>
           <span class="arrow" aria-hidden="true">↗</span>
         </a>

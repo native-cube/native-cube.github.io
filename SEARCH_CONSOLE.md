@@ -6,6 +6,8 @@ directives, matching Open Graph and structured-data URLs, and an entry in
 `sitemap.xml`. `robots.txt` advertises that sitemap. The duplicate
 `/json-formatter/` alias points directly to `/yaml-formatter/` through an instant
 meta refresh and a canonical link; it is excluded from the sitemap and navigation.
+The cron tool is published only at `/crontab/`, with the same canonical URL in
+its page metadata, structured data, navigation, and sitemap.
 
 Ownership verification must be completed by a Google account with access to
 Search Console. The verification value is account-issued and must not be
@@ -35,8 +37,9 @@ invented or replaced with a placeholder.
    - `https://native-cube.com/kubernetes-rbac-explorer/`
    - `https://native-cube.com/visual-subnet-calculator/`
    - `https://native-cube.com/yaml-formatter/`
+   - `https://native-cube.com/crontab/`
    - `https://native-cube.com/terraform-modules/`
-4. Do not submit `/json-formatter/`; it is a permanent redirect alias.
+4. Do not submit `/json-formatter/`; it is a redirect alias.
 
 ## Confirm Google's selected canonical
 
@@ -76,8 +79,8 @@ python3 scripts/check-redirects.py
 ```
 
 It checks every sitemap page across HTTP/HTTPS, apex/`www`, and the old GitHub
-Pages hostname, plus slashless paths, `index.html` duplicates, and formatter
-aliases. It follows HTTP and instant meta-refresh redirects explicitly, rejects
+Pages hostname, plus slashless paths, `index.html` duplicates, and the formatter
+alias. It follows HTTP and instant meta-refresh redirects explicitly, rejects
 loops and temporary or insecure redirects, and checks that each final page is
 HTTP 200 with the expected canonical and no indexing restrictions. The separate
 **Live redirect checks** workflow runs weekly and can be started manually in
@@ -98,7 +101,7 @@ permanently to the apex HTTPS URLs. The formatter alias still served the old
 `noindex` directive before this change was deployed. This is a consolidation
 signal issue; it does not prove the cause of an account's **Redirect error**.
 
-## Hosting settings and the formatter alias
+## Hosting settings and redirect aliases
 
 Keep **Settings → Pages → Custom domain** set to `native-cube.com` and
 **Enforce HTTPS** enabled. The repository's `CNAME` file does not by itself
@@ -127,6 +130,48 @@ After publishing, rerun the live audit, resubmit the canonical sitemap, and use
 **Test live URL** for each affected destination. Request indexing for canonical
 pages and validate actual **Redirect error** fixes. Historical exclusions remain
 until Google recrawls them, and intentional redirects remain excluded.
+
+## Check and measure the crontab page
+
+After publishing changes to `/crontab/`:
+
+1. Inspect `https://native-cube.com/crontab/` with **Test live URL**. Confirm HTTP
+   200, an indexable response, and the exact same user-declared canonical. The
+   slashless URL, `/index.html` variant, query strings, and share fragments must
+   not become separate sitemap entries.
+2. Review the rendered HTML and screenshot. The crontab heading, quick-start
+   instructions, syntax guide, examples, scheduler notes, FAQ, and ordinary
+   navigation links are in the original HTML. Only interactive calculations
+   require JavaScript. Keep the tool's default preview at two runs.
+3. Validate the JSON-LD with the
+   [Schema Markup Validator](https://validator.schema.org/) and Google's
+   [Rich Results Test](https://search.google.com/test/rich-results). `WebPage`,
+   `WebApplication`, `BreadcrumbList`, `Person`, and `ImageObject` describe the
+   actual content and free access. Google's
+   [software app rich-result requirements](https://developers.google.com/search/docs/appearance/structured-data/software-app)
+   include a genuine rating or review; the tool does not currently publish
+   either. Do not invent one to remove an eligibility warning. The visible FAQ
+   does not imply eligibility for FAQ rich results, which Google
+   [limits to qualifying government and health sites](https://developers.google.com/search/blog/2023/08/howto-faq-changes).
+4. Request indexing for the canonical URL after the live checks pass, and
+   confirm that Google's selected canonical eventually matches it. Account
+   ownership and URL inspection are performed in Search Console; a passing
+   local audit cannot establish that a page is indexed.
+5. In **Performance → Search results**, filter **Page** to the exact canonical
+   URL. Compare impressions, clicks, CTR, and average position over comparable
+   date ranges, then segment by device, country, and query. Initial query groups
+   to inspect include crontab generators, cron expression testers, common
+   schedules, and time-zone questions. These are hypotheses, not measured
+   keyword volumes or ranking predictions.
+6. Check the **Core Web Vitals** report when field data is available. Local
+   Lighthouse scores measure a lab run, not real-user performance or ranking.
+
+The SEO audit verifies the crontab schema relationships, matching page and social
+titles, static examples, incoming links from related tools, and agreement between
+`dateModified` and sitemap `lastmod`. It runs in the existing Lighthouse and SEO
+workflow. Shared schedules remain URL fragments and retain the same clean
+canonical, following Google's
+[canonicalization guidance](https://developers.google.com/search/docs/crawling-indexing/consolidate-duplicate-urls).
 
 ## Keep sitemap dates accurate
 

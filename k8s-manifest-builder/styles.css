@@ -1131,7 +1131,7 @@ main {
 
 .output-note {
   margin: 12px 2px 0;
-  color: var(--soft);
+  color: var(--muted-strong);
   font-size: 10px;
   line-height: 1.5;
 }
@@ -1139,6 +1139,12 @@ main {
 .output-note code {
   color: #52647c;
   font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+}
+
+.output-note a {
+  color: var(--green-dark);
+  font-weight: 750;
+  text-underline-offset: 3px;
 }
 
 .site-footer {
