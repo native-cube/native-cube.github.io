@@ -43,11 +43,12 @@
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
     <title>JSON Diff Checker – Compare JSON &amp; YAML Online | Native Cube</title>
     <link rel="stylesheet" href="../yaml-formatter/styles.css?v=3" />
-    <link rel="stylesheet" href="./styles.css?v=4" />
+    <link rel="stylesheet" href="./styles.css?v=6" />
     <script src="../yaml-formatter/vendor/js-yaml.min.js?v=4.1.0" defer></script>
     <script src="./diff.js?v=1" defer></script>
     <script src="./source-map.js?v=1" defer></script>
-    <script src="./app.js?v=4" defer></script>
+    <script src="./examples.js?v=1" defer></script>
+    <script src="./app.js?v=5" defer></script>
     <script type="application/ld+json">
       [
         {
@@ -107,7 +108,8 @@
             "Compare arrays by position, without order, or by a unique field",
             "Match Kubernetes manifests across reordered documents",
             "Side-by-side and unified change reports",
-            "Copy or download complete JSON comparison reports"
+            "Copy or download complete JSON comparison reports",
+            "15 curated examples across JSON, YAML, and Kubernetes"
           ]
         },
         {
@@ -187,9 +189,6 @@
     </p>
 
     <main>
-      <nav class="breadcrumbs" aria-label="Breadcrumb">
-        <a href="../">Native Cube</a><span aria-hidden="true">/</span><span aria-current="page">JSON &amp; YAML Diff Checker</span>
-      </nav>
       <section class="hero">
         <div>
           <p class="eyebrow">Compare JSON / YAML online</p>
@@ -217,10 +216,36 @@
         </div>
         <noscript><p class="validation-panel">Enable JavaScript to compare documents locally in your browser.</p></noscript>
         <div class="workspace-toolbar">
-          <label class="select-field"><span>Try an example</span><select id="example-select"><option value="json">JSON API response</option><option value="yaml">YAML configuration</option><option value="kubernetes">Kubernetes manifests</option></select></label>
+          <label class="select-field">
+            <span>Try an example</span>
+            <select id="example-select" aria-describedby="example-description">
+              <optgroup label="JSON">
+                <option value="json">API response</option>
+                <option value="json-records">Records matched by ID</option>
+                <option value="json-unordered">Unordered arrays</option>
+                <option value="json-types">Types and missing fields</option>
+                <option value="json-cross-format">JSON versus YAML</option>
+              </optgroup>
+              <optgroup label="YAML">
+                <option value="yaml">Service configuration</option>
+                <option value="yaml-compose">Docker Compose update</option>
+                <option value="yaml-helm">Helm values</option>
+                <option value="yaml-anchors">Anchors and aliases</option>
+                <option value="yaml-equivalent">Comments and key order</option>
+              </optgroup>
+              <optgroup label="Kubernetes">
+                <option value="kubernetes">Deployment and Service</option>
+                <option value="kubernetes-config">ConfigMap and resource changes</option>
+                <option value="kubernetes-containers">Containers and sidecars</option>
+                <option value="kubernetes-ingress">Ingress routing</option>
+                <option value="kubernetes-resources">CPU and memory resources</option>
+              </optgroup>
+            </select>
+          </label>
           <button id="sample-button" class="example-button" type="button">Load example</button>
           <div class="toolbar-actions"><button id="swap-button" class="text-button" type="button">Swap sides ⇄</button><button id="clear-button" class="text-button" type="button">Clear both</button></div>
         </div>
+        <p id="example-description" class="workspace-note">Find added, removed, and changed fields in an API response while ignoring object key order.</p>
         <div class="live-review-bar">
           <div class="live-change-counts" aria-label="Live comparison summary">
             <strong id="live-total">Ready to compare</strong>
@@ -348,7 +373,9 @@
           <p>
             Compare an API response or a configuration file. Each pair below
             produces two changes; object key order and YAML comments do not
-            create extra differences.
+            create extra differences. The <a href="#comparison-workspace">sample picker</a>
+            includes five JSON, five YAML, and five Kubernetes scenarios, with
+            matching options applied automatically when you load an example.
           </p>
         </div>
         <div class="example-grid">

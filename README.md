@@ -115,6 +115,14 @@ Results offer side-by-side and unified layouts, syntax coloring, inline value
 highlights, and readable Kubernetes resource labels alongside the original
 report paths.
 
+The sample picker includes five scenarios each for JSON, YAML, and Kubernetes.
+Examples cover API responses, records matched by ID, unordered arrays, type
+changes, cross-format equality, Compose configuration, Helm values, aliases,
+formatting-only edits, resource identity, ConfigMaps, sidecars, ingress routing,
+and CPU/memory quantities. Loading a sample applies its matching options and
+input formats, and brings the first changed field into view when needed. Sample
+data is maintained in `json-diff/examples.js`.
+
 Each input is limited to 1 MiB, 80 nesting levels, and 50,000 expanded values;
 expanded text is capped at 4 MiB and reports at 2,000 changes. Duplicate mapping
 keys, recursive aliases, non-finite numbers, and unsafe integers are rejected.

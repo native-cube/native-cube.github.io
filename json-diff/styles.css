@@ -24,17 +24,8 @@
   border: 0;
 }
 
-.breadcrumbs {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 10px;
-  padding-top: 28px;
-  color: var(--muted);
-  font-size: 11px;
-}
-
-.breadcrumbs a,
 .workspace-note a,
+.content-heading a,
 .faq-section a {
   color: var(--blue-dark);
   text-underline-offset: 3px;
@@ -66,7 +57,7 @@
 }
 
 .workspace-toolbar > .select-field {
-  flex: 0 1 240px;
+  flex: 0 1 300px;
 }
 
 .workspace-toolbar > .example-button {

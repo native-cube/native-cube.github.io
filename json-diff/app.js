@@ -5,20 +5,7 @@
   const sides = ["before", "after"];
   const fileVersions = { before: 0, after: 0 };
   const changeSymbols = { added: "+", removed: "−", changed: "~" };
-  const samples = {
-    json: [
-      '{\n  "service": "catalog-api",\n  "replicas": 2,\n  "ports": [8080, 8443],\n  "environment": {\n    "LOG_LEVEL": "info",\n    "LEGACY_MODE": true\n  }\n}',
-      '{\n  "replicas": 3,\n  "service": "catalog-api",\n  "ports": [8080, 8443, 9090],\n  "environment": {\n    "LOG_LEVEL": "debug",\n    "FEATURE_SEARCH": true\n  }\n}',
-    ],
-    yaml: [
-      "# Original service configuration\nservice:\n  name: catalog-api\n  replicas: 2\n  image: catalog:1.0\n  ports: [8080, 8443]\n  debug: false\n",
-      "# Updated service configuration\nservice:\n  name: catalog-api\n  replicas: 3\n  image: catalog:1.1\n  ports: [8080, 8443]\n  cache:\n    enabled: true\n",
-    ],
-    kubernetes: [
-      "apiVersion: apps/v1\nkind: Deployment\nmetadata:\n  name: catalog-api\n  namespace: production\nspec:\n  replicas: 2\n  selector:\n    matchLabels:\n      app: catalog\n  template:\n    metadata:\n      labels:\n        app: catalog\n    spec:\n      containers:\n        - name: api\n          image: catalog:1.0\n---\napiVersion: v1\nkind: Service\nmetadata:\n  name: catalog-api\n  namespace: production\nspec:\n  selector:\n    app: catalog\n  ports:\n    - name: http\n      port: 80\n      targetPort: 8080\n",
-      "apiVersion: v1\nkind: Service\nmetadata:\n  name: catalog-api\n  namespace: production\nspec:\n  selector:\n    app: catalog\n  ports:\n    - name: http\n      port: 80\n      targetPort: 8080\n---\napiVersion: apps/v1\nkind: Deployment\nmetadata:\n  name: catalog-api\n  namespace: production\nspec:\n  replicas: 3\n  selector:\n    matchLabels:\n      app: catalog\n  template:\n    metadata:\n      labels:\n        app: catalog\n    spec:\n      containers:\n        - name: api\n          image: catalog:1.1\n",
-    ],
-  };
+  const samples = window.NativeDiffExamples;
   let report = null;
   let visibleLimit = 100;
   let toastTimer;
@@ -156,27 +143,36 @@
     byId("active-change").textContent = report.changes.length ? "Use Next / Previous to inspect matching fields in both editors." : "No structural differences with the selected options.";
   }
 
-  function activateChange(index, reveal = false) {
-    if (!report?.changes.length) return;
-    activeChange = (index + report.changes.length) % report.changes.length;
+  function scrollToChange(index, onlyIfHidden = false) {
     sides.forEach((side) => {
       const editor = byId(`${side}-editor`);
       const state = editorStates[side];
-      const range = state.targets[activeChange];
+      const range = state.targets[index];
       if (range) {
         const focusStart = range.focusStart ?? range.start;
         const line = lineAt(state.offsets, focusStart);
         const style = getComputedStyle(editor);
         const lineHeight = parseFloat(style.lineHeight);
-        editor.scrollTop = Math.max(0, (line - 3) * lineHeight);
+        const lineTop = parseFloat(style.paddingTop) + line * lineHeight;
+        if (!onlyIfHidden || lineTop < editor.scrollTop || lineTop + lineHeight > editor.scrollTop + editor.clientHeight) {
+          editor.scrollTop = Math.max(0, (line - 3) * lineHeight);
+        }
         const column = focusStart - state.offsets[line];
         const context = document.createElement("canvas").getContext("2d");
         context.font = `${style.fontSize} ${style.fontFamily}`;
         const prefixWidth = context.measureText(state.lines[line].slice(0, column).replace(/\t/g, "  ")).width;
-        editor.scrollLeft = Math.max(0, prefixWidth - editor.clientWidth / 2);
+        if (!onlyIfHidden || prefixWidth < editor.scrollLeft || prefixWidth > editor.scrollLeft + editor.clientWidth - 40) {
+          editor.scrollLeft = Math.max(0, prefixWidth - editor.clientWidth / 2);
+        }
       }
       paintEditor(side);
     });
+  }
+
+  function activateChange(index, reveal = false) {
+    if (!report?.changes.length) return;
+    activeChange = (index + report.changes.length) % report.changes.length;
+    scrollToChange(activeChange);
     const change = report.changes[activeChange];
     byId("change-position").textContent = `${activeChange + 1} / ${report.changes.length}`;
     byId("active-change").textContent = `${{ added: "+ Added", removed: "− Removed", changed: "~ Changed" }[change.type]} · ${fieldPath(change.path).textContent}`;
@@ -482,19 +478,30 @@
   }
 
   function loadSample() {
-    const example = byId("example-select").value;
+    const example = samples[byId("example-select").value];
+    if (!example) return;
     sides.forEach((side, index) => {
       fileVersions[side]++;
-      byId(`${side}-editor`).value = samples[example][index];
-      byId(`${side}-format`).value = example === "json" ? "json" : "yaml";
+      const editor = byId(`${side}-editor`);
+      editor.value = example.sources[index];
+      editor.scrollTop = editor.scrollLeft = 0;
+      byId(`${side}-format`).value = example.formats[index];
       updateEditor(side);
     });
-    byId("array-mode").value = "ordered";
-    byId("document-mode").value = example === "kubernetes" ? "kubernetes" : "position";
+    byId("array-mode").value = example.options.arrayMode;
+    byId("array-key").value = example.options.arrayKey;
+    byId("document-mode").value = example.options.documents;
     byId("change-filter").value = "all";
     byId("path-filter").value = "";
     updateOptions();
+    updateExampleDescription();
     compare();
+    if (report?.changes.length) scrollToChange(0, true);
+  }
+
+  function updateExampleDescription() {
+    const example = samples[byId("example-select").value];
+    if (example) byId("example-description").textContent = example.description;
   }
 
   sides.forEach((side) => {
@@ -564,6 +571,7 @@
   });
   window.addEventListener("resize", () => sides.forEach(paintEditor));
   byId("sample-button").addEventListener("click", loadSample);
+  byId("example-select").addEventListener("change", updateExampleDescription);
   byId("swap-button").addEventListener("click", () => {
     for (const suffix of ["editor", "format"]) {
       const before = byId(`before-${suffix}`);

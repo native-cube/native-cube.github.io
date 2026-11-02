@@ -179,7 +179,7 @@ def structured_entities(data):
     return [data]
 
 
-def assert_tool_seo(page, entities, slug):
+def assert_tool_seo(page, entities, slug, require_visible_breadcrumb=True):
     canonical = f"{SITE_URL}/{slug}/"
     by_type = {entity.get("@type"): entity for entity in entities if isinstance(entity.get("@type"), str)}
     required = {"WebPage", "WebApplication", "BreadcrumbList", "Person", "ImageObject"}
@@ -230,8 +230,11 @@ def assert_tool_seo(page, entities, slug):
     ]
     if breadcrumb.get("itemListElement") != expected_items:
         fail(f"{slug} breadcrumb must identify the home page and current tool")
-    if not {"Breadcrumb", "On this page"}.issubset(page.navigation_labels):
-        fail(f"{slug} must retain its visible breadcrumb and section navigation")
+    required_navigation = {"On this page"}
+    if require_visible_breadcrumb:
+        required_navigation.add("Breadcrumb")
+    if not required_navigation.issubset(page.navigation_labels):
+        fail(f"{slug} must retain its required navigation: {', '.join(sorted(required_navigation))}")
 
 
 def assert_crontab_seo(page, entities):
@@ -246,7 +249,7 @@ def assert_crontab_seo(page, entities):
 
 
 def assert_json_diff_seo(page, entities):
-    assert_tool_seo(page, entities, "json-diff")
+    assert_tool_seo(page, entities, "json-diff", require_visible_breadcrumb=False)
     by_type = {entity.get("@type"): entity for entity in entities if isinstance(entity.get("@type"), str)}
     application = by_type["WebApplication"]
     webpage = by_type["WebPage"]

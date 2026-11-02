@@ -5,6 +5,7 @@ const assert = require("node:assert/strict");
 const yaml = require("../yaml-formatter/vendor/js-yaml.min.js");
 const { parse, compare } = require("../json-diff/diff.js");
 const sourceMap = require("../json-diff/source-map.js");
+const examples = require("../json-diff/examples.js");
 const json = (value) => parse(JSON.stringify(value), "json", yaml);
 const yml = (source) => parse(source, "yaml", yaml);
 const diff = (before, after, options) => compare(json(before), json(after), options);
@@ -210,4 +211,37 @@ test("source highlights retain direct property names that resemble internal docu
   assert.deepEqual(locatedValues('{"documents":[1]}', '{"documents":[2]}'), [
     { path: "/documents/0", before: "1", after: "2" },
   ]);
+});
+
+test("all category examples demonstrate the intended changes with valid source highlights", () => {
+  const expected = {
+    json: { added: 2, removed: 1, changed: 2 },
+    "json-records": { added: 1, removed: 1, changed: 1 },
+    "json-unordered": { added: 1, removed: 1, changed: 0 },
+    "json-types": { added: 1, removed: 2, changed: 2 },
+    "json-cross-format": { added: 0, removed: 0, changed: 0 },
+    yaml: { added: 1, removed: 1, changed: 2 },
+    "yaml-compose": { added: 2, removed: 1, changed: 3 },
+    "yaml-helm": { added: 1, removed: 0, changed: 5 },
+    "yaml-anchors": { added: 0, removed: 0, changed: 3 },
+    "yaml-equivalent": { added: 0, removed: 0, changed: 0 },
+    kubernetes: { added: 0, removed: 0, changed: 2 },
+    "kubernetes-config": { added: 1, removed: 1, changed: 2 },
+    "kubernetes-containers": { added: 0, removed: 0, changed: 2 },
+    "kubernetes-ingress": { added: 1, removed: 0, changed: 3 },
+    "kubernetes-resources": { added: 0, removed: 0, changed: 4 },
+  };
+  assert.deepEqual(Object.keys(examples).sort(), Object.keys(expected).sort());
+  for (const category of ["json", "yaml", "kubernetes"]) {
+    assert.equal(Object.values(examples).filter((example) => example.category === category).length, 5);
+  }
+  for (const [id, example] of Object.entries(examples)) {
+    const [before, after] = example.sources.map((source, index) => parse(source, example.formats[index], yaml));
+    const changes = compare(before, after, example.options);
+    const counts = { added: 0, removed: 0, changed: 0 };
+    changes.forEach((change) => counts[change.type]++);
+    assert.deepEqual(counts, expected[id], id);
+    // Each demonstrated edit must also be reachable in the editable inputs.
+    locatedValues(...example.sources, ...example.formats, example.options);
+  }
 });
