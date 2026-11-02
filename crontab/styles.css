@@ -248,46 +248,13 @@ main {
 }
 
 .community-note + main .hero {
-  padding-top: 24px;
+  padding-top: 44px;
 }
 
 :target {
   scroll-margin-top: 24px;
 }
 
-.breadcrumbs {
-  margin-top: 24px;
-  color: var(--muted);
-  font-size: 11px;
-  line-height: 1.7;
-}
-
-.breadcrumbs ol {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  gap: 12px;
-  margin: 0;
-  padding: 0;
-  list-style: none;
-}
-
-.breadcrumbs li + li {
-  display: inline-flex;
-  align-items: center;
-  gap: 12px;
-}
-
-.breadcrumbs li + li::before {
-  width: 5px;
-  height: 5px;
-  border-top: 1px solid currentColor;
-  border-right: 1px solid currentColor;
-  content: "";
-  transform: rotate(45deg);
-}
-
-.breadcrumbs a,
 .page-navigation a {
   color: var(--blue-dark);
   text-underline-offset: 3px;

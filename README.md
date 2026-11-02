@@ -194,7 +194,7 @@ node --test scripts/crontab.test.cjs
 ```
 
 The page includes static instructions, crontab examples, a syntax reference,
-visible breadcrumbs, and connected page/application/author/image structured data.
+section navigation, and connected page/application/author/image structured data.
 `python3 scripts/seo-audit.py` verifies these SEO relationships and related-tool
 links. Follow the crontab checks in [`SEARCH_CONSOLE.md`](./SEARCH_CONSOLE.md)
 after deployment to inspect indexing and measure actual search performance.

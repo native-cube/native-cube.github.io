@@ -238,7 +238,7 @@ def assert_tool_seo(page, entities, slug, require_visible_breadcrumb=True):
 
 
 def assert_crontab_seo(page, entities):
-    assert_tool_seo(page, entities, "crontab")
+    assert_tool_seo(page, entities, "crontab", require_visible_breadcrumb=False)
     h1 = next((text.lower() for tag, text in page.headings if tag == "h1"), "")
     if "crontab" not in h1 or "generator" not in h1:
         fail("crontab must have a descriptive generator heading in the original HTML")
