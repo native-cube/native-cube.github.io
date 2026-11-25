@@ -1,0 +1,6 @@
+# Keep repository documentation and maintenance scripts out of the Pages build.
+exclude:
+  - AGENTS.md
+  - README.md
+  - SEARCH_CONSOLE.md
+  - scripts

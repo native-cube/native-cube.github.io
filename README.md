@@ -205,6 +205,8 @@ Open `/timestamp-converter/` to convert between Unix seconds, Unix
 milliseconds, and ISO 8601. See each instant in UTC and a searchable display
 time zone. Enter a second timestamp to see the event order, exact elapsed time,
 and copyable AWS CloudWatch Logs `--start-time` and `--end-time` flags.
+Use **Load next example** to cycle through the built-in cases, or select an
+example card to load it directly.
 
 Auto-detect treats numbers with 12 or more digits before the decimal as
 milliseconds and shorter numbers as seconds. Choose a unit explicitly for

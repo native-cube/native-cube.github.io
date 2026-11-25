@@ -1,6 +1,5 @@
 #!/usr/bin/env python3
 
-from html.parser import HTMLParser
 from pathlib import Path
 from datetime import date
 import json
@@ -9,12 +8,8 @@ import sys
 import xml.etree.ElementTree as ET
 from urllib.parse import unquote, urljoin, urlsplit
 
+from site_routes import REDIRECTS, ROOT, SITE_URL, SITEMAP_NAMESPACE, RoutingMetadata, blocks_search, page_url
 
-ROOT = Path(__file__).resolve().parent.parent
-SITE_URL = "https://native-cube.com"
-REDIRECTS = {
-    Path("json-formatter/index.html"): Path("yaml-formatter/index.html"),
-}
 INDEXABLE_PATHS = tuple(
     sorted(
         (
@@ -25,14 +20,7 @@ INDEXABLE_PATHS = tuple(
         key=lambda path: path.as_posix(),
     )
 )
-PAGES = {
-    path: (
-        f"{SITE_URL}/"
-        if path == Path("index.html")
-        else f"{SITE_URL}/{path.parent.as_posix()}/"
-    )
-    for path in INDEXABLE_PATHS
-}
+PAGES = {path: page_url(path) for path in INDEXABLE_PATHS}
 REQUIRED_META = {
     "description",
     "og:description",
@@ -48,7 +36,7 @@ REQUIRED_META = {
 }
 
 
-class PageAudit(HTMLParser):
+class PageAudit(RoutingMetadata):
     def __init__(self):
         super().__init__()
         self.ids = []
@@ -59,7 +47,6 @@ class PageAudit(HTMLParser):
         self.navigation_labels = []
         self.links = []
         self.meta = {}
-        self.canonicals = []
         self.title = []
         self.json_ld = []
         self._in_title = False
@@ -69,6 +56,7 @@ class PageAudit(HTMLParser):
         self._heading_parts = []
 
     def handle_starttag(self, tag, attrs):
+        super().handle_starttag(tag, attrs)
         values = dict(attrs)
         if tag == "html":
             self.language = values.get("lang", "")
@@ -87,17 +75,10 @@ class PageAudit(HTMLParser):
             self.examples.append(values["data-example"])
         if tag == "a" and values.get("href"):
             self.links.append(values["href"])
-        rel = values.get("rel", "")
-        if tag == "link" and "canonical" in rel.lower().split():
-            canonical = values.get("href", "")
-            self.canonicals.append(canonical)
-            self.meta["canonical"] = canonical
         if tag == "meta":
             key = values.get("name") or values.get("property")
             if key:
                 self.meta[key.lower()] = values.get("content", "")
-            if values.get("http-equiv", "").lower() == "refresh":
-                self.meta["refresh"] = values.get("content", "")
         if tag == "title":
             self._in_title = True
         if tag == "script" and values.get("type") == "application/ld+json":
@@ -105,6 +86,7 @@ class PageAudit(HTMLParser):
             self._json_parts = []
 
     def handle_endtag(self, tag):
+        super().handle_endtag(tag)
         if tag == self._heading_tag:
             self.headings.append((tag, " ".join("".join(self._heading_parts).split())))
             self._heading_tag = None
@@ -293,10 +275,8 @@ for path, canonical in PAGES.items():
     titles.add(title)
     if page.h1_count != 1:
         fail(f"{path} has {page.h1_count} h1 elements; expected exactly one")
-    if len(page.canonicals) != 1:
-        fail(f"{path} has {len(page.canonicals)} canonical links; expected exactly one")
-    if page.meta.get("canonical") != canonical:
-        fail(f"{path} canonical is not {canonical}")
+    if page.canonicals != [canonical] or page.outside_head:
+        fail(f"{path} must declare exactly one canonical in its head: {canonical}")
     canonical_parts = urlsplit(canonical)
     if (
         canonical_parts.scheme != "https"
@@ -313,7 +293,7 @@ for path, canonical in PAGES.items():
     if page.meta["description"] in descriptions:
         fail(f"{path} repeats another page's description")
     descriptions.add(page.meta["description"])
-    if "refresh" in page.meta:
+    if page.refreshes:
         fail(f"{path} is a canonical page but contains a redirect")
     if page.meta.get("og:url") != canonical:
         fail(f"{path} og:url does not match its canonical URL")
@@ -324,7 +304,7 @@ for path, canonical in PAGES.items():
     }
     if not {"index", "follow"}.issubset(robots):
         fail(f"{path} must explicitly allow indexing and link following")
-    if {"noindex", "nofollow"} & robots:
+    if blocks_search(page.robots):
         fail(f"{path} contains a restrictive robots directive")
     if page.meta.get("twitter:card") != "summary_large_image":
         fail(f"{path} does not use a large Twitter card")
@@ -362,7 +342,7 @@ for canonical, page in parsed_pages.items():
         if target.hostname != "native-cube.com":
             continue
         target_url = f"{target.scheme}://{target.netloc}{target.path}"
-        if target_url not in parsed_pages:
+        if target.query or target_url not in parsed_pages:
             fail(f"{canonical} links to a non-canonical or missing page: {link}")
         if target.fragment and unquote(target.fragment) not in parsed_pages[target_url].ids:
             fail(f"{canonical} links to a missing fragment: {link}")
@@ -370,19 +350,18 @@ for canonical, page in parsed_pages.items():
 for redirect_path, target_path in REDIRECTS.items():
     redirect = parse_page(redirect_path)
     redirect_target = PAGES[target_path]
-    if "noindex" in redirect.meta.get("robots", "").lower():
-        fail(f"{redirect_path} must consolidate with its target without noindex")
-    if redirect.canonicals != [redirect_target]:
-        fail(f"{redirect_path} must canonicalize to {redirect_target}")
-    if redirect.meta.get("refresh") != f"0; url={redirect_target}":
-        fail(f"{redirect_path} must immediately redirect to the absolute canonical URL")
+    if blocks_search(redirect.robots):
+        fail(f"{redirect_path} must allow crawling and consolidation with its target")
+    if redirect.canonicals != [redirect_target] or redirect.outside_head:
+        fail(f"{redirect_path} must canonicalize in its head to {redirect_target}")
+    if redirect.refreshes != [f"0; url={redirect_target}"]:
+        fail(f"{redirect_path} must declare one instant refresh to the absolute canonical URL")
     if redirect_target not in redirect.links:
         fail(f"{redirect_path} must provide a direct fallback link to its target")
 
-namespace = {"sitemap": "http://www.sitemaps.org/schemas/sitemap/0.9"}
 sitemap = ET.parse(ROOT / "sitemap.xml")
 sitemap_locations = [
-    node.text for node in sitemap.findall(".//sitemap:loc", namespace) if node.text
+    node.text for node in sitemap.findall(".//s:loc", SITEMAP_NAMESPACE) if node.text
 ]
 sitemap_urls = set(sitemap_locations)
 if len(sitemap_locations) != len(sitemap_urls):
@@ -393,9 +372,9 @@ if sitemap_urls != expected_urls:
         "sitemap URLs differ from canonical pages: "
         f"expected {sorted(expected_urls)}, found {sorted(sitemap_urls)}"
     )
-for url_node in sitemap.findall(".//sitemap:url", namespace):
-    location = url_node.findtext("sitemap:loc", namespaces=namespace)
-    last_modified = url_node.findtext("sitemap:lastmod", namespaces=namespace)
+for url_node in sitemap.findall(".//s:url", SITEMAP_NAMESPACE):
+    location = url_node.findtext("s:loc", namespaces=SITEMAP_NAMESPACE)
+    last_modified = url_node.findtext("s:lastmod", namespaces=SITEMAP_NAMESPACE)
     if not last_modified:
         fail(f"sitemap entry {location or '<missing loc>'} has no lastmod value")
     try:

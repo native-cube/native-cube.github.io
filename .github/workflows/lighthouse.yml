@@ -24,6 +24,9 @@ jobs:
       - name: Validate SEO metadata and canonical URLs
         run: python3 scripts/seo-audit.py
 
+      - name: Test redirect diagnostics
+        run: python3 scripts/test_redirects.py
+
       - name: Test cron parsing and schedule evaluation
         run: node --test scripts/crontab.test.cjs
 

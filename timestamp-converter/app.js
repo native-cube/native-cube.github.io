@@ -26,6 +26,8 @@
   const flags = byId("cloudwatch-flags");
   const copyBounds = byId("copy-bounds");
   const toast = byId("toast");
+  const examples = [...document.querySelectorAll("[data-example]")];
+  let exampleIndex = -1;
   let toastTimer;
   let lastZone;
   let zoneFormatter;
@@ -146,15 +148,17 @@
     renderComparison(a, b);
   }
 
-  function loadExample({ first, second = "", zone }) {
+  function loadExample(index) {
+    const example = examples[index];
+    const { first, second = "", zone } = example.dataset;
+    exampleIndex = index;
     events[0].input.value = first;
     events[1].input.value = second;
     for (const event of events) event.format.value = "auto";
     if (zone) timeZone.value = zone;
     closeTimeZones();
     render();
-    events[0].input.focus({ preventScroll: true });
-    events[0].input.scrollIntoView({ block: "nearest" });
+    notify(`Loaded “${example.querySelector("strong").textContent}”.`);
   }
 
   form.addEventListener("submit", (event) => {
@@ -198,10 +202,14 @@
     render();
     events[0].input.focus();
   });
-  for (const example of document.querySelectorAll("[data-example]")) {
-    example.addEventListener("click", () => loadExample(example.dataset));
-  }
-  byId("load-log-example").addEventListener("click", () => loadExample(document.querySelector('[data-example="logs"]').dataset));
+  examples.forEach((example, index) => {
+    example.addEventListener("click", () => {
+      loadExample(index);
+      events[0].input.focus({ preventScroll: true });
+      events[0].input.scrollIntoView({ block: "nearest" });
+    });
+  });
+  byId("load-example").addEventListener("click", () => loadExample((exampleIndex + 1) % examples.length));
   copyBounds.addEventListener("click", () => copy(flags.textContent, "CloudWatch time bounds copied."));
 
   render();

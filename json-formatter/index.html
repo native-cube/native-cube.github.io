@@ -10,10 +10,11 @@
     />
     <title>Redirecting to YAML &amp; JSON Formatter | Native Cube</title>
     <script>
-      const destination = new URL("https://native-cube.com/yaml-formatter/");
-      destination.search = window.location.search;
-      destination.hash = window.location.hash;
-      window.location.replace(destination);
+      if (window.location.hash) {
+        const destination = new URL(document.querySelector('link[rel="canonical"]').href);
+        destination.hash = window.location.hash;
+        window.location.replace(destination);
+      }
     </script>
   </head>
   <body>

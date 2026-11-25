@@ -58,16 +58,21 @@ contributor for placement, but should not share Google credentials.
 
 ## Redirect exclusions versus redirect failures
 
-Search Console's **Page with redirect** is expected for HTTP, `www`, the old
-GitHub Pages hostname, paths missing their trailing slash, and `/json-formatter/`.
-Google indexes the destination instead. Those source URLs should remain
-excluded; repeatedly validating them as indexable pages will not fix anything.
+In **Page indexing**, use the submitted sitemap filter to check the URLs we
+intend Google to index. Each entry should return HTML with a direct HTTP 200 and
+declare its own canonical. Investigate any submitted URL marked **Page with
+redirect**.
 
-**Redirect error** is different: Google could not follow a chain because of a
-loop, excessive redirects, an invalid or empty destination, or an overly long
-URL. Copy the exact affected URL from the report and inspect every hop and the
-final destination. **Alternate page with proper canonical tag** is also expected
-for `/index.html` duplicates that GitHub Pages serves with HTTP 200.
+In the unfiltered report, **Page with redirect** is expected for working HTTP,
+`www`, old GitHub Pages, slashless, and `/json-formatter/` variants. Inspect the
+canonical destination to check its indexing status. GitHub Pages also serves
+`/index.html` duplicates with HTTP 200 and the clean directory URL as canonical.
+Those can appear as **Alternate page with proper canonical tag**.
+
+A **Redirect error** means Google could not follow a chain because of a loop,
+excessive redirects, an invalid or empty destination, or an overly long URL.
+Copy the exact affected URL from the report, including any query string,
+and record the last crawl date. Trace that URL before changing its routing.
 
 These distinctions are documented in Google's
 [Page indexing report help](https://support.google.com/webmasters/answer/7440203).
@@ -80,13 +85,29 @@ Run the dependency-free live audit after deployment:
 python3 scripts/check-redirects.py
 ```
 
-It checks every sitemap page across HTTP/HTTPS, apex/`www`, and the old GitHub
-Pages hostname, plus slashless paths, `index.html` duplicates, and the formatter
-alias. It follows HTTP and instant meta-refresh redirects explicitly, rejects
-loops and temporary or insecure redirects, and checks that each final page is
-HTTP 200 with the expected canonical and no indexing restrictions. The separate
-**Live redirect checks** workflow runs weekly and can be started manually in
-Actions. It checks production, so run it after the source changes are published.
+The audit checks the published sitemap and robots file against the repository,
+then tests directory, slashless, and `index.html` paths across the apex, `www`,
+and the old GitHub Pages hostname on both HTTP and HTTPS. It also checks the
+formatter alias and that repository guidance is excluded from the Pages build.
+
+| Audit result | Meaning |
+| --- | --- |
+| `canonical` | A sitemap URL returns HTML with a direct indexable 200. |
+| `redirect` | A permanent chain ends at the expected page or its canonicalized `index.html` equivalent. |
+| `alternate` | A duplicate URL returns 200 and declares the expected canonical. |
+| `error` | The chain or its destination failed a check. The detail includes the observed hops. |
+
+The **Live redirect checks** workflow runs weekly and on demand. Run it after
+GitHub Pages publishes the source changes to check the new deployment.
+
+Trace specific report examples without running the full audit. Repeat `--url`
+to check more than one source.
+
+```sh
+python3 scripts/check-redirects.py \
+  --url 'https://www.native-cube.com/json-formatter' \
+  --url 'https://native-cube.com/yaml-formatter/index.html'
+```
 
 An optional user agent helps investigate response differences:
 
@@ -94,14 +115,14 @@ An optional user agent helps investigate response differences:
 python3 scripts/check-redirects.py --user-agent Googlebot
 ```
 
-Changing a user-agent string does not reproduce Google's crawler network or
-replace Search Console's **Test live URL**.
+Use the user-agent option to compare responses. Search Console’s **Test live
+URL** shows the result of Google’s own fetch.
 
-Public HTTP checks on 2 November 2026 confirmed that all eight canonical pages
-returned 200 and the tested HTTP, `www`, and GitHub Pages variants redirected
-permanently to the apex HTTPS URLs. The formatter alias still served the old
-`noindex` directive before this change was deployed. This is a consolidation
-signal issue; it does not prove the cause of an account's **Redirect error**.
+Public HTTP checks on 25 November 2026 found direct 200 responses for all 11
+sitemap URLs and successful chains for the known redirects. The sitemap and
+robots file matched the repository. GitHub Pages also served `AGENTS.html` and
+`SEARCH_CONSOLE.html` with their own canonicals. `_config.yml` excludes those
+source documents, the README, and maintenance scripts from subsequent builds.
 
 ## Hosting settings and redirect aliases
 
@@ -116,8 +137,8 @@ and [HTTPS settings](https://docs.github.com/en/pages/getting-started-with-githu
 GitHub Pages serves static HTML and does not provide per-path HTTP redirect
 rules in this repository. The formatter alias therefore uses an instant meta
 refresh, which Google treats as a permanent redirect, plus a matching absolute
-canonical and fallback link. JavaScript preserves query strings and fragments
-for visitors. See Google's
+canonical and fallback link. The alias drops unused query parameters. A browser
+script preserves bookmark fragments on the same canonical destination. See Google's
 [redirect guidance](https://developers.google.com/search/docs/crawling-indexing/301-redirects).
 An HTTP 301 for this alias would require redirect support at a hosting or proxy
 layer. Do not add redirect files for other hosting services and expect GitHub
@@ -128,10 +149,11 @@ redirect and canonical together. Google's
 [canonicalization guidance](https://developers.google.com/search/docs/crawling-indexing/consolidate-duplicate-urls)
 explains why `noindex` is unsuitable for canonical selection.
 
-After publishing, rerun the live audit, resubmit the canonical sitemap, and use
-**Test live URL** for each affected destination. Request indexing for canonical
-pages and validate actual **Redirect error** fixes. Historical exclusions remain
-until Google recrawls them, and intentional redirects remain excluded.
+After publishing, rerun the live audit and use **Test live URL** for the exact
+**Redirect error** examples and their canonical destinations. Use **Validate
+Fix** when the affected chains are working. Request indexing for an affected
+canonical destination if it still needs recrawling. Google updates report
+history as it revisits the URLs.
 
 ## Check and measure the crontab page
 
