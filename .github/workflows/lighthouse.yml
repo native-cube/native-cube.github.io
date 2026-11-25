@@ -16,7 +16,7 @@ jobs:
 
     steps:
       - name: Check out repository
-        uses: actions/checkout@v6
+        uses: actions/checkout@v7
 
       - name: Verify embedded ApplicationSet Studio runtime
         run: python3 scripts/embed-applicationset-studio-runtime.py --check
@@ -32,6 +32,9 @@ jobs:
 
       - name: Test JSON and YAML comparison
         run: node --test scripts/json-diff.test.cjs
+
+      - name: Test YAML parser compatibility
+        run: node --test scripts/yaml-compatibility.test.cjs
 
       - name: Test timestamp parsing and comparison
         run: node --test scripts/timestamp-converter.test.cjs

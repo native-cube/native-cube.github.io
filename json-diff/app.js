@@ -543,7 +543,7 @@
       const parsed = window.NativeDiff.parse(byId(`${side}-editor`).value, byId(`${side}-format`).value);
       byId(`${side}-editor`).value = parsed.format === "json"
         ? JSON.stringify(parsed.documents[0], null, 2)
-        : parsed.documents.map((value) => window.jsyaml.dump(value, { schema: window.jsyaml.JSON_SCHEMA, lineWidth: -1, indent: 2 })).join("---\n");
+        : parsed.documents.map((value) => window.jsyaml.dump(value, { schema: window.NativeCubeYaml.coreSchema(window.jsyaml), lineWidth: -1, indent: 2 })).join("---\n");
       byId(`${side}-format`).value = parsed.format;
       fileVersions[side]++;
       updateEditor(side);

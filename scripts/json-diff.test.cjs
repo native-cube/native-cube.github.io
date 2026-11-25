@@ -177,6 +177,24 @@ test("source locations cover YAML blocks, flow collections, empty values and esc
   ]);
 });
 
+test("YAML source highlights use the same numeric and alias keys as comparison", () => {
+  const before = "key: &field 0b101\n*field : old\n0x10: [a, b]\n";
+  const after = "key: &field 0b101\n*field : new\n0x10: [a, b, c]\n";
+  assert.deepEqual(locatedValues(before, after, "yaml", "yaml"), [
+    { path: "/16/2", before: null, after: "c" },
+    { path: "/5", before: "old", after: "new" },
+  ]);
+});
+
+test("YAML source highlights isolate tags and anchors on empty scalars", () => {
+  const before = "empty: &empty\ntagged: !!null\n";
+  const after = "empty: 12\ntagged: true\n";
+  assert.deepEqual(locatedValues(before, after, "yaml", "yaml"), [
+    { path: "/empty", before: "&empty", after: "12" },
+    { path: "/tagged", before: "!!null", after: "true" },
+  ]);
+});
+
 test("source highlights respect keyed arrays and unordered duplicate counts", () => {
   assert.deepEqual(locatedValues('[{"id":1,"x":2},{"id":2,"x":2}]', '[{"id":2,"x":2},{"id":1,"x":3}]', "json", "json", { arrayMode: "keyed", arrayKey: "id" }), [
     { path: "/id=1/x", before: "2", after: "3" },

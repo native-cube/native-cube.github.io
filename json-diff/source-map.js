@@ -1,6 +1,9 @@
 (function (root) {
   "use strict";
 
+  const yamlSchemas = typeof module !== "undefined" && module.exports
+    ? require("../yaml-formatter/schema.js")
+    : root.NativeCubeYaml;
   const pointer = (path, key) => `${path}/${String(key).replace(/~/g, "~0").replace(/\//g, "~1")}`;
   const decode = (key) => key.replace(/~1/g, "/").replace(/~0/g, "~");
 
@@ -54,54 +57,123 @@
     return [locations];
   }
 
-  function yamlLocations(source, yaml) {
-    const stack = [];
-    const roots = [];
-    yaml.loadAll(source, null, {
-      schema: yaml.JSON_SCHEMA,
-      listener(event, state) {
-        if (event === "open") stack.push({ start: state.position, children: [] });
-        else {
-          const node = stack.pop();
-          Object.assign(node, { end: state.position, kind: state.kind, value: state.result });
-          if (stack.length) stack[stack.length - 1].children.push(node);
-          else roots.push(node);
-        }
+  function yamlMappingKeys(source, events, yaml) {
+    const map = yaml.legacyMapTag;
+    const maps = [];
+    const keysByMap = new WeakMap();
+    const recordingMap = {
+      ...map,
+      create(tagName) {
+        const value = map.create(tagName);
+        const keys = [];
+        keysByMap.set(value, keys);
+        maps.push(keys);
+        return value;
       },
+      addPair(value, key, item) {
+        // Let the same tag used by the loader resolve numeric and alias keys.
+        const field = Object.create(null);
+        const error = map.addPair(field, key, null);
+        if (error) return error;
+        const [name] = Object.keys(field);
+        keysByMap.get(value).push(name);
+        return map.addPair(value, name, item);
+      },
+    };
+    yaml.constructFromEvents(events, {
+      source,
+      schema: yamlSchemas.coreSchema(yaml).withTags(recordingMap),
     });
-    function trimStart(start, end) {
-      while (start < end) {
-        if (/\s/.test(source[start])) start++;
-        else if (source[start] === "#") {
-          const newline = source.indexOf("\n", start);
-          start = newline < 0 ? end : newline + 1;
+    return maps;
+  }
+
+  function yamlLocations(source, yaml) {
+    const events = yaml.parseEvents(source);
+    const maps = yamlMappingKeys(source, events, yaml);
+    const type = yaml.EVENT_ID;
+    const style = yaml.SCALAR_STYLE;
+    const documents = [];
+    let index = 0;
+    let mapIndex = 0;
+    let cursor = 0;
+
+    function flowEnd(closer) {
+      let index = cursor;
+      while (index < source.length) {
+        if (/[\s,]/.test(source[index])) index++;
+        else if (source[index] === "#") {
+          while (index < source.length && !/[\r\n]/.test(source[index])) index++;
         } else break;
       }
-      return start;
+      return source[index] === closer ? index + 1 : cursor;
     }
-    return roots.map((node) => {
-      const locations = new Map();
-      function visit(current, path, keyStart) {
-        const start = trimStart(current.start, current.end);
-        let end = current.end;
-        while (end > start && /\s/.test(source[end - 1])) end--;
-        locations.set(path, { start, end, keyStart: keyStart ?? start, alias: current.kind === null });
-        // js-yaml can wrap a flow collection while probing for a block mapping.
-        let children = current.children;
-        while (children.length === 1 && children[0].value === current.value && children[0].kind === current.kind) children = children[0].children;
-        if (current.kind === "mapping") {
-          for (let index = 0; index + 1 < children.length; index += 2) {
-            const key = children[index];
-            const value = children[index + 1];
-            visit(value, pointer(path, String(key.value)), trimStart(key.start, key.end));
-          }
-        } else if (current.kind === "sequence") {
-          children.forEach((child, index) => visit(child, pointer(path, index)));
-        }
+
+    function scalarStart(event) {
+      if (event.valueStart < 0) {
+        if (event.tagStart >= 0) return event.tagStart;
+        if (event.anchorStart >= 0) return event.anchorStart - 1;
+        return cursor;
       }
-      visit(node, "");
-      return locations;
-    });
+      if (event.style === style.SINGLE_QUOTED || event.style === style.DOUBLE_QUOTED) return event.valueStart - 1;
+      if (event.style === style.LITERAL_BLOCK || event.style === style.FOLDED_BLOCK) {
+        let lineEnd = event.valueStart;
+        while (lineEnd > 0 && /[\r\n]/.test(source[lineEnd - 1])) lineEnd--;
+        const lineStart = Math.max(source.lastIndexOf("\n", lineEnd - 1), source.lastIndexOf("\r", lineEnd - 1)) + 1;
+        const from = Math.max(cursor, lineStart, event.anchorEnd, event.tagEnd);
+        const header = source.indexOf(event.style === style.LITERAL_BLOCK ? "|" : ">", from);
+        if (header >= 0 && header < lineEnd) return header;
+      }
+      return event.valueStart;
+    }
+
+    function readNode(locations, path, keyStart) {
+      const event = events[index++];
+      let start;
+      let end;
+      if (event.type === type.ALIAS) {
+        start = event.anchorStart - 1;
+        end = event.anchorEnd;
+      } else if (event.type === type.SCALAR) {
+        start = scalarStart(event);
+        const quoted = event.style === style.SINGLE_QUOTED || event.style === style.DOUBLE_QUOTED;
+        end = event.valueEnd < 0 ? Math.max(start, event.anchorEnd, event.tagEnd) : event.valueEnd + Number(quoted);
+      } else {
+        start = event.start;
+        const mapping = event.type === type.MAPPING;
+        const keys = mapping ? maps[mapIndex++] : null;
+        const opening = mapping ? "{" : "[";
+        const flow = event.style === yaml.COLLECTION_STYLE.FLOW && source[start] === opening;
+        cursor = Math.max(cursor, start + Number(flow));
+        for (let item = 0; events[index].type !== type.POP; item++) {
+          const key = mapping ? readNode(locations, null) : null;
+          readNode(locations, path === null ? null : pointer(path, mapping ? keys[item] : item), key?.start);
+        }
+        index++;
+        end = flow ? flowEnd(mapping ? "}" : "]") : cursor;
+      }
+
+      if (event.tagStart >= 0) start = Math.min(start, event.tagStart);
+      if (event.anchorStart >= 0) start = Math.min(start, event.anchorStart - 1);
+      cursor = Math.max(cursor, end);
+      while (end > start && /\s/.test(source[end - 1])) end--;
+      if (path !== null) locations.set(path, { start, end, keyStart: keyStart ?? start, alias: event.type === type.ALIAS });
+      return { start, end };
+    }
+
+    while (index < events.length) {
+      const document = events[index++];
+      const root = events[index];
+      if (document.explicitStart && root.type === type.SCALAR && root.valueStart < 0) {
+        const marker = /(?:^|[\r\n])---(?=\s|$)/g;
+        marker.lastIndex = Math.max(0, cursor - 1);
+        if (marker.test(source)) cursor = marker.lastIndex;
+      }
+      const locations = new Map();
+      readNode(locations, "");
+      index++;
+      documents.push(locations);
+    }
+    return documents;
   }
 
   // Build only after NativeDiff.parse has validated the input and its size limits.

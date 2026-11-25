@@ -799,11 +799,9 @@ spec:
     if (text.length > MAX_INPUT_LENGTH) {
       throw new Error(`${label} exceeds the 2 MB local preview limit.`);
     }
-    const documents = [];
+    let documents;
     try {
-      window.jsyaml.loadAll(text, (document) => {
-        if (document !== null && document !== undefined) documents.push(document);
-      }, YAML_LOAD_OPTIONS);
+      documents = window.jsyaml.loadAll(text, YAML_LOAD_OPTIONS).filter((document) => document != null);
     } catch (error) {
       const location = error.mark
         ? ` at line ${error.mark.line + 1}, column ${error.mark.column + 1}`

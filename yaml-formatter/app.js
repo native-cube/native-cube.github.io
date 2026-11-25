@@ -3,6 +3,7 @@
 
   if (typeof document === "undefined") return;
 
+  const yamlSchema = window.jsyaml && window.NativeCubeYaml.configurationSchema(window.jsyaml);
   const YAML_EXAMPLE = `service:
   name: catalog-api
   enabled: true
@@ -113,10 +114,7 @@
       };
     }
 
-    const documents = [];
-    window.jsyaml.loadAll(source, (documentValue) => {
-      documents.push(documentValue);
-    });
+    const documents = window.jsyaml.loadAll(source, { schema: yamlSchema });
 
     return {
       documents,
@@ -151,9 +149,9 @@
     return documents
       .map((documentValue, index) => {
         const yaml = window.jsyaml.dump(documentValue, {
+          schema: yamlSchema,
           indent,
           lineWidth: -1,
-          noCompatMode: true,
           noRefs: true,
           sortKeys: false,
         });
