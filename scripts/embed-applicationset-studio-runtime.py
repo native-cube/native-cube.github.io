@@ -8,12 +8,16 @@ import sys
 ROOT = Path(__file__).resolve().parent.parent
 PAGE_PATH = ROOT / "argocd-applicationset-studio/index.html"
 RUNTIMES = {
-    "yaml-runtime-v1": ROOT / "argocd-applicationset-studio/vendor/js-yaml-5.2.2.umd.min.js",
+    "yaml-runtime-v1": ROOT / "yaml-formatter/vendor/js-yaml.min.js",
     "applicationset-studio-runtime-v1": ROOT / "argocd-applicationset-studio/app.js",
 }
 
 
 def embed_runtime(page, runtime_id, source):
+    if runtime_id == "yaml-runtime-v1":
+        # The upstream bundle uses a literal NEL in its YAML escape table.
+        # Escaping it here keeps the inline script valid HTML.
+        source = source.replace(b"\xc2\x85", b"\\u0085")
     opening = f'<script id="{runtime_id}">\n'.encode()
     closing = b"\n    </script>"
     opening_index = page.find(opening)

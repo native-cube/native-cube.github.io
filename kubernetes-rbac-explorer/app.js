@@ -3,6 +3,7 @@
 
   if (typeof document === "undefined") return;
 
+  const yamlSchema = window.jsyaml && window.NativeCubeYaml.configurationSchema(window.jsyaml);
   const SUPPORTED_KINDS = new Set([
     "Role",
     "ClusterRole",
@@ -300,11 +301,9 @@ roleRef:
     if (!text.trim()) throw new Error("Paste or choose RBAC YAML or JSON first.");
     if (!window.jsyaml) throw new Error("The local YAML parser could not be loaded.");
 
-    const parsed = [];
+    let parsed;
     try {
-      window.jsyaml.loadAll(text, (documentValue) => {
-        if (documentValue !== undefined && documentValue !== null) parsed.push(documentValue);
-      });
+      parsed = window.jsyaml.loadAll(text, { schema: yamlSchema }).filter((documentValue) => documentValue != null);
     } catch (error) {
       const location = error.mark
         ? ` at line ${error.mark.line + 1}, column ${error.mark.column + 1}`

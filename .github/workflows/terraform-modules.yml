@@ -37,10 +37,10 @@ jobs:
 
     steps:
       - name: Check out repository
-        uses: actions/checkout@v6
+        uses: actions/checkout@v7
 
       - name: Install JSON Schema validator
-        run: python3 -m pip install --disable-pip-version-check check-jsonschema==0.38.0
+        run: python3 -m pip install --disable-pip-version-check check-jsonschema==0.39.0
 
       - name: Validate catalogue schema
         run: check-jsonschema --schemafile terraform-modules/modules.schema.json terraform-modules/modules.json
@@ -59,10 +59,10 @@ jobs:
 
     steps:
       - name: Check out repository
-        uses: actions/checkout@v6
+        uses: actions/checkout@v7
 
       - name: Install JSON Schema validator
-        run: python3 -m pip install --disable-pip-version-check check-jsonschema==0.38.0
+        run: python3 -m pip install --disable-pip-version-check check-jsonschema==0.39.0
 
       - name: Refresh Registry and GitHub metadata
         env:

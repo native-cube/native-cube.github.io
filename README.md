@@ -64,7 +64,8 @@ Git, or an SCM provider, and generated output should be verified with the
 ApplicationSet controller before production use.
 
 The Studio ships one embedded v1 browser runtime so it also works on enterprise
-networks that block JavaScript file responses. It includes js-yaml 5.2.2. After
+networks that block JavaScript file responses. It embeds the shared js-yaml
+5.5.0 browser bundle from `yaml-formatter/vendor/`. After
 changing `app.js` or upgrading the vendored parser, refresh and verify the page:
 
 ```sh
@@ -88,7 +89,7 @@ can copy or download the formatted result.
 
 The shorter `/json-formatter/` alias redirects to this tool.
 
-YAML parsing and serialization use the vendored `js-yaml` 4.1.0 browser
+YAML parsing and serialization use the vendored `js-yaml` 5.5.0 browser
 bundle, distributed under the MIT license included with the tool.
 
 ## JSON & YAML Diff Checker
@@ -153,7 +154,7 @@ snapshots, generates narrowly scoped RBAC drafts, and exports a Markdown review.
 The explorer accepts multi-document YAML, JSON arrays, and Kubernetes `List`
 objects. Parsing and analysis stay in the browser. Secret objects are rejected,
 and users should never provide a kubeconfig, token, or other credentials. YAML
-input uses the existing vendored `js-yaml` 4.1.0 bundle.
+input uses the shared vendored `js-yaml` 5.5.0 bundle.
 
 The random sample library demonstrates namespace read-only access, deployment
 operations, sensitive cluster access, RBAC administration, aggregated

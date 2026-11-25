@@ -1,6 +1,9 @@
 (function (root) {
   "use strict";
 
+  const yamlSchemas = typeof module !== "undefined" && module.exports
+    ? require("../yaml-formatter/schema.js")
+    : root.NativeCubeYaml;
   const MAX_SOURCE = 1024 * 1024;
   const MAX_DEPTH = 80;
   const MAX_NODES = 50000;
@@ -96,9 +99,8 @@
       documents = [parseJson(source)];
     } else {
       if (!yaml) throw new Error("The YAML parser could not load. Reload this page to try again.");
-      documents = yaml.loadAll(source, null, {
-        schema: yaml.JSON_SCHEMA,
-        onWarning(warning) { throw warning; },
+      documents = yaml.loadAll(source, {
+        schema: yamlSchemas.coreSchema(yaml),
       });
       if (!documents.length) throw new Error("No YAML document found.");
       // An empty YAML document has the same value as an explicit null.
