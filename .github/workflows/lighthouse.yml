@@ -30,6 +30,9 @@ jobs:
       - name: Test JSON and YAML comparison
         run: node --test scripts/json-diff.test.cjs
 
+      - name: Test timestamp parsing and comparison
+        run: node --test scripts/timestamp-converter.test.cjs
+
       - name: Validate HTML
         uses: Cyb3r-Jak3/html5validator-action@v7.2.0
         with:
@@ -56,6 +59,7 @@ jobs:
             yaml-formatter/index.html
             json-diff/index.html
             crontab/index.html
+            timestamp-converter/index.html
             terraform-modules/index.html
           fail: true
           jobSummary: true
@@ -82,4 +86,5 @@ jobs:
             http://127.0.0.1:8080/yaml-formatter/
             http://127.0.0.1:8080/json-diff/
             http://127.0.0.1:8080/crontab/
+            http://127.0.0.1:8080/timestamp-converter/
             http://127.0.0.1:8080/terraform-modules/
