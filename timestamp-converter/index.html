@@ -1,0 +1,381 @@
+<!doctype html>
+<html lang="en-GB">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
+    <meta name="description" content="Convert Unix seconds, milliseconds, and ISO 8601 in your browser. Compare two timestamps in UTC and local time, and copy CloudWatch Logs time bounds." />
+    <meta name="author" content="Marcin Cuber" />
+    <meta name="theme-color" content="#f2f5f9" />
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Native Cube" />
+    <meta property="og:locale" content="en_GB" />
+    <meta property="og:title" content="Unix Timestamp Converter &amp; Time Comparison | Native Cube" />
+    <meta property="og:description" content="Convert Unix seconds, milliseconds, and ISO 8601 in your browser. Compare two timestamps in UTC and local time, and copy CloudWatch Logs time bounds." />
+    <meta property="og:url" content="https://native-cube.com/timestamp-converter/" />
+    <meta property="og:image" content="https://native-cube.com/assets/social/native-cube-tools.png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:type" content="image/png" />
+    <meta property="og:image:alt" content="Native Cube cloud-native toolbox" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Unix Timestamp Converter &amp; Time Comparison | Native Cube" />
+    <meta name="twitter:description" content="Convert Unix seconds, milliseconds, and ISO 8601 in your browser. Compare two timestamps in UTC and local time, and copy CloudWatch Logs time bounds." />
+    <meta name="twitter:image" content="https://native-cube.com/assets/social/native-cube-tools.png" />
+    <meta name="twitter:image:alt" content="Native Cube cloud-native toolbox" />
+    <link rel="canonical" href="https://native-cube.com/timestamp-converter/" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <title>Unix Timestamp Converter &amp; Time Comparison | Native Cube</title>
+    <link rel="stylesheet" href="../crontab/styles.css?v=5" />
+    <link rel="stylesheet" href="./styles.css?v=2" />
+    <script src="../assets/time-zone-picker.js?v=1" defer></script>
+    <script src="./timestamp.js?v=2" defer></script>
+    <script src="./app.js?v=2" defer></script>
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@graph": [
+          {
+            "@type": "WebPage",
+            "@id": "https://native-cube.com/timestamp-converter/#webpage",
+            "url": "https://native-cube.com/timestamp-converter/",
+            "name": "Unix Timestamp Converter & Time Comparison | Native Cube",
+            "description": "Convert Unix seconds, milliseconds, and ISO 8601 in your browser. Compare two timestamps in UTC and local time, and copy CloudWatch Logs time bounds.",
+            "inLanguage": "en-GB",
+            "dateModified": "2026-11-25",
+            "isPartOf": { "@id": "https://native-cube.com/#website" },
+            "mainEntity": { "@id": "https://native-cube.com/timestamp-converter/#application" },
+            "breadcrumb": { "@id": "https://native-cube.com/timestamp-converter/#breadcrumb" },
+            "primaryImageOfPage": { "@id": "https://native-cube.com/timestamp-converter/#primary-image" },
+            "author": { "@id": "https://native-cube.com/timestamp-converter/#author" }
+          },
+          {
+            "@type": "WebApplication",
+            "@id": "https://native-cube.com/timestamp-converter/#application",
+            "url": "https://native-cube.com/timestamp-converter/",
+            "name": "Unix Timestamp Converter",
+            "alternateName": "Epoch Converter",
+            "description": "Convert Unix seconds, milliseconds, and ISO 8601 in your browser. Compare two timestamps in UTC and local time, and copy CloudWatch Logs time bounds.",
+            "image": "https://native-cube.com/assets/social/native-cube-tools.png",
+            "inLanguage": "en-GB",
+            "applicationCategory": "DeveloperApplication",
+            "operatingSystem": "Any",
+            "isAccessibleForFree": true,
+            "browserRequirements": "Requires JavaScript and a browser with BigInt and Intl time-zone support",
+            "offers": {
+              "@type": "Offer",
+              "price": "0",
+              "priceCurrency": "USD",
+              "url": "https://native-cube.com/timestamp-converter/"
+            },
+            "featureList": [
+              "Unix seconds and milliseconds conversion in both directions",
+              "ISO 8601 with nanosecond precision and UTC offsets",
+              "Searchable IANA time zones and UTC comparison",
+              "Event ordering and exact elapsed time",
+              "Copyable AWS CloudWatch Logs time bounds"
+            ],
+            "softwareHelp": "https://native-cube.com/timestamp-converter/#formats-title",
+            "creator": { "@id": "https://native-cube.com/timestamp-converter/#author" },
+            "mainEntityOfPage": { "@id": "https://native-cube.com/timestamp-converter/#webpage" }
+          },
+          {
+            "@type": "BreadcrumbList",
+            "@id": "https://native-cube.com/timestamp-converter/#breadcrumb",
+            "itemListElement": [
+              { "@type": "ListItem", "position": 1, "name": "Native Cube", "item": "https://native-cube.com/" },
+              { "@type": "ListItem", "position": 2, "name": "Unix Timestamp Converter", "item": "https://native-cube.com/timestamp-converter/" }
+            ]
+          },
+          {
+            "@type": "Person",
+            "@id": "https://native-cube.com/timestamp-converter/#author",
+            "name": "Marcin Cuber",
+            "url": "https://marcincuber.github.io/"
+          },
+          {
+            "@type": "ImageObject",
+            "@id": "https://native-cube.com/timestamp-converter/#primary-image",
+            "url": "https://native-cube.com/assets/social/native-cube-tools.png",
+            "contentUrl": "https://native-cube.com/assets/social/native-cube-tools.png",
+            "width": 1200,
+            "height": 630,
+            "caption": "Native Cube cloud-native toolbox"
+          }
+        ]
+      }
+    </script>
+  </head>
+  <body>
+    <a class="skip-link" href="#timestamp-a">Skip to timestamp input</a>
+
+    <header class="site-header">
+      <a class="brand" href="../" aria-label="Native Cube, Cloud-native toolbox, home">
+        <svg class="brand-logo" viewBox="0 0 40 40" aria-hidden="true">
+          <path d="M20 2.5 36 11.3 20 20 4 11.3 20 2.5Z" fill="#2563eb" />
+          <path d="M4 11.3 20 20v17.5L4 28.7V11.3Z" fill="#14243b" />
+          <path d="M36 11.3 20 20v17.5l16-8.8V11.3Z" fill="#22a77a" />
+          <path d="m20 8 6 3.3-6 3.2-6-3.2L20 8Z" fill="#f2f5f9" opacity=".95" />
+        </svg>
+        <span class="brand-copy">
+          <span class="brand-name">Native <strong>Cube</strong></span>
+          <span class="brand-tagline">Cloud-native toolbox</span>
+        </span>
+      </a>
+      <div class="header-actions">
+        <div class="product-lockup" role="group" aria-label="Unix Timestamp Converter">
+          <span>Time &amp; logs</span>
+          <strong>Unix Timestamp Converter</strong>
+        </div>
+        <a
+          class="community-link"
+          href="https://paypal.me/marcincube"
+          target="_blank"
+          rel="noreferrer"
+          aria-label="Join the journey: contribute to my daughter’s higher education and future open-source tools (opens in a new tab)"
+          ><span aria-hidden="true">♥</span> Join the journey
+          <span aria-hidden="true">↗</span></a
+        >
+      </div>
+    </header>
+
+    <p class="community-note">
+      <strong>Two journeys, one shared future.</strong> Your contribution helps my
+      daughter pursue higher education and helps me continue creating thoughtful,
+      accessible open-source tools—free for everyone to use.
+    </p>
+
+    <main>
+      <section class="hero timestamp-hero">
+        <h1>Unix Timestamp<br /><em>Converter</em></h1>
+        <p class="hero-copy">
+          Convert epoch seconds, milliseconds, and ISO 8601 dates. Compare timestamps from logs
+          and APIs in UTC and your chosen time zone.
+        </p>
+      </section>
+
+      <nav class="page-navigation timestamp-navigation" aria-label="On this page">
+        <a href="#tool-title">Converter</a>
+        <a href="#examples-title">Examples</a>
+        <a href="#formats-title">Input formats</a>
+      </nav>
+
+      <noscript><p class="notice">Enable JavaScript to convert timestamps. The examples and format reference are available below.</p></noscript>
+      <section class="tool-shell timestamp-tool" aria-labelledby="tool-title">
+        <div class="tool-heading">
+          <h2 id="tool-title">Convert and compare</h2>
+          <span class="privacy-badge">Browser only</span>
+        </div>
+
+        <form id="timestamp-form" novalidate>
+          <div class="timestamp-settings">
+            <div class="display-zone">
+              <label class="field" for="timezone">Display time zone</label>
+              <div class="zone-control">
+                <div class="timezone-picker">
+                  <div class="timezone-input">
+                    <input id="timezone" value="UTC" role="combobox" aria-autocomplete="list" aria-haspopup="listbox" aria-expanded="false" aria-controls="timezone-options" autocomplete="off" autocapitalize="off" spellcheck="false" aria-describedby="zone-help zone-error" maxlength="100" />
+                    <button id="timezone-toggle" type="button" tabindex="-1" aria-label="Show time zones" aria-haspopup="listbox" aria-expanded="false" aria-controls="timezone-options">
+                      <svg viewBox="0 0 12 8" width="12" height="8" aria-hidden="true"><path d="m1 1 5 5 5-5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" /></svg>
+                    </button>
+                  </div>
+                  <ul id="timezone-options" class="timezone-options" role="listbox" aria-label="Time zones" hidden></ul>
+                  <p class="visually-hidden" role="status" aria-live="polite"></p>
+                </div>
+                <button id="local-zone" type="button" class="quiet-button">Use mine</button>
+              </div>
+              <p class="field-help" id="zone-help">Search by region or city, or enter an IANA time zone.</p>
+              <p class="field-help input-error" id="zone-error" hidden></p>
+            </div>
+            <div class="timestamp-actions">
+              <button type="submit" class="primary-button">Convert <span aria-hidden="true">→</span></button>
+              <button type="button" id="load-log-example" class="quiet-button">Load log example</button>
+              <button type="button" id="clear-timestamps" class="quiet-button">Clear</button>
+            </div>
+          </div>
+
+          <div class="timestamp-grid">
+            <section class="timestamp-card event-entry" id="event-a" aria-labelledby="event-a-title">
+              <div class="event-heading">
+                <h3 id="event-a-title"><label for="timestamp-a">Timestamp A</label></h3>
+                <button type="button" class="quiet-button now-button" data-now aria-label="Use current time for timestamp A">Use now</button>
+              </div>
+              <div class="event-fields">
+                <input class="timestamp-input" id="timestamp-a" type="text" value="1735732800.25" placeholder="1735732800.25 or an ISO date" autocomplete="off" autocapitalize="off" spellcheck="false" aria-describedby="status-a" />
+                <label class="visually-hidden" for="format-a">Timestamp A input format</label>
+                <select id="format-a">
+                  <option value="auto">Auto-detect</option>
+                  <option value="seconds">Unix seconds</option>
+                  <option value="milliseconds">Unix milliseconds</option>
+                  <option value="iso">ISO 8601</option>
+                </select>
+              </div>
+              <p class="field-help event-status" id="status-a" aria-live="polite"></p>
+            </section>
+
+            <section class="timestamp-card event-entry" id="event-b" aria-labelledby="event-b-title">
+              <div class="event-heading">
+                <h3 id="event-b-title"><label for="timestamp-b">Timestamp B</label></h3>
+                <button type="button" class="quiet-button now-button" data-now aria-label="Use current time for timestamp B">Use now</button>
+              </div>
+              <div class="event-fields">
+                <input class="timestamp-input" id="timestamp-b" type="text" placeholder="Optional · paste a second timestamp" autocomplete="off" autocapitalize="off" spellcheck="false" aria-describedby="status-b" />
+                <label class="visually-hidden" for="format-b">Timestamp B input format</label>
+                <select id="format-b">
+                  <option value="auto">Auto-detect</option>
+                  <option value="seconds">Unix seconds</option>
+                  <option value="milliseconds">Unix milliseconds</option>
+                  <option value="iso">ISO 8601</option>
+                </select>
+              </div>
+              <p class="field-help event-status" id="status-b" aria-live="polite"></p>
+            </section>
+          </div>
+        </form>
+
+        <section class="timestamp-comparison" id="comparison" aria-labelledby="comparison-title" hidden>
+          <div>
+            <h3 id="comparison-title">Event comparison</h3>
+            <p class="field-help" id="event-order" role="status"></p>
+            <div id="elapsed" class="elapsed">
+              <strong id="elapsed-duration"></strong>
+              <span id="elapsed-milliseconds"></span>
+            </div>
+          </div>
+          <div class="cloudwatch" id="cloudwatch">
+            <div class="range-heading">
+              <h4>CloudWatch Logs range</h4>
+              <button type="button" id="copy-bounds" class="quiet-button" aria-label="Copy CloudWatch Logs time bounds" disabled>Copy CLI flags</button>
+            </div>
+            <pre class="code-preview"><code id="cloudwatch-flags"></code></pre>
+            <p id="cloudwatch-note" class="field-help">Inclusive bounds in Unix milliseconds.</p>
+          </div>
+        </section>
+
+        <div class="timestamp-grid timestamp-results">
+          <section class="timestamp-card" id="results-a" aria-labelledby="results-a-title">
+            <h3 id="results-a-title">Timestamp A results</h3>
+            <dl class="conversion-values">
+              <div>
+                <dt>UTC <span>ISO 8601</span></dt>
+                <dd><code data-output="utc">—</code><button type="button" class="copy-value" data-copy="utc" aria-label="Copy UTC for timestamp A" disabled>Copy</button></dd>
+              </div>
+              <div>
+                <dt>Display time</dt>
+                <dd><code data-output="zoned">—</code><button type="button" class="copy-value" data-copy="zoned" aria-label="Copy display time for timestamp A" disabled>Copy</button></dd>
+              </div>
+              <div>
+                <dt>Unix seconds</dt>
+                <dd><code data-output="seconds">—</code><button type="button" class="copy-value" data-copy="seconds" aria-label="Copy Unix seconds for timestamp A" disabled>Copy</button></dd>
+              </div>
+              <div>
+                <dt>Unix milliseconds</dt>
+                <dd><code data-output="milliseconds">—</code><button type="button" class="copy-value" data-copy="milliseconds" aria-label="Copy Unix milliseconds for timestamp A" disabled>Copy</button></dd>
+              </div>
+            </dl>
+          </section>
+
+          <section class="timestamp-card" id="results-b" aria-labelledby="results-b-title" hidden>
+            <h3 id="results-b-title">Timestamp B results</h3>
+            <dl class="conversion-values">
+              <div>
+                <dt>UTC <span>ISO 8601</span></dt>
+                <dd><code data-output="utc">—</code><button type="button" class="copy-value" data-copy="utc" aria-label="Copy UTC for timestamp B" disabled>Copy</button></dd>
+              </div>
+              <div>
+                <dt>Display time</dt>
+                <dd><code data-output="zoned">—</code><button type="button" class="copy-value" data-copy="zoned" aria-label="Copy display time for timestamp B" disabled>Copy</button></dd>
+              </div>
+              <div>
+                <dt>Unix seconds</dt>
+                <dd><code data-output="seconds">—</code><button type="button" class="copy-value" data-copy="seconds" aria-label="Copy Unix seconds for timestamp B" disabled>Copy</button></dd>
+              </div>
+              <div>
+                <dt>Unix milliseconds</dt>
+                <dd><code data-output="milliseconds">—</code><button type="button" class="copy-value" data-copy="milliseconds" aria-label="Copy Unix milliseconds for timestamp B" disabled>Copy</button></dd>
+              </div>
+            </dl>
+          </section>
+        </div>
+      </section>
+
+      <section class="content-section" aria-labelledby="examples-title">
+        <div class="content-heading">
+          <h2 id="examples-title">Timestamp examples</h2>
+          <p>Load an example into the converter to see how it interprets the input.</p>
+        </div>
+        <div class="examples-grid timestamp-examples">
+          <button type="button" class="example-card" data-example="epoch" data-first="1735732800250" data-zone="UTC">
+            <strong>Epoch milliseconds</strong>
+            <code>1735732800250</code>
+            <span>1 January 2025 at 12:00:00.250 UTC.</span>
+          </button>
+          <button type="button" class="example-card" data-example="logs" data-first="2025-01-01T12:00:00.250Z" data-second="1735732930500" data-zone="UTC">
+            <strong>Deploy to first error</strong>
+            <code>2025-01-01T12:00:00.250Z</code>
+            <code>1735732930500</code>
+            <span>The first error arrived 2 min 10.25 s after the deploy.</span>
+          </button>
+          <button type="button" class="example-card" data-example="clock-change" data-first="2025-11-02T01:30:00-04:00" data-second="2025-11-02T01:30:00-05:00" data-zone="America/New_York">
+            <strong>A repeated local hour</strong>
+            <code>2025-11-02T01:30:00-04:00</code>
+            <code>2025-11-02T01:30:00-05:00</code>
+            <span>In New York, these two 01:30 timestamps are an hour apart.</span>
+          </button>
+        </div>
+      </section>
+
+      <section class="content-section" aria-labelledby="formats-title">
+        <div class="content-heading">
+          <h2 id="formats-title">Input formats and precision</h2>
+          <p>Conversions, comparisons, and clipboard output are generated on this device. Inputs stay in this browser tab.</p>
+        </div>
+        <div class="reference-grid">
+          <article class="reference-card">
+            <h3>Unix seconds and milliseconds</h3>
+            <p>Unix time counts from 1 January 1970 at 00:00:00 UTC. Negative values describe earlier instants. One second is 1,000 milliseconds.</p>
+            <p>Auto-detect reads numbers with 12 or more digits before the decimal as milliseconds, ignoring the sign and leading zeros. Choose a unit explicitly for ambiguous inputs, such as <code>1000</code> milliseconds.</p>
+          </article>
+          <article class="reference-card">
+            <h3>ISO 8601 and time zones</h3>
+            <p>Use <code>Z</code>, <code>UTC</code>, or an offset such as <code>+05:30</code> with a date and time. A date alone is midnight UTC. Use seconds 00–59 and up to nine fractional digits.</p>
+            <p>Paste a single timestamp value from JSON or logs. Quoted JSON strings are accepted.</p>
+            <p>The display time zone uses the browser’s historical offset for the instant. Fractional seconds stay exact when converting or comparing.</p>
+          </article>
+          <article class="reference-card">
+            <h3>CloudWatch Logs bounds</h3>
+            <p>The converter sorts two instants and writes <code>--start-time</code> and <code>--end-time</code> in Unix milliseconds. For sub-millisecond inputs, it rounds the start down and the end up.</p>
+            <p>Log ranges start at the Unix epoch or later. Add the copied flags to <code>aws logs filter-log-events</code> with your log group.</p>
+            <a href="https://docs.aws.amazon.com/cli/latest/reference/logs/filter-log-events.html">Read the AWS CLI reference <span aria-hidden="true">↗</span></a>
+          </article>
+        </div>
+      </section>
+
+      <aside class="related-tools" aria-label="Related tools">
+        <strong>Related tools</strong>
+        <a href="../crontab/">Preview cron schedules <span aria-hidden="true">↗</span></a>
+        <a href="../yaml-formatter/">Format JSON &amp; YAML <span aria-hidden="true">↗</span></a>
+        <a href="../json-diff/">Compare JSON &amp; YAML <span aria-hidden="true">↗</span></a>
+      </aside>
+    </main>
+
+    <footer class="site-footer">
+      <span>Native Cube · Built for the terminal-adjacent parts of your day.</span>
+      <div class="footer-links">
+        <a
+          class="author-credit"
+          href="https://marcincuber.github.io/"
+          target="_blank"
+          rel="author me noreferrer"
+        >
+          <span>Created by</span>
+          <strong>Marcin Cuber</strong>
+          <b aria-hidden="true">↗</b>
+        </a>
+        <a href="../">Explore all tools <span aria-hidden="true">↗</span></a>
+      </div>
+    </footer>
+
+    <div id="toast" class="toast" role="status" aria-live="polite"></div>
+  </body>
+</html>

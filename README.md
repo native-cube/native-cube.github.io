@@ -199,6 +199,29 @@ section navigation, and connected page/application/author/image structured data.
 links. Follow the crontab checks in [`SEARCH_CONSOLE.md`](./SEARCH_CONSOLE.md)
 after deployment to inspect indexing and measure actual search performance.
 
+## Unix Timestamp Converter
+
+Open `/timestamp-converter/` to convert between Unix seconds, Unix
+milliseconds, and ISO 8601. See each instant in UTC and a searchable display
+time zone. Enter a second timestamp to see the event order, exact elapsed time,
+and copyable AWS CloudWatch Logs `--start-time` and `--end-time` flags.
+
+Auto-detect treats numbers with 12 or more digits before the decimal as
+milliseconds and shorter numbers as seconds. Choose a unit explicitly for
+ambiguous values. ISO dates default to midnight UTC. Date and time inputs
+accept `Z`, `UTC`, or a numeric offset, including values copied as JSON strings.
+Fractional values retain up to nanosecond precision.
+CloudWatch ranges widen to whole milliseconds when needed and start at the Unix
+epoch or later. The browser processes all inputs locally.
+
+The conversion engine lives in `timestamp-converter/timestamp.js`. The page
+shares the Cron Schedule Builder’s theme and time-zone picker. Run the
+conversion and comparison tests with Node.js 22 or later:
+
+```sh
+node --test scripts/timestamp-converter.test.cjs
+```
+
 ## Terraform Modules
 
 Open `/terraform-modules/` to explore public AWS Terraform modules
@@ -280,6 +303,7 @@ python3 -m http.server 8080
 - `http://localhost:8080/yaml-formatter/`
 - `http://localhost:8080/json-diff/`
 - `http://localhost:8080/crontab/`
+- `http://localhost:8080/timestamp-converter/`
 - `http://localhost:8080/terraform-modules/`
 
 ## Quality and search checks

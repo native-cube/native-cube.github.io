@@ -64,7 +64,8 @@
     <title>Crontab Generator &amp; Cron Expression Tester | Native Cube</title>
     <link rel="stylesheet" href="./styles.css?v=5" />
     <script src="./cron.js?v=1" defer></script>
-    <script src="./app.js?v=3" defer></script>
+    <script src="../assets/time-zone-picker.js?v=1" defer></script>
+    <script src="./app.js?v=4" defer></script>
     <script type="application/ld+json">
       {
         "@context": "https://schema.org",
@@ -76,7 +77,7 @@
             "name": "Crontab Generator & Cron Expression Tester | Native Cube",
             "description": "Build and test cron expressions online. Preview next runs with time zones and DST, then export crontab, Kubernetes, GitHub Actions, or AWS Scheduler config.",
             "inLanguage": "en-GB",
-            "dateModified": "2026-11-02",
+            "dateModified": "2026-11-25",
             "isPartOf": {
               "@id": "https://native-cube.com/#website"
             },
@@ -377,7 +378,13 @@
           <details><summary>Is my schedule sent to a server?</summary><p>No. Parsing, time-zone conversion, and configuration generation happen in your browser. The share button puts the schedule settings in a URL fragment so you can send the link yourself. Anyone with that link can read those settings.</p></details>
         </div>
       </section>
-      <aside class="related-tools" aria-label="Related tools"><strong>Keep building.</strong><a href="../yaml-formatter/">Validate YAML &amp; JSON <span aria-hidden="true">↗</span></a><a href="../k8s-manifest-builder/">Build a Kubernetes workload <span aria-hidden="true">↗</span></a><a href="../">Explore all tools <span aria-hidden="true">↗</span></a></aside>
+      <aside class="related-tools" aria-label="Related tools">
+        <strong>Keep building.</strong>
+        <a href="../timestamp-converter/">Convert and compare timestamps <span aria-hidden="true">↗</span></a>
+        <a href="../yaml-formatter/">Validate YAML &amp; JSON <span aria-hidden="true">↗</span></a>
+        <a href="../k8s-manifest-builder/">Build a Kubernetes workload <span aria-hidden="true">↗</span></a>
+        <a href="../">Explore all tools <span aria-hidden="true">↗</span></a>
+      </aside>
     </main>
 
     <footer class="site-footer">

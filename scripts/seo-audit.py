@@ -349,6 +349,8 @@ crontab_url = PAGES[Path("crontab/index.html")]
 assert_crontab_seo(parsed_pages[crontab_url], page_entities[crontab_url])
 json_diff_url = PAGES[Path("json-diff/index.html")]
 assert_json_diff_seo(parsed_pages[json_diff_url], page_entities[json_diff_url])
+timestamp_url = PAGES[Path("timestamp-converter/index.html")]
+assert_tool_seo(parsed_pages[timestamp_url], page_entities[timestamp_url], "timestamp-converter", require_visible_breadcrumb=False)
 
 for canonical, page in parsed_pages.items():
     if len(page.ids) != len(set(page.ids)):
@@ -406,7 +408,7 @@ for url_node in sitemap.findall(".//sitemap:url", namespace):
         catalogue = json.loads((ROOT / "terraform-modules/modules.json").read_text())
         if modified_date < date.fromisoformat(catalogue["synced_at"].split("T")[0]):
             fail("Terraform sitemap lastmod predates the published catalogue")
-    if location in {crontab_url, json_diff_url}:
+    if location in {crontab_url, json_diff_url, timestamp_url}:
         webpage = next(entity for entity in page_entities[location] if entity.get("@type") == "WebPage")
         if webpage.get("dateModified") != last_modified:
             fail(f"{location} sitemap lastmod must match its WebPage dateModified")
