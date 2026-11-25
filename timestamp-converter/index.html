@@ -30,7 +30,7 @@
     <link rel="stylesheet" href="./styles.css?v=2" />
     <script src="../assets/time-zone-picker.js?v=1" defer></script>
     <script src="./timestamp.js?v=2" defer></script>
-    <script src="./app.js?v=2" defer></script>
+    <script src="./app.js?v=3" defer></script>
     <script type="application/ld+json">
       {
         "@context": "https://schema.org",
@@ -189,7 +189,7 @@
             </div>
             <div class="timestamp-actions">
               <button type="submit" class="primary-button">Convert <span aria-hidden="true">→</span></button>
-              <button type="button" id="load-log-example" class="quiet-button">Load log example</button>
+              <button type="button" id="load-example" class="quiet-button">Load next example</button>
               <button type="button" id="clear-timestamps" class="quiet-button">Clear</button>
             </div>
           </div>
@@ -305,22 +305,40 @@
           <p>Load an example into the converter to see how it interprets the input.</p>
         </div>
         <div class="examples-grid timestamp-examples">
-          <button type="button" class="example-card" data-example="epoch" data-first="1735732800250" data-zone="UTC">
-            <strong>Epoch milliseconds</strong>
-            <code>1735732800250</code>
-            <span>1 January 2025 at 12:00:00.250 UTC.</span>
-          </button>
           <button type="button" class="example-card" data-example="logs" data-first="2025-01-01T12:00:00.250Z" data-second="1735732930500" data-zone="UTC">
             <strong>Deploy to first error</strong>
             <code>2025-01-01T12:00:00.250Z</code>
             <code>1735732930500</code>
             <span>The first error arrived 2 min 10.25 s after the deploy.</span>
           </button>
+          <button type="button" class="example-card" data-example="epoch" data-first="1735732800250" data-zone="UTC">
+            <strong>Epoch milliseconds</strong>
+            <code>1735732800250</code>
+            <span>1 January 2025 at 12:00:00.250 UTC.</span>
+          </button>
           <button type="button" class="example-card" data-example="clock-change" data-first="2025-11-02T01:30:00-04:00" data-second="2025-11-02T01:30:00-05:00" data-zone="America/New_York">
             <strong>A repeated local hour</strong>
             <code>2025-11-02T01:30:00-04:00</code>
             <code>2025-11-02T01:30:00-05:00</code>
             <span>In New York, these two 01:30 timestamps are an hour apart.</span>
+          </button>
+          <button type="button" class="example-card" data-example="before-epoch" data-first="-0.125" data-second="0" data-zone="UTC">
+            <strong>Before the Unix epoch</strong>
+            <code>-0.125</code>
+            <code>0</code>
+            <span>Compare an instant 125 milliseconds before 1970 with the Unix epoch.</span>
+          </button>
+          <button type="button" class="example-card" data-example="nanosecond" data-first="&quot;2025-01-01 12:00:00.123456789 UTC&quot;" data-second="1735732800123.456790" data-zone="UTC">
+            <strong>One nanosecond apart</strong>
+            <code>&quot;2025-01-01 12:00:00.123456789 UTC&quot;</code>
+            <code>1735732800123.456790</code>
+            <span>A quoted log timestamp and a fractional Unix millisecond value within the same millisecond.</span>
+          </button>
+          <button type="button" class="example-card" data-example="same-instant" data-first="2025-01-01T12:00:00+05:30" data-second="1735713000000" data-zone="Asia/Kolkata">
+            <strong>Two formats for one instant</strong>
+            <code>2025-01-01T12:00:00+05:30</code>
+            <code>1735713000000</code>
+            <span>An ISO timestamp with an offset and Unix milliseconds represent the same instant.</span>
           </button>
         </div>
       </section>
